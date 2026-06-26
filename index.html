@@ -12,8 +12,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        /* ===== TEMAS ===== */
         :root {
             --primary-dark: #0A2E5C;
             --primary: #1A5FB4;
@@ -29,23 +28,7 @@
             --tareo-bg: #F0F4F8;
             --tareo-inicio: #28a745;
             --tareo-termino: #dc3545;
-            --scale: 1;
-            --font-base: 14px;
-            --padding-base: 8px;
-            --radius-base: 10px;
-            --avatar-size: 34px;
-            --input-height: 38px;
-            --btn-size: 36px;
-            --card-padding: 8px 4px;
-            --header-height: 44px;
-            --msg-padding: 5px 8px;
-            --tareo-input-width: 44px;
-            --tareo-label-width: 50px;
         }
-        
-        .size-small { --scale: 0.85; --font-base: 12px; --padding-base: 5px; --radius-base: 8px; --avatar-size: 28px; --input-height: 32px; --btn-size: 30px; --card-padding: 5px 3px; --header-height: 38px; --msg-padding: 3px 6px; --tareo-input-width: 36px; --tareo-label-width: 40px; }
-        .size-medium { --scale: 1; --font-base: 14px; --padding-base: 8px; --radius-base: 10px; --avatar-size: 34px; --input-height: 38px; --btn-size: 36px; --card-padding: 8px 4px; --header-height: 44px; --msg-padding: 5px 8px; --tareo-input-width: 44px; --tareo-label-width: 50px; }
-        .size-large { --scale: 1.2; --font-base: 17px; --padding-base: 12px; --radius-base: 14px; --avatar-size: 44px; --input-height: 46px; --btn-size: 44px; --card-padding: 12px 6px; --header-height: 54px; --msg-padding: 8px 12px; --tareo-input-width: 54px; --tareo-label-width: 62px; }
         
         .theme-azul { --primary-dark: #0A2E5C; --primary: #1A5FB4; --primary-light: #4A90D9; --primary-lighter: #E8F0FE; --bubble-sent: #D6E8FF; --bg-header: #0A2E5C; }
         .theme-verde { --primary-dark: #1A6B3C; --primary: #28A745; --primary-light: #5DD68C; --primary-lighter: #E6F9ED; --bubble-sent: #D4EDDA; --bg-header: #1A6B3C; }
@@ -53,53 +36,54 @@
         .theme-morado { --primary-dark: #4A1A6B; --primary: #6F42C1; --primary-light: #A97DDB; --primary-lighter: #F0E6F9; --bubble-sent: #E8D5F5; --bg-header: #4A1A6B; }
         .theme-naranja { --primary-dark: #7A4A0A; --primary: #E67E22; --primary-light: #F0B27A; --primary-lighter: #FEF5E7; --bubble-sent: #FDEBD0; --bg-header: #7A4A0A; }
         
-        html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; background: var(--primary-dark); margin: 0; padding: 0; font-size: var(--font-base); }
-        body { display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; right: 0; bottom: 0; transition: background 0.3s; padding: 0 !important; margin: 0 !important; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; background: var(--primary-dark); }
+        body { display: flex; align-items: center; justify-content: center; padding: 12px; margin: 0; position: fixed; top: 0; left: 0; right: 0; bottom: 0; transition: background 0.3s; }
         
         #loginScreen {
             display: block !important;
             background: white;
-            padding: calc(var(--padding-base) * 3);
-            border-radius: calc(var(--radius-base) * 2);
+            padding: 30px 24px;
+            border-radius: 24px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-            max-width: 400px;
-            width: 92%;
+            max-width: 420px;
+            width: 100%;
             text-align: center;
             max-height: 95vh;
             overflow-y: auto;
             transition: all 0.3s;
             position: relative;
             z-index: 10;
-            margin: auto;
         }
         #loginScreen.hidden { display: none !important; }
         
-        .logo-icon { font-size: calc(48px * var(--scale)); color: var(--primary); display: block; margin-bottom: calc(var(--padding-base) * 0.3); animation: bounce 3s ease-in-out infinite; transition: color 0.3s; }
+        .logo-icon { font-size: 56px; color: var(--primary); display: block; margin-bottom: 2px; animation: bounce 3s ease-in-out infinite; transition: color 0.3s; }
         @keyframes bounce { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
-        .logo-title { font-size: calc(18px * var(--scale)); font-weight: 800; color: var(--primary-dark); line-height: 1.2; transition: color 0.3s; }
+        .logo-title { font-size: 20px; font-weight: 800; color: var(--primary-dark); line-height: 1.2; transition: color 0.3s; }
         .logo-title span { color: var(--primary); transition: color 0.3s; }
-        .logo-subtitle { color: #8899A6; margin-bottom: calc(var(--padding-base) * 1.5); font-size: calc(12px * var(--scale)); margin-top: 2px; }
+        .logo-subtitle { color: #8899A6; margin-bottom: 16px; font-size: 13px; margin-top: 2px; }
         
-        .user-selector { margin-bottom: calc(var(--padding-base) * 1.5); }
-        .user-selector .label { font-size: calc(11px * var(--scale)); font-weight: 600; color: #1A1A1A; text-align: left; margin-bottom: calc(var(--padding-base) * 0.5); display: flex; align-items: center; gap: 6px; }
+        .user-selector { margin-bottom: 16px; }
+        .user-selector .label { font-size: 12px; font-weight: 600; color: #1A1A1A; text-align: left; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
         .user-selector .label i { color: var(--primary); transition: color 0.3s; }
         
         .user-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: calc(var(--padding-base) * 0.6);
-            max-height: calc(160px * var(--scale));
+            gap: 8px;
+            max-height: 180px;
             overflow-y: auto;
-            padding: calc(var(--padding-base) * 0.3);
+            padding: 4px 2px;
         }
-        .user-grid::-webkit-scrollbar { width: 3px; }
-        .user-grid::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 8px; }
+        .user-grid::-webkit-scrollbar { width: 4px; }
+        .user-grid::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 10px; }
         
         .user-card {
             background: #F8F9FA;
             border: 2px solid #E9EDEF;
-            border-radius: calc(var(--radius-base) * 0.9);
-            padding: var(--card-padding);
+            border-radius: 12px;
+            padding: 10px 6px;
             text-align: center;
             cursor: pointer;
             transition: all 0.25s ease;
@@ -111,36 +95,41 @@
         .user-card:active { transform: scale(0.96); }
         .user-card.selected { background: var(--primary-lighter); border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.15); }
         .user-card.selected .user-avatar { background: var(--primary); color: white; }
-        .user-card .user-avatar { width: calc(var(--avatar-size) * 0.9); height: calc(var(--avatar-size) * 0.9); border-radius: 50%; background: #DEE2E6; color: #495057; display: flex; align-items: center; justify-content: center; margin: 0 auto calc(var(--padding-base) * 0.3); font-weight: 700; font-size: calc(12px * var(--scale)); transition: all 0.3s; }
-        .user-card .user-name { font-size: calc(10px * var(--scale)); font-weight: 500; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .user-card .user-status-dot { position: absolute; top: calc(var(--padding-base) * 0.4); right: calc(var(--padding-base) * 0.4); width: calc(7px * var(--scale)); height: calc(7px * var(--scale)); border-radius: 50%; border: 2px solid white; }
+        .user-card .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: #DEE2E6; color: #495057; display: flex; align-items: center; justify-content: center; margin: 0 auto 4px; font-weight: 700; font-size: 14px; transition: all 0.3s; }
+        .user-card .user-name { font-size: 11px; font-weight: 500; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-card .user-status-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; border-radius: 50%; border: 2px solid white; }
         .user-card .user-status-dot.online { background: #28a745; }
         .user-card .user-status-dot.offline { background: #ccc; }
         
-        .form-group { margin-bottom: calc(var(--padding-base) * 1.2); text-align: left; }
-        .form-group label { display: block; font-size: calc(11px * var(--scale)); font-weight: 600; color: #1A1A1A; margin-bottom: calc(var(--padding-base) * 0.3); }
-        .form-group input { width: 100%; padding: calc(var(--padding-base) * 1.2) calc(var(--padding-base) * 1.5); border: 2px solid #E9EDEF; border-radius: calc(var(--radius-base) * 0.9); font-size: calc(16px * var(--scale)); transition: all 0.3s; font-family: inherit; background: #FAFBFC; -webkit-appearance: none; appearance: none; touch-action: manipulation; height: calc(var(--input-height) * 1.1); }
+        .form-group { margin-bottom: 14px; text-align: left; }
+        .form-group label { display: block; font-size: 12px; font-weight: 600; color: #1A1A1A; margin-bottom: 4px; }
+        .form-group input { 
+            width: 100%; padding: 12px 14px; border: 2px solid #E9EDEF; border-radius: 12px;
+            font-size: 16px; transition: all 0.3s; font-family: inherit; background: #FAFBFC;
+            -webkit-appearance: none; appearance: none;
+            touch-action: manipulation;
+        }
         .form-group input:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(26, 95, 180, 0.1); }
         
         .input-icon { position: relative; }
-        .input-icon i { position: absolute; left: calc(var(--padding-base) * 1.2); top: 50%; transform: translateY(-50%); color: #8899A6; font-size: calc(14px * var(--scale)); z-index: 1; }
-        .input-icon input { padding-left: calc(var(--padding-base) * 3.5); padding-right: calc(var(--padding-base) * 3.5); }
+        .input-icon i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #8899A6; font-size: 15px; z-index: 1; }
+        .input-icon input { padding-left: 42px; padding-right: 42px; }
         
-        .btn-primary { width: 100%; padding: calc(var(--padding-base) * 1.5); background: var(--primary); color: white; border: none; border-radius: calc(var(--radius-base) * 0.9); font-size: calc(15px * var(--scale)); font-weight: 700; cursor: pointer; transition: all 0.3s; margin-top: calc(var(--padding-base) * 0.5); -webkit-tap-highlight-color: transparent; touch-action: manipulation; height: calc(var(--input-height) * 1.2); }
+        .btn-primary { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s; margin-top: 6px; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
         .btn-primary:active { transform: scale(0.97); }
         .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
         
-        .password-toggle { position: absolute; right: calc(var(--padding-base) * 1.2); top: 50%; transform: translateY(-50%); background: none; border: none; color: #8899A6; cursor: pointer; font-size: calc(14px * var(--scale)); z-index: 1; padding: 4px; touch-action: manipulation; }
+        .password-toggle { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #8899A6; cursor: pointer; font-size: 15px; z-index: 1; padding: 4px; touch-action: manipulation; }
         
-        .error-msg { color: var(--error); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #FFF0F0; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--error); }
-        .success-msg { color: var(--success); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #F0FFF4; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--success); }
-        .warning-msg { color: var(--warning); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #FFF3CD; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--warning); }
+        .error-msg { color: var(--error); font-size: 13px; margin-top: 10px; display: none; padding: 10px; background: #FFF0F0; border-radius: 8px; border-left: 4px solid var(--error); }
+        .success-msg { color: var(--success); font-size: 13px; margin-top: 10px; display: none; padding: 10px; background: #F0FFF4; border-radius: 8px; border-left: 4px solid var(--success); }
+        .warning-msg { color: var(--warning); font-size: 13px; margin-top: 10px; display: none; padding: 10px; background: #FFF3CD; border-radius: 8px; border-left: 4px solid var(--warning); }
         
-        .theme-selector { display: flex; gap: calc(var(--padding-base) * 0.6); justify-content: center; margin: calc(var(--padding-base) * 1) 0 calc(var(--padding-base) * 1.5); flex-wrap: wrap; }
-        .theme-btn { width: calc(28px * var(--scale)); height: calc(28px * var(--scale)); border-radius: 50%; border: 3px solid #E9EDEF; cursor: pointer; transition: all 0.3s; -webkit-tap-highlight-color: transparent; position: relative; touch-action: manipulation; }
+        .theme-selector { display: flex; gap: 8px; justify-content: center; margin: 12px 0 16px; flex-wrap: wrap; }
+        .theme-btn { width: 32px; height: 32px; border-radius: 50%; border: 3px solid #E9EDEF; cursor: pointer; transition: all 0.3s; -webkit-tap-highlight-color: transparent; position: relative; touch-action: manipulation; }
         .theme-btn:hover { transform: scale(1.1); }
         .theme-btn.active { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.2); }
-        .theme-btn .check { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: calc(10px * var(--scale)); }
+        .theme-btn .check { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 12px; }
         .theme-btn.active .check { display: block; }
         .theme-azul-btn { background: #1A5FB4; }
         .theme-verde-btn { background: #28A745; }
@@ -148,55 +137,44 @@
         .theme-morado-btn { background: #6F42C1; }
         .theme-naranja-btn { background: #E67E22; }
         
-        .size-selector { display: flex; gap: calc(var(--padding-base) * 0.4); justify-content: center; margin: calc(var(--padding-base) * 0.5) 0 calc(var(--padding-base) * 1); }
-        .size-btn { padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 1.2); border: 2px solid #E9EDEF; border-radius: calc(var(--radius-base) * 0.6); background: white; cursor: pointer; font-size: calc(10px * var(--scale)); font-weight: 600; transition: all 0.3s; touch-action: manipulation; color: #667781; }
-        .size-btn:active { transform: scale(0.95); }
-        .size-btn.active { border-color: var(--primary); background: var(--primary-lighter); color: var(--primary); }
-        .size-btn i { margin-right: 4px; }
-        
         #chatApp {
             display: none;
             width: 100%;
-            height: 100%;
-            height: 100dvh;
-            max-width: 100%;
-            max-height: 100%;
+            max-width: 480px;
+            height: 100vh;
+            max-height: 750px;
             background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.35);
             flex-direction: column;
             overflow: hidden;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            border-radius: 0;
-            box-shadow: none;
+            position: relative;
         }
         #chatApp.active { display: flex; }
         
-        .chat-header { background: var(--bg-header); padding: calc(var(--padding-base) * 0.8) calc(var(--padding-base) * 1.2); display: flex; align-items: center; gap: calc(var(--padding-base) * 0.5); flex-shrink: 0; min-height: var(--header-height); transition: background 0.3s; flex-wrap: wrap; }
-        .chat-header .header-icon { color: white; font-size: calc(16px * var(--scale)); }
-        .chat-header .avatar { width: calc(var(--avatar-size) * 0.85); height: calc(var(--avatar-size) * 0.85); border-radius: 50%; background: rgba(255,255,255,0.2); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: calc(12px * var(--scale)); flex-shrink: 0; }
+        .chat-header { background: var(--bg-header); padding: 10px 14px; display: flex; align-items: center; gap: 8px; flex-shrink: 0; min-height: 52px; transition: background 0.3s; flex-wrap: wrap; }
+        .chat-header .header-icon { color: white; font-size: 18px; }
+        .chat-header .avatar { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.2); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
         .chat-header .info { flex: 1; min-width: 0; }
-        .chat-header .info h2 { color: white; font-size: calc(12px * var(--scale)); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .chat-header .info .status { color: rgba(255,255,255,0.8); font-size: calc(9px * var(--scale)); }
-        .chat-header .info .status .dot { width: calc(5px * var(--scale)); height: calc(5px * var(--scale)); background: #4CAF50; border-radius: 50%; display: inline-block; margin-right: 2px; animation: pulse 2s infinite; }
+        .chat-header .info h2 { color: white; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .chat-header .info .status { color: rgba(255,255,255,0.8); font-size: 10px; }
+        .chat-header .info .status .dot { width: 6px; height: 6px; background: #4CAF50; border-radius: 50%; display: inline-block; margin-right: 3px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .chat-header .header-btn { background: rgba(255,255,255,0.12); border: none; color: white; padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.6); border-radius: calc(var(--radius-base) * 0.4); cursor: pointer; font-size: calc(10px * var(--scale)); transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
+        .chat-header .header-btn { background: rgba(255,255,255,0.12); border: none; color: white; padding: 4px 8px; border-radius: 5px; cursor: pointer; font-size: 11px; transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
         .chat-header .header-btn:hover { background: rgba(255,255,255,0.25); }
         .chat-header .header-btn.active { background: rgba(255,255,255,0.3); border-bottom: 2px solid white; }
-        .chat-header .logout-btn { background: rgba(255,255,255,0.15); border: none; color: white; padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.6); border-radius: calc(var(--radius-base) * 0.4); cursor: pointer; font-size: calc(10px * var(--scale)); transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
+        .chat-header .logout-btn { background: rgba(255,255,255,0.15); border: none; color: white; padding: 4px 8px; border-radius: 5px; cursor: pointer; font-size: 11px; transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
         
         .notification-badge {
             position: fixed;
-            top: calc(var(--padding-base) * 1.2);
-            right: calc(var(--padding-base) * 1.2);
+            top: 16px;
+            right: 16px;
             background: #dc3545;
             color: white;
             border-radius: 50%;
-            width: calc(20px * var(--scale));
-            height: calc(20px * var(--scale));
-            font-size: calc(9px * var(--scale));
+            width: 24px;
+            height: 24px;
+            font-size: 10px;
             font-weight: 700;
             display: none;
             align-items: center;
@@ -209,101 +187,238 @@
         .notification-badge.show { display: flex; }
         @keyframes notifPop { 0% { transform: scale(0.5); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
         
-        .online-users { padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8); background: #F8F9FA; border-bottom: 1px solid #E9EDEF; font-size: calc(9px * var(--scale)); color: #667781; display: flex; gap: calc(var(--padding-base) * 0.3); flex-wrap: wrap; align-items: center; flex-shrink: 0; min-height: calc(22px * var(--scale)); }
-        .online-users .badge { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.2); background: #E9EDEF; padding: calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.3); border-radius: calc(var(--radius-base) * 0.5); font-size: calc(8px * var(--scale)); }
-        .online-users .badge .dot { width: calc(4px * var(--scale)); height: calc(4px * var(--scale)); border-radius: 50%; display: inline-block; }
+        .online-users { padding: 3px 10px; background: #F8F9FA; border-bottom: 1px solid #E9EDEF; font-size: 10px; color: #667781; display: flex; gap: 4px; flex-wrap: wrap; align-items: center; flex-shrink: 0; min-height: 26px; }
+        .online-users .badge { display: flex; align-items: center; gap: 3px; background: #E9EDEF; padding: 1px 5px 1px 3px; border-radius: 8px; font-size: 9px; }
+        .online-users .badge .dot { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
         .online-users .badge .dot.online { background: #4CAF50; }
         
-        .messages-container { flex: 1; overflow-y: auto; padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8); background: var(--bg-chat); display: flex; flex-direction: column; gap: calc(var(--padding-base) * 0.2); -webkit-overflow-scrolling: touch; transition: background 0.3s; }
+        .messages-container { flex: 1; overflow-y: auto; padding: 8px 10px; background: var(--bg-chat); display: flex; flex-direction: column; gap: 2px; -webkit-overflow-scrolling: touch; transition: background 0.3s; }
         .messages-container::-webkit-scrollbar { width: 3px; }
-        .messages-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 6px; }
+        .messages-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 8px; }
         
-        .message { max-width: 85%; padding: var(--msg-padding); border-radius: calc(var(--radius-base) * 0.8); animation: slideIn 0.2s ease; word-wrap: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.04); touch-action: manipulation; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(4px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        .message.sent { background: var(--bubble-sent); align-self: flex-end; border-bottom-right-radius: calc(var(--radius-base) * 0.2); transition: background 0.3s; }
-        .message.received { background: var(--bubble-received); align-self: flex-start; border-bottom-left-radius: calc(var(--radius-base) * 0.2); }
-        .message .text { font-size: calc(12px * var(--scale)); line-height: 1.4; color: #1A1A1A; }
-        .message .footer { display: flex; align-items: center; justify-content: flex-end; gap: calc(var(--padding-base) * 0.3); margin-top: calc(var(--padding-base) * 0.1); font-size: calc(8px * var(--scale)); color: #667781; }
+        .message { max-width: 85%; padding: 6px 10px; border-radius: 10px; animation: slideIn 0.2s ease; word-wrap: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.05); touch-action: manipulation; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(5px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .message.sent { background: var(--bubble-sent); align-self: flex-end; border-bottom-right-radius: 3px; transition: background 0.3s; }
+        .message.received { background: var(--bubble-received); align-self: flex-start; border-bottom-left-radius: 3px; }
+        .message .text { font-size: 13px; line-height: 1.4; color: #1A1A1A; }
+        .message .footer { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-top: 2px; font-size: 9px; color: #667781; }
         .message .footer .author { font-weight: 600; color: var(--primary); transition: color 0.3s; }
-        .message .footer .status { font-size: calc(10px * var(--scale)); }
+        .message .footer .status { font-size: 11px; }
         
-        .message.tareo { max-width: 95%; background: var(--tareo-bg); border-left: 4px solid var(--primary); align-self: center; text-align: center; border-radius: calc(var(--radius-base) * 0.8); padding: calc(var(--padding-base) * 0.5) calc(var(--padding-base) * 0.8); }
+        /* ===== MENSAJES DE TAREO ===== */
+        .message.tareo { max-width: 95%; background: var(--tareo-bg); border-left: 4px solid var(--primary); align-self: center; text-align: center; border-radius: 10px; padding: 6px 12px; }
         .message.tareo.inicio { border-left-color: var(--tareo-inicio); }
         .message.tareo.termino { border-left-color: var(--tareo-termino); }
-        .message.tareo .tareo-icon { font-size: calc(16px * var(--scale)); display: block; margin-bottom: calc(var(--padding-base) * 0.1); }
-        .message.tareo .tareo-text { font-size: calc(11px * var(--scale)); font-weight: 600; color: var(--primary-dark); }
-        .message.tareo .tareo-hora { font-size: calc(14px * var(--scale)); font-weight: 700; color: var(--primary); }
-        .message.tareo .tareo-usuario { font-size: calc(9px * var(--scale)); color: #667781; }
+        .message.tareo .tareo-icon { font-size: 18px; display: block; margin-bottom: 1px; }
+        .message.tareo .tareo-text { font-size: 12px; font-weight: 600; color: var(--primary-dark); }
+        .message.tareo .tareo-hora { font-size: 16px; font-weight: 700; color: var(--primary); }
+        .message.tareo .tareo-usuario { font-size: 10px; color: #667781; }
         .message.tareo .footer { justify-content: center; }
         
-        .date-divider { text-align: center; margin: calc(var(--padding-base) * 0.3) 0 calc(var(--padding-base) * 0.6); }
-        .date-divider span { background: rgba(26, 95, 180, 0.08); padding: calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.8); border-radius: calc(var(--radius-base) * 0.4); font-size: calc(9px * var(--scale)); color: #667781; }
+        .date-divider { text-align: center; margin: 4px 0 8px; }
+        .date-divider span { background: rgba(26, 95, 180, 0.08); padding: 2px 10px; border-radius: 5px; font-size: 10px; color: #667781; }
         
-        .typing-indicator { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.3); padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8); background: rgba(255,255,255,0.85); border-radius: calc(var(--radius-base) * 0.8); align-self: flex-start; margin-bottom: calc(var(--padding-base) * 0.1); box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
-        .typing-dot { width: calc(4px * var(--scale)); height: calc(4px * var(--scale)); background: #667781; border-radius: 50%; animation: typingAnim 1.4s infinite; }
+        .typing-indicator { display: flex; align-items: center; gap: 4px; padding: 4px 10px; background: rgba(255,255,255,0.85); border-radius: 10px; align-self: flex-start; margin-bottom: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .typing-dot { width: 5px; height: 5px; background: #667781; border-radius: 50%; animation: typingAnim 1.4s infinite; }
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typingAnim { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-3px); opacity: 1; } }
-        .typing-text { font-size: calc(9px * var(--scale)); color: #667781; margin-left: calc(var(--padding-base) * 0.2); }
+        @keyframes typingAnim { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-4px); opacity: 1; } }
+        .typing-text { font-size: 10px; color: #667781; margin-left: 2px; }
         
-        .input-area { background: #F0F2F5; padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.6); display: flex; flex-direction: column; gap: calc(var(--padding-base) * 0.3); border-top: 1px solid #D9D9D9; flex-shrink: 0; }
-        .input-area .input-row { display: flex; gap: calc(var(--padding-base) * 0.4); align-items: center; width: 100%; }
-        .input-area input[type="text"] { flex: 1; padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8); border: 2px solid transparent; border-radius: calc(var(--radius-base) * 1.2); font-size: calc(16px * var(--scale)); outline: none; font-family: inherit; background: white; transition: all 0.3s; -webkit-appearance: none; appearance: none; min-height: calc(var(--input-height) * 0.9); touch-action: manipulation; }
-        .input-area input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1); }
-        .input-area input[type="text"]::placeholder { color: #8899A6; font-size: calc(12px * var(--scale)); }
-        .input-area .send-btn { background: var(--primary); border: none; color: white; width: calc(var(--btn-size) * 0.9); height: calc(var(--btn-size) * 0.9); border-radius: 50%; font-size: calc(12px * var(--scale)); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        /* ===== INPUT AREA ===== */
+        .input-area { 
+            background: #F0F2F5; 
+            padding: 5px 8px; 
+            display: flex; 
+            flex-direction: column;
+            gap: 4px;
+            border-top: 1px solid #D9D9D9;
+            flex-shrink: 0;
+        }
+        .input-area .input-row { 
+            display: flex; 
+            gap: 5px; 
+            align-items: center;
+            width: 100%;
+        }
+        .input-area input[type="text"] { 
+            flex: 1; 
+            padding: 7px 10px; 
+            border: 2px solid transparent; 
+            border-radius: 16px; 
+            font-size: 16px; 
+            outline: none; 
+            font-family: inherit; 
+            background: white; 
+            transition: all 0.3s; 
+            -webkit-appearance: none; 
+            appearance: none;
+            min-height: 36px;
+            touch-action: manipulation;
+        }
+        .input-area input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.12); }
+        .input-area input[type="text"]::placeholder { color: #8899A6; font-size: 13px; }
+        .input-area .send-btn { 
+            background: var(--primary); 
+            border: none; 
+            color: white; 
+            width: 36px; 
+            height: 36px; 
+            border-radius: 50%; 
+            font-size: 13px; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            flex-shrink: 0; 
+            -webkit-tap-highlight-color: transparent; 
+            touch-action: manipulation;
+        }
         .input-area .send-btn:active { transform: scale(0.92); }
         .input-area .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
         
+        /* ===== TAREO INPUTS ===== */
         .tareo-inputs {
             display: none;
             flex-direction: column;
-            gap: calc(var(--padding-base) * 0.4);
+            gap: 6px;
             background: #E8ECF0;
-            padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8);
-            border-radius: calc(var(--radius-base) * 0.9);
+            padding: 8px 10px;
+            border-radius: 12px;
             width: 100%;
         }
         .tareo-inputs.active { display: flex; }
-        .tareo-inputs .tareo-fila { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.5); }
-        .tareo-inputs .tareo-fila .tareo-label { font-size: calc(10px * var(--scale)); font-weight: 700; color: #333; min-width: var(--tareo-label-width); text-align: right; }
+        
+        .tareo-inputs .tareo-fila {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .tareo-inputs .tareo-fila .tareo-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #333;
+            min-width: 55px;
+            text-align: right;
+        }
         .tareo-inputs .tareo-fila .tareo-label.inicio-label { color: var(--tareo-inicio); }
         .tareo-inputs .tareo-fila .tareo-label.termino-label { color: var(--tareo-termino); }
-        .tareo-inputs .tareo-fila .tareo-input-group { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.2); flex: 1; }
-        .tareo-inputs .tareo-fila .tareo-input-group input { width: var(--tareo-input-width); padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.3); border: 2px solid #D9D9D9; border-radius: calc(var(--radius-base) * 0.5); font-size: calc(15px * var(--scale)); font-weight: 600; text-align: center; font-family: inherit; background: white; -webkit-appearance: none; appearance: none; touch-action: manipulation; }
-        .tareo-inputs .tareo-fila .tareo-input-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1); }
-        .tareo-inputs .tareo-fila .tareo-input-group input::placeholder { color: #ccc; font-size: calc(10px * var(--scale)); }
-        .tareo-inputs .tareo-fila .tareo-input-group .tareo-sep { font-size: calc(14px * var(--scale)); font-weight: 700; color: #666; padding: 0 1px; }
-        .tareo-inputs .tareo-fila .tareo-input-group .tareo-emoji { font-size: calc(12px * var(--scale)); margin-left: calc(var(--padding-base) * 0.2); }
-        .tareo-inputs .tareo-botones { display: flex; gap: calc(var(--padding-base) * 0.4); margin-top: calc(var(--padding-base) * 0.2); }
-        .tareo-inputs .tareo-botones .tareo-btn { padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.8); border: none; border-radius: calc(var(--radius-base) * 0.5); font-size: calc(11px * var(--scale)); font-weight: 700; cursor: pointer; transition: all 0.2s; touch-action: manipulation; flex: 1; text-align: center; }
-        .tareo-inputs .tareo-botones .tareo-btn:active { transform: scale(0.96); }
-        .tareo-inputs .tareo-botones .tareo-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .tareo-inputs .tareo-botones .tareo-btn.enviar-btn { background: var(--primary); color: white; }
-        .tareo-inputs .tareo-botones .tareo-btn.exportar-btn { background: var(--success); color: white; }
         
-        .loader { text-align: center; color: #667781; font-size: calc(11px * var(--scale)); padding: calc(var(--padding-base) * 1.2); }
-        .loader i { margin-right: calc(var(--padding-base) * 0.4); }
+        .tareo-inputs .tareo-fila .tareo-input-group {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            flex: 1;
+        }
+        .tareo-inputs .tareo-fila .tareo-input-group input {
+            width: 48px;
+            padding: 5px 4px;
+            border: 2px solid #D9D9D9;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            font-family: inherit;
+            background: white;
+            -webkit-appearance: none;
+            appearance: none;
+            touch-action: manipulation;
+        }
+        .tareo-inputs .tareo-fila .tareo-input-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1);
+        }
+        .tareo-inputs .tareo-fila .tareo-input-group input::placeholder {
+            color: #ccc;
+            font-size: 11px;
+        }
+        .tareo-inputs .tareo-fila .tareo-input-group .tareo-sep {
+            font-size: 16px;
+            font-weight: 700;
+            color: #666;
+            padding: 0 2px;
+        }
+        .tareo-inputs .tareo-fila .tareo-input-group .tareo-emoji {
+            font-size: 14px;
+            margin-left: 4px;
+        }
         
-        .toast { position: fixed; bottom: calc(var(--padding-base) * 5); left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 1.2); border-radius: calc(var(--radius-base) * 0.8); font-size: calc(11px * var(--scale)); z-index: 999; animation: toastIn 0.3s ease; display: none; max-width: 90%; text-align: center; }
-        @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+        .tareo-inputs .tareo-enviar {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 2px;
+        }
+        .tareo-inputs .tareo-enviar .tareo-btn-enviar {
+            padding: 6px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            touch-action: manipulation;
+            width: 100%;
+        }
+        .tareo-inputs .tareo-enviar .tareo-btn-enviar:active { transform: scale(0.96); }
+        .tareo-inputs .tareo-enviar .tareo-btn-enviar:disabled { opacity: 0.5; cursor: not-allowed; }
+        .tareo-inputs .tareo-enviar .tareo-btn-enviar:hover { opacity: 0.9; }
         
-        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 46, 92, 0.92); display: none; align-items: center; justify-content: center; z-index: 1000; flex-direction: column; gap: calc(var(--padding-base) * 1.2); }
+        .loader { text-align: center; color: #667781; font-size: 12px; padding: 16px; }
+        .loader i { margin-right: 6px; }
+        
+        .toast { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 8px 16px; border-radius: 10px; font-size: 12px; z-index: 999; animation: toastIn 0.3s ease; display: none; max-width: 90%; text-align: center; }
+        @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(12px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+        
+        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 46, 92, 0.92); display: none; align-items: center; justify-content: center; z-index: 1000; flex-direction: column; gap: 16px; }
         .loading-overlay.show { display: flex; }
-        .loading-overlay .spinner { width: calc(36px * var(--scale)); height: calc(36px * var(--scale)); border: 4px solid rgba(255,255,255,0.2); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
-        .loading-overlay .text { color: white; font-size: calc(14px * var(--scale)); font-weight: 500; }
+        .loading-overlay .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.2); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .loading-overlay .text { color: white; font-size: 15px; font-weight: 500; }
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        .sound-indicator { position: fixed; top: calc(var(--padding-base) * 1.2); left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.8); border-radius: calc(var(--radius-base) * 1.2); font-size: calc(10px * var(--scale)); z-index: 999; display: none; align-items: center; gap: calc(var(--padding-base) * 0.4); animation: fadeInOut 1.5s ease; }
+        .sound-indicator { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 5px 12px; border-radius: 14px; font-size: 11px; z-index: 999; display: none; align-items: center; gap: 5px; animation: fadeInOut 1.5s ease; }
         .sound-indicator.show { display: flex; }
-        .sound-indicator i { font-size: calc(12px * var(--scale)); }
-        @keyframes fadeInOut { 0% { opacity: 0; transform: translateX(-50%) translateY(-6px); } 20% { opacity: 1; transform: translateX(-50%) translateY(0); } 80% { opacity: 1; transform: translateX(-50%) translateY(0); } 100% { opacity: 0; transform: translateX(-50%) translateY(-6px); } }
+        .sound-indicator i { font-size: 13px; }
+        @keyframes fadeInOut { 0% { opacity: 0; transform: translateX(-50%) translateY(-8px); } 20% { opacity: 1; transform: translateX(-50%) translateY(0); } 80% { opacity: 1; transform: translateX(-50%) translateY(0); } 100% { opacity: 0; transform: translateX(-50%) translateY(-8px); } }
         
+        /* ===== RESPONSIVE MAX (6.8" - 6.9") ===== */
         @media (max-width: 520px) {
-            body { padding: 0 !important; margin: 0 !important; }
-            #loginScreen { padding: calc(var(--padding-base) * 2); border-radius: calc(var(--radius-base) * 1.5); width: 94%; max-width: 360px; }
-            .user-grid { grid-template-columns: repeat(3, 1fr); gap: calc(var(--padding-base) * 0.4); max-height: calc(140px * var(--scale)); }
+            body { padding: 0; background: var(--primary-dark); align-items: flex-start; padding-top: 6px; }
+            #chatApp { max-height: 100vh; border-radius: 0; max-width: 100%; height: 100vh; height: calc(100vh - env(safe-area-inset-bottom)); }
+            #loginScreen { padding: 18px 14px; border-radius: 18px; margin: 8px; max-height: 98vh; }
+            .message { max-width: 90%; }
+            .message.tareo { max-width: 98%; }
+            .logo-icon { font-size: 40px; }
+            .logo-title { font-size: 17px; }
+            .user-grid { grid-template-columns: repeat(3, 1fr); gap: 5px; max-height: 140px; }
+            .user-card { padding: 6px 3px; }
+            .user-card .user-avatar { width: 28px; height: 28px; font-size: 11px; }
+            .user-card .user-name { font-size: 9px; }
+            .form-group input { font-size: 16px; padding: 10px 12px; }
+            .btn-primary { font-size: 14px; padding: 12px; }
+            .chat-header { padding: 6px 8px; min-height: 42px; gap: 4px; }
+            .chat-header .info h2 { font-size: 12px; }
+            .chat-header .header-btn { font-size: 10px; padding: 3px 6px; }
+            .messages-container { padding: 6px 8px; }
+            .input-area { padding: 4px 6px; }
+            .input-area input[type="text"] { font-size: 16px; padding: 6px 8px; min-height: 32px; }
+            .input-area .send-btn { width: 32px; height: 32px; font-size: 12px; }
+            .theme-selector { gap: 4px; }
+            .theme-btn { width: 24px; height: 24px; }
+            .notification-badge { width: 20px; height: 20px; font-size: 9px; top: 8px; right: 8px; }
+            .message.tareo .tareo-icon { font-size: 15px; }
+            .message.tareo .tareo-hora { font-size: 14px; }
+            .tareo-inputs { padding: 6px 6px; gap: 4px; }
+            .tareo-inputs .tareo-fila .tareo-label { min-width: 40px; font-size: 10px; }
+            .tareo-inputs .tareo-fila .tareo-input-group input { width: 40px; font-size: 14px; padding: 4px 2px; }
+            .tareo-inputs .tareo-enviar .tareo-btn-enviar { font-size: 12px; padding: 5px 14px; }
         }
+        @media (max-width: 400px) { .user-grid { grid-template-columns: repeat(2, 1fr); } }
+        
+        input, select, textarea, button { font-size: 16px !important; }
     </style>
 </head>
 <body>
@@ -329,12 +444,6 @@
     <div class="logo-title">Transportes <span>Mantenimiento</span></div>
     <div class="logo-subtitle">Selecciona tu usuario y ingresa tu clave</div>
     
-    <div class="size-selector" id="sizeSelector">
-        <button class="size-btn" data-size="small" onclick="changeSize('small')"><i class="fas fa-font"></i> Pequeño</button>
-        <button class="size-btn active" data-size="medium" onclick="changeSize('medium')"><i class="fas fa-font"></i> Mediano</button>
-        <button class="size-btn" data-size="large" onclick="changeSize('large')"><i class="fas fa-font"></i> Grande</button>
-    </div>
-    
     <div class="theme-selector" id="themeSelector">
         <button class="theme-btn theme-azul-btn active" data-theme="azul" onclick="changeTheme('azul')"><span class="check">✓</span></button>
         <button class="theme-btn theme-verde-btn" data-theme="verde" onclick="changeTheme('verde')"><span class="check">✓</span></button>
@@ -346,7 +455,7 @@
     <div class="user-selector">
         <div class="label">
             <i class="fas fa-users"></i> Selecciona tu usuario
-            <span style="font-size:calc(9px * var(--scale));color:#8899A6;font-weight:400;margin-left:auto;" id="userCountLabel">0 conectados</span>
+            <span style="font-size:10px;color:#8899A6;font-weight:400;margin-left:auto;" id="userCountLabel">0 conectados</span>
         </div>
         <div class="user-grid" id="userGrid"></div>
     </div>
@@ -386,10 +495,7 @@
         </div>
         <button class="header-btn active" id="btnGeneral" onclick="switchRoom('general')">💬</button>
         <button class="header-btn" id="btnTareo" onclick="switchRoom('tareo')">⏰</button>
-        <button class="header-btn" id="sizeToggleBtn" onclick="toggleSizeSelector()" title="Tamaño">
-            <i class="fas fa-font"></i>
-        </button>
-        <button class="theme-toggle-btn header-btn" id="themeToggleBtn" onclick="toggleThemeSelector()" title="Tema">
+        <button class="theme-toggle-btn header-btn" id="themeToggleBtn" onclick="toggleThemeSelector()" title="Cambiar tema">
             <i class="fas fa-palette"></i>
         </button>
         <button class="logout-btn" id="logoutBtn">
@@ -407,6 +513,7 @@
     </div>
     
     <div class="input-area" id="inputArea">
+        <!-- Fila normal de chat -->
         <div class="input-row" id="chatInputRow">
             <input type="text" id="messageInput" placeholder="Escribe un mensaje..." autocomplete="off" inputmode="text" enterkeyhint="send">
             <button class="send-btn" id="sendBtn">
@@ -414,7 +521,9 @@
             </button>
         </div>
         
+        <!-- TAREO - Campos juntos -->
         <div class="tareo-inputs" id="tareoInputs">
+            <!-- Fila 1: Inicio -->
             <div class="tareo-fila">
                 <span class="tareo-label inicio-label">🟢 Inicio</span>
                 <div class="tareo-input-group">
@@ -424,6 +533,7 @@
                     <span class="tareo-emoji">🟢</span>
                 </div>
             </div>
+            <!-- Fila 2: Término -->
             <div class="tareo-fila">
                 <span class="tareo-label termino-label">🔴 Término</span>
                 <div class="tareo-input-group">
@@ -433,12 +543,10 @@
                     <span class="tareo-emoji">🔴</span>
                 </div>
             </div>
-            <div class="tareo-botones">
-                <button class="tareo-btn enviar-btn" id="tareoEnviarBtn">
-                    <i class="fas fa-paper-plane"></i> Enviar
-                </button>
-                <button class="tareo-btn exportar-btn" id="tareoExportarBtn">
-                    <i class="fas fa-file-excel"></i> Excel
+            <!-- Botón Enviar -->
+            <div class="tareo-enviar">
+                <button class="tareo-btn-enviar" id="tareoEnviarBtn">
+                    <i class="fas fa-paper-plane"></i> Enviar Tareo
                 </button>
             </div>
         </div>
@@ -529,7 +637,6 @@
     let isSending = false;
     let selectedUser = null;
     let currentTheme = 'azul';
-    let currentSize = 'medium';
     let sessionActive = false;
     let unreadCount = 0;
 
@@ -569,15 +676,14 @@
     const tareoTermino = document.getElementById('tareoTermino');
     const tareoTerminoMin = document.getElementById('tareoTerminoMin');
     const tareoEnviarBtn = document.getElementById('tareoEnviarBtn');
-    const tareoExportarBtn = document.getElementById('tareoExportarBtn');
 
     // ============================================================
-    // 🎨 FUNCIONES DE TEMA Y TAMAÑO
+    // 🎨 FUNCIONES DE TEMA
     // ============================================================
     
     function changeTheme(theme) {
         currentTheme = theme;
-        document.body.className = document.body.className.split(' ').filter(c => !c.startsWith('theme-')).join(' ');
+        document.body.className = '';
         document.body.classList.add('theme-' + theme);
         document.querySelectorAll('.theme-btn').forEach(btn => {
             btn.classList.remove('active');
@@ -593,52 +699,23 @@
             selector.style.display = isVisible ? 'none' : 'flex';
             clearTimeout(selector._hideTimeout);
             if (!isVisible) {
-                selector._hideTimeout = setTimeout(() => { selector.style.display = 'none'; }, 5000);
+                selector._hideTimeout = setTimeout(() => {
+                    selector.style.display = 'none';
+                }, 5000);
             }
         }
     }
-    
-    function changeSize(size) {
-        currentSize = size;
-        document.body.className = document.body.className.split(' ').filter(c => !c.startsWith('size-')).join(' ');
-        document.body.classList.add('size-' + size);
-        document.querySelectorAll('.size-btn').forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.dataset.size === size) btn.classList.add('active');
-        });
-        try { localStorage.setItem('chatSize', size); } catch(e) {}
-        console.log('📏 Tamaño cambiado a:', size);
-    }
-    
-    function toggleSizeSelector() {
-        const selector = document.getElementById('sizeSelector');
-        if (selector) {
-            const isVisible = selector.style.display !== 'none';
-            selector.style.display = isVisible ? 'none' : 'flex';
-            clearTimeout(selector._hideTimeout);
-            if (!isVisible) {
-                selector._hideTimeout = setTimeout(() => { selector.style.display = 'none'; }, 5000);
-            }
-        }
-    }
-    
-    window.changeSize = changeSize;
-    window.toggleSizeSelector = toggleSizeSelector;
-    window.changeTheme = changeTheme;
-    window.toggleThemeSelector = toggleThemeSelector;
     
     try {
-        const savedSize = localStorage.getItem('chatSize');
-        if (savedSize && ['small','medium','large'].includes(savedSize)) {
-            currentSize = savedSize;
-            setTimeout(() => changeSize(savedSize), 100);
-        }
         const savedTheme = localStorage.getItem('chatTheme');
         if (savedTheme && ['azul','verde','rojo','morado','naranja'].includes(savedTheme)) {
             currentTheme = savedTheme;
             setTimeout(() => changeTheme(savedTheme), 100);
         }
     } catch(e) {}
+
+    window.changeTheme = changeTheme;
+    window.toggleThemeSelector = toggleThemeSelector;
 
     // ============================================================
     // FUNCIONES
@@ -804,7 +881,7 @@
     function renderUserGrid(connectedUsers) {
         const names = Object.keys(AUTHORIZED_USERS);
         if (names.length === 0) {
-            userGrid.innerHTML = '<span style="color:#999;font-size:calc(10px * var(--scale));grid-column:1/-1;text-align:center;padding:calc(var(--padding-base) * 1);">No hay usuarios autorizados</span>';
+            userGrid.innerHTML = '<span style="color:#999;font-size:12px;grid-column:1/-1;text-align:center;padding:16px;">No hay usuarios autorizados</span>';
             return;
         }
         userGrid.innerHTML = names.map(name => {
@@ -891,14 +968,22 @@
     }
     
     function getTareoData() {
+        const inicioHora = tareoInicio.value.padStart(2, '0') || '00';
+        const inicioMin = tareoInicioMin.value.padStart(2, '0') || '00';
+        const terminoHora = tareoTermino.value.padStart(2, '0') || '00';
+        const terminoMin = tareoTerminoMin.value.padStart(2, '0') || '00';
+        
         return {
-            inicio: `${tareoInicio.value.padStart(2, '0') || '00'}:${tareoInicioMin.value.padStart(2, '0') || '00'}`,
-            termino: `${tareoTermino.value.padStart(2, '0') || '00'}:${tareoTerminoMin.value.padStart(2, '0') || '00'}`
+            inicio: `${inicioHora}:${inicioMin}`,
+            termino: `${terminoHora}:${terminoMin}`
         };
     }
     
     function registrarTareoCompleto() {
-        if (!database || !currentUser) { showToast('❌ Error de conexión'); return; }
+        if (!database || !currentUser) {
+            showToast('❌ Error de conexión');
+            return;
+        }
         
         const data = getTareoData();
         const horaInicio = data.inicio;
@@ -917,9 +1002,16 @@
         }
         
         const today = getTodayISO();
+        
         const tareoRef = database.ref(`tareo/${currentUser}/${today}`);
-        tareoRef.update({ inicio: horaInicio, termino: horaTermino, fecha: today, usuario: currentDisplayName })
-        .then(() => {
+        const updateData = {
+            inicio: horaInicio,
+            termino: horaTermino,
+            fecha: today,
+            usuario: currentDisplayName
+        };
+        
+        tareoRef.update(updateData).then(() => {
             const tareoMessage = {
                 user: currentUser,
                 displayName: currentDisplayName,
@@ -930,55 +1022,38 @@
                 tareoTipo: 'completo',
                 tareoInicio: horaInicio,
                 tareoTermino: horaTermino,
-                tareoUsuario: currentDisplayName
+                tareoUsuario: currentDisplayName,
+                tareoEmoji: '📋'
             };
-            database.ref('messages/tareo').push(tareoMessage).then(() => {
-                database.ref('messages/general').push({
+            
+            const tareoMessagesRef = database.ref('messages/tareo');
+            tareoMessagesRef.push(tareoMessage).then(() => {
+                const generalMessage = {
                     user: currentUser,
                     displayName: currentDisplayName,
                     text: `⏰ ${currentDisplayName} registró su jornada: Inicio ${horaInicio} - Término ${horaTermino}`,
                     time: getTime(),
                     timestamp: firebase.database.ServerValue.TIMESTAMP,
                     isTareoNotification: true
-                });
+                };
+                const generalMessagesRef = database.ref('messages/general');
+                generalMessagesRef.push(generalMessage);
+                
                 showToast(`✅ Jornada registrada: ${horaInicio} - ${horaTermino}`);
                 playSoundTareo();
-                if (currentRoom === 'tareo') loadMessages();
+                
+                if (currentRoom === 'tareo') {
+                    loadMessages();
+                }
             });
         }).catch((error) => {
             console.error('Error al registrar tareo:', error);
             showToast('❌ Error al registrar');
         });
     }
-    
-    function exportarTareoExcel() {
-        if (!database) { showToast('❌ Error de conexión'); return; }
-        showLoading('Generando reporte...');
-        database.ref('tareo').once('value', (snapshot) => {
-            hideLoading();
-            const data = snapshot.val();
-            if (!data) { showToast('📋 No hay registros de tareo'); return; }
-            let csv = '\uFEFFUsuario,Fecha,Inicio,Término\n';
-            Object.keys(data).forEach(userId => {
-                const userData = data[userId];
-                Object.keys(userData).forEach(fecha => {
-                    const r = userData[fecha];
-                    csv += `${r.usuario || userId},${fecha},${r.inicio || ''},${r.termino || ''}\n`;
-                });
-            });
-            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = `Tareo_${new Date().toISOString().split('T')[0]}.csv`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            showToast('✅ Reporte Excel exportado');
-        }).catch(() => { hideLoading(); showToast('❌ Error al exportar'); });
-    }
 
     // ============================================================
-    // 📨 FUNCIONES DE CHAT - COMPLETAS Y CORREGIDAS
+    // FUNCIONES DE CHAT
     // ============================================================
     
     function addMessageToDOM(data, key) {
@@ -987,16 +1062,16 @@
         const isOwn = data.user === currentUser;
         const time = data.time || getTime();
         
-        // Mensaje de Tareo
         if (data.isTareo) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message tareo ${data.tareoTipo || ''}`;
             messageDiv.dataset.key = key;
+            
             let content = '';
             if (data.tareoTipo === 'completo') {
                 content = `
                     <div class="tareo-text">📋 ${escapeHTML(data.tareoUsuario || data.displayName)}</div>
-                    <div style="display:flex;justify-content:center;gap:calc(var(--padding-base) * 1.2);margin:calc(var(--padding-base) * 0.3) 0;">
+                    <div style="display:flex;justify-content:center;gap:16px;margin:4px 0;">
                         <span style="color:var(--tareo-inicio);font-weight:700;">🟢 ${escapeHTML(data.tareoInicio || '')}</span>
                         <span style="color:var(--tareo-termino);font-weight:700;">🔴 ${escapeHTML(data.tareoTermino || '')}</span>
                     </div>
@@ -1010,16 +1085,26 @@
                     <div class="tareo-usuario">${escapeHTML(data.tareoLabel || 'Registro')}</div>
                 `;
             }
-            messageDiv.innerHTML = `${content}<div class="footer"><span>${escapeHTML(time)}</span></div>`;
+            
+            messageDiv.innerHTML = `
+                ${content}
+                <div class="footer">
+                    <span>${escapeHTML(time)}</span>
+                </div>
+            `;
+            
             const loader = messagesContainer.querySelector('.loader');
             if (loader) loader.remove();
             messagesContainer.appendChild(messageDiv);
             scrollToBottom();
-            if (!isOwn) { playSoundTareo(); updateNotification(unreadCount + 1); }
+            
+            if (!isOwn) {
+                playSoundTareo();
+                updateNotification(unreadCount + 1);
+            }
             return;
         }
         
-        // Mensaje normal
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${isOwn ? 'sent' : 'received'}`;
         messageDiv.dataset.key = key;
@@ -1054,7 +1139,7 @@
     
     function loadMessages() {
         if (!database) {
-            messagesContainer.innerHTML = '<div style="text-align:center;padding:calc(var(--padding-base) * 2);color:#667781;font-size:calc(12px * var(--scale));">⚠️ Error de conexión con Firebase</div>';
+            messagesContainer.innerHTML = '<div style="text-align:center;padding:30px;color:#667781;">⚠️ Error de conexión con Firebase</div>';
             return;
         }
         
@@ -1087,18 +1172,16 @@
                     ? 'No hay mensajes en el chat general' 
                     : 'No hay registros de tareo hoy';
                 messagesContainer.innerHTML = `
-                    <div style="text-align:center;padding:calc(var(--padding-base) * 2) calc(var(--padding-base) * 1.5);color:#667781;">
-                        <i class="fas fa-${currentRoom === 'general' ? 'comment' : 'clock'}" style="font-size:calc(32px * var(--scale));opacity:0.3;display:block;margin-bottom:calc(var(--padding-base) * 0.6);"></i>
-                        <p style="font-size:calc(12px * var(--scale));">${emptyMsg}</p>
-                        <p style="font-size:calc(10px * var(--scale));">${currentRoom === 'general' ? '¡Envía el primer mensaje!' : 'Registra tu asistencia con los campos de Tareo'}</p>
+                    <div style="text-align:center;padding:30px 20px;color:#667781;">
+                        <i class="fas fa-${currentRoom === 'general' ? 'comment' : 'clock'}" style="font-size:36px;opacity:0.3;display:block;margin-bottom:8px;"></i>
+                        <p style="font-size:13px;">${emptyMsg}</p>
+                        <p style="font-size:11px;">${currentRoom === 'general' ? '¡Envía el primer mensaje!' : 'Registra tu asistencia con los campos de Tareo'}</p>
                     </div>
                 `;
             }
             
-            // Escuchar nuevos mensajes
             messagesRef.limitToLast(1).on('child_added', (snapshot) => {
                 const msg = snapshot.val();
-                // Mostrar solo mensajes que no sean del usuario actual (para evitar duplicados)
                 if (msg && msg.user !== currentUser) {
                     addMessageToDOM(msg, snapshot.key);
                 }
@@ -1125,11 +1208,13 @@
             }
             renderUserGrid(connectedNames);
             if (users.length === 0) {
-                userList.innerHTML = '<span style="color:#999;font-size:calc(9px * var(--scale));">Sin usuarios conectados</span>';
+                userList.innerHTML = '<span style="color:#999;">Sin usuarios conectados</span>';
             } else {
                 const userItems = users.map(u => {
                     const displayName = data[u]?.displayName || u;
-                    return `<span class="badge"><span class="dot online"></span> ${escapeHTML(displayName)}</span>`;
+                    return `<span class="badge">
+                        <span class="dot online"></span> ${escapeHTML(displayName)}
+                    </span>`;
                 });
                 userList.innerHTML = userItems.join(' ');
             }
@@ -1187,7 +1272,6 @@
         };
         
         messagesRef.push(newMessage).then(() => {
-            // Agregar el mensaje propio al DOM
             addMessageToDOM(newMessage, Date.now().toString());
             messageInput.value = '';
             isSending = false;
@@ -1453,9 +1537,10 @@
         }
     });
     
+    // ===== TAREO EVENTOS =====
     tareoEnviarBtn.addEventListener('click', registrarTareoCompleto);
-    tareoExportarBtn.addEventListener('click', exportarTareoExcel);
     
+    // Limitar inputs de números
     [tareoInicio, tareoTermino].forEach(input => {
         input.addEventListener('input', function() {
             let val = parseInt(this.value);
@@ -1484,7 +1569,7 @@
     
     console.log('🚛 Transportes Mantenimiento - Chat con Sala Tareo');
     console.log('📋 Usuarios autorizados:', Object.keys(AUTHORIZED_USERS).length);
-    console.log('✅ Chat funcional - Envía y recibe mensajes');
+    console.log('✅ Sala "Tareo Diario" integrada');
     console.log('📌 REGLAS DE FIREBASE:');
     console.log('{');
     console.log('  "rules": {');
