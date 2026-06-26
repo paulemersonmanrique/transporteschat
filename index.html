@@ -12,12 +12,8 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     
     <style>
-        /* ===== RESET COMPLETO ===== */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        /* ===== RESET ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         /* ===== TEMAS ===== */
         :root {
@@ -35,8 +31,200 @@
             --tareo-bg: #F0F4F8;
             --tareo-inicio: #28a745;
             --tareo-termino: #dc3545;
+            
+            /* ===== TAMAÑOS ===== */
+            --scale: 1;
+            --font-base: 14px;
+            --padding-base: 8px;
+            --radius-base: 10px;
+            --avatar-size: 34px;
+            --input-height: 38px;
+            --btn-size: 36px;
+            --card-padding: 8px 4px;
+            --header-height: 44px;
+            --msg-padding: 5px 8px;
+            --tareo-input-width: 44px;
+            --tareo-label-width: 50px;
+            --login-padding: 24px;
+            --login-radius: 20px;
+            --logo-size: 48px;
+            --title-size: 18px;
+            --subtitle-size: 12px;
+            --user-card-padding: 8px 4px;
+            --user-avatar-size: 30px;
+            --user-name-size: 10px;
+            --user-grid-gap: 6px;
+            --badge-size: 8px;
+            --badge-font: 8px;
+            --online-font: 9px;
+            --msg-font: 12px;
+            --msg-footer-font: 8px;
+            --input-padding: 6px 8px;
+            --send-btn-size: 32px;
         }
         
+        /* ===== TAMAÑOS DISPONIBLES ===== */
+        /* Pequeño */
+        .size-small {
+            --scale: 0.8;
+            --font-base: 12px;
+            --padding-base: 5px;
+            --radius-base: 8px;
+            --avatar-size: 28px;
+            --input-height: 32px;
+            --btn-size: 30px;
+            --card-padding: 4px 2px;
+            --header-height: 36px;
+            --msg-padding: 3px 6px;
+            --tareo-input-width: 36px;
+            --tareo-label-width: 40px;
+            --login-padding: 14px;
+            --login-radius: 14px;
+            --logo-size: 36px;
+            --title-size: 15px;
+            --subtitle-size: 10px;
+            --user-card-padding: 4px 2px;
+            --user-avatar-size: 24px;
+            --user-name-size: 8px;
+            --user-grid-gap: 4px;
+            --badge-size: 6px;
+            --badge-font: 7px;
+            --online-font: 8px;
+            --msg-font: 11px;
+            --msg-footer-font: 7px;
+            --input-padding: 4px 6px;
+            --send-btn-size: 28px;
+        }
+        
+        /* Mediano (default) */
+        .size-medium {
+            --scale: 1;
+            --font-base: 14px;
+            --padding-base: 8px;
+            --radius-base: 10px;
+            --avatar-size: 34px;
+            --input-height: 38px;
+            --btn-size: 36px;
+            --card-padding: 8px 4px;
+            --header-height: 44px;
+            --msg-padding: 5px 8px;
+            --tareo-input-width: 44px;
+            --tareo-label-width: 50px;
+            --login-padding: 24px;
+            --login-radius: 20px;
+            --logo-size: 48px;
+            --title-size: 18px;
+            --subtitle-size: 12px;
+            --user-card-padding: 8px 4px;
+            --user-avatar-size: 30px;
+            --user-name-size: 10px;
+            --user-grid-gap: 6px;
+            --badge-size: 8px;
+            --badge-font: 8px;
+            --online-font: 9px;
+            --msg-font: 12px;
+            --msg-footer-font: 8px;
+            --input-padding: 6px 8px;
+            --send-btn-size: 32px;
+        }
+        
+        /* Grande */
+        .size-large {
+            --scale: 1.15;
+            --font-base: 16px;
+            --padding-base: 10px;
+            --radius-base: 12px;
+            --avatar-size: 40px;
+            --input-height: 44px;
+            --btn-size: 42px;
+            --card-padding: 10px 6px;
+            --header-height: 52px;
+            --msg-padding: 7px 10px;
+            --tareo-input-width: 50px;
+            --tareo-label-width: 58px;
+            --login-padding: 28px;
+            --login-radius: 24px;
+            --logo-size: 56px;
+            --title-size: 22px;
+            --subtitle-size: 14px;
+            --user-card-padding: 10px 6px;
+            --user-avatar-size: 36px;
+            --user-name-size: 12px;
+            --user-grid-gap: 8px;
+            --badge-size: 10px;
+            --badge-font: 10px;
+            --online-font: 11px;
+            --msg-font: 14px;
+            --msg-footer-font: 10px;
+            --input-padding: 8px 10px;
+            --send-btn-size: 38px;
+        }
+        
+        /* Extra Grande */
+        .size-xlarge {
+            --scale: 1.35;
+            --font-base: 18px;
+            --padding-base: 12px;
+            --radius-base: 14px;
+            --avatar-size: 48px;
+            --input-height: 52px;
+            --btn-size: 50px;
+            --card-padding: 12px 8px;
+            --header-height: 60px;
+            --msg-padding: 9px 12px;
+            --tareo-input-width: 58px;
+            --tareo-label-width: 68px;
+            --login-padding: 34px;
+            --login-radius: 28px;
+            --logo-size: 64px;
+            --title-size: 26px;
+            --subtitle-size: 16px;
+            --user-card-padding: 12px 8px;
+            --user-avatar-size: 44px;
+            --user-name-size: 14px;
+            --user-grid-gap: 10px;
+            --badge-size: 12px;
+            --badge-font: 12px;
+            --online-font: 13px;
+            --msg-font: 16px;
+            --msg-footer-font: 12px;
+            --input-padding: 10px 12px;
+            --send-btn-size: 46px;
+        }
+        
+        /* Ultra Grande */
+        .size-xxlarge {
+            --scale: 1.6;
+            --font-base: 22px;
+            --padding-base: 16px;
+            --radius-base: 18px;
+            --avatar-size: 58px;
+            --input-height: 60px;
+            --btn-size: 58px;
+            --card-padding: 16px 10px;
+            --header-height: 72px;
+            --msg-padding: 12px 16px;
+            --tareo-input-width: 68px;
+            --tareo-label-width: 80px;
+            --login-padding: 40px;
+            --login-radius: 32px;
+            --logo-size: 76px;
+            --title-size: 32px;
+            --subtitle-size: 20px;
+            --user-card-padding: 16px 10px;
+            --user-avatar-size: 54px;
+            --user-name-size: 18px;
+            --user-grid-gap: 12px;
+            --badge-size: 14px;
+            --badge-font: 14px;
+            --online-font: 16px;
+            --msg-font: 20px;
+            --msg-footer-font: 14px;
+            --input-padding: 14px 16px;
+            --send-btn-size: 56px;
+        }
+        
+        /* ===== TEMAS DE COLOR ===== */
         .theme-azul { --primary-dark: #0A2E5C; --primary: #1A5FB4; --primary-light: #4A90D9; --primary-lighter: #E8F0FE; --bubble-sent: #D6E8FF; --bg-header: #0A2E5C; }
         .theme-verde { --primary-dark: #1A6B3C; --primary: #28A745; --primary-light: #5DD68C; --primary-lighter: #E6F9ED; --bubble-sent: #D4EDDA; --bg-header: #1A6B3C; }
         .theme-rojo { --primary-dark: #7A1A1A; --primary: #C82333; --primary-light: #E86A7A; --primary-lighter: #FDE8EA; --bubble-sent: #FDDDE0; --bg-header: #7A1A1A; }
@@ -52,6 +240,7 @@
             background: var(--primary-dark);
             margin: 0;
             padding: 0;
+            font-size: var(--font-base);
         }
         
         body {
@@ -63,21 +252,20 @@
             left: 0;
             right: 0;
             bottom: 0;
-            transition: background 0.3s;
+            transition: background 0.3s, font-size 0.3s;
             padding: 0 !important;
             margin: 0 !important;
-            /* Eliminar cualquier borde o espacio extra */
             width: 100vw;
             height: 100vh;
             height: 100dvh;
         }
         
-        /* ===== LOGIN - PANTALLA COMPLETA ===== */
+        /* ===== LOGIN ===== */
         #loginScreen {
             display: block !important;
             background: white;
-            padding: 20px 16px;
-            border-radius: 20px;
+            padding: calc(var(--login-padding) * 0.8);
+            border-radius: var(--login-radius);
             box-shadow: 0 20px 60px rgba(0,0,0,0.35);
             max-width: 420px;
             width: 92%;
@@ -89,26 +277,25 @@
             z-index: 10;
             margin: auto;
         }
-        
         #loginScreen.hidden { display: none !important; }
         
-        .logo-icon { font-size: 48px; color: var(--primary); display: block; margin-bottom: 2px; animation: bounce 3s ease-in-out infinite; transition: color 0.3s; }
+        .logo-icon { font-size: calc(var(--logo-size) * 1.1); color: var(--primary); display: block; margin-bottom: calc(var(--padding-base) * 0.3); animation: bounce 3s ease-in-out infinite; transition: color 0.3s; }
         @keyframes bounce { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
-        .logo-title { font-size: 18px; font-weight: 800; color: var(--primary-dark); line-height: 1.2; transition: color 0.3s; }
+        .logo-title { font-size: var(--title-size); font-weight: 800; color: var(--primary-dark); line-height: 1.2; transition: color 0.3s; }
         .logo-title span { color: var(--primary); transition: color 0.3s; }
-        .logo-subtitle { color: #8899A6; margin-bottom: 14px; font-size: 12px; margin-top: 2px; }
+        .logo-subtitle { color: #8899A6; margin-bottom: calc(var(--padding-base) * 1.5); font-size: var(--subtitle-size); margin-top: 2px; }
         
-        .user-selector { margin-bottom: 14px; }
-        .user-selector .label { font-size: 11px; font-weight: 600; color: #1A1A1A; text-align: left; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+        .user-selector { margin-bottom: calc(var(--padding-base) * 1.5); }
+        .user-selector .label { font-size: calc(var(--subtitle-size) * 0.9); font-weight: 600; color: #1A1A1A; text-align: left; margin-bottom: calc(var(--padding-base) * 0.5); display: flex; align-items: center; gap: 6px; }
         .user-selector .label i { color: var(--primary); transition: color 0.3s; }
         
         .user-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 6px;
-            max-height: 160px;
+            gap: var(--user-grid-gap);
+            max-height: calc(160px * var(--scale));
             overflow-y: auto;
-            padding: 2px;
+            padding: calc(var(--padding-base) * 0.3);
         }
         .user-grid::-webkit-scrollbar { width: 3px; }
         .user-grid::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 8px; }
@@ -116,8 +303,8 @@
         .user-card {
             background: #F8F9FA;
             border: 2px solid #E9EDEF;
-            border-radius: 10px;
-            padding: 6px 3px;
+            border-radius: calc(var(--radius-base) * 0.9);
+            padding: var(--user-card-padding);
             text-align: center;
             cursor: pointer;
             transition: all 0.25s ease;
@@ -129,41 +316,71 @@
         .user-card:active { transform: scale(0.96); }
         .user-card.selected { background: var(--primary-lighter); border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.15); }
         .user-card.selected .user-avatar { background: var(--primary); color: white; }
-        .user-card .user-avatar { width: 30px; height: 30px; border-radius: 50%; background: #DEE2E6; color: #495057; display: flex; align-items: center; justify-content: center; margin: 0 auto 3px; font-weight: 700; font-size: 12px; transition: all 0.3s; }
-        .user-card .user-name { font-size: 9px; font-weight: 500; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .user-card .user-status-dot { position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; border: 2px solid white; }
+        .user-card .user-avatar { width: var(--user-avatar-size); height: var(--user-avatar-size); border-radius: 50%; background: #DEE2E6; color: #495057; display: flex; align-items: center; justify-content: center; margin: 0 auto calc(var(--padding-base) * 0.3); font-weight: 700; font-size: calc(var(--user-name-size) * 1.1); transition: all 0.3s; }
+        .user-card .user-name { font-size: var(--user-name-size); font-weight: 500; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-card .user-status-dot { position: absolute; top: calc(var(--padding-base) * 0.4); right: calc(var(--padding-base) * 0.4); width: var(--badge-size); height: var(--badge-size); border-radius: 50%; border: 2px solid white; }
         .user-card .user-status-dot.online { background: #28a745; }
         .user-card .user-status-dot.offline { background: #ccc; }
         
-        .form-group { margin-bottom: 12px; text-align: left; }
-        .form-group label { display: block; font-size: 11px; font-weight: 600; color: #1A1A1A; margin-bottom: 3px; }
+        .form-group { margin-bottom: calc(var(--padding-base) * 1.2); text-align: left; }
+        .form-group label { display: block; font-size: calc(var(--subtitle-size) * 0.9); font-weight: 600; color: #1A1A1A; margin-bottom: calc(var(--padding-base) * 0.3); }
         .form-group input { 
-            width: 100%; padding: 10px 12px; border: 2px solid #E9EDEF; border-radius: 10px;
-            font-size: 16px; transition: all 0.3s; font-family: inherit; background: #FAFBFC;
+            width: 100%; padding: calc(var(--padding-base) * 1.2) calc(var(--padding-base) * 1.5); border: 2px solid #E9EDEF; border-radius: calc(var(--radius-base) * 0.9);
+            font-size: calc(16px * var(--scale)); transition: all 0.3s; font-family: inherit; background: #FAFBFC;
             -webkit-appearance: none; appearance: none;
             touch-action: manipulation;
+            height: calc(var(--input-height) * 1.1);
         }
         .form-group input:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(26, 95, 180, 0.1); }
         
         .input-icon { position: relative; }
-        .input-icon i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #8899A6; font-size: 14px; z-index: 1; }
-        .input-icon input { padding-left: 36px; padding-right: 36px; }
+        .input-icon i { position: absolute; left: calc(var(--padding-base) * 1.2); top: 50%; transform: translateY(-50%); color: #8899A6; font-size: calc(14px * var(--scale)); z-index: 1; }
+        .input-icon input { padding-left: calc(var(--padding-base) * 3.5); padding-right: calc(var(--padding-base) * 3.5); }
         
-        .btn-primary { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s; margin-top: 4px; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        .btn-primary { width: 100%; padding: calc(var(--padding-base) * 1.5); background: var(--primary); color: white; border: none; border-radius: calc(var(--radius-base) * 0.9); font-size: calc(15px * var(--scale)); font-weight: 700; cursor: pointer; transition: all 0.3s; margin-top: calc(var(--padding-base) * 0.5); -webkit-tap-highlight-color: transparent; touch-action: manipulation; height: calc(var(--input-height) * 1.2); }
         .btn-primary:active { transform: scale(0.97); }
         .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
         
-        .password-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #8899A6; cursor: pointer; font-size: 14px; z-index: 1; padding: 4px; touch-action: manipulation; }
+        .password-toggle { position: absolute; right: calc(var(--padding-base) * 1.2); top: 50%; transform: translateY(-50%); background: none; border: none; color: #8899A6; cursor: pointer; font-size: calc(14px * var(--scale)); z-index: 1; padding: 4px; touch-action: manipulation; }
         
-        .error-msg { color: var(--error); font-size: 12px; margin-top: 8px; display: none; padding: 8px; background: #FFF0F0; border-radius: 6px; border-left: 4px solid var(--error); }
-        .success-msg { color: var(--success); font-size: 12px; margin-top: 8px; display: none; padding: 8px; background: #F0FFF4; border-radius: 6px; border-left: 4px solid var(--success); }
-        .warning-msg { color: var(--warning); font-size: 12px; margin-top: 8px; display: none; padding: 8px; background: #FFF3CD; border-radius: 6px; border-left: 4px solid var(--warning); }
+        .error-msg { color: var(--error); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #FFF0F0; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--error); }
+        .success-msg { color: var(--success); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #F0FFF4; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--success); }
+        .warning-msg { color: var(--warning); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #FFF3CD; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--warning); }
         
-        .theme-selector { display: flex; gap: 6px; justify-content: center; margin: 10px 0 14px; flex-wrap: wrap; }
-        .theme-btn { width: 26px; height: 26px; border-radius: 50%; border: 3px solid #E9EDEF; cursor: pointer; transition: all 0.3s; -webkit-tap-highlight-color: transparent; position: relative; touch-action: manipulation; }
+        /* ===== SELECTOR DE TAMAÑO ===== */
+        .size-selector {
+            display: flex;
+            gap: calc(var(--padding-base) * 0.3);
+            justify-content: center;
+            margin: calc(var(--padding-base) * 0.8) 0 calc(var(--padding-base) * 1.2);
+            flex-wrap: wrap;
+        }
+        .size-btn {
+            padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 1);
+            border: 2px solid #E9EDEF;
+            border-radius: calc(var(--radius-base) * 0.6);
+            background: white;
+            cursor: pointer;
+            font-size: calc(10px * var(--scale));
+            font-weight: 600;
+            transition: all 0.3s;
+            touch-action: manipulation;
+            color: #667781;
+            white-space: nowrap;
+        }
+        .size-btn:active { transform: scale(0.95); }
+        .size-btn.active {
+            border-color: var(--primary);
+            background: var(--primary-lighter);
+            color: var(--primary);
+        }
+        .size-btn i { margin-right: 4px; }
+        
+        .theme-selector { display: flex; gap: calc(var(--padding-base) * 0.6); justify-content: center; margin: calc(var(--padding-base) * 0.5) 0 calc(var(--padding-base) * 1); flex-wrap: wrap; }
+        .theme-btn { width: calc(28px * var(--scale)); height: calc(28px * var(--scale)); border-radius: 50%; border: 3px solid #E9EDEF; cursor: pointer; transition: all 0.3s; -webkit-tap-highlight-color: transparent; position: relative; touch-action: manipulation; }
         .theme-btn:hover { transform: scale(1.1); }
         .theme-btn.active { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.2); }
-        .theme-btn .check { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 10px; }
+        .theme-btn .check { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: calc(10px * var(--scale)); }
         .theme-btn.active .check { display: block; }
         .theme-azul-btn { background: #1A5FB4; }
         .theme-verde-btn { background: #28A745; }
@@ -171,7 +388,7 @@
         .theme-morado-btn { background: #6F42C1; }
         .theme-naranja-btn { background: #E67E22; }
         
-        /* ===== CHAT - PANTALLA COMPLETA ===== */
+        /* ===== CHAT ===== */
         #chatApp {
             display: none;
             width: 100%;
@@ -190,32 +407,31 @@
             border-radius: 0;
             box-shadow: none;
         }
-        
         #chatApp.active { display: flex; }
         
-        .chat-header { background: var(--bg-header); padding: 8px 10px; display: flex; align-items: center; gap: 5px; flex-shrink: 0; min-height: 44px; transition: background 0.3s; flex-wrap: wrap; }
-        .chat-header .header-icon { color: white; font-size: 16px; }
-        .chat-header .avatar { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.2); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
+        .chat-header { background: var(--bg-header); padding: calc(var(--padding-base) * 0.8) calc(var(--padding-base) * 1.2); display: flex; align-items: center; gap: calc(var(--padding-base) * 0.5); flex-shrink: 0; min-height: var(--header-height); transition: background 0.3s; flex-wrap: wrap; }
+        .chat-header .header-icon { color: white; font-size: calc(16px * var(--scale)); }
+        .chat-header .avatar { width: calc(var(--avatar-size) * 0.85); height: calc(var(--avatar-size) * 0.85); border-radius: 50%; background: rgba(255,255,255,0.2); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: calc(12px * var(--scale)); flex-shrink: 0; }
         .chat-header .info { flex: 1; min-width: 0; }
-        .chat-header .info h2 { color: white; font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .chat-header .info .status { color: rgba(255,255,255,0.8); font-size: 9px; }
-        .chat-header .info .status .dot { width: 5px; height: 5px; background: #4CAF50; border-radius: 50%; display: inline-block; margin-right: 2px; animation: pulse 2s infinite; }
+        .chat-header .info h2 { color: white; font-size: calc(12px * var(--scale)); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .chat-header .info .status { color: rgba(255,255,255,0.8); font-size: var(--online-font); }
+        .chat-header .info .status .dot { width: calc(5px * var(--scale)); height: calc(5px * var(--scale)); background: #4CAF50; border-radius: 50%; display: inline-block; margin-right: 2px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .chat-header .header-btn { background: rgba(255,255,255,0.12); border: none; color: white; padding: 3px 6px; border-radius: 4px; cursor: pointer; font-size: 10px; transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
+        .chat-header .header-btn { background: rgba(255,255,255,0.12); border: none; color: white; padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.6); border-radius: calc(var(--radius-base) * 0.4); cursor: pointer; font-size: calc(10px * var(--scale)); transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
         .chat-header .header-btn:hover { background: rgba(255,255,255,0.25); }
         .chat-header .header-btn.active { background: rgba(255,255,255,0.3); border-bottom: 2px solid white; }
-        .chat-header .logout-btn { background: rgba(255,255,255,0.15); border: none; color: white; padding: 3px 6px; border-radius: 4px; cursor: pointer; font-size: 10px; transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
+        .chat-header .logout-btn { background: rgba(255,255,255,0.15); border: none; color: white; padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.6); border-radius: calc(var(--radius-base) * 0.4); cursor: pointer; font-size: calc(10px * var(--scale)); transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
         
         .notification-badge {
             position: fixed;
-            top: 10px;
-            right: 10px;
+            top: calc(var(--padding-base) * 1.2);
+            right: calc(var(--padding-base) * 1.2);
             background: #dc3545;
             color: white;
             border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            font-size: 9px;
+            width: calc(20px * var(--scale));
+            height: calc(20px * var(--scale));
+            font-size: var(--badge-font);
             font-weight: 700;
             display: none;
             align-items: center;
@@ -228,113 +444,98 @@
         .notification-badge.show { display: flex; }
         @keyframes notifPop { 0% { transform: scale(0.5); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
         
-        .online-users { padding: 2px 8px; background: #F8F9FA; border-bottom: 1px solid #E9EDEF; font-size: 9px; color: #667781; display: flex; gap: 3px; flex-wrap: wrap; align-items: center; flex-shrink: 0; min-height: 22px; }
-        .online-users .badge { display: flex; align-items: center; gap: 2px; background: #E9EDEF; padding: 1px 4px 1px 3px; border-radius: 6px; font-size: 8px; }
-        .online-users .badge .dot { width: 4px; height: 4px; border-radius: 50%; display: inline-block; }
+        .online-users { padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8); background: #F8F9FA; border-bottom: 1px solid #E9EDEF; font-size: var(--online-font); color: #667781; display: flex; gap: calc(var(--padding-base) * 0.3); flex-wrap: wrap; align-items: center; flex-shrink: 0; min-height: calc(22px * var(--scale)); }
+        .online-users .badge { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.2); background: #E9EDEF; padding: calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.3); border-radius: calc(var(--radius-base) * 0.5); font-size: calc(var(--badge-font) * 0.9); }
+        .online-users .badge .dot { width: calc(4px * var(--scale)); height: calc(4px * var(--scale)); border-radius: 50%; display: inline-block; }
         .online-users .badge .dot.online { background: #4CAF50; }
         
-        .messages-container { flex: 1; overflow-y: auto; padding: 6px 8px; background: var(--bg-chat); display: flex; flex-direction: column; gap: 2px; -webkit-overflow-scrolling: touch; transition: background 0.3s; }
+        .messages-container { flex: 1; overflow-y: auto; padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8); background: var(--bg-chat); display: flex; flex-direction: column; gap: calc(var(--padding-base) * 0.2); -webkit-overflow-scrolling: touch; transition: background 0.3s; }
         .messages-container::-webkit-scrollbar { width: 3px; }
         .messages-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 6px; }
         
-        .message { max-width: 85%; padding: 5px 8px; border-radius: 8px; animation: slideIn 0.2s ease; word-wrap: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.04); touch-action: manipulation; }
+        .message { max-width: 85%; padding: var(--msg-padding); border-radius: calc(var(--radius-base) * 0.8); animation: slideIn 0.2s ease; word-wrap: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.04); touch-action: manipulation; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(4px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        .message.sent { background: var(--bubble-sent); align-self: flex-end; border-bottom-right-radius: 2px; transition: background 0.3s; }
-        .message.received { background: var(--bubble-received); align-self: flex-start; border-bottom-left-radius: 2px; }
-        .message .text { font-size: 12px; line-height: 1.4; color: #1A1A1A; }
-        .message .footer { display: flex; align-items: center; justify-content: flex-end; gap: 3px; margin-top: 1px; font-size: 8px; color: #667781; }
+        .message.sent { background: var(--bubble-sent); align-self: flex-end; border-bottom-right-radius: calc(var(--radius-base) * 0.2); transition: background 0.3s; }
+        .message.received { background: var(--bubble-received); align-self: flex-start; border-bottom-left-radius: calc(var(--radius-base) * 0.2); }
+        .message .text { font-size: var(--msg-font); line-height: 1.4; color: #1A1A1A; }
+        .message .footer { display: flex; align-items: center; justify-content: flex-end; gap: calc(var(--padding-base) * 0.3); margin-top: calc(var(--padding-base) * 0.1); font-size: var(--msg-footer-font); color: #667781; }
         .message .footer .author { font-weight: 600; color: var(--primary); transition: color 0.3s; }
-        .message .footer .status { font-size: 10px; }
+        .message .footer .status { font-size: calc(var(--msg-footer-font) * 1.2); }
         
-        .message.tareo { max-width: 95%; background: var(--tareo-bg); border-left: 4px solid var(--primary); align-self: center; text-align: center; border-radius: 8px; padding: 5px 10px; }
+        .message.tareo { max-width: 95%; background: var(--tareo-bg); border-left: 4px solid var(--primary); align-self: center; text-align: center; border-radius: calc(var(--radius-base) * 0.8); padding: calc(var(--padding-base) * 0.5) calc(var(--padding-base) * 0.8); }
         .message.tareo.inicio { border-left-color: var(--tareo-inicio); }
         .message.tareo.termino { border-left-color: var(--tareo-termino); }
-        .message.tareo .tareo-icon { font-size: 16px; display: block; margin-bottom: 1px; }
-        .message.tareo .tareo-text { font-size: 11px; font-weight: 600; color: var(--primary-dark); }
-        .message.tareo .tareo-hora { font-size: 14px; font-weight: 700; color: var(--primary); }
-        .message.tareo .tareo-usuario { font-size: 9px; color: #667781; }
+        .message.tareo .tareo-icon { font-size: calc(16px * var(--scale)); display: block; margin-bottom: calc(var(--padding-base) * 0.1); }
+        .message.tareo .tareo-text { font-size: calc(11px * var(--scale)); font-weight: 600; color: var(--primary-dark); }
+        .message.tareo .tareo-hora { font-size: calc(14px * var(--scale)); font-weight: 700; color: var(--primary); }
+        .message.tareo .tareo-usuario { font-size: calc(9px * var(--scale)); color: #667781; }
         .message.tareo .footer { justify-content: center; }
         
-        .date-divider { text-align: center; margin: 3px 0 6px; }
-        .date-divider span { background: rgba(26, 95, 180, 0.08); padding: 1px 8px; border-radius: 4px; font-size: 9px; color: #667781; }
+        .date-divider { text-align: center; margin: calc(var(--padding-base) * 0.3) 0 calc(var(--padding-base) * 0.6); }
+        .date-divider span { background: rgba(26, 95, 180, 0.08); padding: calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.8); border-radius: calc(var(--radius-base) * 0.4); font-size: calc(9px * var(--scale)); color: #667781; }
         
-        .typing-indicator { display: flex; align-items: center; gap: 3px; padding: 3px 8px; background: rgba(255,255,255,0.85); border-radius: 8px; align-self: flex-start; margin-bottom: 1px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
-        .typing-dot { width: 4px; height: 4px; background: #667781; border-radius: 50%; animation: typingAnim 1.4s infinite; }
+        .typing-indicator { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.3); padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8); background: rgba(255,255,255,0.85); border-radius: calc(var(--radius-base) * 0.8); align-self: flex-start; margin-bottom: calc(var(--padding-base) * 0.1); box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+        .typing-dot { width: calc(4px * var(--scale)); height: calc(4px * var(--scale)); background: #667781; border-radius: 50%; animation: typingAnim 1.4s infinite; }
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-dot:nth-child(3) { animation-delay: 0.4s; }
         @keyframes typingAnim { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-3px); opacity: 1; } }
-        .typing-text { font-size: 9px; color: #667781; margin-left: 2px; }
+        .typing-text { font-size: calc(9px * var(--scale)); color: #667781; margin-left: calc(var(--padding-base) * 0.2); }
         
-        .input-area { background: #F0F2F5; padding: 4px 6px; display: flex; flex-direction: column; gap: 3px; border-top: 1px solid #D9D9D9; flex-shrink: 0; }
-        .input-area .input-row { display: flex; gap: 4px; align-items: center; width: 100%; }
-        .input-area input[type="text"] { flex: 1; padding: 6px 8px; border: 2px solid transparent; border-radius: 14px; font-size: 16px; outline: none; font-family: inherit; background: white; transition: all 0.3s; -webkit-appearance: none; appearance: none; min-height: 32px; touch-action: manipulation; }
+        .input-area { background: #F0F2F5; padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.6); display: flex; flex-direction: column; gap: calc(var(--padding-base) * 0.3); border-top: 1px solid #D9D9D9; flex-shrink: 0; }
+        .input-area .input-row { display: flex; gap: calc(var(--padding-base) * 0.4); align-items: center; width: 100%; }
+        .input-area input[type="text"] { flex: 1; padding: var(--input-padding); border: 2px solid transparent; border-radius: calc(var(--radius-base) * 1.2); font-size: calc(16px * var(--scale)); outline: none; font-family: inherit; background: white; transition: all 0.3s; -webkit-appearance: none; appearance: none; min-height: calc(var(--input-height) * 0.9); touch-action: manipulation; }
         .input-area input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1); }
-        .input-area input[type="text"]::placeholder { color: #8899A6; font-size: 12px; }
-        .input-area .send-btn { background: var(--primary); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; font-size: 12px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        .input-area input[type="text"]::placeholder { color: #8899A6; font-size: calc(12px * var(--scale)); }
+        .input-area .send-btn { background: var(--primary); border: none; color: white; width: var(--send-btn-size); height: var(--send-btn-size); border-radius: 50%; font-size: calc(12px * var(--scale)); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
         .input-area .send-btn:active { transform: scale(0.92); }
         .input-area .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
         
         .tareo-inputs {
             display: none;
             flex-direction: column;
-            gap: 4px;
+            gap: calc(var(--padding-base) * 0.4);
             background: #E8ECF0;
-            padding: 6px 8px;
-            border-radius: 10px;
+            padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8);
+            border-radius: calc(var(--radius-base) * 0.9);
             width: 100%;
         }
         .tareo-inputs.active { display: flex; }
-        
-        .tareo-inputs .tareo-fila { display: flex; align-items: center; gap: 6px; }
-        .tareo-inputs .tareo-fila .tareo-label { font-size: 10px; font-weight: 700; color: #333; min-width: 48px; text-align: right; }
+        .tareo-inputs .tareo-fila { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.5); }
+        .tareo-inputs .tareo-fila .tareo-label { font-size: calc(10px * var(--scale)); font-weight: 700; color: #333; min-width: var(--tareo-label-width); text-align: right; }
         .tareo-inputs .tareo-fila .tareo-label.inicio-label { color: var(--tareo-inicio); }
         .tareo-inputs .tareo-fila .tareo-label.termino-label { color: var(--tareo-termino); }
-        
-        .tareo-inputs .tareo-fila .tareo-input-group { display: flex; align-items: center; gap: 2px; flex: 1; }
-        .tareo-inputs .tareo-fila .tareo-input-group input { width: 42px; padding: 4px 3px; border: 2px solid #D9D9D9; border-radius: 6px; font-size: 15px; font-weight: 600; text-align: center; font-family: inherit; background: white; -webkit-appearance: none; appearance: none; touch-action: manipulation; }
+        .tareo-inputs .tareo-fila .tareo-input-group { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.2); flex: 1; }
+        .tareo-inputs .tareo-fila .tareo-input-group input { width: var(--tareo-input-width); padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.3); border: 2px solid #D9D9D9; border-radius: calc(var(--radius-base) * 0.5); font-size: calc(15px * var(--scale)); font-weight: 600; text-align: center; font-family: inherit; background: white; -webkit-appearance: none; appearance: none; touch-action: manipulation; }
         .tareo-inputs .tareo-fila .tareo-input-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1); }
-        .tareo-inputs .tareo-fila .tareo-input-group input::placeholder { color: #ccc; font-size: 10px; }
-        .tareo-inputs .tareo-fila .tareo-input-group .tareo-sep { font-size: 14px; font-weight: 700; color: #666; padding: 0 1px; }
-        .tareo-inputs .tareo-fila .tareo-input-group .tareo-emoji { font-size: 12px; margin-left: 2px; }
-        
-        .tareo-inputs .tareo-enviar { display: flex; margin-top: 2px; }
-        .tareo-inputs .tareo-enviar .tareo-btn-enviar { padding: 5px 14px; border: none; border-radius: 6px; font-size: 12px; font-weight: 700; background: var(--primary); color: white; cursor: pointer; transition: all 0.2s; touch-action: manipulation; width: 100%; }
+        .tareo-inputs .tareo-fila .tareo-input-group input::placeholder { color: #ccc; font-size: calc(10px * var(--scale)); }
+        .tareo-inputs .tareo-fila .tareo-input-group .tareo-sep { font-size: calc(14px * var(--scale)); font-weight: 700; color: #666; padding: 0 1px; }
+        .tareo-inputs .tareo-fila .tareo-input-group .tareo-emoji { font-size: calc(12px * var(--scale)); margin-left: calc(var(--padding-base) * 0.2); }
+        .tareo-inputs .tareo-enviar { display: flex; margin-top: calc(var(--padding-base) * 0.2); }
+        .tareo-inputs .tareo-enviar .tareo-btn-enviar { padding: calc(var(--padding-base) * 0.5) calc(var(--padding-base) * 1.2); border: none; border-radius: calc(var(--radius-base) * 0.5); font-size: calc(12px * var(--scale)); font-weight: 700; background: var(--primary); color: white; cursor: pointer; transition: all 0.2s; touch-action: manipulation; width: 100%; }
         .tareo-inputs .tareo-enviar .tareo-btn-enviar:active { transform: scale(0.96); }
         .tareo-inputs .tareo-enviar .tareo-btn-enviar:disabled { opacity: 0.5; cursor: not-allowed; }
         
-        .loader { text-align: center; color: #667781; font-size: 11px; padding: 12px; }
-        .loader i { margin-right: 4px; }
+        .loader { text-align: center; color: #667781; font-size: calc(11px * var(--scale)); padding: calc(var(--padding-base) * 1.2); }
+        .loader i { margin-right: calc(var(--padding-base) * 0.4); }
         
-        .toast { position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 6px 14px; border-radius: 8px; font-size: 11px; z-index: 999; animation: toastIn 0.3s ease; display: none; max-width: 90%; text-align: center; }
+        .toast { position: fixed; bottom: calc(var(--padding-base) * 5); left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 1.2); border-radius: calc(var(--radius-base) * 0.8); font-size: calc(11px * var(--scale)); z-index: 999; animation: toastIn 0.3s ease; display: none; max-width: 90%; text-align: center; }
         @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
         
-        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 46, 92, 0.92); display: none; align-items: center; justify-content: center; z-index: 1000; flex-direction: column; gap: 12px; }
+        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 46, 92, 0.92); display: none; align-items: center; justify-content: center; z-index: 1000; flex-direction: column; gap: calc(var(--padding-base) * 1.2); }
         .loading-overlay.show { display: flex; }
-        .loading-overlay .spinner { width: 36px; height: 36px; border: 4px solid rgba(255,255,255,0.2); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
-        .loading-overlay .text { color: white; font-size: 14px; font-weight: 500; }
+        .loading-overlay .spinner { width: calc(36px * var(--scale)); height: calc(36px * var(--scale)); border: 4px solid rgba(255,255,255,0.2); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .loading-overlay .text { color: white; font-size: calc(14px * var(--scale)); font-weight: 500; }
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        .sound-indicator { position: fixed; top: 12px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 4px 10px; border-radius: 12px; font-size: 10px; z-index: 999; display: none; align-items: center; gap: 4px; animation: fadeInOut 1.5s ease; }
+        .sound-indicator { position: fixed; top: calc(var(--padding-base) * 1.2); left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.8); border-radius: calc(var(--radius-base) * 1.2); font-size: calc(10px * var(--scale)); z-index: 999; display: none; align-items: center; gap: calc(var(--padding-base) * 0.4); animation: fadeInOut 1.5s ease; }
         .sound-indicator.show { display: flex; }
-        .sound-indicator i { font-size: 12px; }
+        .sound-indicator i { font-size: calc(12px * var(--scale)); }
         @keyframes fadeInOut { 0% { opacity: 0; transform: translateX(-50%) translateY(-6px); } 20% { opacity: 1; transform: translateX(-50%) translateY(0); } 80% { opacity: 1; transform: translateX(-50%) translateY(0); } 100% { opacity: 0; transform: translateX(-50%) translateY(-6px); } }
         
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 520px) {
             body { padding: 0 !important; margin: 0 !important; }
-            #loginScreen { padding: 16px 12px; border-radius: 16px; width: 94%; max-width: 360px; }
-            .user-grid { grid-template-columns: repeat(3, 1fr); gap: 4px; max-height: 140px; }
-            .user-card { padding: 4px 2px; }
-            .user-card .user-avatar { width: 26px; height: 26px; font-size: 10px; }
-            .user-card .user-name { font-size: 8px; }
-            .logo-icon { font-size: 40px; }
-            .logo-title { font-size: 16px; }
-            .form-group input { font-size: 16px; padding: 8px 10px; }
-            .btn-primary { font-size: 14px; padding: 10px; }
-            .theme-btn { width: 22px; height: 22px; }
-            .tareo-inputs .tareo-fila .tareo-label { min-width: 38px; font-size: 9px; }
-            .tareo-inputs .tareo-fila .tareo-input-group input { width: 36px; font-size: 13px; padding: 3px 2px; }
-            .tareo-inputs .tareo-enviar .tareo-btn-enviar { font-size: 11px; padding: 4px 10px; }
+            #loginScreen { padding: calc(var(--login-padding) * 0.6); border-radius: calc(var(--login-radius) * 0.7); width: 94%; max-width: 360px; }
+            .user-grid { grid-template-columns: repeat(3, 1fr); gap: calc(var(--user-grid-gap) * 0.7); max-height: calc(140px * var(--scale)); }
         }
     </style>
 </head>
@@ -361,6 +562,15 @@
     <div class="logo-title">Transportes <span>Mantenimiento</span></div>
     <div class="logo-subtitle">Selecciona tu usuario y ingresa tu clave</div>
     
+    <!-- ===== SELECTOR DE TAMAÑO ===== -->
+    <div class="size-selector" id="sizeSelector">
+        <button class="size-btn" data-size="small" onclick="changeSize('small')"><i class="fas fa-font"></i> Peq</button>
+        <button class="size-btn active" data-size="medium" onclick="changeSize('medium')"><i class="fas fa-font"></i> Med</button>
+        <button class="size-btn" data-size="large" onclick="changeSize('large')"><i class="fas fa-font"></i> Grd</button>
+        <button class="size-btn" data-size="xlarge" onclick="changeSize('xlarge')"><i class="fas fa-font"></i> XGrd</button>
+        <button class="size-btn" data-size="xxlarge" onclick="changeSize('xxlarge')"><i class="fas fa-font"></i> UGrd</button>
+    </div>
+    
     <div class="theme-selector" id="themeSelector">
         <button class="theme-btn theme-azul-btn active" data-theme="azul" onclick="changeTheme('azul')"><span class="check">✓</span></button>
         <button class="theme-btn theme-verde-btn" data-theme="verde" onclick="changeTheme('verde')"><span class="check">✓</span></button>
@@ -372,7 +582,7 @@
     <div class="user-selector">
         <div class="label">
             <i class="fas fa-users"></i> Selecciona tu usuario
-            <span style="font-size:9px;color:#8899A6;font-weight:400;margin-left:auto;" id="userCountLabel">0 conectados</span>
+            <span style="font-size:var(--online-font);color:#8899A6;font-weight:400;margin-left:auto;" id="userCountLabel">0 conectados</span>
         </div>
         <div class="user-grid" id="userGrid"></div>
     </div>
@@ -412,7 +622,10 @@
         </div>
         <button class="header-btn active" id="btnGeneral" onclick="switchRoom('general')">💬</button>
         <button class="header-btn" id="btnTareo" onclick="switchRoom('tareo')">⏰</button>
-        <button class="theme-toggle-btn header-btn" id="themeToggleBtn" onclick="toggleThemeSelector()" title="Cambiar tema">
+        <button class="header-btn" id="sizeToggleBtn" onclick="toggleSizeSelector()" title="Tamaño">
+            <i class="fas fa-font"></i>
+        </button>
+        <button class="theme-toggle-btn header-btn" id="themeToggleBtn" onclick="toggleThemeSelector()" title="Tema">
             <i class="fas fa-palette"></i>
         </button>
         <button class="logout-btn" id="logoutBtn">
@@ -549,6 +762,7 @@
     let isSending = false;
     let selectedUser = null;
     let currentTheme = 'azul';
+    let currentSize = 'medium';
     let sessionActive = false;
     let unreadCount = 0;
 
@@ -595,7 +809,7 @@
     
     function changeTheme(theme) {
         currentTheme = theme;
-        document.body.className = '';
+        document.body.className = document.body.className.split(' ').filter(c => !c.startsWith('theme-')).join(' ');
         document.body.classList.add('theme-' + theme);
         document.querySelectorAll('.theme-btn').forEach(btn => {
             btn.classList.remove('active');
@@ -618,16 +832,53 @@
         }
     }
     
+    // ============================================================
+    // 📏 FUNCIONES DE TAMAÑO
+    // ============================================================
+    
+    function changeSize(size) {
+        currentSize = size;
+        document.body.className = document.body.className.split(' ').filter(c => !c.startsWith('size-')).join(' ');
+        document.body.classList.add('size-' + size);
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.size === size) btn.classList.add('active');
+        });
+        try { localStorage.setItem('chatSize', size); } catch(e) {}
+        console.log('📏 Tamaño cambiado a:', size);
+    }
+    
+    function toggleSizeSelector() {
+        const selector = document.getElementById('sizeSelector');
+        if (selector) {
+            const isVisible = selector.style.display !== 'none';
+            selector.style.display = isVisible ? 'none' : 'flex';
+            clearTimeout(selector._hideTimeout);
+            if (!isVisible) {
+                selector._hideTimeout = setTimeout(() => {
+                    selector.style.display = 'none';
+                }, 5000);
+            }
+        }
+    }
+    
+    window.changeSize = changeSize;
+    window.toggleSizeSelector = toggleSizeSelector;
+    window.changeTheme = changeTheme;
+    window.toggleThemeSelector = toggleThemeSelector;
+    
     try {
+        const savedSize = localStorage.getItem('chatSize');
+        if (savedSize && ['small','medium','large','xlarge','xxlarge'].includes(savedSize)) {
+            currentSize = savedSize;
+            setTimeout(() => changeSize(savedSize), 100);
+        }
         const savedTheme = localStorage.getItem('chatTheme');
         if (savedTheme && ['azul','verde','rojo','morado','naranja'].includes(savedTheme)) {
             currentTheme = savedTheme;
             setTimeout(() => changeTheme(savedTheme), 100);
         }
     } catch(e) {}
-
-    window.changeTheme = changeTheme;
-    window.toggleThemeSelector = toggleThemeSelector;
 
     // ============================================================
     // FUNCIONES
@@ -793,7 +1044,7 @@
     function renderUserGrid(connectedUsers) {
         const names = Object.keys(AUTHORIZED_USERS);
         if (names.length === 0) {
-            userGrid.innerHTML = '<span style="color:#999;font-size:10px;grid-column:1/-1;text-align:center;padding:10px;">No hay usuarios autorizados</span>';
+            userGrid.innerHTML = '<span style="color:#999;font-size:calc(10px * var(--scale));grid-column:1/-1;text-align:center;padding:calc(var(--padding-base) * 1);">No hay usuarios autorizados</span>';
             return;
         }
         userGrid.innerHTML = names.map(name => {
@@ -960,7 +1211,7 @@
             if (data.tareoTipo === 'completo') {
                 content = `
                     <div class="tareo-text">📋 ${escapeHTML(data.tareoUsuario || data.displayName)}</div>
-                    <div style="display:flex;justify-content:center;gap:12px;margin:3px 0;">
+                    <div style="display:flex;justify-content:center;gap:calc(var(--padding-base) * 1.2);margin:calc(var(--padding-base) * 0.3) 0;">
                         <span style="color:var(--tareo-inicio);font-weight:700;">🟢 ${escapeHTML(data.tareoInicio || '')}</span>
                         <span style="color:var(--tareo-termino);font-weight:700;">🔴 ${escapeHTML(data.tareoTermino || '')}</span>
                     </div>
@@ -1028,7 +1279,7 @@
     
     function loadMessages() {
         if (!database) {
-            messagesContainer.innerHTML = '<div style="text-align:center;padding:20px;color:#667781;font-size:12px;">⚠️ Error de conexión con Firebase</div>';
+            messagesContainer.innerHTML = '<div style="text-align:center;padding:calc(var(--padding-base) * 2);color:#667781;font-size:calc(12px * var(--scale));">⚠️ Error de conexión con Firebase</div>';
             return;
         }
         
@@ -1061,10 +1312,10 @@
                     ? 'No hay mensajes en el chat general' 
                     : 'No hay registros de tareo hoy';
                 messagesContainer.innerHTML = `
-                    <div style="text-align:center;padding:20px 16px;color:#667781;">
-                        <i class="fas fa-${currentRoom === 'general' ? 'comment' : 'clock'}" style="font-size:32px;opacity:0.3;display:block;margin-bottom:6px;"></i>
-                        <p style="font-size:12px;">${emptyMsg}</p>
-                        <p style="font-size:10px;">${currentRoom === 'general' ? '¡Envía el primer mensaje!' : 'Registra tu asistencia con los campos de Tareo'}</p>
+                    <div style="text-align:center;padding:calc(var(--padding-base) * 2) calc(var(--padding-base) * 1.5);color:#667781;">
+                        <i class="fas fa-${currentRoom === 'general' ? 'comment' : 'clock'}" style="font-size:calc(32px * var(--scale));opacity:0.3;display:block;margin-bottom:calc(var(--padding-base) * 0.6);"></i>
+                        <p style="font-size:calc(12px * var(--scale));">${emptyMsg}</p>
+                        <p style="font-size:calc(10px * var(--scale));">${currentRoom === 'general' ? '¡Envía el primer mensaje!' : 'Registra tu asistencia con los campos de Tareo'}</p>
                     </div>
                 `;
             }
@@ -1097,7 +1348,7 @@
             }
             renderUserGrid(connectedNames);
             if (users.length === 0) {
-                userList.innerHTML = '<span style="color:#999;font-size:9px;">Sin usuarios conectados</span>';
+                userList.innerHTML = '<span style="color:#999;font-size:var(--online-font);">Sin usuarios conectados</span>';
             } else {
                 const userItems = users.map(u => {
                     const displayName = data[u]?.displayName || u;
@@ -1454,7 +1705,7 @@
     
     console.log('🚛 Transportes Mantenimiento - Chat con Sala Tareo');
     console.log('📋 Usuarios autorizados:', Object.keys(AUTHORIZED_USERS).length);
-    console.log('✅ Pantalla completa optimizada para celular');
+    console.log('✅ Selector de tamaño: Pequeño, Mediano, Grande, Extra Grande, Ultra Grande');
     console.log('📌 REGLAS DE FIREBASE:');
     console.log('{');
     console.log('  "rules": {');
