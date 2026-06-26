@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Transportes Mantenimiento - Tareo</title>
+    <title>Transportes Mantenimiento - IMCO</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    
+    <!-- html2pdf para reportes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
         /* ===== RESET ===== */
@@ -31,6 +34,7 @@
             --tareo-bg: #F0F4F8;
             --tareo-inicio: #28a745;
             --tareo-termino: #dc3545;
+            --reporte-bg: #F8F9FA;
             
             /* ===== TAMAÑOS ===== */
             --scale: 1;
@@ -290,9 +294,23 @@
         .online-users .badge .dot { width: calc(4px * var(--scale)); height: calc(4px * var(--scale)); border-radius: 50%; display: inline-block; }
         .online-users .badge .dot.online { background: #4CAF50; }
         
-        .messages-container { flex: 1; overflow-y: auto; padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8); background: var(--bg-chat); display: flex; flex-direction: column; gap: calc(var(--padding-base) * 0.2); -webkit-overflow-scrolling: touch; transition: background 0.3s; }
-        .messages-container::-webkit-scrollbar { width: 3px; }
-        .messages-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 6px; }
+        /* ===== CONTENEDOR DE MENSAJES / REPORTE ===== */
+        .content-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8);
+            background: var(--bg-chat);
+            transition: background 0.3s;
+        }
+        .content-container::-webkit-scrollbar { width: 3px; }
+        .content-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 6px; }
+        
+        .messages-container {
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--padding-base) * 0.2);
+        }
+        .messages-container.hidden { display: none; }
         
         .message { max-width: 85%; padding: var(--msg-padding); border-radius: calc(var(--radius-base) * 0.8); animation: slideIn 0.2s ease; word-wrap: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.04); touch-action: manipulation; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(4px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
@@ -322,6 +340,7 @@
         @keyframes typingAnim { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-3px); opacity: 1; } }
         .typing-text { font-size: calc(9px * var(--scale)); color: #667781; margin-left: calc(var(--padding-base) * 0.2); }
         
+        /* ===== INPUT AREA ===== */
         .input-area { background: #F0F2F5; padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.6); display: flex; flex-direction: column; gap: calc(var(--padding-base) * 0.3); border-top: 1px solid #D9D9D9; flex-shrink: 0; }
         .input-area .input-row { display: flex; gap: calc(var(--padding-base) * 0.4); align-items: center; width: 100%; }
         .input-area input[type="text"] { flex: 1; padding: var(--input-padding); border: 2px solid transparent; border-radius: calc(var(--radius-base) * 1.2); font-size: calc(16px * var(--scale)); outline: none; font-family: inherit; background: white; transition: all 0.3s; -webkit-appearance: none; appearance: none; min-height: calc(var(--input-height) * 0.9); touch-action: manipulation; }
@@ -331,6 +350,9 @@
         .input-area .send-btn:active { transform: scale(0.92); }
         .input-area .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
         
+        .input-area .input-row.hidden { display: none; }
+        
+        /* ===== TAREO INPUTS ===== */
         .tareo-inputs {
             display: none;
             flex-direction: column;
@@ -356,6 +378,119 @@
         .tareo-inputs .tareo-enviar .tareo-btn-enviar:active { transform: scale(0.96); }
         .tareo-inputs .tareo-enviar .tareo-btn-enviar:disabled { opacity: 0.5; cursor: not-allowed; }
         
+        /* ===== REPORTE ===== */
+        .reporte-container {
+            display: none;
+            flex-direction: column;
+            gap: calc(var(--padding-base) * 0.5);
+            padding: calc(var(--padding-base) * 0.5);
+        }
+        .reporte-container.active { display: flex; }
+        
+        .reporte-container .reporte-titulo {
+            font-size: calc(16px * var(--scale));
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-align: center;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: calc(var(--padding-base) * 0.3);
+            margin-bottom: calc(var(--padding-base) * 0.5);
+        }
+        
+        .reporte-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: calc(var(--padding-base) * 0.4);
+        }
+        .reporte-grid .full { grid-column: 1 / -1; }
+        
+        .reporte-group { display: flex; flex-direction: column; gap: calc(var(--padding-base) * 0.2); }
+        .reporte-group label { font-size: calc(10px * var(--scale)); font-weight: 600; color: #555; }
+        .reporte-group input, .reporte-group select { 
+            padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.6); 
+            border: 2px solid #D9D9D9; 
+            border-radius: calc(var(--radius-base) * 0.5); 
+            font-size: calc(14px * var(--scale)); 
+            font-family: inherit; 
+            background: white;
+            width: 100%;
+        }
+        .reporte-group input:focus, .reporte-group select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1); }
+        .reporte-group input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+        .reporte-group input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+        
+        .reporte-botones {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: calc(var(--padding-base) * 0.4);
+            margin-top: calc(var(--padding-base) * 0.3);
+        }
+        .reporte-botones .btn-reporte {
+            padding: calc(var(--padding-base) * 0.6);
+            border: none;
+            border-radius: calc(var(--radius-base) * 0.5);
+            font-size: calc(12px * var(--scale));
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+            touch-action: manipulation;
+            text-align: center;
+        }
+        .reporte-botones .btn-reporte:active { transform: scale(0.96); }
+        .reporte-botones .btn-reporte.imprimir { background: #2c3e50; color: white; }
+        .reporte-botones .btn-reporte.imprimir:hover { background: #1a2632; }
+        .reporte-botones .btn-reporte.limpiar { background: #95a5a6; color: white; }
+        .reporte-botones .btn-reporte.limpiar:hover { background: #7f8c8d; }
+        .reporte-botones .btn-reporte.whatsapp { background: #25D366; color: white; grid-column: span 2; }
+        .reporte-botones .btn-reporte.whatsapp:hover { background: #128C7E; }
+        
+        .reporte-historial {
+            margin-top: calc(var(--padding-base) * 0.5);
+            border-top: 2px solid var(--primary);
+            padding-top: calc(var(--padding-base) * 0.5);
+            max-height: calc(200px * var(--scale));
+            overflow-y: auto;
+        }
+        .reporte-historial .historial-titulo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: calc(var(--padding-base) * 0.3);
+        }
+        .reporte-historial .historial-titulo h3 { font-size: calc(13px * var(--scale)); color: var(--primary-dark); }
+        .reporte-historial .btn-limpiar-todo { 
+            padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.6); 
+            border: none; 
+            border-radius: calc(var(--radius-base) * 0.3); 
+            background: var(--error); 
+            color: white; 
+            font-size: calc(10px * var(--scale)); 
+            cursor: pointer; 
+            touch-action: manipulation;
+        }
+        
+        .registro-item {
+            background: var(--reporte-bg);
+            border-left: 3px solid var(--primary);
+            padding: calc(var(--padding-base) * 0.4);
+            margin-bottom: calc(var(--padding-base) * 0.3);
+            border-radius: calc(var(--radius-base) * 0.5);
+            font-size: calc(11px * var(--scale));
+        }
+        .registro-item p { margin: 2px 0; }
+        .registro-item .btn-eliminar { 
+            padding: calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.4); 
+            border: none; 
+            border-radius: calc(var(--radius-base) * 0.3); 
+            background: var(--error); 
+            color: white; 
+            font-size: calc(9px * var(--scale)); 
+            cursor: pointer; 
+            margin-top: calc(var(--padding-base) * 0.2);
+            touch-action: manipulation;
+        }
+        .registro-vacio { text-align: center; color: #999; padding: calc(var(--padding-base) * 2); font-size: calc(12px * var(--scale)); }
+        
         .loader { text-align: center; color: #667781; font-size: calc(11px * var(--scale)); padding: calc(var(--padding-base) * 1.2); }
         .loader i { margin-right: calc(var(--padding-base) * 0.4); }
         
@@ -377,6 +512,9 @@
             body { padding: 0 !important; margin: 0 !important; }
             #loginScreen { padding: calc(var(--login-padding) * 0.6); border-radius: calc(var(--login-radius) * 0.7); width: 94%; max-width: 360px; }
             .user-grid { grid-template-columns: repeat(3, 1fr); gap: calc(var(--user-grid-gap) * 0.7); max-height: calc(140px * var(--scale)); }
+            .reporte-grid { grid-template-columns: 1fr; }
+            .reporte-botones { grid-template-columns: 1fr 1fr; }
+            .reporte-botones .btn-reporte.whatsapp { grid-column: span 2; }
         }
     </style>
 </head>
@@ -462,6 +600,7 @@
         </div>
         <button class="header-btn active" id="btnGeneral" onclick="switchRoom('general')">💬</button>
         <button class="header-btn" id="btnTareo" onclick="switchRoom('tareo')">⏰</button>
+        <button class="header-btn" id="btnReporte" onclick="switchRoom('reporte')">📋</button>
         <button class="header-btn" id="sizeToggleBtn" onclick="toggleSizeSelector()" title="Tamaño">
             <i class="fas fa-font"></i>
         </button>
@@ -478,10 +617,111 @@
         <span id="userList">Cargando...</span>
     </div>
     
-    <div class="messages-container" id="messagesContainer">
-        <div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="content-container" id="contentContainer">
+        <!-- Mensajes General -->
+        <div class="messages-container" id="messagesContainer">
+            <div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>
+        </div>
+        
+        <!-- Mensajes Tareo -->
+        <div class="messages-container hidden" id="tareoMessagesContainer">
+            <div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando registros...</div>
+        </div>
+        
+        <!-- Reporte -->
+        <div class="reporte-container" id="reporteContainer">
+            <div class="reporte-titulo">📋 Registro diario de transporte - IMCO</div>
+            
+            <div class="reporte-grid">
+                <div class="reporte-group full">
+                    <label>📅 Fecha de Registro</label>
+                    <input type="date" id="reporteFecha">
+                </div>
+                <div class="reporte-group full">
+                    <label>👤 Conductor</label>
+                    <input type="text" id="reporteNombre" placeholder="Nombre completo">
+                </div>
+                <div class="reporte-group">
+                    <label>⏰ Horario</label>
+                    <select id="reporteHorario">
+                        <option value="">Seleccione</option>
+                        <option value="corrido">Horario corrido</option>
+                        <option value="partido">Horario partido</option>
+                    </select>
+                </div>
+                <div class="reporte-group">
+                    <label>🚗 T. Vehículo</label>
+                    <select id="reporteTipoVehiculo">
+                        <option value="">Seleccione</option>
+                        <option value="camión">camión</option>
+                        <option value="camión grúa">camión grúa</option>
+                        <option value="bus">bus</option>
+                        <option value="minibús">minibús</option>
+                        <option value="minivan">minivan</option>
+                        <option value="camioneta">camioneta</option>
+                        <option value="montacarga">montacarga</option>
+                        <option value="manlift">manlift</option>
+                    </select>
+                </div>
+                <div class="reporte-group">
+                    <label>⚖️ Capacidad</label>
+                    <input type="number" id="reporteCapacidad" placeholder="0">
+                </div>
+                <div class="reporte-group">
+                    <label>🚗 Placa</label>
+                    <input type="text" id="reportePlaca" placeholder="ABC-123" style="text-transform:uppercase;">
+                </div>
+            </div>
+            
+            <!-- Horas -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px;">
+                <div class="reporte-group">
+                    <label id="reporteLabelInicio">🕐 Hora inicial A</label>
+                    <input type="text" id="reporteHoraInicio" placeholder="HH:MM" maxlength="5">
+                </div>
+                <div class="reporte-group">
+                    <label id="reporteLabelFinal">🕒 Hora final A</label>
+                    <input type="text" id="reporteHoraFinal" placeholder="HH:MM" maxlength="5">
+                </div>
+                <div class="reporte-group" id="reporteHorasB" style="display:none;">
+                    <label>🕐 Hora inicial B</label>
+                    <input type="text" id="reporteHoraInicioB" placeholder="HH:MM" maxlength="5">
+                </div>
+                <div class="reporte-group" id="reporteHorasB2" style="display:none;">
+                    <label>🕒 Hora final B</label>
+                    <input type="text" id="reporteHoraFinalB" placeholder="HH:MM" maxlength="5">
+                </div>
+            </div>
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px;">
+                <div class="reporte-group">
+                    <label>📊 Kilometraje Inicial</label>
+                    <input type="number" id="reporteKmInicial" placeholder="Ej: 12000">
+                </div>
+                <div class="reporte-group">
+                    <label>📊 Kilometraje Final</label>
+                    <input type="number" id="reporteKmFinal" placeholder="Ej: 12500">
+                </div>
+            </div>
+            
+            <div class="reporte-botones">
+                <button class="btn-reporte imprimir" onclick="imprimirReporte()">🖨️ Imprimir</button>
+                <button class="btn-reporte limpiar" onclick="limpiarReporte()">🧹 Limpiar</button>
+                <button class="btn-reporte whatsapp" onclick="enviarReporteWhatsApp()">💬 Enviar al Supervisor</button>
+            </div>
+            
+            <div class="reporte-historial">
+                <div class="historial-titulo">
+                    <h3>📋 Registro Histórico</h3>
+                    <button class="btn-limpiar-todo" onclick="limpiarTodoHistorial()">🗑️ Limpiar todo</button>
+                </div>
+                <div id="listaRegistros"><div class="registro-vacio">No hay registros aún</div></div>
+            </div>
+        </div>
     </div>
     
+    <!-- INPUT AREA -->
     <div class="input-area" id="inputArea">
         <div class="input-row" id="chatInputRow">
             <input type="text" id="messageInput" placeholder="Escribe un mensaje..." autocomplete="off" inputmode="text" enterkeyhint="send">
@@ -595,6 +835,7 @@
     let currentDisplayName = '';
     let currentRoom = 'general';
     let messagesRef = null;
+    let tareoMessagesRef = null;
     let presenceRef = null;
     let typingRef = null;
     let isTyping = false;
@@ -605,6 +846,9 @@
     let currentSize = 'medium';
     let sessionActive = false;
     let unreadCount = 0;
+    
+    // Reporte variables
+    let registros = [];
 
     // ============================================================
     // DOM ELEMENTS
@@ -623,6 +867,8 @@
     const messageInput = document.getElementById('messageInput');
     const sendBtn = document.getElementById('sendBtn');
     const messagesContainer = document.getElementById('messagesContainer');
+    const tareoMessagesContainer = document.getElementById('tareoMessagesContainer');
+    const reporteContainer = document.getElementById('reporteContainer');
     const chatAvatar = document.getElementById('chatAvatar');
     const chatRoomTitle = document.getElementById('chatRoomTitle');
     const userList = document.getElementById('userList');
@@ -635,6 +881,7 @@
     const notifCount = document.getElementById('notifCount');
     const btnGeneral = document.getElementById('btnGeneral');
     const btnTareo = document.getElementById('btnTareo');
+    const btnReporte = document.getElementById('btnReporte');
     const chatInputRow = document.getElementById('chatInputRow');
     const tareoInputs = document.getElementById('tareoInputs');
     const tareoInicio = document.getElementById('tareoInicio');
@@ -642,9 +889,29 @@
     const tareoTermino = document.getElementById('tareoTermino');
     const tareoTerminoMin = document.getElementById('tareoTerminoMin');
     const tareoEnviarBtn = document.getElementById('tareoEnviarBtn');
+    const contentContainer = document.getElementById('contentContainer');
+    const listaRegistros = document.getElementById('listaRegistros');
+    
+    // Reporte inputs
+    const reporteFecha = document.getElementById('reporteFecha');
+    const reporteNombre = document.getElementById('reporteNombre');
+    const reporteHorario = document.getElementById('reporteHorario');
+    const reporteTipoVehiculo = document.getElementById('reporteTipoVehiculo');
+    const reporteCapacidad = document.getElementById('reporteCapacidad');
+    const reportePlaca = document.getElementById('reportePlaca');
+    const reporteHoraInicio = document.getElementById('reporteHoraInicio');
+    const reporteHoraFinal = document.getElementById('reporteHoraFinal');
+    const reporteHoraInicioB = document.getElementById('reporteHoraInicioB');
+    const reporteHoraFinalB = document.getElementById('reporteHoraFinalB');
+    const reporteKmInicial = document.getElementById('reporteKmInicial');
+    const reporteKmFinal = document.getElementById('reporteKmFinal');
+    const reporteLabelInicio = document.getElementById('reporteLabelInicio');
+    const reporteLabelFinal = document.getElementById('reporteLabelFinal');
+    const reporteHorasB = document.getElementById('reporteHorasB');
+    const reporteHorasB2 = document.getElementById('reporteHorasB2');
 
     // ============================================================
-    // 🎨 FUNCIONES DE TEMA
+    // 🎨 FUNCIONES DE TEMA Y TAMAÑO
     // ============================================================
     
     function changeTheme(theme) {
@@ -671,10 +938,6 @@
             }
         }
     }
-    
-    // ============================================================
-    // 📏 FUNCIONES DE TAMAÑO
-    // ============================================================
     
     function changeSize(size) {
         currentSize = size;
@@ -721,7 +984,7 @@
     } catch(e) {}
 
     // ============================================================
-    // FUNCIONES
+    // FUNCIONES BASE
     // ============================================================
     
     function getInitials(name) {
@@ -746,8 +1009,9 @@
     }
     
     function scrollToBottom() {
+        const container = currentRoom === 'general' ? messagesContainer : tareoMessagesContainer;
         setTimeout(() => {
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            container.scrollTop = container.scrollHeight;
         }, 100);
         clearNotification();
     }
@@ -930,24 +1194,34 @@
     }
 
     // ============================================================
-    // 🔄 CAMBIAR DE SALA - CORREGIDO
+    // 🔄 CAMBIAR DE SALA
     // ============================================================
     
     function switchRoom(room) {
         if (!currentUser) return;
         if (room === currentRoom) return;
         
-        // 🔥 IMPORTANTE: Guardar el room actual antes de cambiar
-        const oldRoom = currentRoom;
         currentRoom = room;
         
         // Actualizar UI de botones
         btnGeneral.classList.toggle('active', room === 'general');
         btnTareo.classList.toggle('active', room === 'tareo');
+        btnReporte.classList.toggle('active', room === 'reporte');
         
-        chatRoomTitle.textContent = room === 'general' ? '💬 Chat General' : '⏰ Tareo Diario';
+        // Actualizar título
+        const titles = {
+            'general': '💬 Chat General',
+            'tareo': '⏰ Tareo Diario',
+            'reporte': '📋 Reporte IMCO'
+        };
+        chatRoomTitle.textContent = titles[room] || '💬 Chat General';
         
-        // Mostrar/ocultar inputs de tareo
+        // Mostrar/ocultar contenedores
+        messagesContainer.classList.toggle('hidden', room !== 'general');
+        tareoMessagesContainer.classList.toggle('hidden', room !== 'tareo');
+        reporteContainer.classList.toggle('active', room === 'reporte');
+        
+        // Mostrar/ocultar inputs
         if (room === 'tareo') {
             chatInputRow.style.display = 'none';
             tareoInputs.classList.add('active');
@@ -956,16 +1230,266 @@
             tareoInputs.classList.remove('active');
         }
         
-        // 🔥 RECARGAR MENSAJES DE LA NUEVA SALA
-        loadMessages();
+        // Si es reporte, ocultar input completamente
+        if (room === 'reporte') {
+            document.getElementById('inputArea').style.display = 'none';
+        } else {
+            document.getElementById('inputArea').style.display = 'flex';
+        }
         
-        // 🔥 REACTIVAR TYPING INDICATOR PARA LA NUEVA SALA
-        setupTypingIndicator();
+        // Cargar contenido según sala
+        if (room === 'general') {
+            loadMessages('general');
+        } else if (room === 'tareo') {
+            loadMessages('tareo');
+        }
         
         console.log(`🔄 Cambiado a sala: ${room}`);
     }
     
     window.switchRoom = switchRoom;
+
+    // ============================================================
+    // 📨 FUNCIONES DE CHAT
+    // ============================================================
+    
+    function addMessageToDOM(data, key, container) {
+        if (document.querySelector(`[data-key="${key}"]`)) return;
+        
+        const isOwn = data.user === currentUser;
+        const time = data.time || getTime();
+        const targetContainer = container || messagesContainer;
+        
+        if (data.isTareo) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message tareo ${data.tareoTipo || ''}`;
+            messageDiv.dataset.key = key;
+            
+            let content = '';
+            if (data.tareoTipo === 'completo') {
+                content = `
+                    <div class="tareo-text">📋 ${escapeHTML(data.tareoUsuario || data.displayName)}</div>
+                    <div style="display:flex;justify-content:center;gap:calc(var(--padding-base) * 1.2);margin:calc(var(--padding-base) * 0.3) 0;">
+                        <span style="color:var(--tareo-inicio);font-weight:700;">🟢 ${escapeHTML(data.tareoInicio || '')}</span>
+                        <span style="color:var(--tareo-termino);font-weight:700;">🔴 ${escapeHTML(data.tareoTermino || '')}</span>
+                    </div>
+                    <div class="tareo-usuario">Jornada registrada</div>
+                `;
+            } else {
+                content = `
+                    <span class="tareo-icon">${data.tareoEmoji || '⏰'}</span>
+                    <div class="tareo-text">${escapeHTML(data.tareoUsuario || data.displayName)}</div>
+                    <div class="tareo-hora">${escapeHTML(data.tareoHora || '')}</div>
+                    <div class="tareo-usuario">${escapeHTML(data.tareoLabel || 'Registro')}</div>
+                `;
+            }
+            
+            messageDiv.innerHTML = `
+                ${content}
+                <div class="footer">
+                    <span>${escapeHTML(time)}</span>
+                </div>
+            `;
+            
+            const loader = targetContainer.querySelector('.loader');
+            if (loader) loader.remove();
+            targetContainer.appendChild(messageDiv);
+            scrollToBottom();
+            
+            if (!isOwn) {
+                playSoundTareo();
+                updateNotification(unreadCount + 1);
+            }
+            return;
+        }
+        
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isOwn ? 'sent' : 'received'}`;
+        messageDiv.dataset.key = key;
+        
+        const authorHTML = !isOwn ? `<span class="author">${escapeHTML(data.displayName || data.user)}</span>` : '';
+        const statusHTML = isOwn ? `<span class="status"><i class="fas fa-check-double" style="color:var(--primary);"></i></span>` : '';
+        
+        let textContent = data.text || '';
+        if (data.isTareoNotification) {
+            textContent = '⏰ ' + textContent;
+        }
+        
+        messageDiv.innerHTML = `
+            <div class="text">${escapeHTML(textContent)}</div>
+            <div class="footer">
+                ${authorHTML}
+                <span>${escapeHTML(time)}</span>
+                ${statusHTML}
+            </div>
+        `;
+        
+        const loader = targetContainer.querySelector('.loader');
+        if (loader) loader.remove();
+        targetContainer.appendChild(messageDiv);
+        scrollToBottom();
+        
+        if (!isOwn && data.user !== currentUser) {
+            playSoundReceive();
+            updateNotification(unreadCount + 1);
+        }
+    }
+    
+    function loadMessages(room) {
+        const roomKey = room || currentRoom;
+        if (!database) {
+            const container = roomKey === 'general' ? messagesContainer : tareoMessagesContainer;
+            container.innerHTML = '<div style="text-align:center;padding:calc(var(--padding-base) * 2);color:#667781;font-size:calc(12px * var(--scale));">⚠️ Error de conexión con Firebase</div>';
+            return;
+        }
+        
+        const container = roomKey === 'general' ? messagesContainer : tareoMessagesContainer;
+        container.innerHTML = '<div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>';
+        
+        // Limpiar listener anterior
+        if (roomKey === 'general' && messagesRef) {
+            messagesRef.off();
+            messagesRef = null;
+        } else if (roomKey === 'tareo' && tareoMessagesRef) {
+            tareoMessagesRef.off();
+            tareoMessagesRef = null;
+        }
+        
+        const ref = database.ref(`messages/${roomKey}`);
+        if (roomKey === 'general') {
+            messagesRef = ref;
+        } else {
+            tareoMessagesRef = ref;
+        }
+        
+        ref.limitToLast(50).once('value', (snapshot) => {
+            const data = snapshot.val();
+            container.innerHTML = '';
+            
+            if (data) {
+                const keys = Object.keys(data).sort();
+                let lastDate = '';
+                keys.forEach(key => {
+                    const msg = data[key];
+                    const msgDate = new Date(msg.timestamp || Date.now()).toLocaleDateString('es-ES');
+                    if (msgDate !== lastDate) {
+                        lastDate = msgDate;
+                        const divider = document.createElement('div');
+                        divider.className = 'date-divider';
+                        divider.innerHTML = `<span>${msgDate === new Date().toLocaleDateString('es-ES') ? 'Hoy' : msgDate}</span>`;
+                        container.appendChild(divider);
+                    }
+                    addMessageToDOM(msg, key, container);
+                });
+            } else {
+                const emptyMsg = roomKey === 'general' 
+                    ? 'No hay mensajes en el chat general' 
+                    : 'No hay registros de tareo hoy';
+                container.innerHTML = `
+                    <div style="text-align:center;padding:calc(var(--padding-base) * 2) calc(var(--padding-base) * 1.5);color:#667781;">
+                        <i class="fas fa-${roomKey === 'general' ? 'comment' : 'clock'}" style="font-size:calc(32px * var(--scale));opacity:0.3;display:block;margin-bottom:calc(var(--padding-base) * 0.6);"></i>
+                        <p style="font-size:calc(12px * var(--scale));">${emptyMsg}</p>
+                        <p style="font-size:calc(10px * var(--scale));">${roomKey === 'general' ? '¡Envía el primer mensaje!' : 'Registra tu asistencia con los campos de Tareo'}</p>
+                    </div>
+                `;
+            }
+            
+            // Escuchar nuevos mensajes
+            ref.limitToLast(1).on('child_added', (snapshot) => {
+                const msg = snapshot.val();
+                if (msg && msg.user !== currentUser) {
+                    addMessageToDOM(msg, snapshot.key, container);
+                }
+            });
+        });
+    }
+    
+    function sendMessage() {
+        const text = messageInput.value.trim();
+        if (!text || !currentUser || isSending) return;
+        if (!database || !messagesRef) {
+            showToast('❌ Error de conexión');
+            return;
+        }
+        
+        isSending = true;
+        sendBtn.disabled = true;
+        playSoundSend();
+        
+        const newMessage = {
+            user: currentUser,
+            displayName: currentDisplayName,
+            text: text,
+            time: getTime(),
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        };
+        
+        messagesRef.push(newMessage).then(() => {
+            addMessageToDOM(newMessage, Date.now().toString(), messagesContainer);
+            messageInput.value = '';
+            isSending = false;
+            sendBtn.disabled = false;
+            if (typingRef) {
+                typingRef.remove();
+                isTyping = false;
+            }
+        }).catch((error) => {
+            console.error('Error al enviar:', error);
+            showToast('❌ Error al enviar mensaje');
+            isSending = false;
+            sendBtn.disabled = false;
+        });
+    }
+    
+    function handleTyping() {
+        if (!currentUser || !typingRef || !database) return;
+        if (!isTyping) {
+            isTyping = true;
+            typingRef.set({
+                user: currentUser,
+                displayName: currentDisplayName,
+                typing: true
+            });
+        }
+        clearTimeout(typingTimeout);
+        typingTimeout = setTimeout(() => {
+            if (typingRef) {
+                typingRef.remove();
+                isTyping = false;
+            }
+        }, 2000);
+    }
+    
+    function setupTypingIndicator() {
+        if (!database) return;
+        if (typingRef) {
+            typingRef.off();
+            typingRef = null;
+        }
+        typingRef = database.ref(`typing/${currentRoom}`);
+        typingRef.on('value', (snapshot) => {
+            const existing = document.querySelector('.typing-indicator');
+            if (existing) existing.remove();
+            const data = snapshot.val();
+            if (data) {
+                const typingUsers = Object.keys(data).filter(key => data[key].typing && key !== currentUser);
+                if (typingUsers.length > 0) {
+                    const userId = typingUsers[0];
+                    const displayName = data[userId].displayName || userId;
+                    const indicator = document.createElement('div');
+                    indicator.className = 'typing-indicator';
+                    indicator.innerHTML = `
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-text">${escapeHTML(displayName)} está escribiendo...</span>
+                    `;
+                    messagesContainer.appendChild(indicator);
+                    scrollToBottom();
+                }
+            }
+        });
+    }
 
     // ============================================================
     // 📋 FUNCIONES DE TAREO
@@ -1031,8 +1555,7 @@
                 });
                 showToast(`✅ Jornada registrada: ${horaInicio} - ${horaTermino}`);
                 playSoundTareo();
-                // Recargar mensajes si estamos en tareo
-                if (currentRoom === 'tareo') loadMessages();
+                if (currentRoom === 'tareo') loadMessages('tareo');
             });
         }).catch((error) => {
             console.error('Error al registrar tareo:', error);
@@ -1041,149 +1564,326 @@
     }
 
     // ============================================================
-    // 📨 FUNCIONES DE CHAT - CORREGIDAS
+    // 📋 FUNCIONES DE REPORTE
     // ============================================================
     
-    function addMessageToDOM(data, key) {
-        if (document.querySelector(`[data-key="${key}"]`)) return;
+    function mascaraReporte(campo) {
+        campo.addEventListener('input', function(e) {
+            let valor = e.target.value.replace(/\D/g, "");
+            if (valor.length > 2) valor = valor.substring(0,2) + ":" + valor.substring(2,4);
+            e.target.value = valor;
+        });
+        campo.addEventListener('blur', function(e) {
+            if (e.target.value.length === 0) return;
+            let partes = e.target.value.split(':');
+            if (partes.length === 2) {
+                let horas = parseInt(partes[0]);
+                let minutos = parseInt(partes[1]);
+                if (horas > 23 || minutos > 59) { alert("Hora inválida (00:00 a 23:59)"); e.target.value = ""; }
+            } else { alert("Use formato HH:MM"); e.target.value = ""; }
+        });
+    }
+    
+    function initReporte() {
+        const hoy = new Date();
+        reporteFecha.value = hoy.toISOString().split('T')[0];
         
-        const isOwn = data.user === currentUser;
-        const time = data.time || getTime();
+        mascaraReporte(reporteHoraInicio);
+        mascaraReporte(reporteHoraFinal);
+        mascaraReporte(reporteHoraInicioB);
+        mascaraReporte(reporteHoraFinalB);
         
-        if (data.isTareo) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message tareo ${data.tareoTipo || ''}`;
-            messageDiv.dataset.key = key;
-            
-            let content = '';
-            if (data.tareoTipo === 'completo') {
-                content = `
-                    <div class="tareo-text">📋 ${escapeHTML(data.tareoUsuario || data.displayName)}</div>
-                    <div style="display:flex;justify-content:center;gap:calc(var(--padding-base) * 1.2);margin:calc(var(--padding-base) * 0.3) 0;">
-                        <span style="color:var(--tareo-inicio);font-weight:700;">🟢 ${escapeHTML(data.tareoInicio || '')}</span>
-                        <span style="color:var(--tareo-termino);font-weight:700;">🔴 ${escapeHTML(data.tareoTermino || '')}</span>
-                    </div>
-                    <div class="tareo-usuario">Jornada registrada</div>
-                `;
+        reporteHorario.addEventListener('change', function() {
+            const valor = this.value;
+            if (valor === 'corrido') {
+                reporteHorasB.style.display = 'none';
+                reporteHorasB2.style.display = 'none';
+                reporteLabelInicio.textContent = '🕐 Hora inicial:';
+                reporteLabelFinal.textContent = '🕒 Hora final:';
+                reporteHoraInicioB.value = '';
+                reporteHoraFinalB.value = '';
+            } else if (valor === 'partido') {
+                reporteHorasB.style.display = 'block';
+                reporteHorasB2.style.display = 'block';
+                reporteLabelInicio.textContent = '🕐 Hora inicial A:';
+                reporteLabelFinal.textContent = '🕒 Hora final A:';
             } else {
-                content = `
-                    <span class="tareo-icon">${data.tareoEmoji || '⏰'}</span>
-                    <div class="tareo-text">${escapeHTML(data.tareoUsuario || data.displayName)}</div>
-                    <div class="tareo-hora">${escapeHTML(data.tareoHora || '')}</div>
-                    <div class="tareo-usuario">${escapeHTML(data.tareoLabel || 'Registro')}</div>
-                `;
+                reporteHorasB.style.display = 'none';
+                reporteHorasB2.style.display = 'none';
+                reporteLabelInicio.textContent = '🕐 Hora inicial:';
+                reporteLabelFinal.textContent = '🕒 Hora final:';
+                reporteHoraInicioB.value = '';
+                reporteHoraFinalB.value = '';
             }
-            
-            messageDiv.innerHTML = `
-                ${content}
-                <div class="footer">
-                    <span>${escapeHTML(time)}</span>
-                </div>
-            `;
-            
-            const loader = messagesContainer.querySelector('.loader');
-            if (loader) loader.remove();
-            messagesContainer.appendChild(messageDiv);
-            scrollToBottom();
-            
-            if (!isOwn) {
-                playSoundTareo();
-                updateNotification(unreadCount + 1);
-            }
-            return;
+        });
+        
+        cargarRegistros();
+    }
+    
+    function agregarRegistroReporte() {
+        let nombre = reporteNombre.value.toUpperCase();
+        let fecha = reporteFecha.value;
+        let horario = reporteHorario.value;
+        let tipoVehiculo = reporteTipoVehiculo.value;
+        let capacidad = reporteCapacidad.value;
+        let placa = reportePlaca.value.toUpperCase();
+        let kmInicial = reporteKmInicial.value;
+        let kmFinal = reporteKmFinal.value;
+        let hi = reporteHoraInicio.value;
+        let hf = reporteHoraFinal.value;
+        let hib = reporteHoraInicioB.value;
+        let hfb = reporteHoraFinalB.value;
+        
+        if (!nombre || !fecha || !horario || !tipoVehiculo || !capacidad || !placa || !kmInicial || !kmFinal) {
+            showToast('❌ Complete todos los campos');
+            return false;
+        }
+        if (horario === 'corrido' && (!hi || !hf)) {
+            showToast('❌ Complete las horas de inicio y final');
+            return false;
+        }
+        if (horario === 'partido' && (!hi || !hf || !hib || !hfb)) {
+            showToast('❌ Complete todas las horas');
+            return false;
         }
         
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${isOwn ? 'sent' : 'received'}`;
-        messageDiv.dataset.key = key;
+        let fechaForm = fecha.split('-').reverse().join('/');
+        let tipo = (horario === 'corrido') ? 'Horario corrido' : 'Horario partido';
         
-        const authorHTML = !isOwn ? `<span class="author">${escapeHTML(data.displayName || data.user)}</span>` : '';
-        const statusHTML = isOwn ? `<span class="status"><i class="fas fa-check-double" style="color:var(--primary);"></i></span>` : '';
+        registros.unshift({ 
+            id: Date.now(), 
+            fecha: fechaForm, 
+            nombre: nombre, 
+            horario: tipo, 
+            tipoVehiculo: tipoVehiculo, 
+            capacidad: capacidad, 
+            horaInicio: hi, 
+            horaFinal: hf, 
+            horaInicioB: hib, 
+            horaFinalB: hfb, 
+            placa: placa, 
+            kilometrajeInicial: kmInicial, 
+            kilometrajeFinal: kmFinal, 
+            timestamp: new Date().toLocaleString() 
+        });
         
-        let textContent = data.text || '';
-        if (data.isTareoNotification) {
-            textContent = '⏰ ' + textContent;
+        guardarRegistros();
+        mostrarRegistros();
+        return true;
+    }
+    
+    function mostrarRegistros() {
+        if (registros.length === 0) { 
+            listaRegistros.innerHTML = '<div class="registro-vacio">No hay registros aún</div>'; 
+            return; 
         }
-        
-        messageDiv.innerHTML = `
-            <div class="text">${escapeHTML(textContent)}</div>
-            <div class="footer">
-                ${authorHTML}
-                <span>${escapeHTML(time)}</span>
-                ${statusHTML}
-            </div>
-        `;
-        
-        const loader = messagesContainer.querySelector('.loader');
-        if (loader) loader.remove();
-        messagesContainer.appendChild(messageDiv);
-        scrollToBottom();
-        
-        if (!isOwn && data.user !== currentUser) {
-            playSoundReceive();
-            updateNotification(unreadCount + 1);
+        let html = '';
+        for (let r of registros) {
+            html += `<div class="registro-item">
+                <p><strong>📅 Fecha:</strong> ${r.fecha}</p>
+                <p><strong>👤 Conductor:</strong> ${r.nombre}</p>
+                <p><strong>🚗 T. Vehículo:</strong> ${r.tipoVehiculo}</p>
+                <p><strong>⚖️ Cap.:</strong> ${r.capacidad}</p>
+                <p><strong>🚗 Placa:</strong> ${r.placa}</p>
+                <p><strong>📊 Km Inicial:</strong> ${r.kilometrajeInicial} km</p>
+                <p><strong>📊 Km Final:</strong> ${r.kilometrajeFinal} km</p>
+                <p><strong>⏰ Horario:</strong> ${r.horario}</p>`;
+            if (r.horario === 'Horario corrido') {
+                html += `<p><strong>🕐 Hora inicial:</strong> ${r.horaInicio}</p>
+                         <p><strong>🕒 Hora final:</strong> ${r.horaFinal}</p>`;
+            } else {
+                html += `<p><strong>🕐 Hora inicial A:</strong> ${r.horaInicio}</p>
+                         <p><strong>🕒 Hora final A:</strong> ${r.horaFinal}</p>
+                         <p><strong>🕐 Hora inicial B:</strong> ${r.horaInicioB}</p>
+                         <p><strong>🕒 Hora final B:</strong> ${r.horaFinalB}</p>`;
+            }
+            html += `<p><small>🕒 Registrado: ${r.timestamp}</small></p>
+                     <button class="btn-eliminar" onclick="eliminarRegistro(${r.id})">🗑️ Eliminar</button></div>`;
+        }
+        listaRegistros.innerHTML = html;
+    }
+    
+    function eliminarRegistro(id) { 
+        if (confirm("¿Eliminar este registro?")) { 
+            registros = registros.filter(r => r.id !== id); 
+            guardarRegistros(); 
+            mostrarRegistros(); 
+        } 
+    }
+    
+    function limpiarTodoHistorial() { 
+        if (confirm("⚠️ ¿Eliminar TODOS los registros?")) { 
+            registros = []; 
+            guardarRegistros(); 
+            mostrarRegistros(); 
+        } 
+    }
+    
+    function guardarRegistros() { 
+        localStorage.setItem('registrosTransporteIMCO', JSON.stringify(registros)); 
+    }
+    
+    function cargarRegistros() { 
+        let g = localStorage.getItem('registrosTransporteIMCO'); 
+        if (g) { 
+            registros = JSON.parse(g); 
+            mostrarRegistros(); 
+        } 
+    }
+    
+    function limpiarReporte() {
+        if (confirm("⚠️ ¿Limpiar todos los campos del formulario?")) {
+            reporteNombre.value = '';
+            reporteTipoVehiculo.value = '';
+            reporteCapacidad.value = '';
+            reportePlaca.value = '';
+            reporteKmInicial.value = '';
+            reporteKmFinal.value = '';
+            reporteHorario.value = '';
+            reporteHoraInicio.value = '';
+            reporteHoraFinal.value = '';
+            reporteHoraInicioB.value = '';
+            reporteHoraFinalB.value = '';
+            reporteHorario.dispatchEvent(new Event('change'));
+            const hoy = new Date();
+            reporteFecha.value = hoy.toISOString().split('T')[0];
+            showToast('✅ Campos limpiados');
         }
     }
     
-    function loadMessages() {
-        if (!database) {
-            messagesContainer.innerHTML = '<div style="text-align:center;padding:calc(var(--padding-base) * 2);color:#667781;font-size:calc(12px * var(--scale));">⚠️ Error de conexión con Firebase</div>';
+    function enviarReporteWhatsApp() {
+        let nombre = reporteNombre.value.toUpperCase();
+        let fecha = reporteFecha.value;
+        let horario = reporteHorario.value;
+        let tipoVehiculo = reporteTipoVehiculo.value;
+        let capacidad = reporteCapacidad.value;
+        let placa = reportePlaca.value.toUpperCase();
+        let kmInicial = reporteKmInicial.value;
+        let kmFinal = reporteKmFinal.value;
+        let hi = reporteHoraInicio.value;
+        let hf = reporteHoraFinal.value;
+        let hib = reporteHoraInicioB.value;
+        let hfb = reporteHoraFinalB.value;
+
+        if (!nombre || !fecha || !horario || !tipoVehiculo || !capacidad || !placa || !kmInicial || !kmFinal) {
+            showToast("❌ Complete todos los campos");
+            return;
+        }
+
+        const fechaForm = fecha.split('-').reverse().join('/');
+        let texto = `📋 *TAREO DIARIO - IMCO*\n`;
+        texto += `📅 Fecha: ${fechaForm}\n`;
+        texto += `👤 Conductor: ${nombre}\n`;
+        texto += `🚗 Vehículo: ${tipoVehiculo}\n`;
+        texto += `⚖️ Capacidad: ${capacidad}\n`;
+        texto += `🚗 Placa: ${placa}\n`;
+        texto += `📊 Km Inicial: ${kmInicial} km\n`;
+        texto += `📊 Km Final: ${kmFinal} km\n`;
+
+        if (horario === 'corrido') {
+            if (!hi || !hf) { showToast("❌ Complete las horas"); return; }
+            texto += `⏰ Horario: Corrido\n`;
+            texto += `🕐 Inicio: ${hi}\n`;
+            texto += `🕒 Final: ${hf}\n`;
+        } else if (horario === 'partido') {
+            if (!hi || !hf || !hib || !hfb) { showToast("❌ Complete todas las horas"); return; }
+            texto += `⏰ Horario: Partido\n`;
+            texto += `🕐 Inicio A: ${hi}\n`;
+            texto += `🕒 Final A: ${hf}\n`;
+            texto += `🕐 Inicio B: ${hib}\n`;
+            texto += `🕒 Final B: ${hfb}\n`;
+        } else {
+            showToast("❌ Seleccione un horario");
+            return;
+        }
+
+        navigator.clipboard.writeText(texto).then(() => {
+            showToast("✅ Mensaje copiado, pegue en el grupo de WhatsApp");
+        }).catch(() => {
+            showToast("❌ Error al copiar el mensaje");
+        });
+        
+        agregarRegistroReporte();
+    }
+    
+    function imprimirReporte() {
+        let fecha = reporteFecha.value;
+        let tipoVehiculo = reporteTipoVehiculo.value;
+        let capacidad = reporteCapacidad.value;
+        let placa = reportePlaca.value.toUpperCase();
+        let operador = reporteNombre.value.toUpperCase();
+        let horaInicio = reporteHoraInicio.value;
+        let horaFinal = reporteHoraFinal.value;
+        let kmInicial = reporteKmInicial.value;
+        let kmFinal = reporteKmFinal.value;
+        let fechaFormateada = fecha ? fecha.split('-').reverse().join('/') : '';
+        
+        if (!operador || !tipoVehiculo || !placa || !kmInicial || !kmFinal) {
+            showToast('❌ Complete los campos principales');
             return;
         }
         
-        // 🔥 LIMPIAR LISTENER ANTERIOR
-        if (messagesRef) {
-            messagesRef.off();
-            messagesRef = null;
-        }
+        let clienteFijo = "Sociedad Minera Cerro Verde";
+        let direccionFija = "Asiento Minero Cerro Verde s/n Uchumayo - Arequipa";
+        let rucFijo = "20170072465";
+        let responsableFijo = "Carlos Medrano - Leonardo Rodríguez";
         
-        messagesContainer.innerHTML = '<div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>';
-        
-        // 🔥 CREAR NUEVO LISTENER PARA LA SALA ACTUAL
-        messagesRef = database.ref(`messages/${currentRoom}`);
-        
-        messagesRef.limitToLast(50).once('value', (snapshot) => {
-            const data = snapshot.val();
-            messagesContainer.innerHTML = '';
-            
-            if (data) {
-                const keys = Object.keys(data).sort();
-                let lastDate = '';
-                keys.forEach(key => {
-                    const msg = data[key];
-                    const msgDate = new Date(msg.timestamp || Date.now()).toLocaleDateString('es-ES');
-                    if (msgDate !== lastDate) {
-                        lastDate = msgDate;
-                        const divider = document.createElement('div');
-                        divider.className = 'date-divider';
-                        divider.innerHTML = `<span>${msgDate === new Date().toLocaleDateString('es-ES') ? 'Hoy' : msgDate}</span>`;
-                        messagesContainer.appendChild(divider);
-                    }
-                    addMessageToDOM(msg, key);
-                });
-            } else {
-                const emptyMsg = currentRoom === 'general' 
-                    ? 'No hay mensajes en el chat general' 
-                    : 'No hay registros de tareo hoy';
-                messagesContainer.innerHTML = `
-                    <div style="text-align:center;padding:calc(var(--padding-base) * 2) calc(var(--padding-base) * 1.5);color:#667781;">
-                        <i class="fas fa-${currentRoom === 'general' ? 'comment' : 'clock'}" style="font-size:calc(32px * var(--scale));opacity:0.3;display:block;margin-bottom:calc(var(--padding-base) * 0.6);"></i>
-                        <p style="font-size:calc(12px * var(--scale));">${emptyMsg}</p>
-                        <p style="font-size:calc(10px * var(--scale));">${currentRoom === 'general' ? '¡Envía el primer mensaje!' : 'Registra tu asistencia con los campos de Tareo'}</p>
-                    </div>
-                `;
-            }
-            
-            // 🔥 ESCUCHAR NUEVOS MENSAJES EN LA SALA ACTUAL
-            messagesRef.limitToLast(1).on('child_added', (snapshot) => {
-                const msg = snapshot.val();
-                // Solo mostrar si no es del usuario actual (evitar duplicados)
-                if (msg && msg.user !== currentUser) {
-                    addMessageToDOM(msg, snapshot.key);
-                }
-            });
-        });
+        let v = window.open('', '_blank');
+        v.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Tareo diario - IMCO</title>' +
+            '<style>' +
+            '*{margin:0;padding:0;box-sizing:border-box;}' +
+            'body{background:#e2e8f0;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:monospace;padding:0;margin:0;}' +
+            '.tarjeta{width:100%;height:100%;background:white;padding:0.5rem;}' +
+            '.titulo{text-align:center;font-size:1.2rem;font-weight:800;text-transform:uppercase;border-bottom:2px solid #cbd5e1;padding-bottom:4px;margin-bottom:0.6rem;}' +
+            '.subtitulo{text-align:center;font-size:0.8rem;margin-bottom:0.8rem;}' +
+            '.fila{display:flex;flex-wrap:nowrap;align-items:baseline;margin-bottom:0.4rem;width:100%;}' +
+            '.fila-trabajo{display:flex;flex-wrap:nowrap;align-items:baseline;margin-bottom:0.4rem;width:100%;}' +
+            '.doble{display:flex;justify-content:space-between;margin-bottom:0.4rem;gap:1rem;width:100%;}' +
+            '.col{flex:1;display:flex;align-items:baseline;gap:0.5rem;flex-wrap:nowrap;width:100%;}' +
+            '.tres-columnas{display:flex;justify-content:space-between;margin-bottom:0.4rem;gap:0.5rem;width:100%;}' +
+            '.tres-col{flex:1;display:flex;align-items:baseline;gap:0.3rem;flex-wrap:nowrap;}' +
+            '.etiqueta{font-weight:700;font-size:0.75rem;white-space:nowrap;flex-shrink:0;}' +
+            '.linea{border-bottom:1.5px solid #334155;flex:1;padding:0 0.25rem;background:#fefce8;font-size:0.75rem;min-width:0;}' +
+            '.linea-larga{flex:2;border-bottom:1.5px solid #334155;padding:0 0.25rem;background:#fefce8;font-size:0.75rem;min-width:0;}' +
+            '.linea-corta{width:120px;border-bottom:1.5px solid #334155;padding:0 0.25rem;background:#fefce8;font-size:0.75rem;}' +
+            '.fila-responsable{display:flex;flex-wrap:nowrap;align-items:baseline;margin-bottom:0.4rem;width:100%;}' +
+            '.fila-oti-osi{display:flex;flex-wrap:nowrap;align-items:baseline;margin-bottom:0.4rem;width:100%;gap:2rem;}' +
+            '.grupo-oti{display:flex;align-items:baseline;gap:0.5rem;}' +
+            '.grupo-osi{display:flex;align-items:baseline;gap:0.5rem;}' +
+            '.firmas{display:flex;justify-content:space-between;margin-top:0.8rem;gap:2rem;}' +
+            '.firma-item{flex:1;text-align:center;}' +
+            '.firma-linea{border-top:1px solid #000;margin-top:0.3rem;padding-top:0.2rem;font-size:0.7rem;}' +
+            '@media print{' +
+            'body{background:white;padding:0;margin:0;}' +
+            '.tarjeta{box-shadow:none;padding:0.2rem;}' +
+            '.linea,.linea-larga,.linea-corta{border-bottom:1px solid black;background:none;}' +
+            '.fila,.fila-trabajo,.doble,.tres-columnas,.fila-responsable,.fila-oti-osi{margin-bottom:0.3rem;}' +
+            '@page{size:A6 landscape;margin:0.15cm;}' +
+            '}</style>' +
+            '</head><body><div class="tarjeta">' +
+            '<div class="titulo">TAREO DIARIO DE OPERADORES (VEHÍCULOS)</div>' +
+            '<div style="text-align:center;"><span class="subtitulo">IMCO</span></div>' +
+            '<div class="doble"><div class="col"><span class="etiqueta">FECHA:</span><span class="linea">' + fechaFormateada + '</span></div><div class="col"><span class="etiqueta">UNIDAD:</span><span class="linea">' + tipoVehiculo + '</span></div></div>' +
+            '<div class="doble"><div class="col"><span class="etiqueta">PLACA:</span><span class="linea">' + placa + '</span></div><div class="col"><span class="etiqueta">CAPACIDAD:</span><span class="linea">' + capacidad + '</span></div></div>' +
+            '<div class="fila"><span class="etiqueta">OPERADOR:</span><span class="linea">' + operador + '</span></div>' +
+            '<div class="fila"><span class="etiqueta">MANIOBRISTA:</span><span class="linea"></span></div>' +
+            '<div class="doble"><div class="col"><span class="etiqueta">CLIENTE:</span><span class="linea">' + clienteFijo + '</span></div><div class="col"><span class="etiqueta">RUC:</span><span class="linea">' + rucFijo + '</span></div></div>' +
+            '<div class="fila"><span class="etiqueta">DIRECCIÓN:</span><span class="linea">' + direccionFija + '</span></div>' +
+            '<div class="doble"><div class="col"><span class="etiqueta">HORA DE INICIO:</span><span class="linea">' + horaInicio + '</span></div><div class="col"><span class="etiqueta">HORA FINAL:</span><span class="linea">' + horaFinal + '</span></div></div>' +
+            '<div class="doble"><div class="col"><span class="etiqueta">HOROMETRO INICIAL:</span><span class="linea">' + kmInicial + '</span></div><div class="col"><span class="etiqueta">HOROMETRO FINAL:</span><span class="linea">' + kmFinal + '</span></div></div>' +
+            '<div class="fila-responsable"><span class="etiqueta">RESPONSABLE:</span><span class="linea-larga">' + responsableFijo + '</span></div>' +
+            '<div class="fila-oti-osi"><div class="grupo-oti"><span class="etiqueta">OTI:</span><span class="linea-corta"></span></div><div class="grupo-osi"><span class="etiqueta">OSI:</span><span class="linea-corta"></span></div></div>' +
+            '<div class="fila"><span class="etiqueta">TRABAJO REALIZADO:</span><span class="linea"></span></div>' +
+            '<div class="fila-trabajo"><span class="etiqueta" style="opacity:0;">TRABAJO REALIZADO:</span><span class="linea"></span></div>' +
+            '<div class="fila-trabajo"><span class="etiqueta" style="opacity:0;">TRABAJO REALIZADO:</span><span class="linea"></span></div>' +
+            '<div class="firmas"><div class="firma-item"><div class="firma-linea">OPERADOR</div></div><div class="firma-item"><div class="firma-linea">SUPERVISOR</div></div></div>' +
+            '</div><script>window.onload=function(){window.print();};<\/script></body></html>');
+        v.document.close();
     }
+
+    // ============================================================
+    // FUNCIONES DE PRESENCIA
+    // ============================================================
     
     function updateUsers() {
         if (!database) return;
@@ -1244,96 +1944,7 @@
         }
         sessionActive = false;
     }
-    
-    function sendMessage() {
-        const text = messageInput.value.trim();
-        if (!text || !currentUser || isSending) return;
-        if (!database || !messagesRef) {
-            showToast('❌ Error de conexión');
-            return;
-        }
-        
-        isSending = true;
-        sendBtn.disabled = true;
-        playSoundSend();
-        
-        const newMessage = {
-            user: currentUser,
-            displayName: currentDisplayName,
-            text: text,
-            time: getTime(),
-            timestamp: firebase.database.ServerValue.TIMESTAMP
-        };
-        
-        messagesRef.push(newMessage).then(() => {
-            // Agregar mensaje propio al DOM
-            addMessageToDOM(newMessage, Date.now().toString());
-            messageInput.value = '';
-            isSending = false;
-            sendBtn.disabled = false;
-            if (typingRef) {
-                typingRef.remove();
-                isTyping = false;
-            }
-        }).catch((error) => {
-            console.error('Error al enviar:', error);
-            showToast('❌ Error al enviar mensaje');
-            isSending = false;
-            sendBtn.disabled = false;
-        });
-    }
-    
-    function handleTyping() {
-        if (!currentUser || !typingRef || !database) return;
-        if (!isTyping) {
-            isTyping = true;
-            typingRef.set({
-                user: currentUser,
-                displayName: currentDisplayName,
-                typing: true
-            });
-        }
-        clearTimeout(typingTimeout);
-        typingTimeout = setTimeout(() => {
-            if (typingRef) {
-                typingRef.remove();
-                isTyping = false;
-            }
-        }, 2000);
-    }
-    
-    function setupTypingIndicator() {
-        if (!database) return;
-        // 🔥 REMOVER LISTENER ANTERIOR
-        if (typingRef) {
-            typingRef.off();
-            typingRef = null;
-        }
-        typingRef = database.ref(`typing/${currentRoom}`);
-        typingRef.on('value', (snapshot) => {
-            const existing = document.querySelector('.typing-indicator');
-            if (existing) existing.remove();
-            const data = snapshot.val();
-            if (data) {
-                const typingUsers = Object.keys(data).filter(key => data[key].typing && key !== currentUser);
-                if (typingUsers.length > 0) {
-                    const userId = typingUsers[0];
-                    const displayName = data[userId].displayName || userId;
-                    const indicator = document.createElement('div');
-                    indicator.className = 'typing-indicator';
-                    indicator.innerHTML = `
-                        <span class="typing-dot"></span>
-                        <span class="typing-dot"></span>
-                        <span class="typing-dot"></span>
-                        <span class="typing-text">${escapeHTML(displayName)} está escribiendo...</span>
-                    `;
-                    messagesContainer.appendChild(indicator);
-                    scrollToBottom();
-                }
-            }
-        });
-    }
-    
+
     // ============================================================
     // 🔐 VERIFICAR SESIÓN ACTIVA
     // ============================================================
@@ -1434,12 +2045,20 @@
             currentRoom = 'general';
             btnGeneral.classList.add('active');
             btnTareo.classList.remove('active');
+            btnReporte.classList.remove('active');
             chatRoomTitle.textContent = '💬 Chat General';
             chatInputRow.style.display = 'flex';
             tareoInputs.classList.remove('active');
+            document.getElementById('inputArea').style.display = 'flex';
+            messagesContainer.classList.remove('hidden');
+            tareoMessagesContainer.classList.add('hidden');
+            reporteContainer.classList.remove('active');
             
-            // 🔥 CARGAR MENSAJES Y CONFIGURAR
-            loadMessages();
+            // Inicializar reporte
+            initReporte();
+            
+            // Cargar mensajes y configurar
+            loadMessages('general');
             updateUsers();
             setupTypingIndicator();
             setUserStatus(true);
@@ -1459,6 +2078,10 @@
             messagesRef.off();
             messagesRef = null;
         }
+        if (tareoMessagesRef) {
+            tareoMessagesRef.off();
+            tareoMessagesRef = null;
+        }
         if (presenceRef) {
             presenceRef.off();
             presenceRef = null;
@@ -1471,6 +2094,7 @@
         chatApp.classList.remove('active');
         loginScreen.classList.remove('hidden');
         messagesContainer.innerHTML = '';
+        tareoMessagesContainer.innerHTML = '';
         currentUser = '';
         currentDisplayName = '';
         selectedUser = null;
@@ -1495,7 +2119,7 @@
             });
         }
     });
-    
+
     // ============================================================
     // EVENTOS
     // ============================================================
@@ -1574,16 +2198,16 @@
             if (val > 59) this.value = '59';
         });
     });
-    
+
     // ============================================================
     // INICIO
     // ============================================================
     
     renderUserGrid([]);
     
-    console.log('🚛 Transportes Mantenimiento - Chat con Sala Tareo');
+    console.log('🚛 Transportes Mantenimiento - Chat con Reporte IMCO');
     console.log('📋 Usuarios autorizados:', Object.keys(AUTHORIZED_USERS).length);
-    console.log('✅ Chat funcional en ambas salas (General y Tareo)');
+    console.log('✅ 3 pestañas: Chat General | Tareo Diario | Reporte IMCO');
     console.log('📌 REGLAS DE FIREBASE:');
     console.log('{');
     console.log('  "rules": {');
