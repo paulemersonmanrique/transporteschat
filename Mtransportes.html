@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Transportes Mantenimiento - Tareo</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary-dark: #0A2E5C;
+            --primary: #1A5FB4;
+            --primary-light: #4A90D9;
+            --primary-lighter: #E8F0FE;
+            --bubble-sent: #D6E8FF;
+            --bubble-received: #FFFFFF;
+            --bg-chat: #E8EDF2;
+            --bg-header: #0A2E5C;
+            --success: #28a745;
+            --error: #dc3545;
+            --warning: #856404;
+            --tareo-bg: #F0F4F8;
+            --tareo-inicio: #28a745;
+            --tareo-termino: #dc3545;
+            --scale: 1;
+            --font-base: 14px;
+            --padding-base: 8px;
+            --radius-base: 10px;
+            --avatar-size: 34px;
+            --input-height: 38px;
+            --btn-size: 36px;
+            --card-padding: 8px 4px;
+            --header-height: 44px;
+            --msg-padding: 5px 8px;
+            --tareo-input-width: 44px;
+            --tareo-label-width: 50px;
+        }
+        
+        .size-small { --scale: 0.85; --font-base: 12px; --padding-base: 5px; --radius-base: 8px; --avatar-size: 28px; --input-height: 32px; --btn-size: 30px; --card-padding: 5px 3px; --header-height: 38px; --msg-padding: 3px 6px; --tareo-input-width: 36px; --tareo-label-width: 40px; }
+        .size-medium { --scale: 1; --font-base: 14px; --padding-base: 8px; --radius-base: 10px; --avatar-size: 34px; --input-height: 38px; --btn-size: 36px; --card-padding: 8px 4px; --header-height: 44px; --msg-padding: 5px 8px; --tareo-input-width: 44px; --tareo-label-width: 50px; }
+        .size-large { --scale: 1.2; --font-base: 17px; --padding-base: 12px; --radius-base: 14px; --avatar-size: 44px; --input-height: 46px; --btn-size: 44px; --card-padding: 12px 6px; --header-height: 54px; --msg-padding: 8px 12px; --tareo-input-width: 54px; --tareo-label-width: 62px; }
+        
+        .theme-azul { --primary-dark: #0A2E5C; --primary: #1A5FB4; --primary-light: #4A90D9; --primary-lighter: #E8F0FE; --bubble-sent: #D6E8FF; --bg-header: #0A2E5C; }
+        .theme-verde { --primary-dark: #1A6B3C; --primary: #28A745; --primary-light: #5DD68C; --primary-lighter: #E6F9ED; --bubble-sent: #D4EDDA; --bg-header: #1A6B3C; }
+        .theme-rojo { --primary-dark: #7A1A1A; --primary: #C82333; --primary-light: #E86A7A; --primary-lighter: #FDE8EA; --bubble-sent: #FDDDE0; --bg-header: #7A1A1A; }
+        .theme-morado { --primary-dark: #4A1A6B; --primary: #6F42C1; --primary-light: #A97DDB; --primary-lighter: #F0E6F9; --bubble-sent: #E8D5F5; --bg-header: #4A1A6B; }
+        .theme-naranja { --primary-dark: #7A4A0A; --primary: #E67E22; --primary-light: #F0B27A; --primary-lighter: #FEF5E7; --bubble-sent: #FDEBD0; --bg-header: #7A4A0A; }
+        
+        html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; background: var(--primary-dark); margin: 0; padding: 0; font-size: var(--font-base); }
+        body { display: flex; align-items: center; justify-content: center; position: fixed; top: 0; left: 0; right: 0; bottom: 0; transition: background 0.3s; padding: 0 !important; margin: 0 !important; }
+        
+        #loginScreen {
+            display: block !important;
+            background: white;
+            padding: calc(var(--padding-base) * 3);
+            border-radius: calc(var(--radius-base) * 2);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.35);
+            max-width: 400px;
+            width: 92%;
+            text-align: center;
+            max-height: 95vh;
+            overflow-y: auto;
+            transition: all 0.3s;
+            position: relative;
+            z-index: 10;
+            margin: auto;
+        }
+        #loginScreen.hidden { display: none !important; }
+        
+        .logo-icon { font-size: calc(48px * var(--scale)); color: var(--primary); display: block; margin-bottom: calc(var(--padding-base) * 0.3); animation: bounce 3s ease-in-out infinite; transition: color 0.3s; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
+        .logo-title { font-size: calc(18px * var(--scale)); font-weight: 800; color: var(--primary-dark); line-height: 1.2; transition: color 0.3s; }
+        .logo-title span { color: var(--primary); transition: color 0.3s; }
+        .logo-subtitle { color: #8899A6; margin-bottom: calc(var(--padding-base) * 1.5); font-size: calc(12px * var(--scale)); margin-top: 2px; }
+        
+        .user-selector { margin-bottom: calc(var(--padding-base) * 1.5); }
+        .user-selector .label { font-size: calc(11px * var(--scale)); font-weight: 600; color: #1A1A1A; text-align: left; margin-bottom: calc(var(--padding-base) * 0.5); display: flex; align-items: center; gap: 6px; }
+        .user-selector .label i { color: var(--primary); transition: color 0.3s; }
+        
+        .user-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: calc(var(--padding-base) * 0.6);
+            max-height: calc(160px * var(--scale));
+            overflow-y: auto;
+            padding: calc(var(--padding-base) * 0.3);
+        }
+        .user-grid::-webkit-scrollbar { width: 3px; }
+        .user-grid::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 8px; }
+        
+        .user-card {
+            background: #F8F9FA;
+            border: 2px solid #E9EDEF;
+            border-radius: calc(var(--radius-base) * 0.9);
+            padding: var(--card-padding);
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+            touch-action: manipulation;
+        }
+        .user-card:hover { background: var(--primary-lighter); border-color: var(--primary-lighter); }
+        .user-card:active { transform: scale(0.96); }
+        .user-card.selected { background: var(--primary-lighter); border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.15); }
+        .user-card.selected .user-avatar { background: var(--primary); color: white; }
+        .user-card .user-avatar { width: calc(var(--avatar-size) * 0.9); height: calc(var(--avatar-size) * 0.9); border-radius: 50%; background: #DEE2E6; color: #495057; display: flex; align-items: center; justify-content: center; margin: 0 auto calc(var(--padding-base) * 0.3); font-weight: 700; font-size: calc(12px * var(--scale)); transition: all 0.3s; }
+        .user-card .user-name { font-size: calc(10px * var(--scale)); font-weight: 500; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-card .user-status-dot { position: absolute; top: calc(var(--padding-base) * 0.4); right: calc(var(--padding-base) * 0.4); width: calc(7px * var(--scale)); height: calc(7px * var(--scale)); border-radius: 50%; border: 2px solid white; }
+        .user-card .user-status-dot.online { background: #28a745; }
+        .user-card .user-status-dot.offline { background: #ccc; }
+        
+        .form-group { margin-bottom: calc(var(--padding-base) * 1.2); text-align: left; }
+        .form-group label { display: block; font-size: calc(11px * var(--scale)); font-weight: 600; color: #1A1A1A; margin-bottom: calc(var(--padding-base) * 0.3); }
+        .form-group input { width: 100%; padding: calc(var(--padding-base) * 1.2) calc(var(--padding-base) * 1.5); border: 2px solid #E9EDEF; border-radius: calc(var(--radius-base) * 0.9); font-size: calc(16px * var(--scale)); transition: all 0.3s; font-family: inherit; background: #FAFBFC; -webkit-appearance: none; appearance: none; touch-action: manipulation; height: calc(var(--input-height) * 1.1); }
+        .form-group input:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(26, 95, 180, 0.1); }
+        
+        .input-icon { position: relative; }
+        .input-icon i { position: absolute; left: calc(var(--padding-base) * 1.2); top: 50%; transform: translateY(-50%); color: #8899A6; font-size: calc(14px * var(--scale)); z-index: 1; }
+        .input-icon input { padding-left: calc(var(--padding-base) * 3.5); padding-right: calc(var(--padding-base) * 3.5); }
+        
+        .btn-primary { width: 100%; padding: calc(var(--padding-base) * 1.5); background: var(--primary); color: white; border: none; border-radius: calc(var(--radius-base) * 0.9); font-size: calc(15px * var(--scale)); font-weight: 700; cursor: pointer; transition: all 0.3s; margin-top: calc(var(--padding-base) * 0.5); -webkit-tap-highlight-color: transparent; touch-action: manipulation; height: calc(var(--input-height) * 1.2); }
+        .btn-primary:active { transform: scale(0.97); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+        
+        .password-toggle { position: absolute; right: calc(var(--padding-base) * 1.2); top: 50%; transform: translateY(-50%); background: none; border: none; color: #8899A6; cursor: pointer; font-size: calc(14px * var(--scale)); z-index: 1; padding: 4px; touch-action: manipulation; }
+        
+        .error-msg { color: var(--error); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #FFF0F0; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--error); }
+        .success-msg { color: var(--success); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #F0FFF4; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--success); }
+        .warning-msg { color: var(--warning); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #FFF3CD; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--warning); }
+        
+        .theme-selector { display: flex; gap: calc(var(--padding-base) * 0.6); justify-content: center; margin: calc(var(--padding-base) * 1) 0 calc(var(--padding-base) * 1.5); flex-wrap: wrap; }
+        .theme-btn { width: calc(28px * var(--scale)); height: calc(28px * var(--scale)); border-radius: 50%; border: 3px solid #E9EDEF; cursor: pointer; transition: all 0.3s; -webkit-tap-highlight-color: transparent; position: relative; touch-action: manipulation; }
+        .theme-btn:hover { transform: scale(1.1); }
+        .theme-btn.active { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.2); }
+        .theme-btn .check { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: calc(10px * var(--scale)); }
+        .theme-btn.active .check { display: block; }
+        .theme-azul-btn { background: #1A5FB4; }
+        .theme-verde-btn { background: #28A745; }
+        .theme-rojo-btn { background: #C82333; }
+        .theme-morado-btn { background: #6F42C1; }
+        .theme-naranja-btn { background: #E67E22; }
+        
+        .size-selector { display: flex; gap: calc(var(--padding-base) * 0.4); justify-content: center; margin: calc(var(--padding-base) * 0.5) 0 calc(var(--padding-base) * 1); }
+        .size-btn { padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 1.2); border: 2px solid #E9EDEF; border-radius: calc(var(--radius-base) * 0.6); background: white; cursor: pointer; font-size: calc(10px * var(--scale)); font-weight: 600; transition: all 0.3s; touch-action: manipulation; color: #667781; }
+        .size-btn:active { transform: scale(0.95); }
+        .size-btn.active { border-color: var(--primary); background: var(--primary-lighter); color: var(--primary); }
+        .size-btn i { margin-right: 4px; }
+        
+        #chatApp {
+            display: none;
+            width: 100%;
+            height: 100%;
+            height: 100dvh;
+            max-width: 100%;
+            max-height: 100%;
+            background: #fff;
+            flex-direction: column;
+            overflow: hidden;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 0;
+            box-shadow: none;
+        }
+        #chatApp.active { display: flex; }
+        
+        .chat-header { background: var(--bg-header); padding: calc(var(--padding-base) * 0.8) calc(var(--padding-base) * 1.2); display: flex; align-items: center; gap: calc(var(--padding-base) * 0.5); flex-shrink: 0; min-height: var(--header-height); transition: background 0.3s; flex-wrap: wrap; }
+        .chat-header .header-icon { color: white; font-size: calc(16px * var(--scale)); }
+        .chat-header .avatar { width: calc(var(--avatar-size) * 0.85); height: calc(var(--avatar-size) * 0.85); border-radius: 50%; background: rgba(255,255,255,0.2); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: calc(12px * var(--scale)); flex-shrink: 0; }
+        .chat-header .info { flex: 1; min-width: 0; }
+        .chat-header .info h2 { color: white; font-size: calc(12px * var(--scale)); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .chat-header .info .status { color: rgba(255,255,255,0.8); font-size: calc(9px * var(--scale)); }
+        .chat-header .info .status .dot { width: calc(5px * var(--scale)); height: calc(5px * var(--scale)); background: #4CAF50; border-radius: 50%; display: inline-block; margin-right: 2px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .chat-header .header-btn { background: rgba(255,255,255,0.12); border: none; color: white; padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.6); border-radius: calc(var(--radius-base) * 0.4); cursor: pointer; font-size: calc(10px * var(--scale)); transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
+        .chat-header .header-btn:hover { background: rgba(255,255,255,0.25); }
+        .chat-header .header-btn.active { background: rgba(255,255,255,0.3); border-bottom: 2px solid white; }
+        .chat-header .logout-btn { background: rgba(255,255,255,0.15); border: none; color: white; padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.6); border-radius: calc(var(--radius-base) * 0.4); cursor: pointer; font-size: calc(10px * var(--scale)); transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
+        
+        .notification-badge {
+            position: fixed;
+            top: calc(var(--padding-base) * 1.2);
+            right: calc(var(--padding-base) * 1.2);
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: calc(20px * var(--scale));
+            height: calc(20px * var(--scale));
+            font-size: calc(9px * var(--scale));
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+            animation: notifPop 0.3s ease;
+            cursor: pointer;
+        }
+        .notification-badge.show { display: flex; }
+        @keyframes notifPop { 0% { transform: scale(0.5); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        
+        .online-users { padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8); background: #F8F9FA; border-bottom: 1px solid #E9EDEF; font-size: calc(9px * var(--scale)); color: #667781; display: flex; gap: calc(var(--padding-base) * 0.3); flex-wrap: wrap; align-items: center; flex-shrink: 0; min-height: calc(22px * var(--scale)); }
+        .online-users .badge { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.2); background: #E9EDEF; padding: calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.3); border-radius: calc(var(--radius-base) * 0.5); font-size: calc(8px * var(--scale)); }
+        .online-users .badge .dot { width: calc(4px * var(--scale)); height: calc(4px * var(--scale)); border-radius: 50%; display: inline-block; }
+        .online-users .badge .dot.online { background: #4CAF50; }
+        
+        .messages-container { flex: 1; overflow-y: auto; padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8); background: var(--bg-chat); display: flex; flex-direction: column; gap: calc(var(--padding-base) * 0.2); -webkit-overflow-scrolling: touch; transition: background 0.3s; }
+        .messages-container::-webkit-scrollbar { width: 3px; }
+        .messages-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 6px; }
+        
+        .message { max-width: 85%; padding: var(--msg-padding); border-radius: calc(var(--radius-base) * 0.8); animation: slideIn 0.2s ease; word-wrap: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.04); touch-action: manipulation; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(4px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .message.sent { background: var(--bubble-sent); align-self: flex-end; border-bottom-right-radius: calc(var(--radius-base) * 0.2); transition: background 0.3s; }
+        .message.received { background: var(--bubble-received); align-self: flex-start; border-bottom-left-radius: calc(var(--radius-base) * 0.2); }
+        .message .text { font-size: calc(12px * var(--scale)); line-height: 1.4; color: #1A1A1A; }
+        .message .footer { display: flex; align-items: center; justify-content: flex-end; gap: calc(var(--padding-base) * 0.3); margin-top: calc(var(--padding-base) * 0.1); font-size: calc(8px * var(--scale)); color: #667781; }
+        .message .footer .author { font-weight: 600; color: var(--primary); transition: color 0.3s; }
+        .message .footer .status { font-size: calc(10px * var(--scale)); }
+        
+        .message.tareo { max-width: 95%; background: var(--tareo-bg); border-left: 4px solid var(--primary); align-self: center; text-align: center; border-radius: calc(var(--radius-base) * 0.8); padding: calc(var(--padding-base) * 0.5) calc(var(--padding-base) * 0.8); }
+        .message.tareo.inicio { border-left-color: var(--tareo-inicio); }
+        .message.tareo.termino { border-left-color: var(--tareo-termino); }
+        .message.tareo .tareo-icon { font-size: calc(16px * var(--scale)); display: block; margin-bottom: calc(var(--padding-base) * 0.1); }
+        .message.tareo .tareo-text { font-size: calc(11px * var(--scale)); font-weight: 600; color: var(--primary-dark); }
+        .message.tareo .tareo-hora { font-size: calc(14px * var(--scale)); font-weight: 700; color: var(--primary); }
+        .message.tareo .tareo-usuario { font-size: calc(9px * var(--scale)); color: #667781; }
+        .message.tareo .footer { justify-content: center; }
+        
+        .date-divider { text-align: center; margin: calc(var(--padding-base) * 0.3) 0 calc(var(--padding-base) * 0.6); }
+        .date-divider span { background: rgba(26, 95, 180, 0.08); padding: calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.8); border-radius: calc(var(--radius-base) * 0.4); font-size: calc(9px * var(--scale)); color: #667781; }
+        
+        .typing-indicator { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.3); padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8); background: rgba(255,255,255,0.85); border-radius: calc(var(--radius-base) * 0.8); align-self: flex-start; margin-bottom: calc(var(--padding-base) * 0.1); box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+        .typing-dot { width: calc(4px * var(--scale)); height: calc(4px * var(--scale)); background: #667781; border-radius: 50%; animation: typingAnim 1.4s infinite; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typingAnim { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-3px); opacity: 1; } }
+        .typing-text { font-size: calc(9px * var(--scale)); color: #667781; margin-left: calc(var(--padding-base) * 0.2); }
+        
+        .input-area { background: #F0F2F5; padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.6); display: flex; flex-direction: column; gap: calc(var(--padding-base) * 0.3); border-top: 1px solid #D9D9D9; flex-shrink: 0; }
+        .input-area .input-row { display: flex; gap: calc(var(--padding-base) * 0.4); align-items: center; width: 100%; }
+        .input-area input[type="text"] { flex: 1; padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8); border: 2px solid transparent; border-radius: calc(var(--radius-base) * 1.2); font-size: calc(16px * var(--scale)); outline: none; font-family: inherit; background: white; transition: all 0.3s; -webkit-appearance: none; appearance: none; min-height: calc(var(--input-height) * 0.9); touch-action: manipulation; }
+        .input-area input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1); }
+        .input-area input[type="text"]::placeholder { color: #8899A6; font-size: calc(12px * var(--scale)); }
+        .input-area .send-btn { background: var(--primary); border: none; color: white; width: calc(var(--btn-size) * 0.9); height: calc(var(--btn-size) * 0.9); border-radius: 50%; font-size: calc(12px * var(--scale)); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        .input-area .send-btn:active { transform: scale(0.92); }
+        .input-area .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+        
+        .tareo-inputs {
+            display: none;
+            flex-direction: column;
+            gap: calc(var(--padding-base) * 0.4);
+            background: #E8ECF0;
+            padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8);
+            border-radius: calc(var(--radius-base) * 0.9);
+            width: 100%;
+        }
+        .tareo-inputs.active { display: flex; }
+        .tareo-inputs .tareo-fila { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.5); }
+        .tareo-inputs .tareo-fila .tareo-label { font-size: calc(10px * var(--scale)); font-weight: 700; color: #333; min-width: var(--tareo-label-width); text-align: right; }
+        .tareo-inputs .tareo-fila .tareo-label.inicio-label { color: var(--tareo-inicio); }
+        .tareo-inputs .tareo-fila .tareo-label.termino-label { color: var(--tareo-termino); }
+        .tareo-inputs .tareo-fila .tareo-input-group { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.2); flex: 1; }
+        .tareo-inputs .tareo-fila .tareo-input-group input { width: var(--tareo-input-width); padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.3); border: 2px solid #D9D9D9; border-radius: calc(var(--radius-base) * 0.5); font-size: calc(15px * var(--scale)); font-weight: 600; text-align: center; font-family: inherit; background: white; -webkit-appearance: none; appearance: none; touch-action: manipulation; }
+        .tareo-inputs .tareo-fila .tareo-input-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1); }
+        .tareo-inputs .tareo-fila .tareo-input-group input::placeholder { color: #ccc; font-size: calc(10px * var(--scale)); }
+        .tareo-inputs .tareo-fila .tareo-input-group .tareo-sep { font-size: calc(14px * var(--scale)); font-weight: 700; color: #666; padding: 0 1px; }
+        .tareo-inputs .tareo-fila .tareo-input-group .tareo-emoji { font-size: calc(12px * var(--scale)); margin-left: calc(var(--padding-base) * 0.2); }
+        .tareo-inputs .tareo-botones { display: flex; gap: calc(var(--padding-base) * 0.4); margin-top: calc(var(--padding-base) * 0.2); }
+        .tareo-inputs .tareo-botones .tareo-btn { padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.8); border: none; border-radius: calc(var(--radius-base) * 0.5); font-size: calc(11px * var(--scale)); font-weight: 700; cursor: pointer; transition: all 0.2s; touch-action: manipulation; flex: 1; text-align: center; }
+        .tareo-inputs .tareo-botones .tareo-btn:active { transform: scale(0.96); }
+        .tareo-inputs .tareo-botones .tareo-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .tareo-inputs .tareo-botones .tareo-btn.enviar-btn { background: var(--primary); color: white; }
+        .tareo-inputs .tareo-botones .tareo-btn.exportar-btn { background: var(--success); color: white; }
+        
+        .loader { text-align: center; color: #667781; font-size: calc(11px * var(--scale)); padding: calc(var(--padding-base) * 1.2); }
+        .loader i { margin-right: calc(var(--padding-base) * 0.4); }
+        
+        .toast { position: fixed; bottom: calc(var(--padding-base) * 5); left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 1.2); border-radius: calc(var(--radius-base) * 0.8); font-size: calc(11px * var(--scale)); z-index: 999; animation: toastIn 0.3s ease; display: none; max-width: 90%; text-align: center; }
+        @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+        
+        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 46, 92, 0.92); display: none; align-items: center; justify-content: center; z-index: 1000; flex-direction: column; gap: calc(var(--padding-base) * 1.2); }
+        .loading-overlay.show { display: flex; }
+        .loading-overlay .spinner { width: calc(36px * var(--scale)); height: calc(36px * var(--scale)); border: 4px solid rgba(255,255,255,0.2); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .loading-overlay .text { color: white; font-size: calc(14px * var(--scale)); font-weight: 500; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .sound-indicator { position: fixed; top: calc(var(--padding-base) * 1.2); left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.8); border-radius: calc(var(--radius-base) * 1.2); font-size: calc(10px * var(--scale)); z-index: 999; display: none; align-items: center; gap: calc(var(--padding-base) * 0.4); animation: fadeInOut 1.5s ease; }
+        .sound-indicator.show { display: flex; }
+        .sound-indicator i { font-size: calc(12px * var(--scale)); }
+        @keyframes fadeInOut { 0% { opacity: 0; transform: translateX(-50%) translateY(-6px); } 20% { opacity: 1; transform: translateX(-50%) translateY(0); } 80% { opacity: 1; transform: translateX(-50%) translateY(0); } 100% { opacity: 0; transform: translateX(-50%) translateY(-6px); } }
+        
+        @media (max-width: 520px) {
+            body { padding: 0 !important; margin: 0 !important; }
+            #loginScreen { padding: calc(var(--padding-base) * 2); border-radius: calc(var(--radius-base) * 1.5); width: 94%; max-width: 360px; }
+            .user-grid { grid-template-columns: repeat(3, 1fr); gap: calc(var(--padding-base) * 0.4); max-height: calc(140px * var(--scale)); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="text" id="loadingText">Conectando...</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="sound-indicator" id="soundIndicator">
+    <i class="fas fa-volume-up"></i>
+    <span id="soundText">🔊 Sonido</span>
+</div>
+
+<div class="notification-badge" id="notificationBadge" onclick="scrollToBottom()">
+    <span id="notifCount">0</span>
+</div>
+
+<div id="loginScreen">
+    <i class="fas fa-bus logo-icon"></i>
+    <div class="logo-title">Transportes <span>Mantenimiento</span></div>
+    <div class="logo-subtitle">Selecciona tu usuario y ingresa tu clave</div>
+    
+    <div class="size-selector" id="sizeSelector">
+        <button class="size-btn" data-size="small" onclick="changeSize('small')"><i class="fas fa-font"></i> Pequeño</button>
+        <button class="size-btn active" data-size="medium" onclick="changeSize('medium')"><i class="fas fa-font"></i> Mediano</button>
+        <button class="size-btn" data-size="large" onclick="changeSize('large')"><i class="fas fa-font"></i> Grande</button>
+    </div>
+    
+    <div class="theme-selector" id="themeSelector">
+        <button class="theme-btn theme-azul-btn active" data-theme="azul" onclick="changeTheme('azul')"><span class="check">✓</span></button>
+        <button class="theme-btn theme-verde-btn" data-theme="verde" onclick="changeTheme('verde')"><span class="check">✓</span></button>
+        <button class="theme-btn theme-rojo-btn" data-theme="rojo" onclick="changeTheme('rojo')"><span class="check">✓</span></button>
+        <button class="theme-btn theme-morado-btn" data-theme="morado" onclick="changeTheme('morado')"><span class="check">✓</span></button>
+        <button class="theme-btn theme-naranja-btn" data-theme="naranja" onclick="changeTheme('naranja')"><span class="check">✓</span></button>
+    </div>
+    
+    <div class="user-selector">
+        <div class="label">
+            <i class="fas fa-users"></i> Selecciona tu usuario
+            <span style="font-size:calc(9px * var(--scale));color:#8899A6;font-weight:400;margin-left:auto;" id="userCountLabel">0 conectados</span>
+        </div>
+        <div class="user-grid" id="userGrid"></div>
+    </div>
+    
+    <form id="loginForm" autocomplete="on" novalidate>
+        <div class="form-group">
+            <label>🔑 Clave de acceso</label>
+            <div class="input-icon">
+                <i class="fas fa-key"></i>
+                <input type="password" id="userPasswordInput" placeholder="Ingresa tu clave secreta" required autocomplete="off" maxlength="20">
+                <button type="button" class="password-toggle" id="togglePassword">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+        </div>
+        
+        <button type="submit" class="btn-primary" id="joinBtn">
+            <i class="fas fa-sign-in-alt"></i> Entrar al chat
+        </button>
+        
+        <div class="error-msg" id="authError"></div>
+        <div class="warning-msg" id="authWarning"></div>
+        <div class="success-msg" id="authSuccess"></div>
+    </form>
+</div>
+
+<div id="chatApp">
+    <header class="chat-header">
+        <i class="fas fa-bus header-icon"></i>
+        <div class="avatar" id="chatAvatar">👤</div>
+        <div class="info">
+            <h2 id="chatRoomTitle">💬 Chat General</h2>
+            <div class="status">
+                <span class="dot"></span>
+                <span id="userCount">0</span> conectados
+            </div>
+        </div>
+        <button class="header-btn active" id="btnGeneral" onclick="switchRoom('general')">💬</button>
+        <button class="header-btn" id="btnTareo" onclick="switchRoom('tareo')">⏰</button>
+        <button class="header-btn" id="sizeToggleBtn" onclick="toggleSizeSelector()" title="Tamaño">
+            <i class="fas fa-font"></i>
+        </button>
+        <button class="theme-toggle-btn header-btn" id="themeToggleBtn" onclick="toggleThemeSelector()" title="Tema">
+            <i class="fas fa-palette"></i>
+        </button>
+        <button class="logout-btn" id="logoutBtn">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+    </header>
+    
+    <div class="online-users" id="onlineUsers">
+        <span style="font-weight:600;">🟢 Conectados:</span>
+        <span id="userList">Cargando...</span>
+    </div>
+    
+    <div class="messages-container" id="messagesContainer">
+        <div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>
+    </div>
+    
+    <div class="input-area" id="inputArea">
+        <div class="input-row" id="chatInputRow">
+            <input type="text" id="messageInput" placeholder="Escribe un mensaje..." autocomplete="off" inputmode="text" enterkeyhint="send">
+            <button class="send-btn" id="sendBtn">
+                <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+        
+        <div class="tareo-inputs" id="tareoInputs">
+            <div class="tareo-fila">
+                <span class="tareo-label inicio-label">🟢 Inicio</span>
+                <div class="tareo-input-group">
+                    <input type="number" id="tareoInicio" placeholder="08" min="0" max="23" inputmode="numeric" pattern="[0-9]*">
+                    <span class="tareo-sep">:</span>
+                    <input type="number" id="tareoInicioMin" placeholder="00" min="0" max="59" inputmode="numeric" pattern="[0-9]*">
+                    <span class="tareo-emoji">🟢</span>
+                </div>
+            </div>
+            <div class="tareo-fila">
+                <span class="tareo-label termino-label">🔴 Término</span>
+                <div class="tareo-input-group">
+                    <input type="number" id="tareoTermino" placeholder="17" min="0" max="23" inputmode="numeric" pattern="[0-9]*">
+                    <span class="tareo-sep">:</span>
+                    <input type="number" id="tareoTerminoMin" placeholder="00" min="0" max="59" inputmode="numeric" pattern="[0-9]*">
+                    <span class="tareo-emoji">🔴</span>
+                </div>
+            </div>
+            <div class="tareo-botones">
+                <button class="tareo-btn enviar-btn" id="tareoEnviarBtn">
+                    <i class="fas fa-paper-plane"></i> Enviar
+                </button>
+                <button class="tareo-btn exportar-btn" id="tareoExportarBtn">
+                    <i class="fas fa-file-excel"></i> Excel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    // 🔥 CONFIGURACIÓN DE FIREBASE
+    // ============================================================
+    
+    const firebaseConfig = {
+        apiKey: "AIzaSyAUwQXsM6OrnlmmzfpRDM1MetOVKW-YMIk",
+        authDomain: "transportes-chat.firebaseapp.com",
+        databaseURL: "https://transportes-chat-default-rtdb.firebaseio.com",
+        projectId: "transportes-chat",
+        storageBucket: "transportes-chat.firebasestorage.app",
+        messagingSenderId: "339529351494",
+        appId: "1:339529351494:web:7ad1a202d48d3905966547",
+        measurementId: "G-KSGRBJ8E56"
+    };
+
+    // ============================================================
+    // 📋 LISTA DE USUARIOS
+    // ============================================================
+    
+    const AUTHORIZED_USERS = {
+        "Cristhian De La Cruz": "1234",
+        "Marcos Mamani": "5678",
+        "Alex Cornejo": "9012",
+        "Anders Zegarra": "3456",
+        "Tito Macedo": "7890",
+        "Dante Torrez": "2345",
+        "Carlos Mamani": "6789",
+        "Fabian Huamani": "0123",
+        "Oscar Moron": "4567",
+        "Jose Rivas": "8901",
+        "Paul Manrique": "1111",
+        "Joel Alejo": "2222",
+        "Julio Nina": "3333",
+        "Elvis Tunque": "4444",
+        "Henry Calderon": "5555",
+        "Jose Alvarez": "6666",
+        "Renzo Lipa": "7777",
+        "Edgar Almanza": "8888",
+        "Juan Gomez": "9999",
+        "Rafael Ordoñez": "0000",
+        "Sandro Calizaya": "1212",
+        "Jhunior Quispe": "3434",
+        "Jose Camargo": "5656",
+        "Felipe Mayta": "7878",
+        "Paul Cruz": "9090",
+    };
+
+    // ============================================================
+    // INICIALIZAR FIREBASE
+    // ============================================================
+    
+    let database = null;
+    
+    try {
+        if (typeof firebase !== 'undefined') {
+            firebase.initializeApp(firebaseConfig);
+            database = firebase.database();
+            console.log('✅ Firebase inicializado correctamente');
+        } else {
+            document.getElementById('authError').textContent = '⚠️ Firebase no cargó. Recarga la página.';
+            document.getElementById('authError').style.display = 'block';
+            document.getElementById('joinBtn').disabled = true;
+        }
+    } catch (error) {
+        console.error('❌ Error al inicializar Firebase:', error);
+        document.getElementById('authError').textContent = '⚠️ Error de conexión con Firebase.';
+        document.getElementById('authError').style.display = 'block';
+    }
+
+    // ============================================================
+    // VARIABLES GLOBALES
+    // ============================================================
+    let currentUser = '';
+    let currentDisplayName = '';
+    let currentRoom = 'general';
+    let messagesRef = null;
+    let presenceRef = null;
+    let typingRef = null;
+    let isTyping = false;
+    let typingTimeout = null;
+    let isSending = false;
+    let selectedUser = null;
+    let currentTheme = 'azul';
+    let currentSize = 'medium';
+    let sessionActive = false;
+    let unreadCount = 0;
+
+    // ============================================================
+    // DOM ELEMENTS
+    // ============================================================
+    const loginScreen = document.getElementById('loginScreen');
+    const chatApp = document.getElementById('chatApp');
+    const loginForm = document.getElementById('loginForm');
+    const userPasswordInput = document.getElementById('userPasswordInput');
+    const togglePassword = document.getElementById('togglePassword');
+    const joinBtn = document.getElementById('joinBtn');
+    const authError = document.getElementById('authError');
+    const authWarning = document.getElementById('authWarning');
+    const authSuccess = document.getElementById('authSuccess');
+    const userGrid = document.getElementById('userGrid');
+    const userCountLabel = document.getElementById('userCountLabel');
+    const messageInput = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const messagesContainer = document.getElementById('messagesContainer');
+    const chatAvatar = document.getElementById('chatAvatar');
+    const chatRoomTitle = document.getElementById('chatRoomTitle');
+    const userList = document.getElementById('userList');
+    const userCount = document.getElementById('userCount');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const toast = document.getElementById('toast');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const loadingText = document.getElementById('loadingText');
+    const notificationBadge = document.getElementById('notificationBadge');
+    const notifCount = document.getElementById('notifCount');
+    const btnGeneral = document.getElementById('btnGeneral');
+    const btnTareo = document.getElementById('btnTareo');
+    const chatInputRow = document.getElementById('chatInputRow');
+    const tareoInputs = document.getElementById('tareoInputs');
+    const tareoInicio = document.getElementById('tareoInicio');
+    const tareoInicioMin = document.getElementById('tareoInicioMin');
+    const tareoTermino = document.getElementById('tareoTermino');
+    const tareoTerminoMin = document.getElementById('tareoTerminoMin');
+    const tareoEnviarBtn = document.getElementById('tareoEnviarBtn');
+    const tareoExportarBtn = document.getElementById('tareoExportarBtn');
+
+    // ============================================================
+    // 🎨 FUNCIONES DE TEMA Y TAMAÑO
+    // ============================================================
+    
+    function changeTheme(theme) {
+        currentTheme = theme;
+        document.body.className = document.body.className.split(' ').filter(c => !c.startsWith('theme-')).join(' ');
+        document.body.classList.add('theme-' + theme);
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.theme === theme) btn.classList.add('active');
+        });
+        try { localStorage.setItem('chatTheme', theme); } catch(e) {}
+    }
+    
+    function toggleThemeSelector() {
+        const selector = document.getElementById('themeSelector');
+        if (selector) {
+            const isVisible = selector.style.display !== 'none';
+            selector.style.display = isVisible ? 'none' : 'flex';
+            clearTimeout(selector._hideTimeout);
+            if (!isVisible) {
+                selector._hideTimeout = setTimeout(() => { selector.style.display = 'none'; }, 5000);
+            }
+        }
+    }
+    
+    function changeSize(size) {
+        currentSize = size;
+        document.body.className = document.body.className.split(' ').filter(c => !c.startsWith('size-')).join(' ');
+        document.body.classList.add('size-' + size);
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.size === size) btn.classList.add('active');
+        });
+        try { localStorage.setItem('chatSize', size); } catch(e) {}
+        console.log('📏 Tamaño cambiado a:', size);
+    }
+    
+    function toggleSizeSelector() {
+        const selector = document.getElementById('sizeSelector');
+        if (selector) {
+            const isVisible = selector.style.display !== 'none';
+            selector.style.display = isVisible ? 'none' : 'flex';
+            clearTimeout(selector._hideTimeout);
+            if (!isVisible) {
+                selector._hideTimeout = setTimeout(() => { selector.style.display = 'none'; }, 5000);
+            }
+        }
+    }
+    
+    window.changeSize = changeSize;
+    window.toggleSizeSelector = toggleSizeSelector;
+    window.changeTheme = changeTheme;
+    window.toggleThemeSelector = toggleThemeSelector;
+    
+    try {
+        const savedSize = localStorage.getItem('chatSize');
+        if (savedSize && ['small','medium','large'].includes(savedSize)) {
+            currentSize = savedSize;
+            setTimeout(() => changeSize(savedSize), 100);
+        }
+        const savedTheme = localStorage.getItem('chatTheme');
+        if (savedTheme && ['azul','verde','rojo','morado','naranja'].includes(savedTheme)) {
+            currentTheme = savedTheme;
+            setTimeout(() => changeTheme(savedTheme), 100);
+        }
+    } catch(e) {}
+
+    // ============================================================
+    // FUNCIONES
+    // ============================================================
+    
+    function getInitials(name) {
+        if (!name) return '?';
+        const parts = name.trim().split(' ');
+        if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+        return (parts[0].charAt(0) + parts[parts.length-1].charAt(0)).toUpperCase();
+    }
+    
+    function getTime() {
+        return new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+    }
+    
+    function getTodayISO() {
+        return new Date().toISOString().split('T')[0];
+    }
+    
+    function escapeHTML(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+    
+    function scrollToBottom() {
+        setTimeout(() => {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }, 100);
+        clearNotification();
+    }
+    
+    function showToast(message) {
+        toast.textContent = message;
+        toast.style.display = 'block';
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(() => {
+            toast.style.display = 'none';
+        }, 3500);
+    }
+    
+    function showLoading(text) {
+        loadingText.textContent = text || 'Conectando...';
+        loadingOverlay.classList.add('show');
+    }
+    
+    function hideLoading() {
+        loadingOverlay.classList.remove('show');
+    }
+
+    // ============================================================
+    // 🔔 NOTIFICACIONES
+    // ============================================================
+    
+    function updateNotification(count) {
+        unreadCount = count;
+        if (count > 0) {
+            notifCount.textContent = count;
+            notificationBadge.classList.add('show');
+            if (navigator.vibrate) navigator.vibrate(100);
+        } else {
+            notificationBadge.classList.remove('show');
+        }
+    }
+    
+    function clearNotification() {
+        unreadCount = 0;
+        notificationBadge.classList.remove('show');
+    }
+
+    // ============================================================
+    // 🔊 SONIDOS
+    // ============================================================
+    
+    function playSoundSend() {
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillator.frequency.setValueAtTime(600, audioCtx.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(900, audioCtx.currentTime + 0.1);
+            oscillator.type = 'sine';
+            gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15);
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.15);
+            showSoundIndicator('📤 Enviado');
+        } catch(e) {}
+    }
+    
+    function playSoundReceive() {
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const osc1 = audioCtx.createOscillator();
+            const gain1 = audioCtx.createGain();
+            osc1.connect(gain1);
+            gain1.connect(audioCtx.destination);
+            osc1.frequency.value = 440;
+            osc1.type = 'sine';
+            gain1.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain1.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+            osc1.start(audioCtx.currentTime);
+            osc1.stop(audioCtx.currentTime + 0.12);
+            setTimeout(() => {
+                try {
+                    const osc2 = audioCtx.createOscillator();
+                    const gain2 = audioCtx.createGain();
+                    osc2.connect(gain2);
+                    gain2.connect(audioCtx.destination);
+                    osc2.frequency.value = 550;
+                    osc2.type = 'sine';
+                    gain2.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                    gain2.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+                    osc2.start(audioCtx.currentTime);
+                    osc2.stop(audioCtx.currentTime + 0.12);
+                } catch(e) {}
+            }, 150);
+            showSoundIndicator('📩 Nuevo mensaje');
+        } catch(e) {}
+    }
+    
+    function playSoundTareo() {
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillator.frequency.setValueAtTime(523, audioCtx.currentTime);
+            oscillator.frequency.setValueAtTime(659, audioCtx.currentTime + 0.1);
+            oscillator.frequency.setValueAtTime(784, audioCtx.currentTime + 0.2);
+            oscillator.type = 'sine';
+            gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.35);
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.35);
+            showSoundIndicator('⏰ Tareo registrado');
+        } catch(e) {}
+    }
+    
+    function showSoundIndicator(text) {
+        const indicator = document.getElementById('soundIndicator');
+        const textEl = document.getElementById('soundText');
+        if (indicator) {
+            textEl.textContent = text || '🔊 Sonido';
+            indicator.classList.remove('show');
+            void indicator.offsetWidth;
+            indicator.classList.add('show');
+            clearTimeout(indicator._timeout);
+            indicator._timeout = setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 1500);
+        }
+    }
+
+    // ============================================================
+    // 👥 RENDERIZAR SELECTOR DE USUARIOS
+    // ============================================================
+    
+    function renderUserGrid(connectedUsers) {
+        const names = Object.keys(AUTHORIZED_USERS);
+        if (names.length === 0) {
+            userGrid.innerHTML = '<span style="color:#999;font-size:calc(10px * var(--scale));grid-column:1/-1;text-align:center;padding:calc(var(--padding-base) * 1);">No hay usuarios autorizados</span>';
+            return;
+        }
+        userGrid.innerHTML = names.map(name => {
+            const isConnected = connectedUsers && connectedUsers.includes(name);
+            const isSelected = selectedUser === name;
+            const initials = getInitials(name);
+            return `<div class="user-card ${isSelected ? 'selected' : ''}" data-user="${escapeHTML(name)}" onclick="selectUser('${escapeHTML(name)}')">
+                <span class="user-status-dot ${isConnected ? 'online' : 'offline'}"></span>
+                <div class="user-avatar">${initials}</div>
+                <div class="user-name">${escapeHTML(name)}</div>
+            </div>`;
+        }).join('');
+        const connectedCount = connectedUsers ? connectedUsers.filter(u => Object.keys(AUTHORIZED_USERS).includes(u)).length : 0;
+        userCountLabel.textContent = `${connectedCount} conectados`;
+    }
+    
+    window.selectUser = function(name) {
+        selectedUser = name;
+        authError.style.display = 'none';
+        authWarning.style.display = 'none';
+        authSuccess.style.display = 'none';
+        document.querySelectorAll('.user-card').forEach(el => {
+            el.classList.remove('selected');
+            if (el.dataset.user === name) el.classList.add('selected');
+        });
+        userPasswordInput.focus();
+        userPasswordInput.value = '';
+    };
+
+    // ============================================================
+    // 🔐 VERIFICAR CREDENCIALES
+    // ============================================================
+    
+    function validateCredentials(name, password) {
+        return AUTHORIZED_USERS[name] === password;
+    }
+    
+    function getUserSecretId(name) {
+        const names = Object.keys(AUTHORIZED_USERS);
+        const index = names.indexOf(name);
+        if (index === -1) return null;
+        return "USR-" + String(index + 1).padStart(3, '0');
+    }
+
+    // ============================================================
+    // 🔄 CAMBIAR DE SALA
+    // ============================================================
+    
+    function switchRoom(room) {
+        if (!currentUser) return;
+        if (room === currentRoom) return;
+        
+        if (messagesRef) messagesRef.off();
+        if (typingRef) typingRef.off();
+        
+        currentRoom = room;
+        
+        btnGeneral.classList.toggle('active', room === 'general');
+        btnTareo.classList.toggle('active', room === 'tareo');
+        
+        chatRoomTitle.textContent = room === 'general' ? '💬 Chat General' : '⏰ Tareo Diario';
+        
+        if (room === 'tareo') {
+            chatInputRow.style.display = 'none';
+            tareoInputs.classList.add('active');
+        } else {
+            chatInputRow.style.display = 'flex';
+            tareoInputs.classList.remove('active');
+        }
+        
+        loadMessages();
+    }
+    
+    window.switchRoom = switchRoom;
+
+    // ============================================================
+    // 📋 FUNCIONES DE TAREO
+    // ============================================================
+    
+    function getTareoHora(inputHora, inputMin) {
+        const hora = inputHora.value.padStart(2, '0') || '00';
+        const min = inputMin.value.padStart(2, '0') || '00';
+        return `${hora}:${min}`;
+    }
+    
+    function getTareoData() {
+        return {
+            inicio: `${tareoInicio.value.padStart(2, '0') || '00'}:${tareoInicioMin.value.padStart(2, '0') || '00'}`,
+            termino: `${tareoTermino.value.padStart(2, '0') || '00'}:${tareoTerminoMin.value.padStart(2, '0') || '00'}`
+        };
+    }
+    
+    function registrarTareoCompleto() {
+        if (!database || !currentUser) { showToast('❌ Error de conexión'); return; }
+        
+        const data = getTareoData();
+        const horaInicio = data.inicio;
+        const horaTermino = data.termino;
+        
+        if (!horaInicio.match(/^\d{2}:\d{2}$/) || !horaTermino.match(/^\d{2}:\d{2}$/)) {
+            showToast('❌ Formato inválido. Usa números de 0-23 para hora y 0-59 para minutos.');
+            return;
+        }
+        
+        const inicioNum = parseInt(horaInicio.replace(':', ''));
+        const terminoNum = parseInt(horaTermino.replace(':', ''));
+        if (inicioNum >= terminoNum) {
+            showToast('⚠️ La hora de inicio debe ser menor que la hora de término');
+            return;
+        }
+        
+        const today = getTodayISO();
+        const tareoRef = database.ref(`tareo/${currentUser}/${today}`);
+        tareoRef.update({ inicio: horaInicio, termino: horaTermino, fecha: today, usuario: currentDisplayName })
+        .then(() => {
+            const tareoMessage = {
+                user: currentUser,
+                displayName: currentDisplayName,
+                text: `📋 **${currentDisplayName}** registró su jornada:\n🟢 Inicio: **${horaInicio}**\n🔴 Término: **${horaTermino}**`,
+                time: getTime(),
+                timestamp: firebase.database.ServerValue.TIMESTAMP,
+                isTareo: true,
+                tareoTipo: 'completo',
+                tareoInicio: horaInicio,
+                tareoTermino: horaTermino,
+                tareoUsuario: currentDisplayName
+            };
+            database.ref('messages/tareo').push(tareoMessage).then(() => {
+                database.ref('messages/general').push({
+                    user: currentUser,
+                    displayName: currentDisplayName,
+                    text: `⏰ ${currentDisplayName} registró su jornada: Inicio ${horaInicio} - Término ${horaTermino}`,
+                    time: getTime(),
+                    timestamp: firebase.database.ServerValue.TIMESTAMP,
+                    isTareoNotification: true
+                });
+                showToast(`✅ Jornada registrada: ${horaInicio} - ${horaTermino}`);
+                playSoundTareo();
+                if (currentRoom === 'tareo') loadMessages();
+            });
+        }).catch((error) => {
+            console.error('Error al registrar tareo:', error);
+            showToast('❌ Error al registrar');
+        });
+    }
+    
+    function exportarTareoExcel() {
+        if (!database) { showToast('❌ Error de conexión'); return; }
+        showLoading('Generando reporte...');
+        database.ref('tareo').once('value', (snapshot) => {
+            hideLoading();
+            const data = snapshot.val();
+            if (!data) { showToast('📋 No hay registros de tareo'); return; }
+            let csv = '\uFEFFUsuario,Fecha,Inicio,Término\n';
+            Object.keys(data).forEach(userId => {
+                const userData = data[userId];
+                Object.keys(userData).forEach(fecha => {
+                    const r = userData[fecha];
+                    csv += `${r.usuario || userId},${fecha},${r.inicio || ''},${r.termino || ''}\n`;
+                });
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `Tareo_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('✅ Reporte Excel exportado');
+        }).catch(() => { hideLoading(); showToast('❌ Error al exportar'); });
+    }
+
+    // ============================================================
+    // 📨 FUNCIONES DE CHAT - COMPLETAS Y CORREGIDAS
+    // ============================================================
+    
+    function addMessageToDOM(data, key) {
+        if (document.querySelector(`[data-key="${key}"]`)) return;
+        
+        const isOwn = data.user === currentUser;
+        const time = data.time || getTime();
+        
+        // Mensaje de Tareo
+        if (data.isTareo) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message tareo ${data.tareoTipo || ''}`;
+            messageDiv.dataset.key = key;
+            let content = '';
+            if (data.tareoTipo === 'completo') {
+                content = `
+                    <div class="tareo-text">📋 ${escapeHTML(data.tareoUsuario || data.displayName)}</div>
+                    <div style="display:flex;justify-content:center;gap:calc(var(--padding-base) * 1.2);margin:calc(var(--padding-base) * 0.3) 0;">
+                        <span style="color:var(--tareo-inicio);font-weight:700;">🟢 ${escapeHTML(data.tareoInicio || '')}</span>
+                        <span style="color:var(--tareo-termino);font-weight:700;">🔴 ${escapeHTML(data.tareoTermino || '')}</span>
+                    </div>
+                    <div class="tareo-usuario">Jornada registrada</div>
+                `;
+            } else {
+                content = `
+                    <span class="tareo-icon">${data.tareoEmoji || '⏰'}</span>
+                    <div class="tareo-text">${escapeHTML(data.tareoUsuario || data.displayName)}</div>
+                    <div class="tareo-hora">${escapeHTML(data.tareoHora || '')}</div>
+                    <div class="tareo-usuario">${escapeHTML(data.tareoLabel || 'Registro')}</div>
+                `;
+            }
+            messageDiv.innerHTML = `${content}<div class="footer"><span>${escapeHTML(time)}</span></div>`;
+            const loader = messagesContainer.querySelector('.loader');
+            if (loader) loader.remove();
+            messagesContainer.appendChild(messageDiv);
+            scrollToBottom();
+            if (!isOwn) { playSoundTareo(); updateNotification(unreadCount + 1); }
+            return;
+        }
+        
+        // Mensaje normal
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isOwn ? 'sent' : 'received'}`;
+        messageDiv.dataset.key = key;
+        
+        const authorHTML = !isOwn ? `<span class="author">${escapeHTML(data.displayName || data.user)}</span>` : '';
+        const statusHTML = isOwn ? `<span class="status"><i class="fas fa-check-double" style="color:var(--primary);"></i></span>` : '';
+        
+        let textContent = data.text || '';
+        if (data.isTareoNotification) {
+            textContent = '⏰ ' + textContent;
+        }
+        
+        messageDiv.innerHTML = `
+            <div class="text">${escapeHTML(textContent)}</div>
+            <div class="footer">
+                ${authorHTML}
+                <span>${escapeHTML(time)}</span>
+                ${statusHTML}
+            </div>
+        `;
+        
+        const loader = messagesContainer.querySelector('.loader');
+        if (loader) loader.remove();
+        messagesContainer.appendChild(messageDiv);
+        scrollToBottom();
+        
+        if (!isOwn && data.user !== currentUser) {
+            playSoundReceive();
+            updateNotification(unreadCount + 1);
+        }
+    }
+    
+    function loadMessages() {
+        if (!database) {
+            messagesContainer.innerHTML = '<div style="text-align:center;padding:calc(var(--padding-base) * 2);color:#667781;font-size:calc(12px * var(--scale));">⚠️ Error de conexión con Firebase</div>';
+            return;
+        }
+        
+        messagesContainer.innerHTML = '<div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>';
+        
+        messagesRef = database.ref(`messages/${currentRoom}`);
+        messagesRef.off();
+        
+        messagesRef.limitToLast(50).once('value', (snapshot) => {
+            const data = snapshot.val();
+            messagesContainer.innerHTML = '';
+            
+            if (data) {
+                const keys = Object.keys(data).sort();
+                let lastDate = '';
+                keys.forEach(key => {
+                    const msg = data[key];
+                    const msgDate = new Date(msg.timestamp || Date.now()).toLocaleDateString('es-ES');
+                    if (msgDate !== lastDate) {
+                        lastDate = msgDate;
+                        const divider = document.createElement('div');
+                        divider.className = 'date-divider';
+                        divider.innerHTML = `<span>${msgDate === new Date().toLocaleDateString('es-ES') ? 'Hoy' : msgDate}</span>`;
+                        messagesContainer.appendChild(divider);
+                    }
+                    addMessageToDOM(msg, key);
+                });
+            } else {
+                const emptyMsg = currentRoom === 'general' 
+                    ? 'No hay mensajes en el chat general' 
+                    : 'No hay registros de tareo hoy';
+                messagesContainer.innerHTML = `
+                    <div style="text-align:center;padding:calc(var(--padding-base) * 2) calc(var(--padding-base) * 1.5);color:#667781;">
+                        <i class="fas fa-${currentRoom === 'general' ? 'comment' : 'clock'}" style="font-size:calc(32px * var(--scale));opacity:0.3;display:block;margin-bottom:calc(var(--padding-base) * 0.6);"></i>
+                        <p style="font-size:calc(12px * var(--scale));">${emptyMsg}</p>
+                        <p style="font-size:calc(10px * var(--scale));">${currentRoom === 'general' ? '¡Envía el primer mensaje!' : 'Registra tu asistencia con los campos de Tareo'}</p>
+                    </div>
+                `;
+            }
+            
+            // Escuchar nuevos mensajes
+            messagesRef.limitToLast(1).on('child_added', (snapshot) => {
+                const msg = snapshot.val();
+                // Mostrar solo mensajes que no sean del usuario actual (para evitar duplicados)
+                if (msg && msg.user !== currentUser) {
+                    addMessageToDOM(msg, snapshot.key);
+                }
+            });
+        });
+    }
+    
+    function updateUsers() {
+        if (!database) return;
+        presenceRef = database.ref(`presence/${currentRoom}`);
+        presenceRef.off();
+        presenceRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            const users = [];
+            const connectedNames = [];
+            if (data) {
+                Object.keys(data).forEach(key => {
+                    if (data[key] && data[key].online) {
+                        users.push(key);
+                        const displayName = data[key].displayName || key;
+                        connectedNames.push(displayName);
+                    }
+                });
+            }
+            renderUserGrid(connectedNames);
+            if (users.length === 0) {
+                userList.innerHTML = '<span style="color:#999;font-size:calc(9px * var(--scale));">Sin usuarios conectados</span>';
+            } else {
+                const userItems = users.map(u => {
+                    const displayName = data[u]?.displayName || u;
+                    return `<span class="badge"><span class="dot online"></span> ${escapeHTML(displayName)}</span>`;
+                });
+                userList.innerHTML = userItems.join(' ');
+            }
+            userCount.textContent = users.length;
+        });
+    }
+    
+    function setUserStatus(online) {
+        if (!currentUser || !database) return;
+        const userStatusRef = database.ref(`presence/${currentRoom}/${currentUser}`);
+        userStatusRef.set({
+            online: online,
+            displayName: currentDisplayName,
+            lastSeen: firebase.database.ServerValue.TIMESTAMP
+        });
+        if (online) {
+            userStatusRef.onDisconnect().set({
+                online: false,
+                displayName: currentDisplayName,
+                lastSeen: firebase.database.ServerValue.TIMESTAMP
+            });
+        }
+    }
+    
+    function cleanupSession() {
+        if (currentUser && database) {
+            const userStatusRef = database.ref(`presence/${currentRoom}/${currentUser}`);
+            userStatusRef.set({
+                online: false,
+                displayName: currentDisplayName,
+                lastSeen: firebase.database.ServerValue.TIMESTAMP
+            });
+        }
+        sessionActive = false;
+    }
+    
+    function sendMessage() {
+        const text = messageInput.value.trim();
+        if (!text || !currentUser || isSending) return;
+        if (!database) {
+            showToast('❌ Error de conexión');
+            return;
+        }
+        
+        isSending = true;
+        sendBtn.disabled = true;
+        playSoundSend();
+        
+        const newMessage = {
+            user: currentUser,
+            displayName: currentDisplayName,
+            text: text,
+            time: getTime(),
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        };
+        
+        messagesRef.push(newMessage).then(() => {
+            // Agregar el mensaje propio al DOM
+            addMessageToDOM(newMessage, Date.now().toString());
+            messageInput.value = '';
+            isSending = false;
+            sendBtn.disabled = false;
+            if (typingRef) {
+                typingRef.remove();
+                isTyping = false;
+            }
+        }).catch((error) => {
+            console.error('Error al enviar:', error);
+            showToast('❌ Error al enviar mensaje');
+            isSending = false;
+            sendBtn.disabled = false;
+        });
+    }
+    
+    function handleTyping() {
+        if (!currentUser || !typingRef || !database) return;
+        if (!isTyping) {
+            isTyping = true;
+            typingRef.set({
+                user: currentUser,
+                displayName: currentDisplayName,
+                typing: true
+            });
+        }
+        clearTimeout(typingTimeout);
+        typingTimeout = setTimeout(() => {
+            if (typingRef) {
+                typingRef.remove();
+                isTyping = false;
+            }
+        }, 2000);
+    }
+    
+    function setupTypingIndicator() {
+        if (!database) return;
+        typingRef = database.ref(`typing/${currentRoom}`);
+        typingRef.off();
+        typingRef.on('value', (snapshot) => {
+            const existing = document.querySelector('.typing-indicator');
+            if (existing) existing.remove();
+            const data = snapshot.val();
+            if (data) {
+                const typingUsers = Object.keys(data).filter(key => data[key].typing && key !== currentUser);
+                if (typingUsers.length > 0) {
+                    const userId = typingUsers[0];
+                    const displayName = data[userId].displayName || userId;
+                    const indicator = document.createElement('div');
+                    indicator.className = 'typing-indicator';
+                    indicator.innerHTML = `
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-text">${escapeHTML(displayName)} está escribiendo...</span>
+                    `;
+                    messagesContainer.appendChild(indicator);
+                    scrollToBottom();
+                }
+            }
+        });
+    }
+    
+    // ============================================================
+    // 🔐 VERIFICAR SESIÓN ACTIVA
+    // ============================================================
+    
+    function checkIfUserIsConnected(displayName) {
+        return new Promise((resolve) => {
+            if (!database) {
+                resolve({ isConnected: false, userKey: null });
+                return;
+            }
+            const presenceCheckRef = database.ref(`presence/${currentRoom}`);
+            presenceCheckRef.once('value', (snapshot) => {
+                const data = snapshot.val();
+                let isConnected = false;
+                let userKey = null;
+                if (data) {
+                    Object.keys(data).forEach(key => {
+                        if (data[key] && data[key].online && data[key].displayName === displayName) {
+                            isConnected = true;
+                            userKey = key;
+                        }
+                    });
+                }
+                resolve({ isConnected, userKey });
+            });
+        });
+    }
+
+    // ============================================================
+    // UNIRSE AL CHAT
+    // ============================================================
+    
+    async function joinChat(displayName, password) {
+        authError.style.display = 'none';
+        authWarning.style.display = 'none';
+        authSuccess.style.display = 'none';
+        
+        if (!database) {
+            authError.textContent = '⚠️ Error de conexión con Firebase. Recarga la página.';
+            authError.style.display = 'block';
+            return;
+        }
+        
+        if (!displayName) {
+            authError.textContent = '⚠️ Por favor selecciona un usuario de la lista';
+            authError.style.display = 'block';
+            return;
+        }
+        
+        if (!validateCredentials(displayName, password)) {
+            authError.textContent = '❌ Clave incorrecta. Verifica tu clave de acceso.';
+            authError.style.display = 'block';
+            userPasswordInput.value = '';
+            userPasswordInput.focus();
+            return;
+        }
+        
+        const secretId = getUserSecretId(displayName);
+        if (!secretId) {
+            authError.textContent = '❌ Error: Usuario no encontrado.';
+            authError.style.display = 'block';
+            return;
+        }
+        
+        showLoading('Verificando disponibilidad...');
+        const result = await checkIfUserIsConnected(displayName);
+        hideLoading();
+        
+        if (result.isConnected) {
+            const userStatusRef = database.ref(`presence/${currentRoom}/${result.userKey}`);
+            await userStatusRef.set({
+                online: false,
+                displayName: displayName,
+                lastSeen: firebase.database.ServerValue.TIMESTAMP
+            });
+            await new Promise(resolve => setTimeout(resolve, 500));
+            showToast('🔄 Sesión anterior cerrada. Reconectando...');
+        }
+        
+        currentUser = secretId;
+        currentDisplayName = displayName;
+        sessionActive = true;
+        
+        authSuccess.textContent = `✅ Bienvenido ${displayName}!`;
+        authSuccess.style.display = 'block';
+        
+        showLoading('Conectando al chat...');
+        
+        setTimeout(() => {
+            loginScreen.classList.add('hidden');
+            chatApp.classList.add('active');
+            hideLoading();
+            
+            chatAvatar.textContent = getInitials(currentDisplayName);
+            clearNotification();
+            
+            switchRoom('general');
+            
+            updateUsers();
+            setupTypingIndicator();
+            setUserStatus(true);
+            
+            setTimeout(() => {
+                messageInput.focus();
+            }, 300);
+            
+            showToast(`✅ Conectado como ${currentDisplayName}`);
+            console.log(`✅ ${currentDisplayName} (${currentUser}) entró al chat`);
+        }, 500);
+    }
+    
+    function leaveChat() {
+        cleanupSession();
+        if (messagesRef) messagesRef.off();
+        if (presenceRef) presenceRef.off();
+        if (typingRef) typingRef.off();
+        
+        chatApp.classList.remove('active');
+        loginScreen.classList.remove('hidden');
+        messagesContainer.innerHTML = '';
+        currentUser = '';
+        currentDisplayName = '';
+        selectedUser = null;
+        sessionActive = false;
+        userList.textContent = 'Cargando...';
+        userCount.textContent = '0';
+        clearNotification();
+        
+        document.querySelectorAll('.user-card').forEach(el => el.classList.remove('selected'));
+        userPasswordInput.value = '';
+        renderUserGrid([]);
+        showToast('👋 Sesión cerrada');
+    }
+    
+    window.addEventListener('beforeunload', function() {
+        if (sessionActive && currentUser && database) {
+            const userStatusRef = database.ref(`presence/${currentRoom}/${currentUser}`);
+            userStatusRef.set({
+                online: false,
+                displayName: currentDisplayName,
+                lastSeen: firebase.database.ServerValue.TIMESTAMP
+            });
+        }
+    });
+    
+    // ============================================================
+    // EVENTOS
+    // ============================================================
+    
+    togglePassword.addEventListener('click', function(e) {
+        e.preventDefault();
+        const type = userPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        userPasswordInput.setAttribute('type', type);
+        this.querySelector('i').classList.toggle('fa-eye');
+        this.querySelector('i').classList.toggle('fa-eye-slash');
+    });
+    
+    loginForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const displayName = selectedUser;
+        const password = userPasswordInput.value.trim();
+        
+        if (!displayName) {
+            authError.textContent = '⚠️ Por favor selecciona un usuario de la lista';
+            authError.style.display = 'block';
+            return;
+        }
+        if (!password) {
+            authError.textContent = '⚠️ Por favor ingresa tu clave de acceso';
+            authError.style.display = 'block';
+            userPasswordInput.focus();
+            return;
+        }
+        joinBtn.disabled = true;
+        await joinChat(displayName, password);
+        joinBtn.disabled = false;
+    });
+    
+    sendBtn.addEventListener('click', sendMessage);
+    
+    messageInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
+    });
+    
+    messageInput.addEventListener('input', handleTyping);
+    
+    logoutBtn.addEventListener('click', () => {
+        if (confirm('¿Seguro que quieres salir del chat?')) {
+            leaveChat();
+        }
+    });
+    
+    userPasswordInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            loginForm.dispatchEvent(new Event('submit'));
+        }
+    });
+    
+    tareoEnviarBtn.addEventListener('click', registrarTareoCompleto);
+    tareoExportarBtn.addEventListener('click', exportarTareoExcel);
+    
+    [tareoInicio, tareoTermino].forEach(input => {
+        input.addEventListener('input', function() {
+            let val = parseInt(this.value);
+            if (this.value === '') return;
+            if (isNaN(val)) { this.value = ''; return; }
+            if (val < 0) this.value = '0';
+            if (val > 23) this.value = '23';
+        });
+    });
+    
+    [tareoInicioMin, tareoTerminoMin].forEach(input => {
+        input.addEventListener('input', function() {
+            let val = parseInt(this.value);
+            if (this.value === '') return;
+            if (isNaN(val)) { this.value = ''; return; }
+            if (val < 0) this.value = '0';
+            if (val > 59) this.value = '59';
+        });
+    });
+    
+    // ============================================================
+    // INICIO
+    // ============================================================
+    
+    renderUserGrid([]);
+    
+    console.log('🚛 Transportes Mantenimiento - Chat con Sala Tareo');
+    console.log('📋 Usuarios autorizados:', Object.keys(AUTHORIZED_USERS).length);
+    console.log('✅ Chat funcional - Envía y recibe mensajes');
+    console.log('📌 REGLAS DE FIREBASE:');
+    console.log('{');
+    console.log('  "rules": {');
+    console.log('    "messages": { ".read": true, ".write": true },');
+    console.log('    "presence": { ".read": true, ".write": true },');
+    console.log('    "typing": { ".read": true, ".write": true },');
+    console.log('    "tareo": { ".read": true, ".write": true }');
+    console.log('  }');
+    console.log('}');
+</script>
+</body>
+</html>
