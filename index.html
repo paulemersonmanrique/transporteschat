@@ -12,6 +12,13 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     
     <style>
+        /* ===== RESET COMPLETO ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         /* ===== TEMAS ===== */
         :root {
             --primary-dark: #0A2E5C;
@@ -36,54 +43,81 @@
         .theme-morado { --primary-dark: #4A1A6B; --primary: #6F42C1; --primary-light: #A97DDB; --primary-lighter: #F0E6F9; --bubble-sent: #E8D5F5; --bg-header: #4A1A6B; }
         .theme-naranja { --primary-dark: #7A4A0A; --primary: #E67E22; --primary-light: #F0B27A; --primary-lighter: #FEF5E7; --bubble-sent: #FDEBD0; --bg-header: #7A4A0A; }
         
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ===== BODY - OCUPA TODA LA PANTALLA ===== */
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-dark);
+            margin: 0;
+            padding: 0;
+        }
         
-        html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; background: var(--primary-dark); }
-        body { display: flex; align-items: center; justify-content: center; padding: 12px; margin: 0; position: fixed; top: 0; left: 0; right: 0; bottom: 0; transition: background 0.3s; }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transition: background 0.3s;
+            padding: 0 !important;
+            margin: 0 !important;
+            /* Eliminar cualquier borde o espacio extra */
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+        }
         
+        /* ===== LOGIN - PANTALLA COMPLETA ===== */
         #loginScreen {
             display: block !important;
             background: white;
-            padding: 30px 24px;
-            border-radius: 24px;
+            padding: 20px 16px;
+            border-radius: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.35);
             max-width: 420px;
-            width: 100%;
+            width: 92%;
             text-align: center;
             max-height: 95vh;
             overflow-y: auto;
             transition: all 0.3s;
             position: relative;
             z-index: 10;
+            margin: auto;
         }
+        
         #loginScreen.hidden { display: none !important; }
         
-        .logo-icon { font-size: 56px; color: var(--primary); display: block; margin-bottom: 2px; animation: bounce 3s ease-in-out infinite; transition: color 0.3s; }
+        .logo-icon { font-size: 48px; color: var(--primary); display: block; margin-bottom: 2px; animation: bounce 3s ease-in-out infinite; transition: color 0.3s; }
         @keyframes bounce { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
-        .logo-title { font-size: 20px; font-weight: 800; color: var(--primary-dark); line-height: 1.2; transition: color 0.3s; }
+        .logo-title { font-size: 18px; font-weight: 800; color: var(--primary-dark); line-height: 1.2; transition: color 0.3s; }
         .logo-title span { color: var(--primary); transition: color 0.3s; }
-        .logo-subtitle { color: #8899A6; margin-bottom: 16px; font-size: 13px; margin-top: 2px; }
+        .logo-subtitle { color: #8899A6; margin-bottom: 14px; font-size: 12px; margin-top: 2px; }
         
-        .user-selector { margin-bottom: 16px; }
-        .user-selector .label { font-size: 12px; font-weight: 600; color: #1A1A1A; text-align: left; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+        .user-selector { margin-bottom: 14px; }
+        .user-selector .label { font-size: 11px; font-weight: 600; color: #1A1A1A; text-align: left; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
         .user-selector .label i { color: var(--primary); transition: color 0.3s; }
         
         .user-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            max-height: 180px;
+            gap: 6px;
+            max-height: 160px;
             overflow-y: auto;
-            padding: 4px 2px;
+            padding: 2px;
         }
-        .user-grid::-webkit-scrollbar { width: 4px; }
-        .user-grid::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 10px; }
+        .user-grid::-webkit-scrollbar { width: 3px; }
+        .user-grid::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 8px; }
         
         .user-card {
             background: #F8F9FA;
             border: 2px solid #E9EDEF;
-            border-radius: 12px;
-            padding: 10px 6px;
+            border-radius: 10px;
+            padding: 6px 3px;
             text-align: center;
             cursor: pointer;
             transition: all 0.25s ease;
@@ -95,16 +129,16 @@
         .user-card:active { transform: scale(0.96); }
         .user-card.selected { background: var(--primary-lighter); border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.15); }
         .user-card.selected .user-avatar { background: var(--primary); color: white; }
-        .user-card .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: #DEE2E6; color: #495057; display: flex; align-items: center; justify-content: center; margin: 0 auto 4px; font-weight: 700; font-size: 14px; transition: all 0.3s; }
-        .user-card .user-name { font-size: 11px; font-weight: 500; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .user-card .user-status-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; border-radius: 50%; border: 2px solid white; }
+        .user-card .user-avatar { width: 30px; height: 30px; border-radius: 50%; background: #DEE2E6; color: #495057; display: flex; align-items: center; justify-content: center; margin: 0 auto 3px; font-weight: 700; font-size: 12px; transition: all 0.3s; }
+        .user-card .user-name { font-size: 9px; font-weight: 500; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-card .user-status-dot { position: absolute; top: 4px; right: 4px; width: 6px; height: 6px; border-radius: 50%; border: 2px solid white; }
         .user-card .user-status-dot.online { background: #28a745; }
         .user-card .user-status-dot.offline { background: #ccc; }
         
-        .form-group { margin-bottom: 14px; text-align: left; }
-        .form-group label { display: block; font-size: 12px; font-weight: 600; color: #1A1A1A; margin-bottom: 4px; }
+        .form-group { margin-bottom: 12px; text-align: left; }
+        .form-group label { display: block; font-size: 11px; font-weight: 600; color: #1A1A1A; margin-bottom: 3px; }
         .form-group input { 
-            width: 100%; padding: 12px 14px; border: 2px solid #E9EDEF; border-radius: 12px;
+            width: 100%; padding: 10px 12px; border: 2px solid #E9EDEF; border-radius: 10px;
             font-size: 16px; transition: all 0.3s; font-family: inherit; background: #FAFBFC;
             -webkit-appearance: none; appearance: none;
             touch-action: manipulation;
@@ -112,24 +146,24 @@
         .form-group input:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(26, 95, 180, 0.1); }
         
         .input-icon { position: relative; }
-        .input-icon i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #8899A6; font-size: 15px; z-index: 1; }
-        .input-icon input { padding-left: 42px; padding-right: 42px; }
+        .input-icon i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #8899A6; font-size: 14px; z-index: 1; }
+        .input-icon input { padding-left: 36px; padding-right: 36px; }
         
-        .btn-primary { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s; margin-top: 6px; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        .btn-primary { width: 100%; padding: 12px; background: var(--primary); color: white; border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.3s; margin-top: 4px; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
         .btn-primary:active { transform: scale(0.97); }
         .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
         
-        .password-toggle { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #8899A6; cursor: pointer; font-size: 15px; z-index: 1; padding: 4px; touch-action: manipulation; }
+        .password-toggle { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #8899A6; cursor: pointer; font-size: 14px; z-index: 1; padding: 4px; touch-action: manipulation; }
         
-        .error-msg { color: var(--error); font-size: 13px; margin-top: 10px; display: none; padding: 10px; background: #FFF0F0; border-radius: 8px; border-left: 4px solid var(--error); }
-        .success-msg { color: var(--success); font-size: 13px; margin-top: 10px; display: none; padding: 10px; background: #F0FFF4; border-radius: 8px; border-left: 4px solid var(--success); }
-        .warning-msg { color: var(--warning); font-size: 13px; margin-top: 10px; display: none; padding: 10px; background: #FFF3CD; border-radius: 8px; border-left: 4px solid var(--warning); }
+        .error-msg { color: var(--error); font-size: 12px; margin-top: 8px; display: none; padding: 8px; background: #FFF0F0; border-radius: 6px; border-left: 4px solid var(--error); }
+        .success-msg { color: var(--success); font-size: 12px; margin-top: 8px; display: none; padding: 8px; background: #F0FFF4; border-radius: 6px; border-left: 4px solid var(--success); }
+        .warning-msg { color: var(--warning); font-size: 12px; margin-top: 8px; display: none; padding: 8px; background: #FFF3CD; border-radius: 6px; border-left: 4px solid var(--warning); }
         
-        .theme-selector { display: flex; gap: 8px; justify-content: center; margin: 12px 0 16px; flex-wrap: wrap; }
-        .theme-btn { width: 32px; height: 32px; border-radius: 50%; border: 3px solid #E9EDEF; cursor: pointer; transition: all 0.3s; -webkit-tap-highlight-color: transparent; position: relative; touch-action: manipulation; }
+        .theme-selector { display: flex; gap: 6px; justify-content: center; margin: 10px 0 14px; flex-wrap: wrap; }
+        .theme-btn { width: 26px; height: 26px; border-radius: 50%; border: 3px solid #E9EDEF; cursor: pointer; transition: all 0.3s; -webkit-tap-highlight-color: transparent; position: relative; touch-action: manipulation; }
         .theme-btn:hover { transform: scale(1.1); }
         .theme-btn.active { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.2); }
-        .theme-btn .check { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 12px; }
+        .theme-btn .check { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 10px; }
         .theme-btn.active .check { display: block; }
         .theme-azul-btn { background: #1A5FB4; }
         .theme-verde-btn { background: #28A745; }
@@ -137,44 +171,51 @@
         .theme-morado-btn { background: #6F42C1; }
         .theme-naranja-btn { background: #E67E22; }
         
+        /* ===== CHAT - PANTALLA COMPLETA ===== */
         #chatApp {
             display: none;
             width: 100%;
-            max-width: 480px;
-            height: 100vh;
-            max-height: 750px;
+            height: 100%;
+            height: 100dvh;
+            max-width: 100%;
+            max-height: 100%;
             background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.35);
             flex-direction: column;
             overflow: hidden;
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 0;
+            box-shadow: none;
         }
+        
         #chatApp.active { display: flex; }
         
-        .chat-header { background: var(--bg-header); padding: 10px 14px; display: flex; align-items: center; gap: 8px; flex-shrink: 0; min-height: 52px; transition: background 0.3s; flex-wrap: wrap; }
-        .chat-header .header-icon { color: white; font-size: 18px; }
-        .chat-header .avatar { width: 34px; height: 34px; border-radius: 50%; background: rgba(255,255,255,0.2); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+        .chat-header { background: var(--bg-header); padding: 8px 10px; display: flex; align-items: center; gap: 5px; flex-shrink: 0; min-height: 44px; transition: background 0.3s; flex-wrap: wrap; }
+        .chat-header .header-icon { color: white; font-size: 16px; }
+        .chat-header .avatar { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.2); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 12px; flex-shrink: 0; }
         .chat-header .info { flex: 1; min-width: 0; }
-        .chat-header .info h2 { color: white; font-size: 14px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .chat-header .info .status { color: rgba(255,255,255,0.8); font-size: 10px; }
-        .chat-header .info .status .dot { width: 6px; height: 6px; background: #4CAF50; border-radius: 50%; display: inline-block; margin-right: 3px; animation: pulse 2s infinite; }
+        .chat-header .info h2 { color: white; font-size: 12px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .chat-header .info .status { color: rgba(255,255,255,0.8); font-size: 9px; }
+        .chat-header .info .status .dot { width: 5px; height: 5px; background: #4CAF50; border-radius: 50%; display: inline-block; margin-right: 2px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .chat-header .header-btn { background: rgba(255,255,255,0.12); border: none; color: white; padding: 4px 8px; border-radius: 5px; cursor: pointer; font-size: 11px; transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
+        .chat-header .header-btn { background: rgba(255,255,255,0.12); border: none; color: white; padding: 3px 6px; border-radius: 4px; cursor: pointer; font-size: 10px; transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
         .chat-header .header-btn:hover { background: rgba(255,255,255,0.25); }
         .chat-header .header-btn.active { background: rgba(255,255,255,0.3); border-bottom: 2px solid white; }
-        .chat-header .logout-btn { background: rgba(255,255,255,0.15); border: none; color: white; padding: 4px 8px; border-radius: 5px; cursor: pointer; font-size: 11px; transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
+        .chat-header .logout-btn { background: rgba(255,255,255,0.15); border: none; color: white; padding: 3px 6px; border-radius: 4px; cursor: pointer; font-size: 10px; transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
         
         .notification-badge {
             position: fixed;
-            top: 16px;
-            right: 16px;
+            top: 10px;
+            right: 10px;
             background: #dc3545;
             color: white;
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            font-size: 10px;
+            width: 20px;
+            height: 20px;
+            font-size: 9px;
             font-weight: 700;
             display: none;
             align-items: center;
@@ -187,238 +228,114 @@
         .notification-badge.show { display: flex; }
         @keyframes notifPop { 0% { transform: scale(0.5); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
         
-        .online-users { padding: 3px 10px; background: #F8F9FA; border-bottom: 1px solid #E9EDEF; font-size: 10px; color: #667781; display: flex; gap: 4px; flex-wrap: wrap; align-items: center; flex-shrink: 0; min-height: 26px; }
-        .online-users .badge { display: flex; align-items: center; gap: 3px; background: #E9EDEF; padding: 1px 5px 1px 3px; border-radius: 8px; font-size: 9px; }
-        .online-users .badge .dot { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
+        .online-users { padding: 2px 8px; background: #F8F9FA; border-bottom: 1px solid #E9EDEF; font-size: 9px; color: #667781; display: flex; gap: 3px; flex-wrap: wrap; align-items: center; flex-shrink: 0; min-height: 22px; }
+        .online-users .badge { display: flex; align-items: center; gap: 2px; background: #E9EDEF; padding: 1px 4px 1px 3px; border-radius: 6px; font-size: 8px; }
+        .online-users .badge .dot { width: 4px; height: 4px; border-radius: 50%; display: inline-block; }
         .online-users .badge .dot.online { background: #4CAF50; }
         
-        .messages-container { flex: 1; overflow-y: auto; padding: 8px 10px; background: var(--bg-chat); display: flex; flex-direction: column; gap: 2px; -webkit-overflow-scrolling: touch; transition: background 0.3s; }
+        .messages-container { flex: 1; overflow-y: auto; padding: 6px 8px; background: var(--bg-chat); display: flex; flex-direction: column; gap: 2px; -webkit-overflow-scrolling: touch; transition: background 0.3s; }
         .messages-container::-webkit-scrollbar { width: 3px; }
-        .messages-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 8px; }
+        .messages-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 6px; }
         
-        .message { max-width: 85%; padding: 6px 10px; border-radius: 10px; animation: slideIn 0.2s ease; word-wrap: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.05); touch-action: manipulation; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(5px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        .message.sent { background: var(--bubble-sent); align-self: flex-end; border-bottom-right-radius: 3px; transition: background 0.3s; }
-        .message.received { background: var(--bubble-received); align-self: flex-start; border-bottom-left-radius: 3px; }
-        .message .text { font-size: 13px; line-height: 1.4; color: #1A1A1A; }
-        .message .footer { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-top: 2px; font-size: 9px; color: #667781; }
+        .message { max-width: 85%; padding: 5px 8px; border-radius: 8px; animation: slideIn 0.2s ease; word-wrap: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.04); touch-action: manipulation; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(4px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .message.sent { background: var(--bubble-sent); align-self: flex-end; border-bottom-right-radius: 2px; transition: background 0.3s; }
+        .message.received { background: var(--bubble-received); align-self: flex-start; border-bottom-left-radius: 2px; }
+        .message .text { font-size: 12px; line-height: 1.4; color: #1A1A1A; }
+        .message .footer { display: flex; align-items: center; justify-content: flex-end; gap: 3px; margin-top: 1px; font-size: 8px; color: #667781; }
         .message .footer .author { font-weight: 600; color: var(--primary); transition: color 0.3s; }
-        .message .footer .status { font-size: 11px; }
+        .message .footer .status { font-size: 10px; }
         
-        /* ===== MENSAJES DE TAREO ===== */
-        .message.tareo { max-width: 95%; background: var(--tareo-bg); border-left: 4px solid var(--primary); align-self: center; text-align: center; border-radius: 10px; padding: 6px 12px; }
+        .message.tareo { max-width: 95%; background: var(--tareo-bg); border-left: 4px solid var(--primary); align-self: center; text-align: center; border-radius: 8px; padding: 5px 10px; }
         .message.tareo.inicio { border-left-color: var(--tareo-inicio); }
         .message.tareo.termino { border-left-color: var(--tareo-termino); }
-        .message.tareo .tareo-icon { font-size: 18px; display: block; margin-bottom: 1px; }
-        .message.tareo .tareo-text { font-size: 12px; font-weight: 600; color: var(--primary-dark); }
-        .message.tareo .tareo-hora { font-size: 16px; font-weight: 700; color: var(--primary); }
-        .message.tareo .tareo-usuario { font-size: 10px; color: #667781; }
+        .message.tareo .tareo-icon { font-size: 16px; display: block; margin-bottom: 1px; }
+        .message.tareo .tareo-text { font-size: 11px; font-weight: 600; color: var(--primary-dark); }
+        .message.tareo .tareo-hora { font-size: 14px; font-weight: 700; color: var(--primary); }
+        .message.tareo .tareo-usuario { font-size: 9px; color: #667781; }
         .message.tareo .footer { justify-content: center; }
         
-        .date-divider { text-align: center; margin: 4px 0 8px; }
-        .date-divider span { background: rgba(26, 95, 180, 0.08); padding: 2px 10px; border-radius: 5px; font-size: 10px; color: #667781; }
+        .date-divider { text-align: center; margin: 3px 0 6px; }
+        .date-divider span { background: rgba(26, 95, 180, 0.08); padding: 1px 8px; border-radius: 4px; font-size: 9px; color: #667781; }
         
-        .typing-indicator { display: flex; align-items: center; gap: 4px; padding: 4px 10px; background: rgba(255,255,255,0.85); border-radius: 10px; align-self: flex-start; margin-bottom: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .typing-dot { width: 5px; height: 5px; background: #667781; border-radius: 50%; animation: typingAnim 1.4s infinite; }
+        .typing-indicator { display: flex; align-items: center; gap: 3px; padding: 3px 8px; background: rgba(255,255,255,0.85); border-radius: 8px; align-self: flex-start; margin-bottom: 1px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+        .typing-dot { width: 4px; height: 4px; background: #667781; border-radius: 50%; animation: typingAnim 1.4s infinite; }
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typingAnim { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-4px); opacity: 1; } }
-        .typing-text { font-size: 10px; color: #667781; margin-left: 2px; }
+        @keyframes typingAnim { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-3px); opacity: 1; } }
+        .typing-text { font-size: 9px; color: #667781; margin-left: 2px; }
         
-        /* ===== INPUT AREA ===== */
-        .input-area { 
-            background: #F0F2F5; 
-            padding: 5px 8px; 
-            display: flex; 
-            flex-direction: column;
-            gap: 4px;
-            border-top: 1px solid #D9D9D9;
-            flex-shrink: 0;
-        }
-        .input-area .input-row { 
-            display: flex; 
-            gap: 5px; 
-            align-items: center;
-            width: 100%;
-        }
-        .input-area input[type="text"] { 
-            flex: 1; 
-            padding: 7px 10px; 
-            border: 2px solid transparent; 
-            border-radius: 16px; 
-            font-size: 16px; 
-            outline: none; 
-            font-family: inherit; 
-            background: white; 
-            transition: all 0.3s; 
-            -webkit-appearance: none; 
-            appearance: none;
-            min-height: 36px;
-            touch-action: manipulation;
-        }
-        .input-area input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.12); }
-        .input-area input[type="text"]::placeholder { color: #8899A6; font-size: 13px; }
-        .input-area .send-btn { 
-            background: var(--primary); 
-            border: none; 
-            color: white; 
-            width: 36px; 
-            height: 36px; 
-            border-radius: 50%; 
-            font-size: 13px; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            flex-shrink: 0; 
-            -webkit-tap-highlight-color: transparent; 
-            touch-action: manipulation;
-        }
+        .input-area { background: #F0F2F5; padding: 4px 6px; display: flex; flex-direction: column; gap: 3px; border-top: 1px solid #D9D9D9; flex-shrink: 0; }
+        .input-area .input-row { display: flex; gap: 4px; align-items: center; width: 100%; }
+        .input-area input[type="text"] { flex: 1; padding: 6px 8px; border: 2px solid transparent; border-radius: 14px; font-size: 16px; outline: none; font-family: inherit; background: white; transition: all 0.3s; -webkit-appearance: none; appearance: none; min-height: 32px; touch-action: manipulation; }
+        .input-area input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1); }
+        .input-area input[type="text"]::placeholder { color: #8899A6; font-size: 12px; }
+        .input-area .send-btn { background: var(--primary); border: none; color: white; width: 32px; height: 32px; border-radius: 50%; font-size: 12px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
         .input-area .send-btn:active { transform: scale(0.92); }
         .input-area .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
         
-        /* ===== TAREO INPUTS ===== */
         .tareo-inputs {
             display: none;
             flex-direction: column;
-            gap: 6px;
+            gap: 4px;
             background: #E8ECF0;
-            padding: 8px 10px;
-            border-radius: 12px;
+            padding: 6px 8px;
+            border-radius: 10px;
             width: 100%;
         }
         .tareo-inputs.active { display: flex; }
         
-        .tareo-inputs .tareo-fila {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .tareo-inputs .tareo-fila .tareo-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: #333;
-            min-width: 55px;
-            text-align: right;
-        }
+        .tareo-inputs .tareo-fila { display: flex; align-items: center; gap: 6px; }
+        .tareo-inputs .tareo-fila .tareo-label { font-size: 10px; font-weight: 700; color: #333; min-width: 48px; text-align: right; }
         .tareo-inputs .tareo-fila .tareo-label.inicio-label { color: var(--tareo-inicio); }
         .tareo-inputs .tareo-fila .tareo-label.termino-label { color: var(--tareo-termino); }
         
-        .tareo-inputs .tareo-fila .tareo-input-group {
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            flex: 1;
-        }
-        .tareo-inputs .tareo-fila .tareo-input-group input {
-            width: 48px;
-            padding: 5px 4px;
-            border: 2px solid #D9D9D9;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            text-align: center;
-            font-family: inherit;
-            background: white;
-            -webkit-appearance: none;
-            appearance: none;
-            touch-action: manipulation;
-        }
-        .tareo-inputs .tareo-fila .tareo-input-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1);
-        }
-        .tareo-inputs .tareo-fila .tareo-input-group input::placeholder {
-            color: #ccc;
-            font-size: 11px;
-        }
-        .tareo-inputs .tareo-fila .tareo-input-group .tareo-sep {
-            font-size: 16px;
-            font-weight: 700;
-            color: #666;
-            padding: 0 2px;
-        }
-        .tareo-inputs .tareo-fila .tareo-input-group .tareo-emoji {
-            font-size: 14px;
-            margin-left: 4px;
-        }
+        .tareo-inputs .tareo-fila .tareo-input-group { display: flex; align-items: center; gap: 2px; flex: 1; }
+        .tareo-inputs .tareo-fila .tareo-input-group input { width: 42px; padding: 4px 3px; border: 2px solid #D9D9D9; border-radius: 6px; font-size: 15px; font-weight: 600; text-align: center; font-family: inherit; background: white; -webkit-appearance: none; appearance: none; touch-action: manipulation; }
+        .tareo-inputs .tareo-fila .tareo-input-group input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1); }
+        .tareo-inputs .tareo-fila .tareo-input-group input::placeholder { color: #ccc; font-size: 10px; }
+        .tareo-inputs .tareo-fila .tareo-input-group .tareo-sep { font-size: 14px; font-weight: 700; color: #666; padding: 0 1px; }
+        .tareo-inputs .tareo-fila .tareo-input-group .tareo-emoji { font-size: 12px; margin-left: 2px; }
         
-        .tareo-inputs .tareo-enviar {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 2px;
-        }
-        .tareo-inputs .tareo-enviar .tareo-btn-enviar {
-            padding: 6px 20px;
-            border: none;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 700;
-            background: var(--primary);
-            color: white;
-            cursor: pointer;
-            transition: all 0.2s;
-            touch-action: manipulation;
-            width: 100%;
-        }
+        .tareo-inputs .tareo-enviar { display: flex; margin-top: 2px; }
+        .tareo-inputs .tareo-enviar .tareo-btn-enviar { padding: 5px 14px; border: none; border-radius: 6px; font-size: 12px; font-weight: 700; background: var(--primary); color: white; cursor: pointer; transition: all 0.2s; touch-action: manipulation; width: 100%; }
         .tareo-inputs .tareo-enviar .tareo-btn-enviar:active { transform: scale(0.96); }
         .tareo-inputs .tareo-enviar .tareo-btn-enviar:disabled { opacity: 0.5; cursor: not-allowed; }
-        .tareo-inputs .tareo-enviar .tareo-btn-enviar:hover { opacity: 0.9; }
         
-        .loader { text-align: center; color: #667781; font-size: 12px; padding: 16px; }
-        .loader i { margin-right: 6px; }
+        .loader { text-align: center; color: #667781; font-size: 11px; padding: 12px; }
+        .loader i { margin-right: 4px; }
         
-        .toast { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 8px 16px; border-radius: 10px; font-size: 12px; z-index: 999; animation: toastIn 0.3s ease; display: none; max-width: 90%; text-align: center; }
-        @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(12px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+        .toast { position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 6px 14px; border-radius: 8px; font-size: 11px; z-index: 999; animation: toastIn 0.3s ease; display: none; max-width: 90%; text-align: center; }
+        @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
         
-        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 46, 92, 0.92); display: none; align-items: center; justify-content: center; z-index: 1000; flex-direction: column; gap: 16px; }
+        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 46, 92, 0.92); display: none; align-items: center; justify-content: center; z-index: 1000; flex-direction: column; gap: 12px; }
         .loading-overlay.show { display: flex; }
-        .loading-overlay .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.2); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
-        .loading-overlay .text { color: white; font-size: 15px; font-weight: 500; }
+        .loading-overlay .spinner { width: 36px; height: 36px; border: 4px solid rgba(255,255,255,0.2); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .loading-overlay .text { color: white; font-size: 14px; font-weight: 500; }
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        .sound-indicator { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 5px 12px; border-radius: 14px; font-size: 11px; z-index: 999; display: none; align-items: center; gap: 5px; animation: fadeInOut 1.5s ease; }
+        .sound-indicator { position: fixed; top: 12px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 4px 10px; border-radius: 12px; font-size: 10px; z-index: 999; display: none; align-items: center; gap: 4px; animation: fadeInOut 1.5s ease; }
         .sound-indicator.show { display: flex; }
-        .sound-indicator i { font-size: 13px; }
-        @keyframes fadeInOut { 0% { opacity: 0; transform: translateX(-50%) translateY(-8px); } 20% { opacity: 1; transform: translateX(-50%) translateY(0); } 80% { opacity: 1; transform: translateX(-50%) translateY(0); } 100% { opacity: 0; transform: translateX(-50%) translateY(-8px); } }
+        .sound-indicator i { font-size: 12px; }
+        @keyframes fadeInOut { 0% { opacity: 0; transform: translateX(-50%) translateY(-6px); } 20% { opacity: 1; transform: translateX(-50%) translateY(0); } 80% { opacity: 1; transform: translateX(-50%) translateY(0); } 100% { opacity: 0; transform: translateX(-50%) translateY(-6px); } }
         
-        /* ===== RESPONSIVE MAX (6.8" - 6.9") ===== */
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 520px) {
-            body { padding: 0; background: var(--primary-dark); align-items: flex-start; padding-top: 6px; }
-            #chatApp { max-height: 100vh; border-radius: 0; max-width: 100%; height: 100vh; height: calc(100vh - env(safe-area-inset-bottom)); }
-            #loginScreen { padding: 18px 14px; border-radius: 18px; margin: 8px; max-height: 98vh; }
-            .message { max-width: 90%; }
-            .message.tareo { max-width: 98%; }
+            body { padding: 0 !important; margin: 0 !important; }
+            #loginScreen { padding: 16px 12px; border-radius: 16px; width: 94%; max-width: 360px; }
+            .user-grid { grid-template-columns: repeat(3, 1fr); gap: 4px; max-height: 140px; }
+            .user-card { padding: 4px 2px; }
+            .user-card .user-avatar { width: 26px; height: 26px; font-size: 10px; }
+            .user-card .user-name { font-size: 8px; }
             .logo-icon { font-size: 40px; }
-            .logo-title { font-size: 17px; }
-            .user-grid { grid-template-columns: repeat(3, 1fr); gap: 5px; max-height: 140px; }
-            .user-card { padding: 6px 3px; }
-            .user-card .user-avatar { width: 28px; height: 28px; font-size: 11px; }
-            .user-card .user-name { font-size: 9px; }
-            .form-group input { font-size: 16px; padding: 10px 12px; }
-            .btn-primary { font-size: 14px; padding: 12px; }
-            .chat-header { padding: 6px 8px; min-height: 42px; gap: 4px; }
-            .chat-header .info h2 { font-size: 12px; }
-            .chat-header .header-btn { font-size: 10px; padding: 3px 6px; }
-            .messages-container { padding: 6px 8px; }
-            .input-area { padding: 4px 6px; }
-            .input-area input[type="text"] { font-size: 16px; padding: 6px 8px; min-height: 32px; }
-            .input-area .send-btn { width: 32px; height: 32px; font-size: 12px; }
-            .theme-selector { gap: 4px; }
-            .theme-btn { width: 24px; height: 24px; }
-            .notification-badge { width: 20px; height: 20px; font-size: 9px; top: 8px; right: 8px; }
-            .message.tareo .tareo-icon { font-size: 15px; }
-            .message.tareo .tareo-hora { font-size: 14px; }
-            .tareo-inputs { padding: 6px 6px; gap: 4px; }
-            .tareo-inputs .tareo-fila .tareo-label { min-width: 40px; font-size: 10px; }
-            .tareo-inputs .tareo-fila .tareo-input-group input { width: 40px; font-size: 14px; padding: 4px 2px; }
-            .tareo-inputs .tareo-enviar .tareo-btn-enviar { font-size: 12px; padding: 5px 14px; }
+            .logo-title { font-size: 16px; }
+            .form-group input { font-size: 16px; padding: 8px 10px; }
+            .btn-primary { font-size: 14px; padding: 10px; }
+            .theme-btn { width: 22px; height: 22px; }
+            .tareo-inputs .tareo-fila .tareo-label { min-width: 38px; font-size: 9px; }
+            .tareo-inputs .tareo-fila .tareo-input-group input { width: 36px; font-size: 13px; padding: 3px 2px; }
+            .tareo-inputs .tareo-enviar .tareo-btn-enviar { font-size: 11px; padding: 4px 10px; }
         }
-        @media (max-width: 400px) { .user-grid { grid-template-columns: repeat(2, 1fr); } }
-        
-        input, select, textarea, button { font-size: 16px !important; }
     </style>
 </head>
 <body>
@@ -455,7 +372,7 @@
     <div class="user-selector">
         <div class="label">
             <i class="fas fa-users"></i> Selecciona tu usuario
-            <span style="font-size:10px;color:#8899A6;font-weight:400;margin-left:auto;" id="userCountLabel">0 conectados</span>
+            <span style="font-size:9px;color:#8899A6;font-weight:400;margin-left:auto;" id="userCountLabel">0 conectados</span>
         </div>
         <div class="user-grid" id="userGrid"></div>
     </div>
@@ -513,7 +430,6 @@
     </div>
     
     <div class="input-area" id="inputArea">
-        <!-- Fila normal de chat -->
         <div class="input-row" id="chatInputRow">
             <input type="text" id="messageInput" placeholder="Escribe un mensaje..." autocomplete="off" inputmode="text" enterkeyhint="send">
             <button class="send-btn" id="sendBtn">
@@ -521,9 +437,7 @@
             </button>
         </div>
         
-        <!-- TAREO - Campos juntos -->
         <div class="tareo-inputs" id="tareoInputs">
-            <!-- Fila 1: Inicio -->
             <div class="tareo-fila">
                 <span class="tareo-label inicio-label">🟢 Inicio</span>
                 <div class="tareo-input-group">
@@ -533,7 +447,6 @@
                     <span class="tareo-emoji">🟢</span>
                 </div>
             </div>
-            <!-- Fila 2: Término -->
             <div class="tareo-fila">
                 <span class="tareo-label termino-label">🔴 Término</span>
                 <div class="tareo-input-group">
@@ -543,7 +456,6 @@
                     <span class="tareo-emoji">🔴</span>
                 </div>
             </div>
-            <!-- Botón Enviar -->
             <div class="tareo-enviar">
                 <button class="tareo-btn-enviar" id="tareoEnviarBtn">
                     <i class="fas fa-paper-plane"></i> Enviar Tareo
@@ -881,7 +793,7 @@
     function renderUserGrid(connectedUsers) {
         const names = Object.keys(AUTHORIZED_USERS);
         if (names.length === 0) {
-            userGrid.innerHTML = '<span style="color:#999;font-size:12px;grid-column:1/-1;text-align:center;padding:16px;">No hay usuarios autorizados</span>';
+            userGrid.innerHTML = '<span style="color:#999;font-size:10px;grid-column:1/-1;text-align:center;padding:10px;">No hay usuarios autorizados</span>';
             return;
         }
         userGrid.innerHTML = names.map(name => {
@@ -968,22 +880,14 @@
     }
     
     function getTareoData() {
-        const inicioHora = tareoInicio.value.padStart(2, '0') || '00';
-        const inicioMin = tareoInicioMin.value.padStart(2, '0') || '00';
-        const terminoHora = tareoTermino.value.padStart(2, '0') || '00';
-        const terminoMin = tareoTerminoMin.value.padStart(2, '0') || '00';
-        
         return {
-            inicio: `${inicioHora}:${inicioMin}`,
-            termino: `${terminoHora}:${terminoMin}`
+            inicio: `${tareoInicio.value.padStart(2, '0') || '00'}:${tareoInicioMin.value.padStart(2, '0') || '00'}`,
+            termino: `${tareoTermino.value.padStart(2, '0') || '00'}:${tareoTerminoMin.value.padStart(2, '0') || '00'}`
         };
     }
     
     function registrarTareoCompleto() {
-        if (!database || !currentUser) {
-            showToast('❌ Error de conexión');
-            return;
-        }
+        if (!database || !currentUser) { showToast('❌ Error de conexión'); return; }
         
         const data = getTareoData();
         const horaInicio = data.inicio;
@@ -1002,16 +906,9 @@
         }
         
         const today = getTodayISO();
-        
         const tareoRef = database.ref(`tareo/${currentUser}/${today}`);
-        const updateData = {
-            inicio: horaInicio,
-            termino: horaTermino,
-            fecha: today,
-            usuario: currentDisplayName
-        };
-        
-        tareoRef.update(updateData).then(() => {
+        tareoRef.update({ inicio: horaInicio, termino: horaTermino, fecha: today, usuario: currentDisplayName })
+        .then(() => {
             const tareoMessage = {
                 user: currentUser,
                 displayName: currentDisplayName,
@@ -1025,26 +922,18 @@
                 tareoUsuario: currentDisplayName,
                 tareoEmoji: '📋'
             };
-            
-            const tareoMessagesRef = database.ref('messages/tareo');
-            tareoMessagesRef.push(tareoMessage).then(() => {
-                const generalMessage = {
+            database.ref('messages/tareo').push(tareoMessage).then(() => {
+                database.ref('messages/general').push({
                     user: currentUser,
                     displayName: currentDisplayName,
                     text: `⏰ ${currentDisplayName} registró su jornada: Inicio ${horaInicio} - Término ${horaTermino}`,
                     time: getTime(),
                     timestamp: firebase.database.ServerValue.TIMESTAMP,
                     isTareoNotification: true
-                };
-                const generalMessagesRef = database.ref('messages/general');
-                generalMessagesRef.push(generalMessage);
-                
+                });
                 showToast(`✅ Jornada registrada: ${horaInicio} - ${horaTermino}`);
                 playSoundTareo();
-                
-                if (currentRoom === 'tareo') {
-                    loadMessages();
-                }
+                if (currentRoom === 'tareo') loadMessages();
             });
         }).catch((error) => {
             console.error('Error al registrar tareo:', error);
@@ -1071,7 +960,7 @@
             if (data.tareoTipo === 'completo') {
                 content = `
                     <div class="tareo-text">📋 ${escapeHTML(data.tareoUsuario || data.displayName)}</div>
-                    <div style="display:flex;justify-content:center;gap:16px;margin:4px 0;">
+                    <div style="display:flex;justify-content:center;gap:12px;margin:3px 0;">
                         <span style="color:var(--tareo-inicio);font-weight:700;">🟢 ${escapeHTML(data.tareoInicio || '')}</span>
                         <span style="color:var(--tareo-termino);font-weight:700;">🔴 ${escapeHTML(data.tareoTermino || '')}</span>
                     </div>
@@ -1139,7 +1028,7 @@
     
     function loadMessages() {
         if (!database) {
-            messagesContainer.innerHTML = '<div style="text-align:center;padding:30px;color:#667781;">⚠️ Error de conexión con Firebase</div>';
+            messagesContainer.innerHTML = '<div style="text-align:center;padding:20px;color:#667781;font-size:12px;">⚠️ Error de conexión con Firebase</div>';
             return;
         }
         
@@ -1172,10 +1061,10 @@
                     ? 'No hay mensajes en el chat general' 
                     : 'No hay registros de tareo hoy';
                 messagesContainer.innerHTML = `
-                    <div style="text-align:center;padding:30px 20px;color:#667781;">
-                        <i class="fas fa-${currentRoom === 'general' ? 'comment' : 'clock'}" style="font-size:36px;opacity:0.3;display:block;margin-bottom:8px;"></i>
-                        <p style="font-size:13px;">${emptyMsg}</p>
-                        <p style="font-size:11px;">${currentRoom === 'general' ? '¡Envía el primer mensaje!' : 'Registra tu asistencia con los campos de Tareo'}</p>
+                    <div style="text-align:center;padding:20px 16px;color:#667781;">
+                        <i class="fas fa-${currentRoom === 'general' ? 'comment' : 'clock'}" style="font-size:32px;opacity:0.3;display:block;margin-bottom:6px;"></i>
+                        <p style="font-size:12px;">${emptyMsg}</p>
+                        <p style="font-size:10px;">${currentRoom === 'general' ? '¡Envía el primer mensaje!' : 'Registra tu asistencia con los campos de Tareo'}</p>
                     </div>
                 `;
             }
@@ -1208,13 +1097,11 @@
             }
             renderUserGrid(connectedNames);
             if (users.length === 0) {
-                userList.innerHTML = '<span style="color:#999;">Sin usuarios conectados</span>';
+                userList.innerHTML = '<span style="color:#999;font-size:9px;">Sin usuarios conectados</span>';
             } else {
                 const userItems = users.map(u => {
                     const displayName = data[u]?.displayName || u;
-                    return `<span class="badge">
-                        <span class="dot online"></span> ${escapeHTML(displayName)}
-                    </span>`;
+                    return `<span class="badge"><span class="dot online"></span> ${escapeHTML(displayName)}</span>`;
                 });
                 userList.innerHTML = userItems.join(' ');
             }
@@ -1537,10 +1424,8 @@
         }
     });
     
-    // ===== TAREO EVENTOS =====
     tareoEnviarBtn.addEventListener('click', registrarTareoCompleto);
     
-    // Limitar inputs de números
     [tareoInicio, tareoTermino].forEach(input => {
         input.addEventListener('input', function() {
             let val = parseInt(this.value);
@@ -1569,7 +1454,7 @@
     
     console.log('🚛 Transportes Mantenimiento - Chat con Sala Tareo');
     console.log('📋 Usuarios autorizados:', Object.keys(AUTHORIZED_USERS).length);
-    console.log('✅ Sala "Tareo Diario" integrada');
+    console.log('✅ Pantalla completa optimizada para celular');
     console.log('📌 REGLAS DE FIREBASE:');
     console.log('{');
     console.log('  "rules": {');
