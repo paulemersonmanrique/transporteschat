@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Transportes Mantenimiento - Tareo</title>
+    <title>Transportes Mantenimiento - IMCO</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
@@ -11,7 +12,13 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     
+    <!-- html2pdf para reportes -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
     <style>
+        /* ===== RESET ===== */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         /* ===== TEMAS ===== */
         :root {
             --primary-dark: #0A2E5C;
@@ -28,63 +35,127 @@
             --tareo-bg: #F0F4F8;
             --tareo-inicio: #28a745;
             --tareo-termino: #dc3545;
+            --reporte-bg: #F8F9FA;
+            
+            /* ===== TAMAÑOS ===== */
+            --scale: 1;
+            --font-base: 14px;
+            --padding-base: 8px;
+            --radius-base: 10px;
+            --avatar-size: 34px;
+            --input-height: 38px;
+            --btn-size: 36px;
+            --card-padding: 8px 4px;
+            --header-height: 44px;
+            --msg-padding: 5px 8px;
+            --tareo-input-width: 44px;
+            --tareo-label-width: 50px;
+            --login-padding: 24px;
+            --login-radius: 20px;
+            --logo-size: 48px;
+            --title-size: 18px;
+            --subtitle-size: 12px;
+            --user-card-padding: 8px 4px;
+            --user-avatar-size: 30px;
+            --user-name-size: 10px;
+            --user-grid-gap: 6px;
+            --badge-size: 8px;
+            --badge-font: 8px;
+            --online-font: 9px;
+            --msg-font: 12px;
+            --msg-footer-font: 8px;
+            --input-padding: 6px 8px;
+            --send-btn-size: 32px;
         }
         
+        /* ===== TAMAÑOS ===== */
+        .size-small { --scale: 0.8; --font-base: 12px; --padding-base: 5px; --radius-base: 8px; --avatar-size: 28px; --input-height: 32px; --btn-size: 30px; --card-padding: 4px 2px; --header-height: 36px; --msg-padding: 3px 6px; --tareo-input-width: 36px; --tareo-label-width: 40px; --login-padding: 14px; --login-radius: 14px; --logo-size: 36px; --title-size: 15px; --subtitle-size: 10px; --user-card-padding: 4px 2px; --user-avatar-size: 24px; --user-name-size: 8px; --user-grid-gap: 4px; --badge-size: 6px; --badge-font: 7px; --online-font: 8px; --msg-font: 11px; --msg-footer-font: 7px; --input-padding: 4px 6px; --send-btn-size: 28px; }
+        .size-medium { --scale: 1; --font-base: 14px; --padding-base: 8px; --radius-base: 10px; --avatar-size: 34px; --input-height: 38px; --btn-size: 36px; --card-padding: 8px 4px; --header-height: 44px; --msg-padding: 5px 8px; --tareo-input-width: 44px; --tareo-label-width: 50px; --login-padding: 24px; --login-radius: 20px; --logo-size: 48px; --title-size: 18px; --subtitle-size: 12px; --user-card-padding: 8px 4px; --user-avatar-size: 30px; --user-name-size: 10px; --user-grid-gap: 6px; --badge-size: 8px; --badge-font: 8px; --online-font: 9px; --msg-font: 12px; --msg-footer-font: 8px; --input-padding: 6px 8px; --send-btn-size: 32px; }
+        .size-large { --scale: 1.15; --font-base: 16px; --padding-base: 10px; --radius-base: 12px; --avatar-size: 40px; --input-height: 44px; --btn-size: 42px; --card-padding: 10px 6px; --header-height: 52px; --msg-padding: 7px 10px; --tareo-input-width: 50px; --tareo-label-width: 58px; --login-padding: 28px; --login-radius: 24px; --logo-size: 56px; --title-size: 22px; --subtitle-size: 14px; --user-card-padding: 10px 6px; --user-avatar-size: 36px; --user-name-size: 12px; --user-grid-gap: 8px; --badge-size: 10px; --badge-font: 10px; --online-font: 11px; --msg-font: 14px; --msg-footer-font: 10px; --input-padding: 8px 10px; --send-btn-size: 38px; }
+        .size-xlarge { --scale: 1.35; --font-base: 18px; --padding-base: 12px; --radius-base: 14px; --avatar-size: 48px; --input-height: 52px; --btn-size: 50px; --card-padding: 12px 8px; --header-height: 60px; --msg-padding: 9px 12px; --tareo-input-width: 58px; --tareo-label-width: 68px; --login-padding: 34px; --login-radius: 28px; --logo-size: 64px; --title-size: 26px; --subtitle-size: 16px; --user-card-padding: 12px 8px; --user-avatar-size: 44px; --user-name-size: 14px; --user-grid-gap: 10px; --badge-size: 12px; --badge-font: 12px; --online-font: 13px; --msg-font: 16px; --msg-footer-font: 12px; --input-padding: 10px 12px; --send-btn-size: 46px; }
+        .size-xxlarge { --scale: 1.6; --font-base: 22px; --padding-base: 16px; --radius-base: 18px; --avatar-size: 58px; --input-height: 60px; --btn-size: 58px; --card-padding: 16px 10px; --header-height: 72px; --msg-padding: 12px 16px; --tareo-input-width: 68px; --tareo-label-width: 80px; --login-padding: 40px; --login-radius: 32px; --logo-size: 76px; --title-size: 32px; --subtitle-size: 20px; --user-card-padding: 16px 10px; --user-avatar-size: 54px; --user-name-size: 18px; --user-grid-gap: 12px; --badge-size: 14px; --badge-font: 14px; --online-font: 16px; --msg-font: 20px; --msg-footer-font: 14px; --input-padding: 14px 16px; --send-btn-size: 56px; }
+        
+        /* ===== TEMAS DE COLOR ===== */
         .theme-azul { --primary-dark: #0A2E5C; --primary: #1A5FB4; --primary-light: #4A90D9; --primary-lighter: #E8F0FE; --bubble-sent: #D6E8FF; --bg-header: #0A2E5C; }
         .theme-verde { --primary-dark: #1A6B3C; --primary: #28A745; --primary-light: #5DD68C; --primary-lighter: #E6F9ED; --bubble-sent: #D4EDDA; --bg-header: #1A6B3C; }
         .theme-rojo { --primary-dark: #7A1A1A; --primary: #C82333; --primary-light: #E86A7A; --primary-lighter: #FDE8EA; --bubble-sent: #FDDDE0; --bg-header: #7A1A1A; }
         .theme-morado { --primary-dark: #4A1A6B; --primary: #6F42C1; --primary-light: #A97DDB; --primary-lighter: #F0E6F9; --bubble-sent: #E8D5F5; --bg-header: #4A1A6B; }
         .theme-naranja { --primary-dark: #7A4A0A; --primary: #E67E22; --primary-light: #F0B27A; --primary-lighter: #FEF5E7; --bubble-sent: #FDEBD0; --bg-header: #7A4A0A; }
         
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        /* ===== BODY ===== */
+        html, body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-dark);
+            margin: 0;
+            padding: 0;
+            font-size: var(--font-base);
+        }
         
-        html, body { height: 100%; width: 100%; overflow: hidden; font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; background: var(--primary-dark); }
-        body { display: flex; align-items: center; justify-content: center; padding: 12px; margin: 0; position: fixed; top: 0; left: 0; right: 0; bottom: 0; transition: background 0.3s; }
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transition: background 0.3s, font-size 0.3s;
+            padding: 0 !important;
+            margin: 0 !important;
+            width: 100vw;
+            height: 100vh;
+            height: 100dvh;
+        }
         
+        /* ===== LOGIN ===== */
         #loginScreen {
             display: block !important;
             background: white;
-            padding: 30px 24px;
-            border-radius: 24px;
+            padding: calc(var(--login-padding) * 0.8);
+            border-radius: var(--login-radius);
             box-shadow: 0 20px 60px rgba(0,0,0,0.35);
-            max-width: 400px;
-            width: 100%;
+            max-width: 420px;
+            width: 92%;
             text-align: center;
             max-height: 95vh;
             overflow-y: auto;
             transition: all 0.3s;
             position: relative;
             z-index: 10;
+            margin: auto;
         }
-        
         #loginScreen.hidden { display: none !important; }
         
-        .logo-icon { font-size: 56px; color: var(--primary); display: block; margin-bottom: 2px; animation: bounce 3s ease-in-out infinite; transition: color 0.3s; }
+        .logo-icon { font-size: calc(var(--logo-size) * 1.1); color: var(--primary); display: block; margin-bottom: calc(var(--padding-base) * 0.3); animation: bounce 3s ease-in-out infinite; transition: color 0.3s; }
         @keyframes bounce { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-8px) rotate(2deg); } }
-        .logo-title { font-size: 20px; font-weight: 800; color: var(--primary-dark); line-height: 1.2; transition: color 0.3s; }
+        .logo-title { font-size: var(--title-size); font-weight: 800; color: var(--primary-dark); line-height: 1.2; transition: color 0.3s; }
         .logo-title span { color: var(--primary); transition: color 0.3s; }
-        .logo-subtitle { color: #8899A6; margin-bottom: 16px; font-size: 13px; margin-top: 2px; }
+        .logo-subtitle { color: #8899A6; margin-bottom: calc(var(--padding-base) * 1.5); font-size: var(--subtitle-size); margin-top: 2px; }
         
-        .user-selector { margin-bottom: 16px; }
-        .user-selector .label { font-size: 12px; font-weight: 600; color: #1A1A1A; text-align: left; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+        .user-selector { margin-bottom: calc(var(--padding-base) * 1.5); }
+        .user-selector .label { font-size: calc(var(--subtitle-size) * 0.9); font-weight: 600; color: #1A1A1A; text-align: left; margin-bottom: calc(var(--padding-base) * 0.5); display: flex; align-items: center; gap: 6px; }
         .user-selector .label i { color: var(--primary); transition: color 0.3s; }
         
         .user-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            max-height: 180px;
+            gap: var(--user-grid-gap);
+            max-height: calc(160px * var(--scale));
             overflow-y: auto;
-            padding: 4px 2px;
+            padding: calc(var(--padding-base) * 0.3);
         }
-        .user-grid::-webkit-scrollbar { width: 4px; }
-        .user-grid::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 10px; }
+        .user-grid::-webkit-scrollbar { width: 3px; }
+        .user-grid::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 8px; }
         
         .user-card {
             background: #F8F9FA;
             border: 2px solid #E9EDEF;
-            border-radius: 12px;
-            padding: 10px 6px;
+            border-radius: calc(var(--radius-base) * 0.9);
+            padding: var(--user-card-padding);
             text-align: center;
             cursor: pointer;
             transition: all 0.25s ease;
@@ -96,41 +167,66 @@
         .user-card:active { transform: scale(0.96); }
         .user-card.selected { background: var(--primary-lighter); border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.15); }
         .user-card.selected .user-avatar { background: var(--primary); color: white; }
-        .user-card .user-avatar { width: 36px; height: 36px; border-radius: 50%; background: #DEE2E6; color: #495057; display: flex; align-items: center; justify-content: center; margin: 0 auto 4px; font-weight: 700; font-size: 14px; transition: all 0.3s; }
-        .user-card .user-name { font-size: 11px; font-weight: 500; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .user-card .user-status-dot { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; border-radius: 50%; border: 2px solid white; }
+        .user-card .user-avatar { width: var(--user-avatar-size); height: var(--user-avatar-size); border-radius: 50%; background: #DEE2E6; color: #495057; display: flex; align-items: center; justify-content: center; margin: 0 auto calc(var(--padding-base) * 0.3); font-weight: 700; font-size: calc(var(--user-name-size) * 1.1); transition: all 0.3s; }
+        .user-card .user-name { font-size: var(--user-name-size); font-weight: 500; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-card .user-status-dot { position: absolute; top: calc(var(--padding-base) * 0.4); right: calc(var(--padding-base) * 0.4); width: var(--badge-size); height: var(--badge-size); border-radius: 50%; border: 2px solid white; }
         .user-card .user-status-dot.online { background: #28a745; }
         .user-card .user-status-dot.offline { background: #ccc; }
         
-        .form-group { margin-bottom: 14px; text-align: left; }
-        .form-group label { display: block; font-size: 12px; font-weight: 600; color: #1A1A1A; margin-bottom: 4px; }
+        .form-group { margin-bottom: calc(var(--padding-base) * 1.2); text-align: left; }
+        .form-group label { display: block; font-size: calc(var(--subtitle-size) * 0.9); font-weight: 600; color: #1A1A1A; margin-bottom: calc(var(--padding-base) * 0.3); }
         .form-group input { 
-            width: 100%; padding: 12px 14px; border: 2px solid #E9EDEF; border-radius: 12px;
-            font-size: 16px; transition: all 0.3s; font-family: inherit; background: #FAFBFC;
+            width: 100%; padding: calc(var(--padding-base) * 1.2) calc(var(--padding-base) * 1.5); border: 2px solid #E9EDEF; border-radius: calc(var(--radius-base) * 0.9);
+            font-size: calc(16px * var(--scale)); transition: all 0.3s; font-family: inherit; background: #FAFBFC;
             -webkit-appearance: none; appearance: none;
             touch-action: manipulation;
+            height: calc(var(--input-height) * 1.1);
         }
         .form-group input:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 4px rgba(26, 95, 180, 0.1); }
         
         .input-icon { position: relative; }
-        .input-icon i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: #8899A6; font-size: 15px; z-index: 1; }
-        .input-icon input { padding-left: 42px; padding-right: 42px; }
+        .input-icon i { position: absolute; left: calc(var(--padding-base) * 1.2); top: 50%; transform: translateY(-50%); color: #8899A6; font-size: calc(14px * var(--scale)); z-index: 1; }
+        .input-icon input { padding-left: calc(var(--padding-base) * 3.5); padding-right: calc(var(--padding-base) * 3.5); }
         
-        .btn-primary { width: 100%; padding: 14px; background: var(--primary); color: white; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s; margin-top: 6px; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        .btn-primary { width: 100%; padding: calc(var(--padding-base) * 1.5); background: var(--primary); color: white; border: none; border-radius: calc(var(--radius-base) * 0.9); font-size: calc(15px * var(--scale)); font-weight: 700; cursor: pointer; transition: all 0.3s; margin-top: calc(var(--padding-base) * 0.5); -webkit-tap-highlight-color: transparent; touch-action: manipulation; height: calc(var(--input-height) * 1.2); }
         .btn-primary:active { transform: scale(0.97); }
         .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
         
-        .password-toggle { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: #8899A6; cursor: pointer; font-size: 15px; z-index: 1; padding: 4px; touch-action: manipulation; }
+        .password-toggle { position: absolute; right: calc(var(--padding-base) * 1.2); top: 50%; transform: translateY(-50%); background: none; border: none; color: #8899A6; cursor: pointer; font-size: calc(14px * var(--scale)); z-index: 1; padding: 4px; touch-action: manipulation; }
         
-        .error-msg { color: var(--error); font-size: 13px; margin-top: 10px; display: none; padding: 10px; background: #FFF0F0; border-radius: 8px; border-left: 4px solid var(--error); }
-        .success-msg { color: var(--success); font-size: 13px; margin-top: 10px; display: none; padding: 10px; background: #F0FFF4; border-radius: 8px; border-left: 4px solid var(--success); }
-        .warning-msg { color: var(--warning); font-size: 13px; margin-top: 10px; display: none; padding: 10px; background: #FFF3CD; border-radius: 8px; border-left: 4px solid var(--warning); }
+        .error-msg { color: var(--error); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #FFF0F0; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--error); }
+        .success-msg { color: var(--success); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #F0FFF4; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--success); }
+        .warning-msg { color: var(--warning); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #FFF3CD; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--warning); }
         
-        .theme-selector { display: flex; gap: 8px; justify-content: center; margin: 12px 0 16px; flex-wrap: wrap; }
-        .theme-btn { width: 32px; height: 32px; border-radius: 50%; border: 3px solid #E9EDEF; cursor: pointer; transition: all 0.3s; -webkit-tap-highlight-color: transparent; position: relative; touch-action: manipulation; }
+        .size-selector {
+            display: flex;
+            gap: calc(var(--padding-base) * 0.3);
+            justify-content: center;
+            margin: calc(var(--padding-base) * 0.8) 0 calc(var(--padding-base) * 1.2);
+            flex-wrap: wrap;
+        }
+        .size-btn {
+            padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 1);
+            border: 2px solid #E9EDEF;
+            border-radius: calc(var(--radius-base) * 0.6);
+            background: white;
+            cursor: pointer;
+            font-size: calc(10px * var(--scale));
+            font-weight: 600;
+            transition: all 0.3s;
+            touch-action: manipulation;
+            color: #667781;
+            white-space: nowrap;
+        }
+        .size-btn:active { transform: scale(0.95); }
+        .size-btn.active { border-color: var(--primary); background: var(--primary-lighter); color: var(--primary); }
+        .size-btn i { margin-right: 4px; }
+        
+        .theme-selector { display: flex; gap: calc(var(--padding-base) * 0.6); justify-content: center; margin: calc(var(--padding-base) * 0.5) 0 calc(var(--padding-base) * 1); flex-wrap: wrap; }
+        .theme-btn { width: calc(28px * var(--scale)); height: calc(28px * var(--scale)); border-radius: 50%; border: 3px solid #E9EDEF; cursor: pointer; transition: all 0.3s; -webkit-tap-highlight-color: transparent; position: relative; touch-action: manipulation; }
         .theme-btn:hover { transform: scale(1.1); }
         .theme-btn.active { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.2); }
-        .theme-btn .check { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: 12px; }
+        .theme-btn .check { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: calc(10px * var(--scale)); }
         .theme-btn.active .check { display: block; }
         .theme-azul-btn { background: #1A5FB4; }
         .theme-verde-btn { background: #28A745; }
@@ -138,45 +234,50 @@
         .theme-morado-btn { background: #6F42C1; }
         .theme-naranja-btn { background: #E67E22; }
         
+        /* ===== CHAT ===== */
         #chatApp {
             display: none;
             width: 100%;
-            max-width: 480px;
-            height: 100vh;
-            max-height: 750px;
+            height: 100%;
+            height: 100dvh;
+            max-width: 100%;
+            max-height: 100%;
             background: #fff;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.35);
             flex-direction: column;
             overflow: hidden;
-            position: relative;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 0;
+            box-shadow: none;
         }
-        
         #chatApp.active { display: flex; }
         
-        .chat-header { background: var(--bg-header); padding: 10px 14px; display: flex; align-items: center; gap: 6px; flex-shrink: 0; min-height: 50px; transition: background 0.3s; flex-wrap: wrap; }
-        .chat-header .header-icon { color: white; font-size: 18px; }
-        .chat-header .avatar { width: 32px; height: 32px; border-radius: 50%; background: rgba(255,255,255,0.2); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; flex-shrink: 0; }
+        .chat-header { background: var(--bg-header); padding: calc(var(--padding-base) * 0.8) calc(var(--padding-base) * 1.2); display: flex; align-items: center; gap: calc(var(--padding-base) * 0.5); flex-shrink: 0; min-height: var(--header-height); transition: background 0.3s; flex-wrap: wrap; }
+        .chat-header .header-icon { color: white; font-size: calc(16px * var(--scale)); }
+        .chat-header .avatar { width: calc(var(--avatar-size) * 0.85); height: calc(var(--avatar-size) * 0.85); border-radius: 50%; background: rgba(255,255,255,0.2); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: calc(12px * var(--scale)); flex-shrink: 0; }
         .chat-header .info { flex: 1; min-width: 0; }
-        .chat-header .info h2 { color: white; font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .chat-header .info .status { color: rgba(255,255,255,0.8); font-size: 10px; }
-        .chat-header .info .status .dot { width: 6px; height: 6px; background: #4CAF50; border-radius: 50%; display: inline-block; margin-right: 3px; animation: pulse 2s infinite; }
+        .chat-header .info h2 { color: white; font-size: calc(12px * var(--scale)); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .chat-header .info .status { color: rgba(255,255,255,0.8); font-size: var(--online-font); }
+        .chat-header .info .status .dot { width: calc(5px * var(--scale)); height: calc(5px * var(--scale)); background: #4CAF50; border-radius: 50%; display: inline-block; margin-right: 2px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-        .chat-header .header-btn { background: rgba(255,255,255,0.12); border: none; color: white; padding: 4px 8px; border-radius: 5px; cursor: pointer; font-size: 11px; transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
+        .chat-header .header-btn { background: rgba(255,255,255,0.12); border: none; color: white; padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.6); border-radius: calc(var(--radius-base) * 0.4); cursor: pointer; font-size: calc(10px * var(--scale)); transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
         .chat-header .header-btn:hover { background: rgba(255,255,255,0.25); }
         .chat-header .header-btn.active { background: rgba(255,255,255,0.3); border-bottom: 2px solid white; }
-        .chat-header .logout-btn { background: rgba(255,255,255,0.15); border: none; color: white; padding: 4px 8px; border-radius: 5px; cursor: pointer; font-size: 11px; transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
+        .chat-header .logout-btn { background: rgba(255,255,255,0.15); border: none; color: white; padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.6); border-radius: calc(var(--radius-base) * 0.4); cursor: pointer; font-size: calc(10px * var(--scale)); transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
         
         .notification-badge {
             position: fixed;
-            top: 16px;
-            right: 16px;
+            top: calc(var(--padding-base) * 1.2);
+            right: calc(var(--padding-base) * 1.2);
             background: #dc3545;
             color: white;
             border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            font-size: 10px;
+            width: calc(20px * var(--scale));
+            height: calc(20px * var(--scale));
+            font-size: var(--badge-font);
             font-weight: 700;
             display: none;
             align-items: center;
@@ -189,237 +290,333 @@
         .notification-badge.show { display: flex; }
         @keyframes notifPop { 0% { transform: scale(0.5); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
         
-        .online-users { padding: 3px 10px; background: #F8F9FA; border-bottom: 1px solid #E9EDEF; font-size: 10px; color: #667781; display: flex; gap: 4px; flex-wrap: wrap; align-items: center; flex-shrink: 0; min-height: 26px; }
-        .online-users .badge { display: flex; align-items: center; gap: 3px; background: #E9EDEF; padding: 1px 5px 1px 3px; border-radius: 8px; font-size: 9px; }
-        .online-users .badge .dot { width: 5px; height: 5px; border-radius: 50%; display: inline-block; }
+        .online-users { padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8); background: #F8F9FA; border-bottom: 1px solid #E9EDEF; font-size: var(--online-font); color: #667781; display: flex; gap: calc(var(--padding-base) * 0.3); flex-wrap: wrap; align-items: center; flex-shrink: 0; min-height: calc(22px * var(--scale)); }
+        .online-users .badge { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.2); background: #E9EDEF; padding: calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.3); border-radius: calc(var(--radius-base) * 0.5); font-size: calc(var(--badge-font) * 0.9); }
+        .online-users .badge .dot { width: calc(4px * var(--scale)); height: calc(4px * var(--scale)); border-radius: 50%; display: inline-block; }
         .online-users .badge .dot.online { background: #4CAF50; }
         
-        .messages-container { flex: 1; overflow-y: auto; padding: 8px 10px; background: var(--bg-chat); display: flex; flex-direction: column; gap: 2px; -webkit-overflow-scrolling: touch; transition: background 0.3s; }
-        .messages-container::-webkit-scrollbar { width: 3px; }
-        .messages-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 8px; }
-        
-        .message { max-width: 85%; padding: 6px 10px; border-radius: 10px; animation: slideIn 0.2s ease; word-wrap: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.05); touch-action: manipulation; }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(5px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        .message.sent { background: var(--bubble-sent); align-self: flex-end; border-bottom-right-radius: 3px; transition: background 0.3s; }
-        .message.received { background: var(--bubble-received); align-self: flex-start; border-bottom-left-radius: 3px; }
-        .message .text { font-size: 13px; line-height: 1.4; color: #1A1A1A; }
-        .message .footer { display: flex; align-items: center; justify-content: flex-end; gap: 4px; margin-top: 2px; font-size: 9px; color: #667781; }
-        .message .footer .author { font-weight: 600; color: var(--primary); transition: color 0.3s; }
-        .message .footer .status { font-size: 11px; }
-        
-        .message.tareo { max-width: 95%; background: var(--tareo-bg); border-left: 4px solid var(--primary); align-self: center; text-align: center; border-radius: 10px; padding: 6px 12px; }
-        .message.tareo.inicio { border-left-color: var(--tareo-inicio); }
-        .message.tareo.termino { border-left-color: var(--tareo-termino); }
-        .message.tareo .tareo-icon { font-size: 18px; display: block; margin-bottom: 1px; }
-        .message.tareo .tareo-text { font-size: 12px; font-weight: 600; color: var(--primary-dark); }
-        .message.tareo .tareo-hora { font-size: 16px; font-weight: 700; color: var(--primary); }
-        .message.tareo .tareo-usuario { font-size: 10px; color: #667781; }
-        .message.tareo .footer { justify-content: center; }
-        
-        .date-divider { text-align: center; margin: 4px 0 8px; }
-        .date-divider span { background: rgba(26, 95, 180, 0.08); padding: 2px 10px; border-radius: 5px; font-size: 10px; color: #667781; }
-        
-        .typing-indicator { display: flex; align-items: center; gap: 4px; padding: 4px 10px; background: rgba(255,255,255,0.85); border-radius: 10px; align-self: flex-start; margin-bottom: 2px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .typing-dot { width: 5px; height: 5px; background: #667781; border-radius: 50%; animation: typingAnim 1.4s infinite; }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typingAnim { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-4px); opacity: 1; } }
-        .typing-text { font-size: 10px; color: #667781; margin-left: 2px; }
-        
-        /* ===== INPUT AREA ===== */
-        .input-area { 
-            background: #F0F2F5; 
-            padding: 5px 8px; 
-            display: flex; 
-            flex-direction: column;
-            gap: 4px;
-            border-top: 1px solid #D9D9D9;
-            flex-shrink: 0;
-        }
-        .input-area .input-row { 
-            display: flex; 
-            gap: 5px; 
-            align-items: center;
-            width: 100%;
-        }
-        .input-area input[type="text"] { 
-            flex: 1; 
-            padding: 7px 10px; 
-            border: 2px solid transparent; 
-            border-radius: 16px; 
-            font-size: 16px; 
-            outline: none; 
-            font-family: inherit; 
-            background: white; 
-            transition: all 0.3s; 
-            -webkit-appearance: none; 
-            appearance: none;
-            min-height: 36px;
-            touch-action: manipulation;
-        }
-        .input-area input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.12); }
-        .input-area input[type="text"]::placeholder { color: #8899A6; font-size: 13px; }
-        .input-area .send-btn { 
-            background: var(--primary); 
-            border: none; 
-            color: white; 
-            width: 36px; 
-            height: 36px; 
-            border-radius: 50%; 
-            font-size: 13px; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            flex-shrink: 0; 
-            -webkit-tap-highlight-color: transparent; 
-            touch-action: manipulation;
-        }
-        .input-area .send-btn:active { transform: scale(0.92); }
-        .input-area .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
-        
-        /* ===== TAREO INPUTS - JUNTOS ===== */
-        .tareo-inputs {
-            display: none;
-            flex-direction: column;
-            gap: 6px;
-            background: #E8ECF0;
-            padding: 8px 10px;
-            border-radius: 12px;
-            width: 100%;
-        }
-        .tareo-inputs.active { display: flex; }
-        
-        .tareo-inputs .tareo-fila {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .tareo-inputs .tareo-fila .tareo-label {
-            font-size: 11px;
-            font-weight: 700;
-            color: #333;
-            min-width: 55px;
-            text-align: right;
-        }
-        .tareo-inputs .tareo-fila .tareo-label.inicio-label { color: var(--tareo-inicio); }
-        .tareo-inputs .tareo-fila .tareo-label.termino-label { color: var(--tareo-termino); }
-        
-        .tareo-inputs .tareo-fila .tareo-input-group {
-            display: flex;
-            align-items: center;
-            gap: 3px;
+        /* ===== CONTENEDOR DE MENSAJES ===== */
+        .content-container {
             flex: 1;
+            overflow-y: auto;
+            padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8);
+            background: var(--bg-chat);
+            transition: background 0.3s;
+            -webkit-overflow-scrolling: touch;
         }
-        .tareo-inputs .tareo-fila .tareo-input-group input {
-            width: 50px;
-            padding: 5px 4px;
-            border: 2px solid #D9D9D9;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: 600;
-            text-align: center;
-            font-family: inherit;
-            background: white;
-            -webkit-appearance: none;
-            appearance: none;
+        .content-container::-webkit-scrollbar { width: 3px; }
+        .content-container::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.2); border-radius: 6px; }
+        
+        .messages-container {
+            display: flex;
+            flex-direction: column;
+            gap: calc(var(--padding-base) * 0.2);
+        }
+        .messages-container.hidden { display: none; }
+        
+        .message { max-width: 85%; padding: var(--msg-padding); border-radius: calc(var(--radius-base) * 0.8); animation: slideIn 0.2s ease; word-wrap: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.04); touch-action: manipulation; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(4px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .message.sent { background: var(--bubble-sent); align-self: flex-end; border-bottom-right-radius: calc(var(--radius-base) * 0.2); transition: background 0.3s; }
+        .message.received { background: var(--bubble-received); align-self: flex-start; border-bottom-left-radius: calc(var(--radius-base) * 0.2); }
+        .message .text { font-size: var(--msg-font); line-height: 1.4; color: #1A1A1A; }
+        .message .footer { display: flex; align-items: center; justify-content: flex-end; gap: calc(var(--padding-base) * 0.3); margin-top: calc(var(--padding-base) * 0.1); font-size: var(--msg-footer-font); color: #667781; }
+        .message .footer .author { font-weight: 600; color: var(--primary); transition: color 0.3s; }
+        .message .footer .status { font-size: calc(var(--msg-footer-font) * 1.2); }
+        
+        /* ===== MENSAJES DE TAREO ===== */
+        .message.tareo { 
+            max-width: 95%; 
+            background: var(--tareo-bg); 
+            border-left: 4px solid var(--primary); 
+            align-self: center; 
+            text-align: left; 
+            border-radius: calc(var(--radius-base) * 0.8); 
+            padding: calc(var(--padding-base) * 0.5) calc(var(--padding-base) * 0.8);
+            width: 100%;
+        }
+        .message.tareo .tareo-checkbox {
+            margin-right: calc(var(--padding-base) * 0.3);
+            transform: scale(1.1);
+            cursor: pointer;
             touch-action: manipulation;
         }
-        .tareo-inputs .tareo-fila .tareo-input-group input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1);
+        .message.tareo .tareo-icon { font-size: calc(16px * var(--scale)); display: inline-block; margin-right: calc(var(--padding-base) * 0.2); }
+        .message.tareo .tareo-text { font-size: calc(11px * var(--scale)); font-weight: 600; color: var(--primary-dark); }
+        .message.tareo .tareo-detalle {
+            font-size: calc(10px * var(--scale));
+            color: #555;
+            margin-top: calc(var(--padding-base) * 0.2);
+            padding-left: calc(var(--padding-base) * 1.2);
         }
-        .tareo-inputs .tareo-fila .tareo-input-group input::placeholder {
-            color: #ccc;
-            font-size: 11px;
-        }
-        .tareo-inputs .tareo-fila .tareo-input-group .tareo-sep {
-            font-size: 16px;
-            font-weight: 700;
-            color: #666;
-            padding: 0 2px;
-        }
-        
-        .tareo-inputs .tareo-fila .tareo-input-group .tareo-emoji {
-            font-size: 14px;
-            margin-left: 4px;
-        }
-        
-        .tareo-inputs .tareo-enviar {
+        .message.tareo .tareo-detalle span { display: inline-block; margin-right: calc(var(--padding-base) * 0.6); }
+        .message.tareo .footer { justify-content: flex-end; margin-top: calc(var(--padding-base) * 0.2); }
+        .message.tareo .tareo-header {
             display: flex;
-            justify-content: flex-end;
-            margin-top: 2px;
+            align-items: center;
+            gap: calc(var(--padding-base) * 0.3);
         }
-        .tareo-inputs .tareo-enviar .tareo-btn-enviar {
-            padding: 6px 20px;
+        
+        /* ===== BOTÓN ELIMINAR SELECCIONADOS ===== */
+        .tareo-acciones {
+            display: none;
+            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
+            background: #FFF3CD;
+            border-bottom: 1px solid #FFEEBA;
+            gap: calc(var(--padding-base) * 0.5);
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .tareo-acciones.active { display: flex; }
+        .tareo-acciones .btn-eliminar-seleccionados {
+            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
             border: none;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 700;
+            border-radius: calc(var(--radius-base) * 0.4);
+            background: var(--error);
+            color: white;
+            font-size: calc(11px * var(--scale));
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .tareo-acciones .btn-eliminar-seleccionados:active { transform: scale(0.95); }
+        .tareo-acciones .btn-seleccionar-todos {
+            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
+            border: none;
+            border-radius: calc(var(--radius-base) * 0.4);
             background: var(--primary);
             color: white;
+            font-size: calc(11px * var(--scale));
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .tareo-acciones .btn-seleccionar-todos:active { transform: scale(0.95); }
+        .tareo-acciones .contador-seleccionados {
+            font-size: calc(11px * var(--scale));
+            color: #333;
+            font-weight: 600;
+        }
+        
+        .date-divider { text-align: center; margin: calc(var(--padding-base) * 0.3) 0 calc(var(--padding-base) * 0.6); }
+        .date-divider span { background: rgba(26, 95, 180, 0.08); padding: calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.8); border-radius: calc(var(--radius-base) * 0.4); font-size: calc(9px * var(--scale)); color: #667781; }
+        
+        .typing-indicator { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.3); padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8); background: rgba(255,255,255,0.85); border-radius: calc(var(--radius-base) * 0.8); align-self: flex-start; margin-bottom: calc(var(--padding-base) * 0.1); box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+        .typing-dot { width: calc(4px * var(--scale)); height: calc(4px * var(--scale)); background: #667781; border-radius: 50%; animation: typingAnim 1.4s infinite; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typingAnim { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-3px); opacity: 1; } }
+        .typing-text { font-size: calc(9px * var(--scale)); color: #667781; margin-left: calc(var(--padding-base) * 0.2); }
+        
+        /* ===== INPUT AREA ===== */
+        .input-area { background: #F0F2F5; padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.6); display: flex; flex-direction: column; gap: calc(var(--padding-base) * 0.3); border-top: 1px solid #D9D9D9; flex-shrink: 0; }
+        .input-area .input-row { display: flex; gap: calc(var(--padding-base) * 0.4); align-items: center; width: 100%; }
+        .input-area input[type="text"] { flex: 1; padding: var(--input-padding); border: 2px solid transparent; border-radius: calc(var(--radius-base) * 1.2); font-size: calc(16px * var(--scale)); outline: none; font-family: inherit; background: white; transition: all 0.3s; -webkit-appearance: none; appearance: none; min-height: calc(var(--input-height) * 0.9); touch-action: manipulation; }
+        .input-area input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1); }
+        .input-area input[type="text"]::placeholder { color: #8899A6; font-size: calc(12px * var(--scale)); }
+        .input-area .send-btn { background: var(--primary); border: none; color: white; width: var(--send-btn-size); height: var(--send-btn-size); border-radius: 50%; font-size: calc(12px * var(--scale)); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        .input-area .send-btn:active { transform: scale(0.92); }
+        .input-area .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+        .input-area .input-row.hidden { display: none; }
+        
+        /* ===== REPORTE ===== */
+        .reporte-container {
+            display: none;
+            flex-direction: column;
+            gap: calc(var(--padding-base) * 0.5);
+            padding: calc(var(--padding-base) * 0.5);
+        }
+        .reporte-container.active { display: flex; }
+        
+        .reporte-container .reporte-titulo {
+            font-size: calc(16px * var(--scale));
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-align: center;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: calc(var(--padding-base) * 0.3);
+            margin-bottom: calc(var(--padding-base) * 0.5);
+        }
+        
+        .reporte-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: calc(var(--padding-base) * 0.4);
+        }
+        .reporte-grid .full { grid-column: 1 / -1; }
+        
+        .reporte-group { display: flex; flex-direction: column; gap: calc(var(--padding-base) * 0.2); }
+        .reporte-group label { font-size: calc(10px * var(--scale)); font-weight: 600; color: #555; }
+        .reporte-group input, .reporte-group select { 
+            padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.6); 
+            border: 2px solid #D9D9D9; 
+            border-radius: calc(var(--radius-base) * 0.5); 
+            font-size: calc(14px * var(--scale)); 
+            font-family: inherit; 
+            background: white;
+            width: 100%;
+        }
+        .reporte-group input:focus, .reporte-group select:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1); }
+        .reporte-group input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
+        .reporte-group input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+        
+        .reporte-botones {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: calc(var(--padding-base) * 0.4);
+            margin-top: calc(var(--padding-base) * 0.3);
+        }
+        .reporte-botones .btn-reporte {
+            padding: calc(var(--padding-base) * 0.6);
+            border: none;
+            border-radius: calc(var(--radius-base) * 0.5);
+            font-size: calc(12px * var(--scale));
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.2s;
             touch-action: manipulation;
-            width: 100%;
+            text-align: center;
         }
-        .tareo-inputs .tareo-enviar .tareo-btn-enviar:active { transform: scale(0.96); }
-        .tareo-inputs .tareo-enviar .tareo-btn-enviar:disabled { opacity: 0.5; cursor: not-allowed; }
-        .tareo-inputs .tareo-enviar .tareo-btn-enviar:hover { opacity: 0.9; }
+        .reporte-botones .btn-reporte:active { transform: scale(0.96); }
+        .reporte-botones .btn-reporte.imprimir { background: #2c3e50; color: white; }
+        .reporte-botones .btn-reporte.imprimir:hover { background: #1a2632; }
+        .reporte-botones .btn-reporte.limpiar { background: #95a5a6; color: white; }
+        .reporte-botones .btn-reporte.limpiar:hover { background: #7f8c8d; }
+        .reporte-botones .btn-reporte.whatsapp { background: #25D366; color: white; grid-column: span 2; }
+        .reporte-botones .btn-reporte.whatsapp:hover { background: #128C7E; }
         
-        .loader { text-align: center; color: #667781; font-size: 12px; padding: 16px; }
-        .loader i { margin-right: 6px; }
+        .reporte-historial {
+            margin-top: calc(var(--padding-base) * 0.5);
+            border-top: 2px solid var(--primary);
+            padding-top: calc(var(--padding-base) * 0.5);
+            max-height: calc(200px * var(--scale));
+            overflow-y: auto;
+        }
+        .reporte-historial .historial-titulo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: calc(var(--padding-base) * 0.3);
+        }
+        .reporte-historial .historial-titulo h3 { font-size: calc(13px * var(--scale)); color: var(--primary-dark); }
+        .reporte-historial .btn-limpiar-todo { 
+            padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.6); 
+            border: none; 
+            border-radius: calc(var(--radius-base) * 0.3); 
+            background: var(--error); 
+            color: white; 
+            font-size: calc(10px * var(--scale)); 
+            cursor: pointer; 
+            touch-action: manipulation;
+        }
         
-        .toast { position: fixed; bottom: 60px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: 8px 16px; border-radius: 10px; font-size: 12px; z-index: 999; animation: toastIn 0.3s ease; display: none; max-width: 90%; text-align: center; }
-        @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(12px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+        .registro-item {
+            background: var(--reporte-bg);
+            border-left: 3px solid var(--primary);
+            padding: calc(var(--padding-base) * 0.4);
+            margin-bottom: calc(var(--padding-base) * 0.3);
+            border-radius: calc(var(--radius-base) * 0.5);
+            font-size: calc(11px * var(--scale));
+        }
+        .registro-item p { margin: 2px 0; }
+        .registro-item .btn-eliminar { 
+            padding: calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.4); 
+            border: none; 
+            border-radius: calc(var(--radius-base) * 0.3); 
+            background: var(--error); 
+            color: white; 
+            font-size: calc(9px * var(--scale)); 
+            cursor: pointer; 
+            margin-top: calc(var(--padding-base) * 0.2);
+            touch-action: manipulation;
+        }
+        .registro-vacio { text-align: center; color: #999; padding: calc(var(--padding-base) * 2); font-size: calc(12px * var(--scale)); }
         
-        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 46, 92, 0.92); display: none; align-items: center; justify-content: center; z-index: 1000; flex-direction: column; gap: 16px; }
+        .loader { text-align: center; color: #667781; font-size: calc(11px * var(--scale)); padding: calc(var(--padding-base) * 1.2); }
+        .loader i { margin-right: calc(var(--padding-base) * 0.4); }
+        
+        .toast { position: fixed; bottom: calc(var(--padding-base) * 5); left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.85); color: white; padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 1.2); border-radius: calc(var(--radius-base) * 0.8); font-size: calc(11px * var(--scale)); z-index: 999; animation: toastIn 0.3s ease; display: none; max-width: 90%; text-align: center; }
+        @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+        
+        .loading-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(10, 46, 92, 0.92); display: none; align-items: center; justify-content: center; z-index: 1000; flex-direction: column; gap: calc(var(--padding-base) * 1.2); }
         .loading-overlay.show { display: flex; }
-        .loading-overlay .spinner { width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.2); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
-        .loading-overlay .text { color: white; font-size: 15px; font-weight: 500; }
+        .loading-overlay .spinner { width: calc(36px * var(--scale)); height: calc(36px * var(--scale)); border: 4px solid rgba(255,255,255,0.2); border-top-color: white; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .loading-overlay .text { color: white; font-size: calc(14px * var(--scale)); font-weight: 500; }
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        .sound-indicator { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: 5px 12px; border-radius: 14px; font-size: 11px; z-index: 999; display: none; align-items: center; gap: 5px; animation: fadeInOut 1.5s ease; }
+        .sound-indicator { position: fixed; top: calc(var(--padding-base) * 1.2); left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.8); border-radius: calc(var(--radius-base) * 1.2); font-size: calc(10px * var(--scale)); z-index: 999; display: none; align-items: center; gap: calc(var(--padding-base) * 0.4); animation: fadeInOut 1.5s ease; }
         .sound-indicator.show { display: flex; }
-        .sound-indicator i { font-size: 13px; }
-        @keyframes fadeInOut { 0% { opacity: 0; transform: translateX(-50%) translateY(-8px); } 20% { opacity: 1; transform: translateX(-50%) translateY(0); } 80% { opacity: 1; transform: translateX(-50%) translateY(0); } 100% { opacity: 0; transform: translateX(-50%) translateY(-8px); } }
+        .sound-indicator i { font-size: calc(12px * var(--scale)); }
+        @keyframes fadeInOut { 0% { opacity: 0; transform: translateX(-50%) translateY(-6px); } 20% { opacity: 1; transform: translateX(-50%) translateY(0); } 80% { opacity: 1; transform: translateX(-50%) translateY(0); } 100% { opacity: 0; transform: translateX(-50%) translateY(-6px); } }
         
         @media (max-width: 520px) {
-            body { padding: 0; background: var(--primary-dark); align-items: flex-start; padding-top: 6px; }
-            #chatApp { max-height: 100vh; border-radius: 0; max-width: 100%; height: 100vh; height: calc(100vh - env(safe-area-inset-bottom)); }
-            #loginScreen { padding: 18px 14px; border-radius: 18px; margin: 8px; max-height: 98vh; }
-            .message { max-width: 90%; }
-            .message.tareo { max-width: 98%; }
-            .logo-icon { font-size: 40px; }
-            .logo-title { font-size: 17px; }
-            .user-grid { grid-template-columns: repeat(3, 1fr); gap: 5px; max-height: 140px; }
-            .user-card { padding: 6px 3px; }
-            .user-card .user-avatar { width: 28px; height: 28px; font-size: 11px; }
-            .user-card .user-name { font-size: 9px; }
-            .form-group input { font-size: 16px; padding: 10px 12px; }
-            .btn-primary { font-size: 14px; padding: 12px; }
-            .chat-header { padding: 6px 8px; min-height: 42px; gap: 4px; }
-            .chat-header .info h2 { font-size: 12px; }
-            .chat-header .header-btn { font-size: 10px; padding: 3px 6px; }
-            .messages-container { padding: 6px 8px; }
-            .input-area { padding: 4px 6px; }
-            .input-area input[type="text"] { font-size: 16px; padding: 6px 8px; min-height: 32px; }
-            .input-area .send-btn { width: 32px; height: 32px; font-size: 12px; }
-            .theme-selector { gap: 4px; }
-            .theme-btn { width: 24px; height: 24px; }
-            .notification-badge { width: 20px; height: 20px; font-size: 9px; top: 8px; right: 8px; }
-            .message.tareo .tareo-icon { font-size: 15px; }
-            .message.tareo .tareo-hora { font-size: 14px; }
-            .tareo-inputs { padding: 6px 6px; gap: 4px; }
-            .tareo-inputs .tareo-fila .tareo-label { min-width: 40px; font-size: 10px; }
-            .tareo-inputs .tareo-fila .tareo-input-group input { width: 40px; font-size: 14px; padding: 4px 2px; }
-            .tareo-inputs .tareo-enviar .tareo-btn-enviar { font-size: 12px; padding: 5px 14px; }
+            body { padding: 0 !important; margin: 0 !important; }
+            #loginScreen { padding: calc(var(--login-padding) * 0.6); border-radius: calc(var(--login-radius) * 0.7); width: 94%; max-width: 360px; }
+            .user-grid { grid-template-columns: repeat(3, 1fr); gap: calc(var(--user-grid-gap) * 0.7); max-height: calc(140px * var(--scale)); }
+            .reporte-grid { grid-template-columns: 1fr; }
+            .reporte-botones { grid-template-columns: 1fr 1fr; }
+            .reporte-botones .btn-reporte.whatsapp { grid-column: span 2; }
+            .message.tareo .tareo-detalle span { display: block; margin-bottom: 2px; }
         }
-        @media (max-width: 400px) { .user-grid { grid-template-columns: repeat(2, 1fr); } }
         
-        input, select, textarea, button { font-size: 16px !important; }
+        /* ===== PREVISUALIZACIÓN DE IMPRESIÓN ===== */
+        .impresion-preview {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+        .impresion-preview.active { display: flex; }
+        .impresion-preview .preview-content {
+            background: white;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .impresion-preview .preview-close {
+            position: sticky;
+            top: 0;
+            float: right;
+            background: var(--error);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            font-size: 16px;
+            cursor: pointer;
+            z-index: 10;
+            touch-action: manipulation;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .impresion-preview .preview-close:hover { background: #a61c1c; }
+        .impresion-preview .btn-imprimir-preview {
+            padding: 8px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            touch-action: manipulation;
+            margin-top: 10px;
+            width: 100%;
+        }
+        .impresion-preview .btn-imprimir-preview:hover { background: var(--primary-dark); }
     </style>
 </head>
 <body>
@@ -440,10 +637,27 @@
     <span id="notifCount">0</span>
 </div>
 
+<!-- ===== PREVISUALIZACIÓN DE IMPRESIÓN ===== -->
+<div class="impresion-preview" id="impresionPreview">
+    <div class="preview-content" id="previewContent">
+        <button class="preview-close" onclick="cerrarPrevisualizacion()">✕</button>
+        <div id="previewBody"></div>
+        <button class="btn-imprimir-preview" onclick="imprimirDesdePreview()">🖨️ Imprimir</button>
+    </div>
+</div>
+
 <div id="loginScreen">
     <i class="fas fa-bus logo-icon"></i>
     <div class="logo-title">Transportes <span>Mantenimiento</span></div>
     <div class="logo-subtitle">Selecciona tu usuario y ingresa tu clave</div>
+    
+    <div class="size-selector" id="sizeSelector">
+        <button class="size-btn" data-size="small" onclick="changeSize('small')"><i class="fas fa-font"></i> Peq</button>
+        <button class="size-btn active" data-size="medium" onclick="changeSize('medium')"><i class="fas fa-font"></i> Med</button>
+        <button class="size-btn" data-size="large" onclick="changeSize('large')"><i class="fas fa-font"></i> Grd</button>
+        <button class="size-btn" data-size="xlarge" onclick="changeSize('xlarge')"><i class="fas fa-font"></i> XGrd</button>
+        <button class="size-btn" data-size="xxlarge" onclick="changeSize('xxlarge')"><i class="fas fa-font"></i> UGrd</button>
+    </div>
     
     <div class="theme-selector" id="themeSelector">
         <button class="theme-btn theme-azul-btn active" data-theme="azul" onclick="changeTheme('azul')"><span class="check">✓</span></button>
@@ -456,7 +670,7 @@
     <div class="user-selector">
         <div class="label">
             <i class="fas fa-users"></i> Selecciona tu usuario
-            <span style="font-size:10px;color:#8899A6;font-weight:400;margin-left:auto;" id="userCountLabel">0 conectados</span>
+            <span style="font-size:var(--online-font);color:#8899A6;font-weight:400;margin-left:auto;" id="userCountLabel">0 conectados</span>
         </div>
         <div class="user-grid" id="userGrid"></div>
     </div>
@@ -496,7 +710,11 @@
         </div>
         <button class="header-btn active" id="btnGeneral" onclick="switchRoom('general')">💬</button>
         <button class="header-btn" id="btnTareo" onclick="switchRoom('tareo')">⏰</button>
-        <button class="theme-toggle-btn header-btn" id="themeToggleBtn" onclick="toggleThemeSelector()" title="Cambiar tema">
+        <button class="header-btn" id="btnReporte" onclick="switchRoom('reporte')">📋</button>
+        <button class="header-btn" id="sizeToggleBtn" onclick="toggleSizeSelector()" title="Tamaño">
+            <i class="fas fa-font"></i>
+        </button>
+        <button class="theme-toggle-btn header-btn" id="themeToggleBtn" onclick="toggleThemeSelector()" title="Tema">
             <i class="fas fa-palette"></i>
         </button>
         <button class="logout-btn" id="logoutBtn">
@@ -509,47 +727,139 @@
         <span id="userList">Cargando...</span>
     </div>
     
-    <div class="messages-container" id="messagesContainer">
-        <div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>
+    <!-- ===== FILTRO DE FECHA PARA TAREO ===== -->
+    <div class="tareo-filtro" id="tareoFiltro">
+        <label>🔍 Buscar fecha:</label>
+        <input type="date" id="tareoBuscarFecha">
+        <button class="btn-filtrar" onclick="filtrarTareoPorFecha()">Buscar</button>
+        <button class="btn-filtrar" style="background:#95a5a6;" onclick="limpiarFiltroTareo()">Limpiar</button>
     </div>
     
+    <!-- ===== ACCIONES TAREO ===== -->
+    <!-- ===== ACCIONES TAREO ===== -->
+<div class="tareo-acciones" id="tareoAcciones">
+    <span class="contador-seleccionados" id="contadorSeleccionados">0 seleccionados</span>
+    <button class="btn-seleccionar-todos" onclick="seleccionarTodosTareo()">☑ Todos</button>
+    <button class="btn-eliminar-seleccionados" onclick="eliminarSeleccionadosTareo()">🗑️ Eliminar seleccionados</button>
+</div>
+    
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="content-container" id="contentContainer">
+        <!-- Mensajes General -->
+        <div class="messages-container" id="messagesContainer">
+            <div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>
+        </div>
+        
+        <!-- Mensajes Tareo -->
+        <div class="messages-container hidden" id="tareoMessagesContainer">
+            <div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando registros de tareo...</div>
+        </div>
+        
+        <!-- REPORTE -->
+        <div class="reporte-container" id="reporteContainer">
+            <div class="reporte-titulo">📋 Registro diario de transporte - IMCO</div>
+            
+            <div class="reporte-grid">
+                <div class="reporte-group full">
+                    <label>📅 Fecha de Registro</label>
+                    <input type="date" id="reporteFecha">
+                </div>
+                
+                <div class="reporte-group full">
+                    <label>👤 Conductor</label>
+                    <select id="reporteConductor">
+                        <option value="">Seleccione un conductor</option>
+                    </select>
+                </div>
+                
+                <div class="reporte-group">
+                    <label>⏰ Horario</label>
+                    <select id="reporteHorario">
+                        <option value="">Seleccione</option>
+                        <option value="corrido">Horario corrido</option>
+                        <option value="partido">Horario partido</option>
+                    </select>
+                </div>
+                <div class="reporte-group">
+                    <label>🚗 T. Vehículo</label>
+                    <select id="reporteTipoVehiculo">
+                        <option value="">Seleccione</option>
+                        <option value="camión">camión</option>
+                        <option value="camión grúa">camión grúa</option>
+                        <option value="bus">bus</option>
+                        <option value="minibús">minibús</option>
+                        <option value="minivan">minivan</option>
+                        <option value="camioneta">camioneta</option>
+                        <option value="montacarga">montacarga</option>
+                        <option value="manlift">manlift</option>
+                    </select>
+                </div>
+                <div class="reporte-group">
+                    <label>⚖️ Capacidad</label>
+                    <input type="number" id="reporteCapacidad" placeholder="0">
+                </div>
+                <div class="reporte-group">
+                    <label>🚗 Placa</label>
+                    <select id="reportePlaca">
+                        <option value="">Seleccione una placa</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Horas -->
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px;">
+                <div class="reporte-group">
+                    <label id="reporteLabelInicio">🕐 Hora inicial A</label>
+                    <input type="text" id="reporteHoraInicio" placeholder="HH:MM" maxlength="5">
+                </div>
+                <div class="reporte-group">
+                    <label id="reporteLabelFinal">🕒 Hora final A</label>
+                    <input type="text" id="reporteHoraFinal" placeholder="HH:MM" maxlength="5">
+                </div>
+                <div class="reporte-group" id="reporteHorasB" style="display:none;">
+                    <label>🕐 Hora inicial B</label>
+                    <input type="text" id="reporteHoraInicioB" placeholder="HH:MM" maxlength="5">
+                </div>
+                <div class="reporte-group" id="reporteHorasB2" style="display:none;">
+                    <label>🕒 Hora final B</label>
+                    <input type="text" id="reporteHoraFinalB" placeholder="HH:MM" maxlength="5">
+                </div>
+            </div>
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px;">
+                <div class="reporte-group">
+                    <label>📊 Kilometraje Inicial</label>
+                    <input type="number" id="reporteKmInicial" placeholder="Ej: 12000">
+                </div>
+                <div class="reporte-group">
+                    <label>📊 Kilometraje Final</label>
+                    <input type="number" id="reporteKmFinal" placeholder="Ej: 12500">
+                </div>
+            </div>
+            
+            <div class="reporte-botones">
+                <button class="btn-reporte imprimir" onclick="mostrarPrevisualizacion()">🖨️ Previsualizar</button>
+                <button class="btn-reporte limpiar" onclick="limpiarReporte()">🧹 Limpiar</button>
+                <button class="btn-reporte whatsapp" onclick="enviarReporteWhatsApp()">💬 Enviar al Supervisor</button>
+            </div>
+            
+            <div class="reporte-historial">
+                <div class="historial-titulo">
+                    <h3>📋 Registro Histórico</h3>
+                    <button class="btn-limpiar-todo" onclick="limpiarTodoHistorial()">🗑️ Limpiar todo</button>
+                </div>
+                <div id="listaRegistros"><div class="registro-vacio">No hay registros aún</div></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- INPUT AREA -->
     <div class="input-area" id="inputArea">
-        <!-- Fila normal de chat -->
         <div class="input-row" id="chatInputRow">
             <input type="text" id="messageInput" placeholder="Escribe un mensaje..." autocomplete="off" inputmode="text" enterkeyhint="send">
             <button class="send-btn" id="sendBtn">
                 <i class="fas fa-paper-plane"></i>
             </button>
-        </div>
-        
-        <!-- TAREO - Campos juntos -->
-        <div class="tareo-inputs" id="tareoInputs">
-            <!-- Fila 1: Inicio -->
-            <div class="tareo-fila">
-                <span class="tareo-label inicio-label">🟢 Inicio</span>
-                <div class="tareo-input-group">
-                    <input type="number" id="tareoInicio" placeholder="08" min="0" max="23" inputmode="numeric" pattern="[0-9]*">
-                    <span class="tareo-sep">:</span>
-                    <input type="number" id="tareoInicioMin" placeholder="00" min="0" max="59" inputmode="numeric" pattern="[0-9]*">
-                    <span class="tareo-emoji">🟢</span>
-                </div>
-            </div>
-            <!-- Fila 2: Término -->
-            <div class="tareo-fila">
-                <span class="tareo-label termino-label">🔴 Término</span>
-                <div class="tareo-input-group">
-                    <input type="number" id="tareoTermino" placeholder="17" min="0" max="23" inputmode="numeric" pattern="[0-9]*">
-                    <span class="tareo-sep">:</span>
-                    <input type="number" id="tareoTerminoMin" placeholder="00" min="0" max="59" inputmode="numeric" pattern="[0-9]*">
-                    <span class="tareo-emoji">🔴</span>
-                </div>
-            </div>
-            <!-- Botón Enviar -->
-            <div class="tareo-enviar">
-                <button class="tareo-btn-enviar" id="tareoEnviarBtn">
-                    <i class="fas fa-paper-plane"></i> Enviar Tareo
-                </button>
-            </div>
         </div>
     </div>
 </div>
@@ -569,6 +879,22 @@
         appId: "1:339529351494:web:7ad1a202d48d3905966547",
         measurementId: "G-KSGRBJ8E56"
     };
+
+    // ============================================================
+    // 📋 LISTA DE PLACAS
+    // ============================================================
+    
+    const PLACAS_LIST = [
+        "APJ-912", "BSR-921", "BWB-603", "CNH-087",
+        "V6H-718", "V7S-792", "V9J-722",
+        "VAP-774", "VAP-826", "VAQ-005", "VAZ-878",
+        "VBJ-626", "VBK-206", "VBX-797",
+        "VCD-945", "VCE-712", "VCF-939", "VCJ-608",
+        "VCQ-501", "VCP-736", "VCR-165", "VCS-684", "VCZ-454",
+        "VDK-332", "VDN-919", "VDG-470", "VDR-359",
+        "VER-895", "VES-828",
+        "VFF-815", "VFF-837"
+    ].sort();
 
     // ============================================================
     // 📋 LISTA DE USUARIOS
@@ -600,6 +926,9 @@
         "Jose Camargo": "5656",
         "Felipe Mayta": "7878",
         "Paul Cruz": "9090",
+	"Carlos Calderon": "9090",
+	"Carlos Medrano": "9090",
+	"Leonardo Rodriguez": "9090",
     };
 
     // ============================================================
@@ -631,6 +960,7 @@
     let currentDisplayName = '';
     let currentRoom = 'general';
     let messagesRef = null;
+    let tareoMessagesRef = null;
     let presenceRef = null;
     let typingRef = null;
     let isTyping = false;
@@ -638,8 +968,12 @@
     let isSending = false;
     let selectedUser = null;
     let currentTheme = 'azul';
+    let currentSize = 'medium';
     let sessionActive = false;
     let unreadCount = 0;
+    
+    // Reporte variables
+    let registros = [];
 
     // ============================================================
     // DOM ELEMENTS
@@ -658,6 +992,8 @@
     const messageInput = document.getElementById('messageInput');
     const sendBtn = document.getElementById('sendBtn');
     const messagesContainer = document.getElementById('messagesContainer');
+    const tareoMessagesContainer = document.getElementById('tareoMessagesContainer');
+    const reporteContainer = document.getElementById('reporteContainer');
     const chatAvatar = document.getElementById('chatAvatar');
     const chatRoomTitle = document.getElementById('chatRoomTitle');
     const userList = document.getElementById('userList');
@@ -670,21 +1006,42 @@
     const notifCount = document.getElementById('notifCount');
     const btnGeneral = document.getElementById('btnGeneral');
     const btnTareo = document.getElementById('btnTareo');
+    const btnReporte = document.getElementById('btnReporte');
     const chatInputRow = document.getElementById('chatInputRow');
-    const tareoInputs = document.getElementById('tareoInputs');
-    const tareoInicio = document.getElementById('tareoInicio');
-    const tareoInicioMin = document.getElementById('tareoInicioMin');
-    const tareoTermino = document.getElementById('tareoTermino');
-    const tareoTerminoMin = document.getElementById('tareoTerminoMin');
-    const tareoEnviarBtn = document.getElementById('tareoEnviarBtn');
+    const contentContainer = document.getElementById('contentContainer');
+    const listaRegistros = document.getElementById('listaRegistros');
+    const tareoFiltro = document.getElementById('tareoFiltro');
+    const tareoBuscarFecha = document.getElementById('tareoBuscarFecha');
+    const tareoAcciones = document.getElementById('tareoAcciones');
+    const contadorSeleccionados = document.getElementById('contadorSeleccionados');
+    const impresionPreview = document.getElementById('impresionPreview');
+    const previewBody = document.getElementById('previewBody');
+    
+    // Reporte inputs
+    const reporteFecha = document.getElementById('reporteFecha');
+    const reporteConductor = document.getElementById('reporteConductor');
+    const reporteHorario = document.getElementById('reporteHorario');
+    const reporteTipoVehiculo = document.getElementById('reporteTipoVehiculo');
+    const reporteCapacidad = document.getElementById('reporteCapacidad');
+    const reportePlaca = document.getElementById('reportePlaca');
+    const reporteHoraInicio = document.getElementById('reporteHoraInicio');
+    const reporteHoraFinal = document.getElementById('reporteHoraFinal');
+    const reporteHoraInicioB = document.getElementById('reporteHoraInicioB');
+    const reporteHoraFinalB = document.getElementById('reporteHoraFinalB');
+    const reporteKmInicial = document.getElementById('reporteKmInicial');
+    const reporteKmFinal = document.getElementById('reporteKmFinal');
+    const reporteLabelInicio = document.getElementById('reporteLabelInicio');
+    const reporteLabelFinal = document.getElementById('reporteLabelFinal');
+    const reporteHorasB = document.getElementById('reporteHorasB');
+    const reporteHorasB2 = document.getElementById('reporteHorasB2');
 
     // ============================================================
-    // 🎨 FUNCIONES DE TEMA
+    // 🎨 FUNCIONES DE TEMA Y TAMAÑO
     // ============================================================
     
     function changeTheme(theme) {
         currentTheme = theme;
-        document.body.className = '';
+        document.body.className = document.body.className.split(' ').filter(c => !c.startsWith('theme-')).join(' ');
         document.body.classList.add('theme-' + theme);
         document.querySelectorAll('.theme-btn').forEach(btn => {
             btn.classList.remove('active');
@@ -707,7 +1064,43 @@
         }
     }
     
+    function changeSize(size) {
+        currentSize = size;
+        document.body.className = document.body.className.split(' ').filter(c => !c.startsWith('size-')).join(' ');
+        document.body.classList.add('size-' + size);
+        document.querySelectorAll('.size-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.size === size) btn.classList.add('active');
+        });
+        try { localStorage.setItem('chatSize', size); } catch(e) {}
+        console.log('📏 Tamaño cambiado a:', size);
+    }
+    
+    function toggleSizeSelector() {
+        const selector = document.getElementById('sizeSelector');
+        if (selector) {
+            const isVisible = selector.style.display !== 'none';
+            selector.style.display = isVisible ? 'none' : 'flex';
+            clearTimeout(selector._hideTimeout);
+            if (!isVisible) {
+                selector._hideTimeout = setTimeout(() => {
+                    selector.style.display = 'none';
+                }, 5000);
+            }
+        }
+    }
+    
+    window.changeSize = changeSize;
+    window.toggleSizeSelector = toggleSizeSelector;
+    window.changeTheme = changeTheme;
+    window.toggleThemeSelector = toggleThemeSelector;
+    
     try {
+        const savedSize = localStorage.getItem('chatSize');
+        if (savedSize && ['small','medium','large','xlarge','xxlarge'].includes(savedSize)) {
+            currentSize = savedSize;
+            setTimeout(() => changeSize(savedSize), 100);
+        }
         const savedTheme = localStorage.getItem('chatTheme');
         if (savedTheme && ['azul','verde','rojo','morado','naranja'].includes(savedTheme)) {
             currentTheme = savedTheme;
@@ -715,11 +1108,8 @@
         }
     } catch(e) {}
 
-    window.changeTheme = changeTheme;
-    window.toggleThemeSelector = toggleThemeSelector;
-
     // ============================================================
-    // FUNCIONES
+    // FUNCIONES BASE
     // ============================================================
     
     function getInitials(name) {
@@ -744,9 +1134,12 @@
     }
     
     function scrollToBottom() {
-        setTimeout(() => {
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }, 100);
+        const container = currentRoom === 'general' ? messagesContainer : tareoMessagesContainer;
+        if (container) {
+            setTimeout(() => {
+                container.scrollTop = container.scrollHeight;
+            }, 100);
+        }
         clearNotification();
     }
     
@@ -882,7 +1275,7 @@
     function renderUserGrid(connectedUsers) {
         const names = Object.keys(AUTHORIZED_USERS);
         if (names.length === 0) {
-            userGrid.innerHTML = '<span style="color:#999;font-size:12px;grid-column:1/-1;text-align:center;padding:16px;">No hay usuarios autorizados</span>';
+            userGrid.innerHTML = '<span style="color:#999;font-size:calc(10px * var(--scale));grid-column:1/-1;text-align:center;padding:calc(var(--padding-base) * 1);">No hay usuarios autorizados</span>';
             return;
         }
         userGrid.innerHTML = names.map(name => {
@@ -932,337 +1325,220 @@
     // ============================================================
     
     function switchRoom(room) {
-        if (!currentUser) return;
-        if (room === currentRoom) return;
-        
-        if (messagesRef) messagesRef.off();
-        if (typingRef) typingRef.off();
-        
-        currentRoom = room;
-        
-        btnGeneral.classList.toggle('active', room === 'general');
-        btnTareo.classList.toggle('active', room === 'tareo');
-        
-        chatRoomTitle.textContent = room === 'general' ? '💬 Chat General' : '⏰ Tareo Diario';
-        messageInput.placeholder = room === 'general' 
-            ? 'Escribe un mensaje...' 
-            : 'Escribe un mensaje...';
-        
-        // Mostrar/ocultar inputs de tareo
-        if (room === 'tareo') {
-            chatInputRow.style.display = 'none';
-            tareoInputs.classList.add('active');
-        } else {
-            chatInputRow.style.display = 'flex';
-            tareoInputs.classList.remove('active');
-        }
-        
-        loadMessages();
+    if (!currentUser) return;
+    if (room === currentRoom) return;
+    
+    currentRoom = room;
+    
+    btnGeneral.classList.toggle('active', room === 'general');
+    btnTareo.classList.toggle('active', room === 'tareo');
+    btnReporte.classList.toggle('active', room === 'reporte');
+    
+    const titles = {
+        'general': '💬 Chat General',
+        'tareo': '⏰ Tareo Diario',
+        'reporte': '📋 Reporte IMCO'
+    };
+    chatRoomTitle.textContent = titles[room] || '💬 Chat General';
+    
+    messagesContainer.classList.toggle('hidden', room !== 'general');
+    tareoMessagesContainer.classList.toggle('hidden', room !== 'tareo');
+    reporteContainer.classList.toggle('active', room === 'reporte');
+    
+    // ✅ Mostrar/ocultar filtro y acciones de tareo
+    const tareoFiltro = document.getElementById('tareoFiltro');
+    const tareoAcciones = document.getElementById('tareoAcciones');
+    
+    if (room === 'tareo') {
+        tareoFiltro.style.display = 'flex';
+        tareoAcciones.classList.add('active');
+    } else {
+        tareoFiltro.style.display = 'none';
+        tareoAcciones.classList.remove('active');
     }
+    
+    if (room === 'reporte') {
+        document.getElementById('inputArea').style.display = 'none';
+    } else {
+        document.getElementById('inputArea').style.display = 'flex';
+    }
+    
+    if (room === 'general') {
+        loadMessages('general');
+    } else if (room === 'tareo') {
+        loadMessages('tareo');
+    }
+    
+    console.log(`🔄 Cambiado a sala: ${room}`);
+}
     
     window.switchRoom = switchRoom;
 
     // ============================================================
-    // 📋 FUNCIONES DE TAREO
+    // 📨 FUNCIONES DE CHAT
     // ============================================================
     
-    function getTareoHora(inputHora, inputMin) {
-        const hora = inputHora.value.padStart(2, '0') || '00';
-        const min = inputMin.value.padStart(2, '0') || '00';
-        return `${hora}:${min}`;
+function addMessageToDOM(data, key, container) {
+    if (document.querySelector(`[data-key="${key}"]`)) return;
+    
+    const isOwn = data.user === currentUser;
+    const time = data.time || getTime();
+    const targetContainer = container || messagesContainer;
+    
+    // Mensaje de Tareo
+    // Mensaje de Tareo
+// Mensaje de Tareo
+if (data.isTareo) {
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message tareo ${data.tareoTipo || ''}`;
+    messageDiv.dataset.key = key;
+    
+    // Reemplazar \n por <br> para respetar saltos de línea
+    let textoConSaltos = escapeHTML(data.text || '');
+    textoConSaltos = textoConSaltos.replace(/\n/g, '<br>');
+    
+    // ✅ SOLO MENSAJES DEL USUARIO ACTUAL TIENEN CHECKBOX
+    const checkboxHTML = isOwn ? `<input type="checkbox" class="tareo-checkbox" data-key="${key}" onchange="actualizarContadorTareo()">` : '';
+    
+    messageDiv.innerHTML = `
+        <div class="tareo-header">
+            ${checkboxHTML}
+            <span class="tareo-icon">${data.tareoEmoji || '📋'}</span>
+            <span class="tareo-text">${escapeHTML(data.tareoUsuario || data.displayName)}</span>
+            ${isOwn ? '<span style="font-size:8px;color:#999;margin-left:auto;">(tuyo)</span>' : ''}
+        </div>
+        <div class="tareo-detalle" style="white-space:pre-wrap;font-size:calc(11px * var(--scale));line-height:1.5;color:#1A1A1A;">
+            ${textoConSaltos}
+        </div>
+        <div class="footer">
+            <span>${escapeHTML(time)}</span>
+            ${isOwn ? '<span style="font-size:8px;color:#999;">✓ enviado</span>' : ''}
+        </div>
+    `;
+    
+    const loader = targetContainer.querySelector('.loader');
+    if (loader) loader.remove();
+    targetContainer.appendChild(messageDiv);
+    scrollToBottom();
+    
+    if (!isOwn) {
+        playSoundTareo();
+        updateNotification(unreadCount + 1);
+    }
+    return;
+}
+    
+    // Mensaje normal
+    const messageDiv = document.createElement('div');
+    messageDiv.className = `message ${isOwn ? 'sent' : 'received'}`;
+    messageDiv.dataset.key = key;
+    
+    const authorHTML = !isOwn ? `<span class="author">${escapeHTML(data.displayName || data.user)}</span>` : '';
+    const statusHTML = isOwn ? `<span class="status"><i class="fas fa-check-double" style="color:var(--primary);"></i></span>` : '';
+    
+    let textContent = data.text || '';
+    
+    messageDiv.innerHTML = `
+        <div class="text">${escapeHTML(textContent)}</div>
+        <div class="footer">
+            ${authorHTML}
+            <span>${escapeHTML(time)}</span>
+            ${statusHTML}
+        </div>
+    `;
+    
+    const loader = targetContainer.querySelector('.loader');
+    if (loader) loader.remove();
+    targetContainer.appendChild(messageDiv);
+    scrollToBottom();
+    
+    if (!isOwn && data.user !== currentUser) {
+        playSoundReceive();
+        updateNotification(unreadCount + 1);
+    }
+}
+    
+    function loadMessages(room) {
+    const roomKey = room || currentRoom;
+    if (!database) {
+        const container = roomKey === 'general' ? messagesContainer : tareoMessagesContainer;
+        container.innerHTML = '<div style="text-align:center;padding:calc(var(--padding-base) * 2);color:#667781;font-size:calc(12px * var(--scale));">⚠️ Error de conexión con Firebase</div>';
+        return;
     }
     
-    function getTareoData() {
-        const inicioHora = tareoInicio.value.padStart(2, '0') || '00';
-        const inicioMin = tareoInicioMin.value.padStart(2, '0') || '00';
-        const terminoHora = tareoTermino.value.padStart(2, '0') || '00';
-        const terminoMin = tareoTerminoMin.value.padStart(2, '0') || '00';
-        
-        return {
-            inicio: `${inicioHora}:${inicioMin}`,
-            termino: `${terminoHora}:${terminoMin}`
-        };
+    const container = roomKey === 'general' ? messagesContainer : tareoMessagesContainer;
+    container.innerHTML = '<div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>';
+    
+    if (roomKey === 'general' && messagesRef) {
+        messagesRef.off();
+        messagesRef = null;
+    } else if (roomKey === 'tareo' && tareoMessagesRef) {
+        tareoMessagesRef.off();
+        tareoMessagesRef = null;
     }
     
-    function registrarTareoCompleto() {
-        if (!database || !currentUser) {
-            showToast('❌ Error de conexión');
-            return;
-        }
+    // ✅ PARA TAREO: LEER DE LA RUTA DEL USUARIO ACTUAL
+    let path = '';
+    if (roomKey === 'general') {
+        path = 'messages/general';
+    } else if (roomKey === 'tareo') {
+        path = `messages/tareo/${currentUser || 'USR-001'}`;
+    } else {
+        path = `messages/${roomKey}`;
+    }
+    
+    const ref = database.ref(path);
+    if (roomKey === 'general') {
+        messagesRef = ref;
+    } else {
+        tareoMessagesRef = ref;
+    }
+    
+    ref.limitToLast(50).once('value', (snapshot) => {
+        const data = snapshot.val();
+        container.innerHTML = '';
         
-        const data = getTareoData();
-        const horaInicio = data.inicio;
-        const horaTermino = data.termino;
-        
-        // Validar formato
-        if (!horaInicio.match(/^\d{2}:\d{2}$/) || !horaTermino.match(/^\d{2}:\d{2}$/)) {
-            showToast('❌ Formato inválido. Usa números de 0-23 para hora y 0-59 para minutos.');
-            return;
-        }
-        
-        // Validar que inicio sea menor que término
-        const inicioNum = parseInt(horaInicio.replace(':', ''));
-        const terminoNum = parseInt(horaTermino.replace(':', ''));
-        if (inicioNum >= terminoNum) {
-            showToast('⚠️ La hora de inicio debe ser menor que la hora de término');
-            return;
-        }
-        
-        const today = getTodayISO();
-        
-        // Guardar en Firebase (tareo)
-        const tareoRef = database.ref(`tareo/${currentUser}/${today}`);
-        const updateData = {
-            inicio: horaInicio,
-            termino: horaTermino,
-            fecha: today,
-            usuario: currentDisplayName
-        };
-        
-        tareoRef.update(updateData).then(() => {
-            // Enviar mensaje al chat de tareo (resumen completo)
-            const tareoMessage = {
-                user: currentUser,
-                displayName: currentDisplayName,
-                text: `📋 **${currentDisplayName}** registró su jornada:\n🟢 Inicio: **${horaInicio}**\n🔴 Término: **${horaTermino}**`,
-                time: getTime(),
-                timestamp: firebase.database.ServerValue.TIMESTAMP,
-                isTareo: true,
-                tareoTipo: 'completo',
-                tareoInicio: horaInicio,
-                tareoTermino: horaTermino,
-                tareoUsuario: currentDisplayName,
-                tareoEmoji: '📋'
-            };
-            
-            const tareoMessagesRef = database.ref('messages/tareo');
-            tareoMessagesRef.push(tareoMessage).then(() => {
-                // Notificar en chat general
-                const generalMessage = {
-                    user: currentUser,
-                    displayName: currentDisplayName,
-                    text: `⏰ ${currentDisplayName} registró su jornada: Inicio ${horaInicio} - Término ${horaTermino}`,
-                    time: getTime(),
-                    timestamp: firebase.database.ServerValue.TIMESTAMP,
-                    isTareoNotification: true
-                };
-                const generalMessagesRef = database.ref('messages/general');
-                generalMessagesRef.push(generalMessage);
-                
-                showToast(`✅ Jornada registrada: ${horaInicio} - ${horaTermino}`);
-                playSoundTareo();
-                
-                if (currentRoom === 'tareo') {
-                    loadMessages();
+        if (data) {
+            const keys = Object.keys(data).sort();
+            let lastDate = '';
+            keys.forEach(key => {
+                const msg = data[key];
+                const msgDate = new Date(msg.timestamp || Date.now()).toLocaleDateString('es-ES');
+                if (msgDate !== lastDate) {
+                    lastDate = msgDate;
+                    const divider = document.createElement('div');
+                    divider.className = 'date-divider';
+                    divider.innerHTML = `<span>${msgDate === new Date().toLocaleDateString('es-ES') ? 'Hoy' : msgDate}</span>`;
+                    container.appendChild(divider);
                 }
+                addMessageToDOM(msg, key, container);
             });
-        }).catch((error) => {
-            console.error('Error al registrar tareo:', error);
-            showToast('❌ Error al registrar');
-        });
-    }
-
-    // ============================================================
-    // FUNCIONES DE CHAT
-    // ============================================================
-    
-    function addMessageToDOM(data, key) {
-        if (document.querySelector(`[data-key="${key}"]`)) return;
-        
-        const isOwn = data.user === currentUser;
-        const time = data.time || getTime();
-        
-        if (data.isTareo) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message tareo ${data.tareoTipo || ''}`;
-            messageDiv.dataset.key = key;
-            
-            let content = '';
-            if (data.tareoTipo === 'completo') {
-                content = `
-                    <div class="tareo-text">📋 ${escapeHTML(data.tareoUsuario || data.displayName)}</div>
-                    <div style="display:flex;justify-content:center;gap:16px;margin:4px 0;">
-                        <span style="color:var(--tareo-inicio);font-weight:700;">🟢 ${escapeHTML(data.tareoInicio || '')}</span>
-                        <span style="color:var(--tareo-termino);font-weight:700;">🔴 ${escapeHTML(data.tareoTermino || '')}</span>
-                    </div>
-                    <div class="tareo-usuario">Jornada registrada</div>
-                `;
-            } else {
-                content = `
-                    <span class="tareo-icon">${data.tareoEmoji || '⏰'}</span>
-                    <div class="tareo-text">${escapeHTML(data.tareoUsuario || data.displayName)}</div>
-                    <div class="tareo-hora">${escapeHTML(data.tareoHora || '')}</div>
-                    <div class="tareo-usuario">${escapeHTML(data.tareoLabel || 'Registro')}</div>
-                `;
-            }
-            
-            messageDiv.innerHTML = `
-                ${content}
-                <div class="footer">
-                    <span>${escapeHTML(time)}</span>
+        } else {
+            const emptyMsg = roomKey === 'general' 
+                ? 'No hay mensajes en el chat general' 
+                : 'No tienes registros de tareo aún.\nCompleta el formulario en la pestaña "Reporte"';
+            container.innerHTML = `
+                <div style="text-align:center;padding:calc(var(--padding-base) * 2) calc(var(--padding-base) * 1.5);color:#667781;">
+                    <i class="fas fa-${roomKey === 'general' ? 'comment' : 'clock'}" style="font-size:calc(32px * var(--scale));opacity:0.3;display:block;margin-bottom:calc(var(--padding-base) * 0.6);"></i>
+                    <p style="font-size:calc(12px * var(--scale));white-space:pre-wrap;">${emptyMsg}</p>
                 </div>
             `;
-            
-            const loader = messagesContainer.querySelector('.loader');
-            if (loader) loader.remove();
-            messagesContainer.appendChild(messageDiv);
-            scrollToBottom();
-            
-            if (!isOwn) {
-                playSoundTareo();
-                updateNotification(unreadCount + 1);
+        }
+        
+        // Escuchar nuevos mensajes
+        ref.limitToLast(1).on('child_added', (snapshot) => {
+            const msg = snapshot.val();
+            if (msg && msg.user !== currentUser) {
+                addMessageToDOM(msg, snapshot.key, container);
             }
-            return;
-        }
-        
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${isOwn ? 'sent' : 'received'}`;
-        messageDiv.dataset.key = key;
-        
-        const authorHTML = !isOwn ? `<span class="author">${escapeHTML(data.displayName || data.user)}</span>` : '';
-        const statusHTML = isOwn ? `<span class="status"><i class="fas fa-check-double" style="color:var(--primary);"></i></span>` : '';
-        
-        let textContent = data.text || '';
-        if (data.isTareoNotification) {
-            textContent = '⏰ ' + textContent;
-        }
-        
-        messageDiv.innerHTML = `
-            <div class="text">${escapeHTML(textContent)}</div>
-            <div class="footer">
-                ${authorHTML}
-                <span>${escapeHTML(time)}</span>
-                ${statusHTML}
-            </div>
-        `;
-        
-        const loader = messagesContainer.querySelector('.loader');
-        if (loader) loader.remove();
-        messagesContainer.appendChild(messageDiv);
-        scrollToBottom();
-        
-        if (!isOwn && data.user !== currentUser) {
-            playSoundReceive();
-            updateNotification(unreadCount + 1);
-        }
-    }
-    
-    function loadMessages() {
-        if (!database) {
-            messagesContainer.innerHTML = '<div style="text-align:center;padding:30px;color:#667781;">⚠️ Error de conexión con Firebase</div>';
-            return;
-        }
-        
-        messagesContainer.innerHTML = '<div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>';
-        
-        messagesRef = database.ref(`messages/${currentRoom}`);
-        messagesRef.off();
-        
-        messagesRef.limitToLast(50).once('value', (snapshot) => {
-            const data = snapshot.val();
-            messagesContainer.innerHTML = '';
-            
-            if (data) {
-                const keys = Object.keys(data).sort();
-                let lastDate = '';
-                keys.forEach(key => {
-                    const msg = data[key];
-                    const msgDate = new Date(msg.timestamp || Date.now()).toLocaleDateString('es-ES');
-                    if (msgDate !== lastDate) {
-                        lastDate = msgDate;
-                        const divider = document.createElement('div');
-                        divider.className = 'date-divider';
-                        divider.innerHTML = `<span>${msgDate === new Date().toLocaleDateString('es-ES') ? 'Hoy' : msgDate}</span>`;
-                        messagesContainer.appendChild(divider);
-                    }
-                    addMessageToDOM(msg, key);
-                });
-            } else {
-                const emptyMsg = currentRoom === 'general' 
-                    ? 'No hay mensajes en el chat general' 
-                    : 'No hay registros de tareo hoy';
-                messagesContainer.innerHTML = `
-                    <div style="text-align:center;padding:30px 20px;color:#667781;">
-                        <i class="fas fa-${currentRoom === 'general' ? 'comment' : 'clock'}" style="font-size:36px;opacity:0.3;display:block;margin-bottom:8px;"></i>
-                        <p style="font-size:13px;">${emptyMsg}</p>
-                        <p style="font-size:11px;">${currentRoom === 'general' ? '¡Envía el primer mensaje!' : 'Registra tu asistencia con los campos de Tareo'}</p>
-                    </div>
-                `;
-            }
-            
-            messagesRef.limitToLast(1).on('child_added', (snapshot) => {
-                const msg = snapshot.val();
-                if (msg && msg.user !== currentUser) {
-                    addMessageToDOM(msg, snapshot.key);
-                }
-            });
         });
-    }
-    
-    function updateUsers() {
-        if (!database) return;
-        presenceRef = database.ref(`presence/${currentRoom}`);
-        presenceRef.off();
-        presenceRef.on('value', (snapshot) => {
-            const data = snapshot.val();
-            const users = [];
-            const connectedNames = [];
-            if (data) {
-                Object.keys(data).forEach(key => {
-                    if (data[key] && data[key].online) {
-                        users.push(key);
-                        const displayName = data[key].displayName || key;
-                        connectedNames.push(displayName);
-                    }
-                });
-            }
-            renderUserGrid(connectedNames);
-            if (users.length === 0) {
-                userList.innerHTML = '<span style="color:#999;">Sin usuarios conectados</span>';
-            } else {
-                const userItems = users.map(u => {
-                    const displayName = data[u]?.displayName || u;
-                    return `<span class="badge"><span class="dot online"></span> ${escapeHTML(displayName)}</span>`;
-                });
-                userList.innerHTML = userItems.join(' ');
-            }
-            userCount.textContent = users.length;
-        });
-    }
-    
-    function setUserStatus(online) {
-        if (!currentUser || !database) return;
-        const userStatusRef = database.ref(`presence/${currentRoom}/${currentUser}`);
-        userStatusRef.set({
-            online: online,
-            displayName: currentDisplayName,
-            lastSeen: firebase.database.ServerValue.TIMESTAMP
-        });
-        if (online) {
-            userStatusRef.onDisconnect().set({
-                online: false,
-                displayName: currentDisplayName,
-                lastSeen: firebase.database.ServerValue.TIMESTAMP
-            });
-        }
-    }
-    
-    function cleanupSession() {
-        if (currentUser && database) {
-            const userStatusRef = database.ref(`presence/${currentRoom}/${currentUser}`);
-            userStatusRef.set({
-                online: false,
-                displayName: currentDisplayName,
-                lastSeen: firebase.database.ServerValue.TIMESTAMP
-            });
-        }
-        sessionActive = false;
-    }
+    });
+}
     
     function sendMessage() {
         const text = messageInput.value.trim();
         if (!text || !currentUser || isSending) return;
-        if (!database) {
+        if (!database || !messagesRef) {
             showToast('❌ Error de conexión');
             return;
         }
@@ -1280,7 +1556,7 @@
         };
         
         messagesRef.push(newMessage).then(() => {
-            addMessageToDOM(newMessage, Date.now().toString());
+            addMessageToDOM(newMessage, Date.now().toString(), messagesContainer);
             messageInput.value = '';
             isSending = false;
             sendBtn.disabled = false;
@@ -1288,6 +1564,7 @@
                 typingRef.remove();
                 isTyping = false;
             }
+            scrollToBottom();
         }).catch((error) => {
             console.error('Error al enviar:', error);
             showToast('❌ Error al enviar mensaje');
@@ -1317,8 +1594,12 @@
     
     function setupTypingIndicator() {
         if (!database) return;
-        typingRef = database.ref(`typing/${currentRoom}`);
-        typingRef.off();
+        if (typingRef) {
+            typingRef.off();
+            typingRef = null;
+        }
+        const roomKey = currentRoom === 'general' ? 'general' : 'tareo';
+        typingRef = database.ref(`typing/${roomKey}`);
         typingRef.on('value', (snapshot) => {
             const existing = document.querySelector('.typing-indicator');
             if (existing) existing.remove();
@@ -1336,13 +1617,736 @@
                         <span class="typing-dot"></span>
                         <span class="typing-text">${escapeHTML(displayName)} está escribiendo...</span>
                     `;
-                    messagesContainer.appendChild(indicator);
+                    const container = currentRoom === 'general' ? messagesContainer : tareoMessagesContainer;
+                    container.appendChild(indicator);
                     scrollToBottom();
                 }
             }
         });
     }
+
+    // ============================================================
+    // 📋 FUNCIONES DE TAREO - CHECKBOX Y ELIMINACIÓN
+    // ============================================================
     
+    // ============================================================
+// 📋 FUNCIONES DE TAREO - CHECKBOX Y ELIMINACIÓN (SOLO DEL USUARIO)
+// ============================================================
+
+function actualizarContadorTareo() {
+    // SOLO CONTAR CHECKBOXES DEL USUARIO (los que están visibles)
+    const checkboxes = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox:checked');
+    const total = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox').length;
+    contadorSeleccionados.textContent = `${checkboxes.length} de ${total} seleccionados`;
+}
+
+function seleccionarTodosTareo() {
+    // SOLO SELECTAR CHECKBOXES DEL USUARIO
+    const checkboxes = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox');
+    const checkboxesVisibles = Array.from(checkboxes).filter(cb => cb.offsetParent !== null);
+    
+    if (checkboxesVisibles.length === 0) {
+        showToast('⚠️ No tienes mensajes para seleccionar');
+        return;
+    }
+    
+    const allChecked = checkboxesVisibles.every(cb => cb.checked);
+    checkboxesVisibles.forEach(cb => cb.checked = !allChecked);
+    actualizarContadorTareo();
+}
+
+function eliminarSeleccionadosTareo() {
+    // SOLO ELIMINAR CHECKBOXES DEL USUARIO
+    const checkboxes = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox:checked');
+    const checkboxesVisibles = Array.from(checkboxes).filter(cb => cb.offsetParent !== null);
+    
+    if (checkboxesVisibles.length === 0) {
+        showToast('⚠️ No tienes mensajes seleccionados para eliminar');
+        return;
+    }
+    
+    if (!confirm(`¿Eliminar ${checkboxesVisibles.length} mensaje(s) tuyo(s)?`)) return;
+    if (!database) { showToast('❌ Error de conexión'); return; }
+    
+    const keys = [];
+    checkboxesVisibles.forEach(cb => {
+        const key = cb.dataset.key;
+        if (key) keys.push(key);
+    });
+    
+    if (keys.length === 0) return;
+    
+    showLoading('Eliminando mensajes...');
+    const promises = keys.map(key => database.ref(`messages/tareo/${key}`).remove());
+    
+    Promise.all(promises).then(() => {
+        hideLoading();
+        showToast(`✅ ${keys.length} mensaje(s) eliminado(s)`);
+        loadMessages('tareo');
+        actualizarContadorTareo();
+    }).catch((error) => {
+        hideLoading();
+        console.error('Error al eliminar:', error);
+        showToast('❌ Error al eliminar algunos mensajes');
+    });
+}
+
+    // ============================================================
+    // 📋 FUNCIONES DE TAREO - FILTROS
+    // ============================================================
+    
+    function filtrarTareoPorFecha() {
+        const fecha = tareoBuscarFecha.value;
+        if (!fecha) {
+            showToast('⚠️ Selecciona una fecha');
+            return;
+        }
+        
+        const container = tareoMessagesContainer;
+        const mensajes = container.querySelectorAll('.message.tareo');
+        let encontrados = 0;
+        
+        mensajes.forEach(msg => {
+            const texto = msg.textContent || '';
+            if (texto.includes(fecha) || texto.includes(fecha.split('-').reverse().join('/'))) {
+                msg.style.display = 'block';
+                encontrados++;
+            } else {
+                msg.style.display = 'none';
+            }
+        });
+        
+        showToast(`🔍 Encontrados ${encontrados} registros para ${fecha}`);
+    }
+    
+    function limpiarFiltroTareo() {
+        tareoBuscarFecha.value = '';
+        const container = tareoMessagesContainer;
+        const mensajes = container.querySelectorAll('.message.tareo');
+        mensajes.forEach(msg => {
+            msg.style.display = 'block';
+        });
+        showToast('✅ Filtro limpiado');
+    }
+
+    // ============================================================
+    // 📋 FUNCIONES DE REPORTE
+    // ============================================================
+    
+    function cargarConductores() {
+        const select = reporteConductor;
+        while (select.options.length > 1) { select.remove(1); }
+        const nombres = Object.keys(AUTHORIZED_USERS).sort();
+        nombres.forEach(nombre => {
+            const option = document.createElement('option');
+            option.value = nombre;
+            option.textContent = nombre;
+            select.appendChild(option);
+        });
+    }
+    
+    function cargarPlacas() {
+        const select = reportePlaca;
+        while (select.options.length > 1) { select.remove(1); }
+        PLACAS_LIST.forEach(placa => {
+            const option = document.createElement('option');
+            option.value = placa;
+            option.textContent = placa;
+            select.appendChild(option);
+        });
+    }
+    
+    function mascaraReporte(campo) {
+        campo.addEventListener('input', function(e) {
+            let valor = e.target.value.replace(/\D/g, "");
+            if (valor.length > 2) valor = valor.substring(0,2) + ":" + valor.substring(2,4);
+            e.target.value = valor;
+        });
+        campo.addEventListener('blur', function(e) {
+            if (e.target.value.length === 0) return;
+            let partes = e.target.value.split(':');
+            if (partes.length === 2) {
+                let horas = parseInt(partes[0]);
+                let minutos = parseInt(partes[1]);
+                if (horas > 23 || minutos > 59) { alert("Hora inválida (00:00 a 23:59)"); e.target.value = ""; }
+            } else { alert("Use formato HH:MM"); e.target.value = ""; }
+        });
+    }
+    
+   function initReporte() {
+    const hoy = new Date();
+    reporteFecha.value = hoy.toISOString().split('T')[0];
+    
+    cargarConductores();
+    cargarPlacas();
+    
+    // ✅ AUTO-SELECCIONAR EL CONDUCTOR ACTUAL
+    if (currentDisplayName) {
+        // Buscar el nombre en el select y seleccionarlo
+        const options = reporteConductor.options;
+        for (let i = 0; i < options.length; i++) {
+            if (options[i].value === currentDisplayName) {
+                reporteConductor.selectedIndex = i;
+                break;
+            }
+        }
+        // Si no se encontró, intentar con el texto
+        if (reporteConductor.selectedIndex === 0) {
+            for (let i = 0; i < options.length; i++) {
+                if (options[i].text === currentDisplayName) {
+                    reporteConductor.selectedIndex = i;
+                    break;
+                }
+            }
+        }
+    }
+    
+    mascaraReporte(reporteHoraInicio);
+    mascaraReporte(reporteHoraFinal);
+    mascaraReporte(reporteHoraInicioB);
+    mascaraReporte(reporteHoraFinalB);
+    
+    reporteHorario.addEventListener('change', function() {
+        const valor = this.value;
+        if (valor === 'corrido') {
+            reporteHorasB.style.display = 'none';
+            reporteHorasB2.style.display = 'none';
+            reporteLabelInicio.textContent = '🕐 Hora inicial:';
+            reporteLabelFinal.textContent = '🕒 Hora final:';
+            reporteHoraInicioB.value = '';
+            reporteHoraFinalB.value = '';
+        } else if (valor === 'partido') {
+            reporteHorasB.style.display = 'block';
+            reporteHorasB2.style.display = 'block';
+            reporteLabelInicio.textContent = '🕐 Hora inicial A:';
+            reporteLabelFinal.textContent = '🕒 Hora final A:';
+        } else {
+            reporteHorasB.style.display = 'none';
+            reporteHorasB2.style.display = 'none';
+            reporteLabelInicio.textContent = '🕐 Hora inicial:';
+            reporteLabelFinal.textContent = '🕒 Hora final:';
+            reporteHoraInicioB.value = '';
+            reporteHoraFinalB.value = '';
+        }
+    });
+    
+    cargarRegistros();
+}
+    
+    // ============================================================
+  // ============================================================
+// 🖨️ PREVISUALIZACIÓN DE IMPRESIÓN (SIN RESTRICCIONES)
+// ============================================================
+    
+function mostrarPrevisualizacion() {
+    // Obtener valores del formulario
+    let fecha = reporteFecha.value;
+    let tipoVehiculo = reporteTipoVehiculo.value;
+    let capacidad = reporteCapacidad.value;
+    let placa = reportePlaca.value;
+    let operador = reporteConductor.value;
+    let horaInicio = reporteHoraInicio.value;
+    let horaFinal = reporteHoraFinal.value;
+    let kmInicial = reporteKmInicial.value;
+    let kmFinal = reporteKmFinal.value;
+    let fechaFormateada = fecha ? fecha.split('-').reverse().join('/') : '';
+    let horario = reporteHorario.value;
+    let horaInicioB = reporteHoraInicioB.value;
+    let horaFinalB = reporteHoraFinalB.value;
+    
+    let clienteFijo = "Sociedad Minera Cerro Verde";
+    let direccionFija = "Asiento Minero Cerro Verde s/n Uchumayo - Arequipa";
+    let rucFijo = "20170072465";
+    let responsableFijo = "Carlos Medrano - Leonardo Rodríguez";
+    
+    // Construir HTML de previsualización (mismo estilo que la impresión)
+    let html = `
+        <div style="font-family:monospace;padding:10px;background:white;max-width:100%;">
+            <div style="text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #cbd5e1;padding-bottom:8px;margin-bottom:12px;">
+                TAREO DIARIO DE OPERADORES (VEHÍCULOS)
+            </div>
+            <div style="text-align:center;font-size:14px;margin-bottom:12px;">IMCO</div>
+            
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
+                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">FECHA:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${fechaFormateada || '________'}</span></div>
+                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">UNIDAD:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${tipoVehiculo || '________'}</span></div>
+            </div>
+            
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
+                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">PLACA:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${placa || '________'}</span></div>
+                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">CAPACIDAD:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${capacidad || '________'}</span></div>
+            </div>
+            
+            <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
+                <span style="font-weight:700;font-size:12px;">OPERADOR:</span>
+                <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${operador || '________________________'}</span>
+            </div>
+            
+            <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
+                <span style="font-weight:700;font-size:12px;">MANIOBRISTA:</span>
+                <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">________________________</span>
+            </div>
+            
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
+                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">CLIENTE:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${clienteFijo}</span></div>
+                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">RUC:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${rucFijo}</span></div>
+            </div>
+            
+            <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
+                <span style="font-weight:700;font-size:12px;">DIRECCIÓN:</span>
+                <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${direccionFija}</span>
+            </div>
+            
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
+                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA DE INICIO:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaInicio || '________'}</span></div>
+                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA FINAL:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaFinal || '________'}</span></div>
+            </div>
+            
+            ${horario === 'partido' ? `
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
+                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA INICIO B:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaInicioB || '________'}</span></div>
+                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA FINAL B:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaFinalB || '________'}</span></div>
+            </div>
+            ` : ''}
+            
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
+                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HOROMETRO INICIAL:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${kmInicial || '________'}</span></div>
+                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HOROMETRO FINAL:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${kmFinal || '________'}</span></div>
+            </div>
+            
+            <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
+                <span style="font-weight:700;font-size:12px;">RESPONSABLE:</span>
+                <span style="border-bottom:1.5px solid #334155;flex:2;padding:0 4px;font-size:12px;">${responsableFijo}</span>
+            </div>
+            
+            <div style="display:flex;gap:32px;margin-bottom:6px;">
+                <div style="display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">OTI:</span><span style="border-bottom:1.5px solid #334155;width:120px;padding:0 4px;font-size:12px;"></span></div>
+                <div style="display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">OSI:</span><span style="border-bottom:1.5px solid #334155;width:120px;padding:0 4px;font-size:12px;"></span></div>
+            </div>
+            
+            <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
+                <span style="font-weight:700;font-size:12px;">TRABAJO REALIZADO:</span>
+                <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;"></span>
+            </div>
+            <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;opacity:0;">
+                <span style="font-weight:700;font-size:12px;">TRABAJO REALIZADO:</span>
+                <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;"></span>
+            </div>
+            <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;opacity:0;">
+                <span style="font-weight:700;font-size:12px;">TRABAJO REALIZADO:</span>
+                <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;"></span>
+            </div>
+            
+            <div style="display:flex;justify-content:space-between;margin-top:12px;gap:32px;">
+                <div style="flex:1;text-align:center;"><div style="border-top:1px solid #000;padding-top:4px;font-size:11px;">OPERADOR</div></div>
+                <div style="flex:1;text-align:center;"><div style="border-top:1px solid #000;padding-top:4px;font-size:11px;">SUPERVISOR</div></div>
+            </div>
+        </div>
+    `;
+    
+    previewBody.innerHTML = html;
+    impresionPreview.classList.add('active');
+}
+
+function cerrarPrevisualizacion() {
+    impresionPreview.classList.remove('active');
+}
+
+function imprimirDesdePreview() {
+    // Obtener el contenido EXACTO de la previsualización
+    const contenido = document.getElementById('previewBody').innerHTML;
+    
+    // Crear ventana con el MISMO estilo que la previsualización
+    const ventana = window.open('', '_blank');
+    ventana.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Tareo diario - IMCO</title>' +
+        '<style>' +
+        '*{margin:0;padding:0;box-sizing:border-box;}' +
+        'body{background:white;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:monospace;padding:20px;}' +
+        // ⭐ MISMO ESTILO QUE LA PREVISUALIZACIÓN ⭐
+        '.tarjeta{font-family:monospace;padding:10px;background:white;max-width:800px;width:100%;}' +
+        '.titulo{text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #cbd5e1;padding-bottom:8px;margin-bottom:12px;}' +
+        '.subtitulo{text-align:center;font-size:14px;margin-bottom:12px;}' +
+        '.fila{display:flex;flex-wrap:wrap;align-items:baseline;margin-bottom:6px;gap:8px;}' +
+        '.doble{display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;}' +
+        '.col{flex:1;display:flex;align-items:baseline;gap:8px;}' +
+        '.etiqueta{font-weight:700;font-size:12px;white-space:nowrap;}' +
+        '.linea{border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;min-height:20px;}' +
+        '.linea-larga{flex:2;border-bottom:1.5px solid #334155;padding:0 4px;font-size:12px;min-height:20px;}' +
+        '.linea-corta{width:120px;border-bottom:1.5px solid #334155;padding:0 4px;font-size:12px;min-height:20px;}' +
+        '.firmas{display:flex;justify-content:space-between;margin-top:12px;gap:32px;}' +
+        '.firma-item{flex:1;text-align:center;}' +
+        '.firma-linea{border-top:1px solid #000;padding-top:4px;font-size:11px;}' +
+        '@media print{' +
+        'body{padding:0;background:white;}' +
+        '.tarjeta{padding:5px;}' +
+        '.linea,.linea-larga,.linea-corta{border-bottom:1px solid black;}' +
+        '.doble,.fila{margin-bottom:4px;}' +
+        '@page{size:A4;margin:2mm 2mm 180mm 2mm;}' +
+        '}' +
+        '</style></head><body><div class="tarjeta">' +
+        contenido +
+        '</div><script>window.onload=function(){window.print();};<\/script></body></html>');
+    ventana.document.close();
+    cerrarPrevisualizacion();
+}
+    
+    // Exponer funciones de previsualización
+    window.mostrarPrevisualizacion = mostrarPrevisualizacion;
+    window.cerrarPrevisualizacion = cerrarPrevisualizacion;
+    window.imprimirDesdePreview = imprimirDesdePreview;
+
+    // ============================================================
+    // 📋 FUNCIONES DE REPORTE - RESTANTES
+    // ============================================================
+    
+   function agregarRegistroReporte() {
+    let nombre = reporteConductor.value;
+    let fecha = reporteFecha.value;
+    let horario = reporteHorario.value;
+    let tipoVehiculo = reporteTipoVehiculo.value;
+    let capacidad = reporteCapacidad.value;
+    let placa = reportePlaca.value;
+    let kmInicial = reporteKmInicial.value;
+    let kmFinal = reporteKmFinal.value;
+    let hi = reporteHoraInicio.value;
+    let hf = reporteHoraFinal.value;
+    let hib = reporteHoraInicioB.value;
+    let hfb = reporteHoraFinalB.value;
+    
+    // ============================================================
+    // 1. VALIDAR CAMPOS
+    // ============================================================
+    if (!nombre || !fecha || !horario || !tipoVehiculo || !capacidad || !placa || !kmInicial || !kmFinal) {
+        showToast('❌ Complete todos los campos');
+        return false;
+    }
+    if (horario === 'corrido' && (!hi || !hf)) {
+        showToast('❌ Complete las horas de inicio y final');
+        return false;
+    }
+    if (horario === 'partido' && (!hi || !hf || !hib || !hfb)) {
+        showToast('❌ Complete todas las horas');
+        return false;
+    }
+    
+    let fechaForm = fecha.split('-').reverse().join('/');
+    
+    // ============================================================
+    // 2. CONSTRUIR TEXTO COMPLETO (TAL CUAL COMO EN EL HISTORIAL)
+    // ============================================================
+    let textoCompleto = `📋 ${nombre}\n`;
+    textoCompleto += `📅 ${fechaForm}\n`;
+    textoCompleto += `🚗 ${tipoVehiculo} - ${placa}\n`;
+    textoCompleto += `⚖️ Capacidad: ${capacidad}\n`;
+    textoCompleto += `📊 Km: ${kmInicial} - ${kmFinal}\n`;
+    
+    if (horario === 'corrido') {
+        textoCompleto += `🕐 Hora inicial: ${hi}\n`;
+        textoCompleto += `🕒 Hora final: ${hf}`;
+    } else if (horario === 'partido') {
+        textoCompleto += `🕐 Hora inicial A: ${hi}\n`;
+        textoCompleto += `🕒 Hora final A: ${hf}\n`;
+        textoCompleto += `🕐 Hora inicial B: ${hib}\n`;
+        textoCompleto += `🕒 Hora final B: ${hfb}`;
+    }
+    
+    // ============================================================
+    // 3. GUARDAR EN EL HISTORIAL LOCAL
+    // ============================================================
+    registros.unshift({ 
+        id: Date.now(), 
+        fecha: fechaForm, 
+        nombre: nombre, 
+        horario: horario === 'corrido' ? 'Horario corrido' : 'Horario partido', 
+        tipoVehiculo: tipoVehiculo, 
+        capacidad: capacidad, 
+        horaInicio: hi, 
+        horaFinal: hf, 
+        horaInicioB: hib, 
+        horaFinalB: hfb, 
+        placa: placa, 
+        kilometrajeInicial: kmInicial, 
+        kilometrajeFinal: kmFinal, 
+        timestamp: new Date().toLocaleString() 
+    });
+    guardarRegistros();
+    mostrarRegistros();
+    
+    // ============================================================
+    // 4. ENVIAR A LA SALA DE TAREO (PARA CONSULTA DEL USUARIO)
+    // ============================================================
+    if (!database) {
+        showToast('❌ Error de conexión con Firebase');
+        return false;
+    }
+    
+    // Mensaje para la sala de tareo (ruta del usuario)
+    const tareoMessage = {
+        user: currentUser || 'USR-001',
+        displayName: currentDisplayName || nombre,
+        text: textoCompleto,
+        time: getTime(),
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
+        isTareo: true,
+        tareoTipo: 'completo',
+        tareoUsuario: currentDisplayName || nombre,
+        tareoEmoji: '📋'
+    };
+    
+    // ✅ DATOS PARA GOOGLE SHEETS (RUTA ÚNICA)
+    const reporteData = {
+        fecha: fechaForm,
+        fechaISO: fecha,
+        conductor: nombre,
+        usuarioRegistro: currentDisplayName || nombre,
+        tipoVehiculo: tipoVehiculo,
+        placa: placa,
+        capacidad: capacidad,
+        horarioTipo: horario === 'corrido' ? 'Corrido' : 'Partido',
+        horaInicio: hi,
+        horaFinal: hf,
+        horaInicioB: hib || '',
+        horaFinalB: hfb || '',
+        kmInicial: kmInicial,
+        kmFinal: kmFinal,
+        timestamp: firebase.database.ServerValue.TIMESTAMP,
+        time: getTime(),
+        isReporte: true
+    };
+    
+    showLoading('Enviando registro...');
+    
+    // Guardar en ambas rutas
+    const tareoRef = database.ref(`messages/tareo/${currentUser || 'USR-001'}`);
+    const reporteRef = database.ref(`messages/reporte`); // ← RUTA ÚNICA PARA SHEETS
+    
+    Promise.all([
+        tareoRef.push(tareoMessage),
+        reporteRef.push(reporteData)
+    ]).then(() => {
+        hideLoading();
+        showToast('✅ Registro enviado correctamente');
+        
+        // Recargar mensajes de tareo si estamos en esa sala
+        if (currentRoom === 'tareo') {
+            loadMessages('tareo');
+        }
+        
+        // Limpiar formulario
+        limpiarReporte();
+        
+    }).catch((error) => {
+        hideLoading();
+        console.error('❌ Error al enviar:', error);
+        showToast('❌ Error al enviar registro: ' + error.message);
+    });
+    
+    return true;
+}
+    
+    function mostrarRegistros() {
+        if (registros.length === 0) { 
+            listaRegistros.innerHTML = '<div class="registro-vacio">No hay registros aún</div>'; 
+            return; 
+        }
+        let html = '';
+        for (let r of registros) {
+            html += `<div class="registro-item">
+                <p><strong>📅 Fecha:</strong> ${r.fecha}</p>
+                <p><strong>👤 Conductor:</strong> ${r.nombre}</p>
+                <p><strong>🚗 T. Vehículo:</strong> ${r.tipoVehiculo}</p>
+                <p><strong>⚖️ Cap.:</strong> ${r.capacidad}</p>
+                <p><strong>🚗 Placa:</strong> ${r.placa}</p>
+                <p><strong>📊 Km Inicial:</strong> ${r.kilometrajeInicial} km</p>
+                <p><strong>📊 Km Final:</strong> ${r.kilometrajeFinal} km</p>
+                <p><strong>⏰ Horario:</strong> ${r.horario}</p>`;
+            if (r.horario === 'Horario corrido') {
+                html += `<p><strong>🕐 Hora inicial:</strong> ${r.horaInicio}</p>
+                         <p><strong>🕒 Hora final:</strong> ${r.horaFinal}</p>`;
+            } else {
+                html += `<p><strong>🕐 Hora inicial A:</strong> ${r.horaInicio}</p>
+                         <p><strong>🕒 Hora final A:</strong> ${r.horaFinal}</p>
+                         <p><strong>🕐 Hora inicial B:</strong> ${r.horaInicioB}</p>
+                         <p><strong>🕒 Hora final B:</strong> ${r.horaFinalB}</p>`;
+            }
+            html += `<p><small>🕒 Registrado: ${r.timestamp}</small></p>
+                     <button class="btn-eliminar" onclick="eliminarRegistro(${r.id})">🗑️ Eliminar</button></div>`;
+        }
+        listaRegistros.innerHTML = html;
+    }
+    
+    function eliminarRegistro(id) { 
+        if (confirm("¿Eliminar este registro?")) { 
+            registros = registros.filter(r => r.id !== id); 
+            guardarRegistros(); 
+            mostrarRegistros(); 
+            showToast('✅ Registro eliminado');
+        } 
+    }
+    
+    function limpiarTodoHistorial() { 
+        if (confirm("⚠️ ¿Eliminar TODOS los registros?")) { 
+            registros = []; 
+            guardarRegistros(); 
+            mostrarRegistros(); 
+            showToast('✅ Todos los registros eliminados');
+        } 
+    }
+    
+    function guardarRegistros() { 
+        localStorage.setItem('registrosTransporteIMCO', JSON.stringify(registros)); 
+    }
+    
+    function cargarRegistros() { 
+        let g = localStorage.getItem('registrosTransporteIMCO'); 
+        if (g) { 
+            registros = JSON.parse(g); 
+            mostrarRegistros(); 
+        } 
+    }
+    
+    function limpiarReporte() {
+        if (confirm("⚠️ ¿Limpiar todos los campos del formulario?")) {
+            reporteConductor.value = '';
+            reporteTipoVehiculo.value = '';
+            reporteCapacidad.value = '';
+            reportePlaca.value = '';
+            reporteKmInicial.value = '';
+            reporteKmFinal.value = '';
+            reporteHorario.value = '';
+            reporteHoraInicio.value = '';
+            reporteHoraFinal.value = '';
+            reporteHoraInicioB.value = '';
+            reporteHoraFinalB.value = '';
+            reporteHorario.dispatchEvent(new Event('change'));
+            const hoy = new Date();
+            reporteFecha.value = hoy.toISOString().split('T')[0];
+            showToast('✅ Campos limpiados');
+        }
+    }
+    
+    function enviarReporteWhatsApp() {
+        let nombre = reporteConductor.value;
+        let fecha = reporteFecha.value;
+        let horario = reporteHorario.value;
+        let tipoVehiculo = reporteTipoVehiculo.value;
+        let capacidad = reporteCapacidad.value;
+        let placa = reportePlaca.value;
+        let kmInicial = reporteKmInicial.value;
+        let kmFinal = reporteKmFinal.value;
+        let hi = reporteHoraInicio.value;
+        let hf = reporteHoraFinal.value;
+        let hib = reporteHoraInicioB.value;
+        let hfb = reporteHoraFinalB.value;
+
+        if (!nombre || !fecha || !horario || !tipoVehiculo || !capacidad || !placa || !kmInicial || !kmFinal) {
+            showToast("❌ Complete todos los campos");
+            return;
+        }
+
+        const fechaForm = fecha.split('-').reverse().join('/');
+        let texto = `📋 *TAREO DIARIO - IMCO*\n`;
+        texto += `📅 Fecha: ${fechaForm}\n`;
+        texto += `👤 Conductor: ${nombre}\n`;
+        texto += `🚗 Vehículo: ${tipoVehiculo}\n`;
+        texto += `⚖️ Capacidad: ${capacidad}\n`;
+        texto += `🚗 Placa: ${placa}\n`;
+        texto += `📊 Km Inicial: ${kmInicial} km\n`;
+        texto += `📊 Km Final: ${kmFinal} km\n`;
+
+        if (horario === 'corrido') {
+            if (!hi || !hf) { showToast("❌ Complete las horas"); return; }
+            texto += `⏰ Horario: Corrido\n`;
+            texto += `🕐 Inicio: ${hi}\n`;
+            texto += `🕒 Final: ${hf}\n`;
+        } else if (horario === 'partido') {
+            if (!hi || !hf || !hib || !hfb) { showToast("❌ Complete todas las horas"); return; }
+            texto += `⏰ Horario: Partido\n`;
+            texto += `🕐 Inicio A: ${hi}\n`;
+            texto += `🕒 Final A: ${hf}\n`;
+            texto += `🕐 Inicio B: ${hib}\n`;
+            texto += `🕒 Final B: ${hfb}\n`;
+        } else {
+            showToast("❌ Seleccione un horario");
+            return;
+        }
+
+        navigator.clipboard.writeText(texto).then(() => {
+            showToast("✅ Mensaje copiado, pegue en el grupo de WhatsApp");
+        }).catch(() => {
+            showToast("❌ Error al copiar el mensaje");
+        });
+        
+        agregarRegistroReporte();
+    }
+
+    // ============================================================
+    // FUNCIONES DE PRESENCIA
+    // ============================================================
+    
+    function updateUsers() {
+        if (!database) return;
+        const roomKey = currentRoom === 'general' ? 'general' : 'tareo';
+        presenceRef = database.ref(`presence/${roomKey}`);
+        presenceRef.off();
+        presenceRef.on('value', (snapshot) => {
+            const data = snapshot.val();
+            const users = [];
+            const connectedNames = [];
+            if (data) {
+                Object.keys(data).forEach(key => {
+                    if (data[key] && data[key].online) {
+                        users.push(key);
+                        const displayName = data[key].displayName || key;
+                        connectedNames.push(displayName);
+                    }
+                });
+            }
+            renderUserGrid(connectedNames);
+            if (users.length === 0) {
+                userList.innerHTML = '<span style="color:#999;font-size:var(--online-font);">Sin usuarios conectados</span>';
+            } else {
+                const userItems = users.map(u => {
+                    const displayName = data[u]?.displayName || u;
+                    return `<span class="badge"><span class="dot online"></span> ${escapeHTML(displayName)}</span>`;
+                });
+                userList.innerHTML = userItems.join(' ');
+            }
+            userCount.textContent = users.length;
+        });
+    }
+    
+    function setUserStatus(online) {
+        if (!currentUser || !database) return;
+        const roomKey = currentRoom === 'general' ? 'general' : 'tareo';
+        const userStatusRef = database.ref(`presence/${roomKey}/${currentUser}`);
+        userStatusRef.set({
+            online: online,
+            displayName: currentDisplayName,
+            lastSeen: firebase.database.ServerValue.TIMESTAMP
+        });
+        if (online) {
+            userStatusRef.onDisconnect().set({
+                online: false,
+                displayName: currentDisplayName,
+                lastSeen: firebase.database.ServerValue.TIMESTAMP
+            });
+        }
+    }
+    
+    function cleanupSession() {
+        if (currentUser && database) {
+            const roomKey = currentRoom === 'general' ? 'general' : 'tareo';
+            const userStatusRef = database.ref(`presence/${roomKey}/${currentUser}`);
+            userStatusRef.set({
+                online: false,
+                displayName: currentDisplayName,
+                lastSeen: firebase.database.ServerValue.TIMESTAMP
+            });
+        }
+        sessionActive = false;
+    }
+
     // ============================================================
     // 🔐 VERIFICAR SESIÓN ACTIVA
     // ============================================================
@@ -1353,7 +2357,8 @@
                 resolve({ isConnected: false, userKey: null });
                 return;
             }
-            const presenceCheckRef = database.ref(`presence/${currentRoom}`);
+            const roomKey = currentRoom === 'general' ? 'general' : 'tareo';
+            const presenceCheckRef = database.ref(`presence/${roomKey}`);
             presenceCheckRef.once('value', (snapshot) => {
                 const data = snapshot.val();
                 let isConnected = false;
@@ -1412,7 +2417,8 @@
         hideLoading();
         
         if (result.isConnected) {
-            const userStatusRef = database.ref(`presence/${currentRoom}/${result.userKey}`);
+            const roomKey = currentRoom === 'general' ? 'general' : 'tareo';
+            const userStatusRef = database.ref(`presence/${roomKey}/${result.userKey}`);
             await userStatusRef.set({
                 online: false,
                 displayName: displayName,
@@ -1439,8 +2445,21 @@
             chatAvatar.textContent = getInitials(currentDisplayName);
             clearNotification();
             
-            switchRoom('general');
+            currentRoom = 'general';
+            btnGeneral.classList.add('active');
+            btnTareo.classList.remove('active');
+            btnReporte.classList.remove('active');
+            chatRoomTitle.textContent = '💬 Chat General';
+            document.getElementById('inputArea').style.display = 'flex';
+            messagesContainer.classList.remove('hidden');
+            tareoMessagesContainer.classList.add('hidden');
+            reporteContainer.classList.remove('active');
+            tareoFiltro.classList.remove('active');
+            tareoAcciones.classList.remove('active');
             
+            initReporte();
+            
+            loadMessages('general');
             updateUsers();
             setupTypingIndicator();
             setUserStatus(true);
@@ -1456,13 +2475,27 @@
     
     function leaveChat() {
         cleanupSession();
-        if (messagesRef) messagesRef.off();
-        if (presenceRef) presenceRef.off();
-        if (typingRef) typingRef.off();
+        if (messagesRef) {
+            messagesRef.off();
+            messagesRef = null;
+        }
+        if (tareoMessagesRef) {
+            tareoMessagesRef.off();
+            tareoMessagesRef = null;
+        }
+        if (presenceRef) {
+            presenceRef.off();
+            presenceRef = null;
+        }
+        if (typingRef) {
+            typingRef.off();
+            typingRef = null;
+        }
         
         chatApp.classList.remove('active');
         loginScreen.classList.remove('hidden');
         messagesContainer.innerHTML = '';
+        tareoMessagesContainer.innerHTML = '';
         currentUser = '';
         currentDisplayName = '';
         selectedUser = null;
@@ -1479,7 +2512,8 @@
     
     window.addEventListener('beforeunload', function() {
         if (sessionActive && currentUser && database) {
-            const userStatusRef = database.ref(`presence/${currentRoom}/${currentUser}`);
+            const roomKey = currentRoom === 'general' ? 'general' : 'tareo';
+            const userStatusRef = database.ref(`presence/${roomKey}/${currentUser}`);
             userStatusRef.set({
                 online: false,
                 displayName: currentDisplayName,
@@ -1487,7 +2521,7 @@
             });
         }
     });
-    
+
     // ============================================================
     // EVENTOS
     // ============================================================
@@ -1544,47 +2578,24 @@
             loginForm.dispatchEvent(new Event('submit'));
         }
     });
-    
-    // ===== TAREO EVENTOS =====
-    tareoEnviarBtn.addEventListener('click', registrarTareoCompleto);
-    
-    // Limitar inputs de números
-    [tareoInicio, tareoTermino].forEach(input => {
-        input.addEventListener('input', function() {
-            let val = parseInt(this.value);
-            if (this.value === '') return;
-            if (isNaN(val)) { this.value = ''; return; }
-            if (val < 0) this.value = '0';
-            if (val > 23) this.value = '23';
-        });
-    });
-    
-    [tareoInicioMin, tareoTerminoMin].forEach(input => {
-        input.addEventListener('input', function() {
-            let val = parseInt(this.value);
-            if (this.value === '') return;
-            if (isNaN(val)) { this.value = ''; return; }
-            if (val < 0) this.value = '0';
-            if (val > 59) this.value = '59';
-        });
-    });
-    
+
     // ============================================================
     // INICIO
     // ============================================================
     
     renderUserGrid([]);
     
-    console.log('🚛 Transportes Mantenimiento - Chat con Sala Tareo');
+    console.log('🚛 Transportes Mantenimiento - Chat con 3 Salas');
     console.log('📋 Usuarios autorizados:', Object.keys(AUTHORIZED_USERS).length);
-    console.log('✅ Campos de Inicio y Término juntos');
-    console.log('📌 REGLAS DE FIREBASE:');
+    console.log('🚗 Placas disponibles:', PLACAS_LIST.length);
+    console.log('🖨️ Previsualización de impresión SIN RESTRICCIONES');
+    console.log('✅ Puedes ver el documento antes de imprimir');
+    console.log('📌 REGLAS DE Ffunction mostrarPrevisualizacion() {IREBASE:');
     console.log('{');
     console.log('  "rules": {');
     console.log('    "messages": { ".read": true, ".write": true },');
     console.log('    "presence": { ".read": true, ".write": true },');
-    console.log('    "typing": { ".read": true, ".write": true },');
-    console.log('    "tareo": { ".read": true, ".write": true }');
+    console.log('    "typing": { ".read": true, ".write": true }');
     console.log('  }');
     console.log('}');
 </script>
