@@ -2,7 +2,7 @@
 
 ## Descripción General
 
-**Transportes** es una aplicación web integral diseñada para la gestión y control de operadores de transporte en la empresa IMCO. La plataforma combina un sistema de chat en tiempo real, registro de tareo diario, reportes de operadores y visualización de planillas, todo integrado con Firebase Realtime Database y Google Sheets.
+**Transportes** es una aplicación web integral diseñada para la gestión y control de operadores de transporte. La plataforma combina un sistema de chat en tiempo real, registro de tareo diario, reportes de operadores y visualización de planillas, todo integrado con Firebase Realtime Database y Google Sheets.
 
 ---
 
