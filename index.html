@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -81,13 +80,21 @@
         .theme-rojo { --primary-dark: #7A1A1A; --primary: #C82333; --primary-light: #E86A7A; --primary-lighter: #FDE8EA; --bubble-sent: #FDDDE0; --bg-header: #7A1A1A; }
         .theme-morado { --primary-dark: #4A1A6B; --primary: #6F42C1; --primary-light: #A97DDB; --primary-lighter: #F0E6F9; --bubble-sent: #E8D5F5; --bg-header: #4A1A6B; }
         .theme-naranja { --primary-dark: #7A4A0A; --primary: #E67E22; --primary-light: #F0B27A; --primary-lighter: #FEF5E7; --bubble-sent: #FDEBD0; --bg-header: #7A4A0A; }
+        .theme-rosa { --primary-dark: #6B1A3A; --primary: #D63384; --primary-light: #E86A9A; --primary-lighter: #FDE8F0; --bubble-sent: #FDDDE8; --bg-header: #6B1A3A; }
+        .theme-gris { --primary-dark: #2D3436; --primary: #636E72; --primary-light: #A0A4A8; --primary-lighter: #F0F0F0; --bubble-sent: #DEDEDE; --bg-header: #2D3436; }
+        
+        /* ===== FUENTES ===== */
+        .font-default { font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; }
+        .font-monospace { font-family: 'Courier New', monospace; }
+        .font-sans { font-family: 'Segoe UI', Arial, sans-serif; }
+        .font-serif { font-family: Georgia, 'Times New Roman', serif; }
+        .font-rounded { font-family: 'Nunito', 'Segoe UI', rounded, sans-serif; }
         
         /* ===== BODY ===== */
         html, body {
             height: 100%;
             width: 100%;
             overflow: hidden;
-            font-family: -apple-system, 'Segoe UI', Roboto, sans-serif;
             background: var(--primary-dark);
             margin: 0;
             padding: 0;
@@ -198,6 +205,7 @@
         .success-msg { color: var(--success); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #F0FFF4; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--success); }
         .warning-msg { color: var(--warning); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #FFF3CD; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--warning); }
         
+        /* ===== SELECTOR DE TAMAÑO ===== */
         .size-selector {
             display: flex;
             gap: calc(var(--padding-base) * 0.3);
@@ -222,17 +230,43 @@
         .size-btn.active { border-color: var(--primary); background: var(--primary-lighter); color: var(--primary); }
         .size-btn i { margin-right: 4px; }
         
+        /* ===== SELECTOR DE TEMA ===== */
         .theme-selector { display: flex; gap: calc(var(--padding-base) * 0.6); justify-content: center; margin: calc(var(--padding-base) * 0.5) 0 calc(var(--padding-base) * 1); flex-wrap: wrap; }
         .theme-btn { width: calc(28px * var(--scale)); height: calc(28px * var(--scale)); border-radius: 50%; border: 3px solid #E9EDEF; cursor: pointer; transition: all 0.3s; -webkit-tap-highlight-color: transparent; position: relative; touch-action: manipulation; }
         .theme-btn:hover { transform: scale(1.1); }
         .theme-btn.active { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.2); }
-        .theme-btn .check { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: calc(10px * var(--scale)); }
+        .theme-btn .check { display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; font-size: calc(10px * var(--scale)); text-shadow: 0 0 3px rgba(0,0,0,0.5); }
         .theme-btn.active .check { display: block; }
         .theme-azul-btn { background: #1A5FB4; }
         .theme-verde-btn { background: #28A745; }
         .theme-rojo-btn { background: #C82333; }
         .theme-morado-btn { background: #6F42C1; }
         .theme-naranja-btn { background: #E67E22; }
+        .theme-rosa-btn { background: #D63384; }
+        .theme-gris-btn { background: #636E72; }
+        
+        /* ===== SELECTOR DE FUENTE ===== */
+        .font-selector {
+            display: flex;
+            gap: calc(var(--padding-base) * 0.3);
+            justify-content: center;
+            margin: calc(var(--padding-base) * 0.5) 0 calc(var(--padding-base) * 0.8);
+            flex-wrap: wrap;
+        }
+        .font-btn {
+            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
+            border: 2px solid #E9EDEF;
+            border-radius: calc(var(--radius-base) * 0.6);
+            background: white;
+            cursor: pointer;
+            font-size: calc(9px * var(--scale));
+            font-weight: 600;
+            transition: all 0.3s;
+            touch-action: manipulation;
+            color: #667781;
+        }
+        .font-btn:active { transform: scale(0.95); }
+        .font-btn.active { border-color: var(--primary); background: var(--primary-lighter); color: var(--primary); }
         
         /* ===== CHAT ===== */
         #chatApp {
@@ -546,16 +580,6 @@
         .sound-indicator i { font-size: calc(12px * var(--scale)); }
         @keyframes fadeInOut { 0% { opacity: 0; transform: translateX(-50%) translateY(-6px); } 20% { opacity: 1; transform: translateX(-50%) translateY(0); } 80% { opacity: 1; transform: translateX(-50%) translateY(0); } 100% { opacity: 0; transform: translateX(-50%) translateY(-6px); } }
         
-        @media (max-width: 520px) {
-            body { padding: 0 !important; margin: 0 !important; }
-            #loginScreen { padding: calc(var(--login-padding) * 0.6); border-radius: calc(var(--login-radius) * 0.7); width: 94%; max-width: 360px; }
-            .user-grid { grid-template-columns: repeat(3, 1fr); gap: calc(var(--user-grid-gap) * 0.7); max-height: calc(140px * var(--scale)); }
-            .reporte-grid { grid-template-columns: 1fr; }
-            .reporte-botones { grid-template-columns: 1fr 1fr; }
-            .reporte-botones .btn-reporte.whatsapp { grid-column: span 2; }
-            .message.tareo .tareo-detalle span { display: block; margin-bottom: 2px; }
-        }
-        
         /* ===== PREVISUALIZACIÓN DE IMPRESIÓN ===== */
         .impresion-preview {
             display: none;
@@ -617,6 +641,79 @@
             width: 100%;
         }
         .impresion-preview .btn-imprimir-preview:hover { background: var(--primary-dark); }
+        
+        /* ===== PLANILLA GOOGLE SHEETS ===== */
+        .planilla-container {
+            display: none;
+            flex-direction: column;
+            gap: calc(var(--padding-base) * 0.5);
+            padding: calc(var(--padding-base) * 0.5);
+            height: 100%;
+        }
+        .planilla-container.active { display: flex; }
+        
+        .planilla-titulo {
+            font-size: calc(16px * var(--scale));
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-align: center;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: calc(var(--padding-base) * 0.3);
+        }
+        .planilla-titulo span {
+            font-size: calc(10px * var(--scale));
+            color: #999;
+            font-weight: 400;
+        }
+        
+        #planillaFrameContainer {
+            flex: 1;
+            min-height: 0;
+            border-radius: calc(var(--radius-base) * 0.8);
+            overflow: hidden;
+            background: #f5f5f5;
+            border: 1px solid #e0e0e0;
+        }
+        
+        #planillaIframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+        
+        .planilla-footer {
+            display: flex;
+            gap: calc(var(--padding-base) * 0.4);
+            justify-content: center;
+            flex-wrap: wrap;
+            padding-bottom: calc(var(--padding-base) * 0.3);
+        }
+        
+        .btn-planilla {
+            padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 1);
+            border: none;
+            border-radius: calc(var(--radius-base) * 0.5);
+            font-size: calc(11px * var(--scale));
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            touch-action: manipulation;
+            background: var(--primary);
+            color: white;
+        }
+        .btn-planilla:active { transform: scale(0.96); }
+        .btn-planilla:hover { opacity: 0.85; }
+        
+        @media (max-width: 520px) {
+            body { padding: 0 !important; margin: 0 !important; }
+            #loginScreen { padding: calc(var(--login-padding) * 0.6); border-radius: calc(var(--login-radius) * 0.7); width: 94%; max-width: 360px; }
+            .user-grid { grid-template-columns: repeat(3, 1fr); gap: calc(var(--user-grid-gap) * 0.7); max-height: calc(140px * var(--scale)); }
+            .reporte-grid { grid-template-columns: 1fr; }
+            .reporte-botones { grid-template-columns: 1fr 1fr; }
+            .reporte-botones .btn-reporte.whatsapp { grid-column: span 2; }
+            .message.tareo .tareo-detalle span { display: block; margin-bottom: 2px; }
+        }
     </style>
 </head>
 <body>
@@ -651,6 +748,7 @@
     <div class="logo-title">Transportes <span>Mantenimiento</span></div>
     <div class="logo-subtitle">Selecciona tu usuario y ingresa tu clave</div>
     
+    <!-- SELECTOR DE TAMAÑO -->
     <div class="size-selector" id="sizeSelector">
         <button class="size-btn" data-size="small" onclick="changeSize('small')"><i class="fas fa-font"></i> Peq</button>
         <button class="size-btn active" data-size="medium" onclick="changeSize('medium')"><i class="fas fa-font"></i> Med</button>
@@ -659,12 +757,24 @@
         <button class="size-btn" data-size="xxlarge" onclick="changeSize('xxlarge')"><i class="fas fa-font"></i> UGrd</button>
     </div>
     
+    <!-- SELECTOR DE TEMA -->
     <div class="theme-selector" id="themeSelector">
         <button class="theme-btn theme-azul-btn active" data-theme="azul" onclick="changeTheme('azul')"><span class="check">✓</span></button>
         <button class="theme-btn theme-verde-btn" data-theme="verde" onclick="changeTheme('verde')"><span class="check">✓</span></button>
         <button class="theme-btn theme-rojo-btn" data-theme="rojo" onclick="changeTheme('rojo')"><span class="check">✓</span></button>
         <button class="theme-btn theme-morado-btn" data-theme="morado" onclick="changeTheme('morado')"><span class="check">✓</span></button>
         <button class="theme-btn theme-naranja-btn" data-theme="naranja" onclick="changeTheme('naranja')"><span class="check">✓</span></button>
+        <button class="theme-btn theme-rosa-btn" data-theme="rosa" onclick="changeTheme('rosa')"><span class="check">✓</span></button>
+        <button class="theme-btn theme-gris-btn" data-theme="gris" onclick="changeTheme('gris')"><span class="check">✓</span></button>
+    </div>
+    
+    <!-- SELECTOR DE FUENTE -->
+    <div class="font-selector" id="fontSelector">
+        <button class="font-btn active" data-font="default" onclick="changeFont('default')">🔤 Default</button>
+        <button class="font-btn" data-font="monospace" onclick="changeFont('monospace')">🔤 Mono</button>
+        <button class="font-btn" data-font="sans" onclick="changeFont('sans')">🔤 Sans</button>
+        <button class="font-btn" data-font="serif" onclick="changeFont('serif')">🔤 Serif</button>
+        <button class="font-btn" data-font="rounded" onclick="changeFont('rounded')">🔤 Rounded</button>
     </div>
     
     <div class="user-selector">
@@ -711,10 +821,14 @@
         <button class="header-btn active" id="btnGeneral" onclick="switchRoom('general')">💬</button>
         <button class="header-btn" id="btnTareo" onclick="switchRoom('tareo')">⏰</button>
         <button class="header-btn" id="btnReporte" onclick="switchRoom('reporte')">📋</button>
+        <button class="header-btn" id="btnPlanilla" onclick="switchRoom('planilla')">📊</button>
         <button class="header-btn" id="sizeToggleBtn" onclick="toggleSizeSelector()" title="Tamaño">
             <i class="fas fa-font"></i>
         </button>
-        <button class="theme-toggle-btn header-btn" id="themeToggleBtn" onclick="toggleThemeSelector()" title="Tema">
+        <button class="header-btn" id="fontToggleBtn" onclick="toggleFontSelector()" title="Fuente">
+            <i class="fas fa-text-height"></i>
+        </button>
+        <button class="header-btn" id="themeToggleBtn" onclick="toggleThemeSelector()" title="Tema">
             <i class="fas fa-palette"></i>
         </button>
         <button class="logout-btn" id="logoutBtn">
@@ -728,20 +842,19 @@
     </div>
     
     <!-- ===== FILTRO DE FECHA PARA TAREO ===== -->
-    <div class="tareo-filtro" id="tareoFiltro">
-        <label>🔍 Buscar fecha:</label>
-        <input type="date" id="tareoBuscarFecha">
-        <button class="btn-filtrar" onclick="filtrarTareoPorFecha()">Buscar</button>
-        <button class="btn-filtrar" style="background:#95a5a6;" onclick="limpiarFiltroTareo()">Limpiar</button>
+    <div class="tareo-filtro" id="tareoFiltro" style="display:none; padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8); background: #f8f9fa; border-bottom: 1px solid #e9ecef; gap: 8px; align-items: center; flex-wrap: wrap;">
+        <label style="font-size:calc(11px * var(--scale)); font-weight:600;">🔍 Buscar fecha:</label>
+        <input type="date" id="tareoBuscarFecha" style="padding:4px 8px; border:1px solid #ccc; border-radius:4px; font-size:calc(12px * var(--scale));">
+        <button class="btn-filtrar" onclick="filtrarTareoPorFecha()" style="padding:4px 12px; background:var(--primary); color:white; border:none; border-radius:4px; cursor:pointer; font-size:calc(11px * var(--scale));">Buscar</button>
+        <button class="btn-filtrar" onclick="limpiarFiltroTareo()" style="padding:4px 12px; background:#95a5a6; color:white; border:none; border-radius:4px; cursor:pointer; font-size:calc(11px * var(--scale));">Limpiar</button>
     </div>
     
     <!-- ===== ACCIONES TAREO ===== -->
-    <!-- ===== ACCIONES TAREO ===== -->
-<div class="tareo-acciones" id="tareoAcciones">
-    <span class="contador-seleccionados" id="contadorSeleccionados">0 seleccionados</span>
-    <button class="btn-seleccionar-todos" onclick="seleccionarTodosTareo()">☑ Todos</button>
-    <button class="btn-eliminar-seleccionados" onclick="eliminarSeleccionadosTareo()">🗑️ Eliminar seleccionados</button>
-</div>
+    <div class="tareo-acciones" id="tareoAcciones">
+        <span class="contador-seleccionados" id="contadorSeleccionados">0 seleccionados</span>
+        <button class="btn-seleccionar-todos" onclick="seleccionarTodosTareo()">☑ Todos</button>
+        <button class="btn-eliminar-seleccionados" onclick="eliminarSeleccionadosTareo()">🗑️ Eliminar seleccionados</button>
+    </div>
     
     <!-- CONTENEDOR PRINCIPAL -->
     <div class="content-container" id="contentContainer">
@@ -851,6 +964,18 @@
                 <div id="listaRegistros"><div class="registro-vacio">No hay registros aún</div></div>
             </div>
         </div>
+        
+        <!-- PLANILLA GOOGLE SHEETS (SOLO LECTURA) -->
+        <div class="planilla-container" id="planillaContainer">
+            <div class="planilla-titulo">📊 Planilla de Tareo <span>(solo lectura)</span></div>
+            <div id="planillaFrameContainer">
+                <iframe id="planillaIframe" src="about:blank" frameborder="0"></iframe>
+            </div>
+            <div class="planilla-footer">
+                <button class="btn-planilla" onclick="abrirPlanillaCompleta()">📤 Abrir en Google Sheets</button>
+                <button class="btn-planilla" onclick="recargarPlanilla()">🔄 Recargar</button>
+            </div>
+        </div>
     </div>
     
     <!-- INPUT AREA -->
@@ -901,37 +1026,40 @@
     // ============================================================
     
     const AUTHORIZED_USERS = {
-        "Cristhian De La Cruz": "1234",
-        "Marcos Mamani": "5678",
-        "Alex Cornejo": "9012",
-        "Anders Zegarra": "3456",
-        "Tito Macedo": "7890",
-        "Dante Torrez": "2345",
-        "Carlos Mamani": "6789",
-        "Fabian Huamani": "0123",
-        "Oscar Moron": "4567",
-        "Jose Rivas": "8901",
-        "Paul Manrique": "1111",
-        "Joel Alejo": "2222",
-        "Julio Nina": "3333",
-        "Elvis Tunque": "4444",
-        "Henry Calderon": "5555",
-        "Jose Alvarez": "6666",
-        "Renzo Lipa": "7777",
-        "Edgar Almanza": "8888",
-        "Juan Gomez": "9999",
-        "Rafael Ordoñez": "0000",
-        "Sandro Calizaya": "1212",
-        "Jhunior Quispe": "3434",
-        "Jose Camargo": "5656",
-        "Felipe Mayta": "7878",
-        "Paul Cruz": "9090",
-	"Carlos Calderon": "9090",
-	"Carlos Medrano": "9090",
-	"Leonardo Rodriguez": "9090",
-		"Alexander Gomez": "9090",
-		"Anthony Contreras": "9090",
+        "ADMINISTRADOR": "admin123",
+        "Alex Antonio Cornejo Quispe": "7890",
+        "Alexander Gomez Chora": "1234",
+        "Anders Willian Zegarra Yanque": "2345",
+        "Carlos Alfredo Mamani Viveros": "4567",
+        "Cristhian John De La Cruz Jara": "9012",
+        "Dante Dennis Torrez Enriquez": "0123",
+        "Edgar Raul Almanza Castro": "0000",
+        "Elvis Joel Tunque Palomino": "6666",
+        "Fabian Aurelio Huamani Choquehuanca": "8901",
+        "Felipe Zenon Mayta Yanqui": "9090",
+        "Henry Raul Calderon Arela": "7777",
+        "Jhunior Reymuer Quispe Nina": "7878",
+        "Joe Anthony Contreras Panuera": "5678",
+        "Joel Alejo": "4444",
+        "Jose Luis Alvarez Iquiapaza": "8888",
+        "Jose Luis Camargo Bautista": "9090",
+        "Jose Luis Rivas Morales": "2222",
+        "Juan Manuel Gomez Rodriguez": "1212",
+        "Julio Nina Huayllani": "5555",
+        "Marcos Antonio Mamani Monzon": "3456",
+        "Oscar Tomas Moron Zuñiga": "1111",
+        "Paul Emerson Manrique Monzon": "3333",
+        "Rafael Hernando Ordoñez Huaco": "3434",
+        "Renzo Gonzalo Lipa Lipa": "9999",
+        "Sandro Augusto Calizaya Calizaya": "5656",
+        "Tito Enrique Macedo Apaza": "6789"
     };
+
+    // ============================================================
+    // 📊 URL DE LA PLANILLA (SOLO LECTURA CON FILTRO)
+    // ============================================================
+    
+    const SHEET_ID = "15mtLc9jPNgDe6w-0Dvdja-8VDdCI7jqpXbQ2Kaid0ug";
 
     // ============================================================
     // INICIALIZAR FIREBASE
@@ -971,6 +1099,7 @@
     let selectedUser = null;
     let currentTheme = 'azul';
     let currentSize = 'medium';
+    let currentFont = 'default';
     let sessionActive = false;
     let unreadCount = 0;
     
@@ -996,6 +1125,7 @@
     const messagesContainer = document.getElementById('messagesContainer');
     const tareoMessagesContainer = document.getElementById('tareoMessagesContainer');
     const reporteContainer = document.getElementById('reporteContainer');
+    const planillaContainer = document.getElementById('planillaContainer');
     const chatAvatar = document.getElementById('chatAvatar');
     const chatRoomTitle = document.getElementById('chatRoomTitle');
     const userList = document.getElementById('userList');
@@ -1009,6 +1139,7 @@
     const btnGeneral = document.getElementById('btnGeneral');
     const btnTareo = document.getElementById('btnTareo');
     const btnReporte = document.getElementById('btnReporte');
+    const btnPlanilla = document.getElementById('btnPlanilla');
     const chatInputRow = document.getElementById('chatInputRow');
     const contentContainer = document.getElementById('contentContainer');
     const listaRegistros = document.getElementById('listaRegistros');
@@ -1018,6 +1149,7 @@
     const contadorSeleccionados = document.getElementById('contadorSeleccionados');
     const impresionPreview = document.getElementById('impresionPreview');
     const previewBody = document.getElementById('previewBody');
+    const planillaIframe = document.getElementById('planillaIframe');
     
     // Reporte inputs
     const reporteFecha = document.getElementById('reporteFecha');
@@ -1092,11 +1224,44 @@
         }
     }
     
+    // ============================================================
+    // 🔤 FUNCIONES DE FUENTE
+    // ============================================================
+    
+    function changeFont(font) {
+        currentFont = font;
+        document.body.className = document.body.className.split(' ').filter(c => !c.startsWith('font-')).join(' ');
+        document.body.classList.add('font-' + font);
+        document.querySelectorAll('.font-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.dataset.font === font) btn.classList.add('active');
+        });
+        try { localStorage.setItem('chatFont', font); } catch(e) {}
+        console.log('🔤 Fuente cambiada a:', font);
+    }
+    
+    function toggleFontSelector() {
+        const selector = document.getElementById('fontSelector');
+        if (selector) {
+            const isVisible = selector.style.display !== 'none';
+            selector.style.display = isVisible ? 'none' : 'flex';
+            clearTimeout(selector._hideTimeout);
+            if (!isVisible) {
+                selector._hideTimeout = setTimeout(() => {
+                    selector.style.display = 'none';
+                }, 5000);
+            }
+        }
+    }
+    
     window.changeSize = changeSize;
     window.toggleSizeSelector = toggleSizeSelector;
     window.changeTheme = changeTheme;
     window.toggleThemeSelector = toggleThemeSelector;
+    window.changeFont = changeFont;
+    window.toggleFontSelector = toggleFontSelector;
     
+    // Cargar configuraciones guardadas
     try {
         const savedSize = localStorage.getItem('chatSize');
         if (savedSize && ['small','medium','large','xlarge','xxlarge'].includes(savedSize)) {
@@ -1104,9 +1269,14 @@
             setTimeout(() => changeSize(savedSize), 100);
         }
         const savedTheme = localStorage.getItem('chatTheme');
-        if (savedTheme && ['azul','verde','rojo','morado','naranja'].includes(savedTheme)) {
+        if (savedTheme && ['azul','verde','rojo','morado','naranja','rosa','gris'].includes(savedTheme)) {
             currentTheme = savedTheme;
             setTimeout(() => changeTheme(savedTheme), 100);
+        }
+        const savedFont = localStorage.getItem('chatFont');
+        if (savedFont && ['default','monospace','sans','serif','rounded'].includes(savedFont)) {
+            currentFont = savedFont;
+            setTimeout(() => changeFont(savedFont), 100);
         }
     } catch(e) {}
 
@@ -1327,215 +1497,258 @@
     // ============================================================
     
     function switchRoom(room) {
-    if (!currentUser) return;
-    if (room === currentRoom) return;
-    
-    currentRoom = room;
-    
-    btnGeneral.classList.toggle('active', room === 'general');
-    btnTareo.classList.toggle('active', room === 'tareo');
-    btnReporte.classList.toggle('active', room === 'reporte');
-    
-    const titles = {
-        'general': '💬 Chat General',
-        'tareo': '⏰ Tareo Diario',
-        'reporte': '📋 Reporte IMCO'
-    };
-    chatRoomTitle.textContent = titles[room] || '💬 Chat General';
-    
-    messagesContainer.classList.toggle('hidden', room !== 'general');
-    tareoMessagesContainer.classList.toggle('hidden', room !== 'tareo');
-    reporteContainer.classList.toggle('active', room === 'reporte');
-    
-    // ✅ Mostrar/ocultar filtro y acciones de tareo
-    const tareoFiltro = document.getElementById('tareoFiltro');
-    const tareoAcciones = document.getElementById('tareoAcciones');
-    
-    if (room === 'tareo') {
-        tareoFiltro.style.display = 'flex';
-        tareoAcciones.classList.add('active');
-    } else {
-        tareoFiltro.style.display = 'none';
-        tareoAcciones.classList.remove('active');
+        if (!currentUser) return;
+        if (room === currentRoom) return;
+        
+        currentRoom = room;
+        
+        btnGeneral.classList.toggle('active', room === 'general');
+        btnTareo.classList.toggle('active', room === 'tareo');
+        btnReporte.classList.toggle('active', room === 'reporte');
+        btnPlanilla.classList.toggle('active', room === 'planilla');
+        
+        const titles = {
+            'general': '💬 Chat General',
+            'tareo': '⏰ Tareo Diario',
+            'reporte': '📋 Reporte IMCO',
+            'planilla': '📊 Planilla de Tareo'
+        };
+        chatRoomTitle.textContent = titles[room] || '💬 Chat General';
+        
+        messagesContainer.classList.toggle('hidden', room !== 'general');
+        tareoMessagesContainer.classList.toggle('hidden', room !== 'tareo');
+        reporteContainer.classList.toggle('active', room === 'reporte');
+        planillaContainer.classList.toggle('active', room === 'planilla');
+        
+        // Mostrar/ocultar filtro y acciones de tareo
+        if (room === 'tareo') {
+            tareoFiltro.style.display = 'flex';
+            tareoAcciones.classList.add('active');
+        } else {
+            tareoFiltro.style.display = 'none';
+            tareoAcciones.classList.remove('active');
+        }
+        
+        if (room === 'reporte' || room === 'planilla') {
+            document.getElementById('inputArea').style.display = 'none';
+        } else {
+            document.getElementById('inputArea').style.display = 'flex';
+        }
+        
+        // Cargar planilla si se cambia a esa pestaña
+        if (room === 'planilla') {
+            setTimeout(cargarPlanilla, 300);
+        }
+        
+        if (room === 'general') {
+            loadMessages('general');
+        } else if (room === 'tareo') {
+            loadMessages('tareo');
+        }
+        
+        console.log(`🔄 Cambiado a sala: ${room}`);
     }
-    
-    if (room === 'reporte') {
-        document.getElementById('inputArea').style.display = 'none';
-    } else {
-        document.getElementById('inputArea').style.display = 'flex';
-    }
-    
-    if (room === 'general') {
-        loadMessages('general');
-    } else if (room === 'tareo') {
-        loadMessages('tareo');
-    }
-    
-    console.log(`🔄 Cambiado a sala: ${room}`);
-}
     
     window.switchRoom = switchRoom;
+
+    // ============================================================
+    // 📊 FUNCIONES DE PLANILLA GOOGLE SHEETS (CON FILTRO POR USUARIO)
+    // ============================================================
+    
+    function cargarPlanilla() {
+        if (!planillaIframe) return;
+        
+        const usuario = encodeURIComponent(currentDisplayName || '');
+        
+        // Usar URL de publicación con filtro de búsqueda
+        let url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vREDyz-JW6zBmBB2aQiD_d85ZATgOfY6jN4zSN3fmBvDpviYWzihDCz-7JXpg9gVigMd7d22KjUyCpc/pubhtml?gid=0&single=true`;
+        
+        // Agregar filtro por nombre de usuario (solo si hay usuario)
+        if (usuario) {
+            url += `&q=${usuario}`;
+        }
+        
+        planillaIframe.src = url;
+        showToast(`📊 Cargando planilla para: ${currentDisplayName || 'todos'}`);
+    }
+    
+    function abrirPlanillaCompleta() {
+        const usuario = encodeURIComponent(currentDisplayName || '');
+        let url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vREDyz-JW6zBmBB2aQiD_d85ZATgOfY6jN4zSN3fmBvDpviYWzihDCz-7JXpg9gVigMd7d22KjUyCpc/pubhtml?gid=0&single=true`;
+        if (usuario) {
+            url += `&q=${usuario}`;
+        }
+        window.open(url, '_blank');
+    }
+    
+    function recargarPlanilla() {
+        if (planillaIframe) {
+            planillaIframe.src = 'about:blank';
+            setTimeout(() => {
+                cargarPlanilla();
+                showToast('🔄 Planilla recargada');
+            }, 300);
+        }
+    }
+    
+    window.cargarPlanilla = cargarPlanilla;
+    window.abrirPlanillaCompleta = abrirPlanillaCompleta;
+    window.recargarPlanilla = recargarPlanilla;
 
     // ============================================================
     // 📨 FUNCIONES DE CHAT
     // ============================================================
     
-function addMessageToDOM(data, key, container) {
-    if (document.querySelector(`[data-key="${key}"]`)) return;
-    
-    const isOwn = data.user === currentUser;
-    const time = data.time || getTime();
-    const targetContainer = container || messagesContainer;
-    
-    // Mensaje de Tareo
-    // Mensaje de Tareo
-// Mensaje de Tareo
-if (data.isTareo) {
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message tareo ${data.tareoTipo || ''}`;
-    messageDiv.dataset.key = key;
-    
-    // Reemplazar \n por <br> para respetar saltos de línea
-    let textoConSaltos = escapeHTML(data.text || '');
-    textoConSaltos = textoConSaltos.replace(/\n/g, '<br>');
-    
-    // ✅ SOLO MENSAJES DEL USUARIO ACTUAL TIENEN CHECKBOX
-    const checkboxHTML = isOwn ? `<input type="checkbox" class="tareo-checkbox" data-key="${key}" onchange="actualizarContadorTareo()">` : '';
-    
-    messageDiv.innerHTML = `
-        <div class="tareo-header">
-            ${checkboxHTML}
-            <span class="tareo-icon">${data.tareoEmoji || '📋'}</span>
-            <span class="tareo-text">${escapeHTML(data.tareoUsuario || data.displayName)}</span>
-            ${isOwn ? '<span style="font-size:8px;color:#999;margin-left:auto;">(tuyo)</span>' : ''}
-        </div>
-        <div class="tareo-detalle" style="white-space:pre-wrap;font-size:calc(11px * var(--scale));line-height:1.5;color:#1A1A1A;">
-            ${textoConSaltos}
-        </div>
-        <div class="footer">
-            <span>${escapeHTML(time)}</span>
-            ${isOwn ? '<span style="font-size:8px;color:#999;">✓ enviado</span>' : ''}
-        </div>
-    `;
-    
-    const loader = targetContainer.querySelector('.loader');
-    if (loader) loader.remove();
-    targetContainer.appendChild(messageDiv);
-    scrollToBottom();
-    
-    if (!isOwn) {
-        playSoundTareo();
-        updateNotification(unreadCount + 1);
-    }
-    return;
-}
-    
-    // Mensaje normal
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `message ${isOwn ? 'sent' : 'received'}`;
-    messageDiv.dataset.key = key;
-    
-    const authorHTML = !isOwn ? `<span class="author">${escapeHTML(data.displayName || data.user)}</span>` : '';
-    const statusHTML = isOwn ? `<span class="status"><i class="fas fa-check-double" style="color:var(--primary);"></i></span>` : '';
-    
-    let textContent = data.text || '';
-    
-    messageDiv.innerHTML = `
-        <div class="text">${escapeHTML(textContent)}</div>
-        <div class="footer">
-            ${authorHTML}
-            <span>${escapeHTML(time)}</span>
-            ${statusHTML}
-        </div>
-    `;
-    
-    const loader = targetContainer.querySelector('.loader');
-    if (loader) loader.remove();
-    targetContainer.appendChild(messageDiv);
-    scrollToBottom();
-    
-    if (!isOwn && data.user !== currentUser) {
-        playSoundReceive();
-        updateNotification(unreadCount + 1);
-    }
-}
-    
-    function loadMessages(room) {
-    const roomKey = room || currentRoom;
-    if (!database) {
-        const container = roomKey === 'general' ? messagesContainer : tareoMessagesContainer;
-        container.innerHTML = '<div style="text-align:center;padding:calc(var(--padding-base) * 2);color:#667781;font-size:calc(12px * var(--scale));">⚠️ Error de conexión con Firebase</div>';
-        return;
-    }
-    
-    const container = roomKey === 'general' ? messagesContainer : tareoMessagesContainer;
-    container.innerHTML = '<div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>';
-    
-    if (roomKey === 'general' && messagesRef) {
-        messagesRef.off();
-        messagesRef = null;
-    } else if (roomKey === 'tareo' && tareoMessagesRef) {
-        tareoMessagesRef.off();
-        tareoMessagesRef = null;
-    }
-    
-    // ✅ PARA TAREO: LEER DE LA RUTA DEL USUARIO ACTUAL
-    let path = '';
-    if (roomKey === 'general') {
-        path = 'messages/general';
-    } else if (roomKey === 'tareo') {
-        path = `messages/tareo/${currentUser || 'USR-001'}`;
-    } else {
-        path = `messages/${roomKey}`;
-    }
-    
-    const ref = database.ref(path);
-    if (roomKey === 'general') {
-        messagesRef = ref;
-    } else {
-        tareoMessagesRef = ref;
-    }
-    
-    ref.limitToLast(50).once('value', (snapshot) => {
-        const data = snapshot.val();
-        container.innerHTML = '';
+    function addMessageToDOM(data, key, container) {
+        if (document.querySelector(`[data-key="${key}"]`)) return;
         
-        if (data) {
-            const keys = Object.keys(data).sort();
-            let lastDate = '';
-            keys.forEach(key => {
-                const msg = data[key];
-                const msgDate = new Date(msg.timestamp || Date.now()).toLocaleDateString('es-ES');
-                if (msgDate !== lastDate) {
-                    lastDate = msgDate;
-                    const divider = document.createElement('div');
-                    divider.className = 'date-divider';
-                    divider.innerHTML = `<span>${msgDate === new Date().toLocaleDateString('es-ES') ? 'Hoy' : msgDate}</span>`;
-                    container.appendChild(divider);
-                }
-                addMessageToDOM(msg, key, container);
-            });
-        } else {
-            const emptyMsg = roomKey === 'general' 
-                ? 'No hay mensajes en el chat general' 
-                : 'No tienes registros de tareo aún.\nCompleta el formulario en la pestaña "Reporte"';
-            container.innerHTML = `
-                <div style="text-align:center;padding:calc(var(--padding-base) * 2) calc(var(--padding-base) * 1.5);color:#667781;">
-                    <i class="fas fa-${roomKey === 'general' ? 'comment' : 'clock'}" style="font-size:calc(32px * var(--scale));opacity:0.3;display:block;margin-bottom:calc(var(--padding-base) * 0.6);"></i>
-                    <p style="font-size:calc(12px * var(--scale));white-space:pre-wrap;">${emptyMsg}</p>
+        const isOwn = data.user === currentUser;
+        const time = data.time || getTime();
+        const targetContainer = container || messagesContainer;
+        
+        // Mensaje de Tareo
+        if (data.isTareo) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message tareo ${data.tareoTipo || ''}`;
+            messageDiv.dataset.key = key;
+            
+            let textoConSaltos = escapeHTML(data.text || '');
+            textoConSaltos = textoConSaltos.replace(/\n/g, '<br>');
+            
+            const checkboxHTML = isOwn ? `<input type="checkbox" class="tareo-checkbox" data-key="${key}" onchange="actualizarContadorTareo()">` : '';
+            
+            messageDiv.innerHTML = `
+                <div class="tareo-header">
+                    ${checkboxHTML}
+                    <span class="tareo-icon">${data.tareoEmoji || '📋'}</span>
+                    <span class="tareo-text">${escapeHTML(data.tareoUsuario || data.displayName)}</span>
+                    ${isOwn ? '<span style="font-size:8px;color:#999;margin-left:auto;">(tuyo)</span>' : ''}
+                </div>
+                <div class="tareo-detalle" style="white-space:pre-wrap;font-size:calc(11px * var(--scale));line-height:1.5;color:#1A1A1A;">
+                    ${textoConSaltos}
+                </div>
+                <div class="footer">
+                    <span>${escapeHTML(time)}</span>
+                    ${isOwn ? '<span style="font-size:8px;color:#999;">✓ enviado</span>' : ''}
                 </div>
             `;
+            
+            const loader = targetContainer.querySelector('.loader');
+            if (loader) loader.remove();
+            targetContainer.appendChild(messageDiv);
+            scrollToBottom();
+            
+            if (!isOwn) {
+                playSoundTareo();
+                updateNotification(unreadCount + 1);
+            }
+            return;
         }
         
-        // Escuchar nuevos mensajes
-        ref.limitToLast(1).on('child_added', (snapshot) => {
-            const msg = snapshot.val();
-            if (msg && msg.user !== currentUser) {
-                addMessageToDOM(msg, snapshot.key, container);
+        // Mensaje normal
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isOwn ? 'sent' : 'received'}`;
+        messageDiv.dataset.key = key;
+        
+        const authorHTML = !isOwn ? `<span class="author">${escapeHTML(data.displayName || data.user)}</span>` : '';
+        const statusHTML = isOwn ? `<span class="status"><i class="fas fa-check-double" style="color:var(--primary);"></i></span>` : '';
+        
+        let textContent = data.text || '';
+        
+        messageDiv.innerHTML = `
+            <div class="text">${escapeHTML(textContent)}</div>
+            <div class="footer">
+                ${authorHTML}
+                <span>${escapeHTML(time)}</span>
+                ${statusHTML}
+            </div>
+        `;
+        
+        const loader = targetContainer.querySelector('.loader');
+        if (loader) loader.remove();
+        targetContainer.appendChild(messageDiv);
+        scrollToBottom();
+        
+        if (!isOwn && data.user !== currentUser) {
+            playSoundReceive();
+            updateNotification(unreadCount + 1);
+        }
+    }
+    
+    function loadMessages(room) {
+        const roomKey = room || currentRoom;
+        if (!database) {
+            const container = roomKey === 'general' ? messagesContainer : tareoMessagesContainer;
+            container.innerHTML = '<div style="text-align:center;padding:calc(var(--padding-base) * 2);color:#667781;font-size:calc(12px * var(--scale));">⚠️ Error de conexión con Firebase</div>';
+            return;
+        }
+        
+        const container = roomKey === 'general' ? messagesContainer : tareoMessagesContainer;
+        container.innerHTML = '<div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>';
+        
+        if (roomKey === 'general' && messagesRef) {
+            messagesRef.off();
+            messagesRef = null;
+        } else if (roomKey === 'tareo' && tareoMessagesRef) {
+            tareoMessagesRef.off();
+            tareoMessagesRef = null;
+        }
+        
+        let path = '';
+        if (roomKey === 'general') {
+            path = 'messages/general';
+        } else if (roomKey === 'tareo') {
+            path = `messages/tareo/${currentUser || 'USR-001'}`;
+        } else {
+            path = `messages/${roomKey}`;
+        }
+        
+        const ref = database.ref(path);
+        if (roomKey === 'general') {
+            messagesRef = ref;
+        } else {
+            tareoMessagesRef = ref;
+        }
+        
+        ref.limitToLast(50).once('value', (snapshot) => {
+            const data = snapshot.val();
+            container.innerHTML = '';
+            
+            if (data) {
+                const keys = Object.keys(data).sort();
+                let lastDate = '';
+                keys.forEach(key => {
+                    const msg = data[key];
+                    const msgDate = new Date(msg.timestamp || Date.now()).toLocaleDateString('es-ES');
+                    if (msgDate !== lastDate) {
+                        lastDate = msgDate;
+                        const divider = document.createElement('div');
+                        divider.className = 'date-divider';
+                        divider.innerHTML = `<span>${msgDate === new Date().toLocaleDateString('es-ES') ? 'Hoy' : msgDate}</span>`;
+                        container.appendChild(divider);
+                    }
+                    addMessageToDOM(msg, key, container);
+                });
+            } else {
+                const emptyMsg = roomKey === 'general' 
+                    ? 'No hay mensajes en el chat general' 
+                    : 'No tienes registros de tareo aún.\nCompleta el formulario en la pestaña "Reporte"';
+                container.innerHTML = `
+                    <div style="text-align:center;padding:calc(var(--padding-base) * 2) calc(var(--padding-base) * 1.5);color:#667781;">
+                        <i class="fas fa-${roomKey === 'general' ? 'comment' : 'clock'}" style="font-size:calc(32px * var(--scale));opacity:0.3;display:block;margin-bottom:calc(var(--padding-base) * 0.6);"></i>
+                        <p style="font-size:calc(12px * var(--scale));white-space:pre-wrap;">${emptyMsg}</p>
+                    </div>
+                `;
             }
+            
+            ref.limitToLast(1).on('child_added', (snapshot) => {
+                const msg = snapshot.val();
+                if (msg && msg.user !== currentUser) {
+                    addMessageToDOM(msg, snapshot.key, container);
+                }
+            });
         });
-    });
-}
+    }
     
     function sendMessage() {
         const text = messageInput.value.trim();
@@ -1628,70 +1841,63 @@ if (data.isTareo) {
     }
 
     // ============================================================
-    // 📋 FUNCIONES DE TAREO - CHECKBOX Y ELIMINACIÓN
+    // 📋 FUNCIONES DE TAREO - CHECKBOX Y ELIMINACIÓN (SOLO DEL USUARIO)
     // ============================================================
-    
-    // ============================================================
-// 📋 FUNCIONES DE TAREO - CHECKBOX Y ELIMINACIÓN (SOLO DEL USUARIO)
-// ============================================================
 
-function actualizarContadorTareo() {
-    // SOLO CONTAR CHECKBOXES DEL USUARIO (los que están visibles)
-    const checkboxes = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox:checked');
-    const total = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox').length;
-    contadorSeleccionados.textContent = `${checkboxes.length} de ${total} seleccionados`;
-}
-
-function seleccionarTodosTareo() {
-    // SOLO SELECTAR CHECKBOXES DEL USUARIO
-    const checkboxes = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox');
-    const checkboxesVisibles = Array.from(checkboxes).filter(cb => cb.offsetParent !== null);
-    
-    if (checkboxesVisibles.length === 0) {
-        showToast('⚠️ No tienes mensajes para seleccionar');
-        return;
+    function actualizarContadorTareo() {
+        const checkboxes = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox:checked');
+        const total = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox').length;
+        contadorSeleccionados.textContent = `${checkboxes.length} de ${total} seleccionados`;
     }
-    
-    const allChecked = checkboxesVisibles.every(cb => cb.checked);
-    checkboxesVisibles.forEach(cb => cb.checked = !allChecked);
-    actualizarContadorTareo();
-}
 
-function eliminarSeleccionadosTareo() {
-    // SOLO ELIMINAR CHECKBOXES DEL USUARIO
-    const checkboxes = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox:checked');
-    const checkboxesVisibles = Array.from(checkboxes).filter(cb => cb.offsetParent !== null);
-    
-    if (checkboxesVisibles.length === 0) {
-        showToast('⚠️ No tienes mensajes seleccionados para eliminar');
-        return;
-    }
-    
-    if (!confirm(`¿Eliminar ${checkboxesVisibles.length} mensaje(s) tuyo(s)?`)) return;
-    if (!database) { showToast('❌ Error de conexión'); return; }
-    
-    const keys = [];
-    checkboxesVisibles.forEach(cb => {
-        const key = cb.dataset.key;
-        if (key) keys.push(key);
-    });
-    
-    if (keys.length === 0) return;
-    
-    showLoading('Eliminando mensajes...');
-    const promises = keys.map(key => database.ref(`messages/tareo/${key}`).remove());
-    
-    Promise.all(promises).then(() => {
-        hideLoading();
-        showToast(`✅ ${keys.length} mensaje(s) eliminado(s)`);
-        loadMessages('tareo');
+    function seleccionarTodosTareo() {
+        const checkboxes = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox');
+        const checkboxesVisibles = Array.from(checkboxes).filter(cb => cb.offsetParent !== null);
+        
+        if (checkboxesVisibles.length === 0) {
+            showToast('⚠️ No tienes mensajes para seleccionar');
+            return;
+        }
+        
+        const allChecked = checkboxesVisibles.every(cb => cb.checked);
+        checkboxesVisibles.forEach(cb => cb.checked = !allChecked);
         actualizarContadorTareo();
-    }).catch((error) => {
-        hideLoading();
-        console.error('Error al eliminar:', error);
-        showToast('❌ Error al eliminar algunos mensajes');
-    });
-}
+    }
+
+    function eliminarSeleccionadosTareo() {
+        const checkboxes = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox:checked');
+        const checkboxesVisibles = Array.from(checkboxes).filter(cb => cb.offsetParent !== null);
+        
+        if (checkboxesVisibles.length === 0) {
+            showToast('⚠️ No tienes mensajes seleccionados para eliminar');
+            return;
+        }
+        
+        if (!confirm(`¿Eliminar ${checkboxesVisibles.length} mensaje(s) tuyo(s)?`)) return;
+        if (!database) { showToast('❌ Error de conexión'); return; }
+        
+        const keys = [];
+        checkboxesVisibles.forEach(cb => {
+            const key = cb.dataset.key;
+            if (key) keys.push(key);
+        });
+        
+        if (keys.length === 0) return;
+        
+        showLoading('Eliminando mensajes...');
+        const promises = keys.map(key => database.ref(`messages/tareo/${key}`).remove());
+        
+        Promise.all(promises).then(() => {
+            hideLoading();
+            showToast(`✅ ${keys.length} mensaje(s) eliminado(s)`);
+            loadMessages('tareo');
+            actualizarContadorTareo();
+        }).catch((error) => {
+            hideLoading();
+            console.error('Error al eliminar:', error);
+            showToast('❌ Error al eliminar algunos mensajes');
+        });
+    }
 
     // ============================================================
     // 📋 FUNCIONES DE TAREO - FILTROS
@@ -1775,224 +1981,214 @@ function eliminarSeleccionadosTareo() {
         });
     }
     
-   function initReporte() {
-    const hoy = new Date();
-    reporteFecha.value = hoy.toISOString().split('T')[0];
-    
-    cargarConductores();
-    cargarPlacas();
-    
-    // ✅ AUTO-SELECCIONAR EL CONDUCTOR ACTUAL
-    if (currentDisplayName) {
-        // Buscar el nombre en el select y seleccionarlo
-        const options = reporteConductor.options;
-        for (let i = 0; i < options.length; i++) {
-            if (options[i].value === currentDisplayName) {
-                reporteConductor.selectedIndex = i;
-                break;
-            }
-        }
-        // Si no se encontró, intentar con el texto
-        if (reporteConductor.selectedIndex === 0) {
+    function initReporte() {
+        const hoy = new Date();
+        reporteFecha.value = hoy.toISOString().split('T')[0];
+        
+        cargarConductores();
+        cargarPlacas();
+        
+        if (currentDisplayName) {
+            const options = reporteConductor.options;
             for (let i = 0; i < options.length; i++) {
-                if (options[i].text === currentDisplayName) {
+                if (options[i].value === currentDisplayName) {
                     reporteConductor.selectedIndex = i;
                     break;
                 }
             }
+            if (reporteConductor.selectedIndex === 0) {
+                for (let i = 0; i < options.length; i++) {
+                    if (options[i].text === currentDisplayName) {
+                        reporteConductor.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
         }
+        
+        mascaraReporte(reporteHoraInicio);
+        mascaraReporte(reporteHoraFinal);
+        mascaraReporte(reporteHoraInicioB);
+        mascaraReporte(reporteHoraFinalB);
+        
+        reporteHorario.addEventListener('change', function() {
+            const valor = this.value;
+            if (valor === 'corrido') {
+                reporteHorasB.style.display = 'none';
+                reporteHorasB2.style.display = 'none';
+                reporteLabelInicio.textContent = '🕐 Hora inicial:';
+                reporteLabelFinal.textContent = '🕒 Hora final:';
+                reporteHoraInicioB.value = '';
+                reporteHoraFinalB.value = '';
+            } else if (valor === 'partido') {
+                reporteHorasB.style.display = 'block';
+                reporteHorasB2.style.display = 'block';
+                reporteLabelInicio.textContent = '🕐 Hora inicial A:';
+                reporteLabelFinal.textContent = '🕒 Hora final A:';
+            } else {
+                reporteHorasB.style.display = 'none';
+                reporteHorasB2.style.display = 'none';
+                reporteLabelInicio.textContent = '🕐 Hora inicial:';
+                reporteLabelFinal.textContent = '🕒 Hora final:';
+                reporteHoraInicioB.value = '';
+                reporteHoraFinalB.value = '';
+            }
+        });
+        
+        cargarRegistros();
     }
     
-    mascaraReporte(reporteHoraInicio);
-    mascaraReporte(reporteHoraFinal);
-    mascaraReporte(reporteHoraInicioB);
-    mascaraReporte(reporteHoraFinalB);
-    
-    reporteHorario.addEventListener('change', function() {
-        const valor = this.value;
-        if (valor === 'corrido') {
-            reporteHorasB.style.display = 'none';
-            reporteHorasB2.style.display = 'none';
-            reporteLabelInicio.textContent = '🕐 Hora inicial:';
-            reporteLabelFinal.textContent = '🕒 Hora final:';
-            reporteHoraInicioB.value = '';
-            reporteHoraFinalB.value = '';
-        } else if (valor === 'partido') {
-            reporteHorasB.style.display = 'block';
-            reporteHorasB2.style.display = 'block';
-            reporteLabelInicio.textContent = '🕐 Hora inicial A:';
-            reporteLabelFinal.textContent = '🕒 Hora final A:';
-        } else {
-            reporteHorasB.style.display = 'none';
-            reporteHorasB2.style.display = 'none';
-            reporteLabelInicio.textContent = '🕐 Hora inicial:';
-            reporteLabelFinal.textContent = '🕒 Hora final:';
-            reporteHoraInicioB.value = '';
-            reporteHoraFinalB.value = '';
-        }
-    });
-    
-    cargarRegistros();
-}
-    
     // ============================================================
-  // ============================================================
-// 🖨️ PREVISUALIZACIÓN DE IMPRESIÓN (SIN RESTRICCIONES)
-// ============================================================
+    // 🖨️ PREVISUALIZACIÓN DE IMPRESIÓN
+    // ============================================================
     
-function mostrarPrevisualizacion() {
-    // Obtener valores del formulario
-    let fecha = reporteFecha.value;
-    let tipoVehiculo = reporteTipoVehiculo.value;
-    let capacidad = reporteCapacidad.value;
-    let placa = reportePlaca.value;
-    let operador = reporteConductor.value;
-    let horaInicio = reporteHoraInicio.value;
-    let horaFinal = reporteHoraFinal.value;
-    let kmInicial = reporteKmInicial.value;
-    let kmFinal = reporteKmFinal.value;
-    let fechaFormateada = fecha ? fecha.split('-').reverse().join('/') : '';
-    let horario = reporteHorario.value;
-    let horaInicioB = reporteHoraInicioB.value;
-    let horaFinalB = reporteHoraFinalB.value;
-    
-    let clienteFijo = "Sociedad Minera Cerro Verde";
-    let direccionFija = "Asiento Minero Cerro Verde s/n Uchumayo - Arequipa";
-    let rucFijo = "20170072465";
-    let responsableFijo = "Carlos Medrano - Leonardo Rodríguez";
-    
-    // Construir HTML de previsualización (mismo estilo que la impresión)
-    let html = `
-        <div style="font-family:monospace;padding:10px;background:white;max-width:100%;">
-            <div style="text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #cbd5e1;padding-bottom:8px;margin-bottom:12px;">
-                TAREO DIARIO DE OPERADORES (VEHÍCULOS)
+    function mostrarPrevisualizacion() {
+        let fecha = reporteFecha.value;
+        let tipoVehiculo = reporteTipoVehiculo.value;
+        let capacidad = reporteCapacidad.value;
+        let placa = reportePlaca.value;
+        let operador = reporteConductor.value;
+        let horaInicio = reporteHoraInicio.value;
+        let horaFinal = reporteHoraFinal.value;
+        let kmInicial = reporteKmInicial.value;
+        let kmFinal = reporteKmFinal.value;
+        let fechaFormateada = fecha ? fecha.split('-').reverse().join('/') : '';
+        let horario = reporteHorario.value;
+        let horaInicioB = reporteHoraInicioB.value;
+        let horaFinalB = reporteHoraFinalB.value;
+        
+        let clienteFijo = "Sociedad Minera Cerro Verde";
+        let direccionFija = "Asiento Minero Cerro Verde s/n Uchumayo - Arequipa";
+        let rucFijo = "20170072465";
+        let responsableFijo = "Carlos Medrano - Leonardo Rodríguez";
+        
+        let html = `
+            <div style="font-family:monospace;padding:10px;background:white;max-width:100%;">
+                <div style="text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #cbd5e1;padding-bottom:8px;margin-bottom:12px;">
+                    TAREO DIARIO DE OPERADORES (VEHÍCULOS)
+                </div>
+                <div style="text-align:center;font-size:14px;margin-bottom:12px;">IMCO</div>
+                
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">FECHA:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${fechaFormateada || '________'}</span></div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">UNIDAD:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${tipoVehiculo || '________'}</span></div>
+                </div>
+                
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">PLACA:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${placa || '________'}</span></div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">CAPACIDAD:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${capacidad || '________'}</span></div>
+                </div>
+                
+                <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;">OPERADOR:</span>
+                    <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${operador || '________________________'}</span>
+                </div>
+                
+                <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;">MANIOBRISTA:</span>
+                    <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">________________________</span>
+                </div>
+                
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">CLIENTE:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${clienteFijo}</span></div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">RUC:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${rucFijo}</span></div>
+                </div>
+                
+                <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;">DIRECCIÓN:</span>
+                    <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${direccionFija}</span>
+                </div>
+                
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA DE INICIO:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaInicio || '________'}</span></div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA FINAL:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaFinal || '________'}</span></div>
+                </div>
+                
+                ${horario === 'partido' ? `
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA INICIO B:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaInicioB || '________'}</span></div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA FINAL B:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaFinalB || '________'}</span></div>
+                </div>
+                ` : ''}
+                
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HOROMETRO INICIAL:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${kmInicial || '________'}</span></div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HOROMETRO FINAL:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${kmFinal || '________'}</span></div>
+                </div>
+                
+                <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;">RESPONSABLE:</span>
+                    <span style="border-bottom:1.5px solid #334155;flex:2;padding:0 4px;font-size:12px;">${responsableFijo}</span>
+                </div>
+                
+                <div style="display:flex;gap:32px;margin-bottom:6px;">
+                    <div style="display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">OTI:</span><span style="border-bottom:1.5px solid #334155;width:120px;padding:0 4px;font-size:12px;"></span></div>
+                    <div style="display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">OSI:</span><span style="border-bottom:1.5px solid #334155;width:120px;padding:0 4px;font-size:12px;"></span></div>
+                </div>
+                
+                <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;">TRABAJO REALIZADO:</span>
+                    <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;"></span>
+                </div>
+                <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;opacity:0;">
+                    <span style="font-weight:700;font-size:12px;">TRABAJO REALIZADO:</span>
+                    <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;"></span>
+                </div>
+                <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;opacity:0;">
+                    <span style="font-weight:700;font-size:12px;">TRABAJO REALIZADO:</span>
+                    <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;"></span>
+                </div>
+                
+                <div style="display:flex;justify-content:space-between;margin-top:12px;gap:32px;">
+                    <div style="flex:1;text-align:center;"><div style="border-top:1px solid #000;padding-top:4px;font-size:11px;">OPERADOR</div></div>
+                    <div style="flex:1;text-align:center;"><div style="border-top:1px solid #000;padding-top:4px;font-size:11px;">SUPERVISOR</div></div>
+                </div>
             </div>
-            <div style="text-align:center;font-size:14px;margin-bottom:12px;">IMCO</div>
-            
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
-                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">FECHA:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${fechaFormateada || '________'}</span></div>
-                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">UNIDAD:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${tipoVehiculo || '________'}</span></div>
-            </div>
-            
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
-                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">PLACA:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${placa || '________'}</span></div>
-                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">CAPACIDAD:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${capacidad || '________'}</span></div>
-            </div>
-            
-            <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
-                <span style="font-weight:700;font-size:12px;">OPERADOR:</span>
-                <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${operador || '________________________'}</span>
-            </div>
-            
-            <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
-                <span style="font-weight:700;font-size:12px;">MANIOBRISTA:</span>
-                <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">________________________</span>
-            </div>
-            
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
-                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">CLIENTE:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${clienteFijo}</span></div>
-                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">RUC:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${rucFijo}</span></div>
-            </div>
-            
-            <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
-                <span style="font-weight:700;font-size:12px;">DIRECCIÓN:</span>
-                <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${direccionFija}</span>
-            </div>
-            
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
-                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA DE INICIO:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaInicio || '________'}</span></div>
-                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA FINAL:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaFinal || '________'}</span></div>
-            </div>
-            
-            ${horario === 'partido' ? `
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
-                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA INICIO B:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaInicioB || '________'}</span></div>
-                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA FINAL B:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaFinalB || '________'}</span></div>
-            </div>
-            ` : ''}
-            
-            <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
-                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HOROMETRO INICIAL:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${kmInicial || '________'}</span></div>
-                <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HOROMETRO FINAL:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${kmFinal || '________'}</span></div>
-            </div>
-            
-            <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
-                <span style="font-weight:700;font-size:12px;">RESPONSABLE:</span>
-                <span style="border-bottom:1.5px solid #334155;flex:2;padding:0 4px;font-size:12px;">${responsableFijo}</span>
-            </div>
-            
-            <div style="display:flex;gap:32px;margin-bottom:6px;">
-                <div style="display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">OTI:</span><span style="border-bottom:1.5px solid #334155;width:120px;padding:0 4px;font-size:12px;"></span></div>
-                <div style="display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">OSI:</span><span style="border-bottom:1.5px solid #334155;width:120px;padding:0 4px;font-size:12px;"></span></div>
-            </div>
-            
-            <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
-                <span style="font-weight:700;font-size:12px;">TRABAJO REALIZADO:</span>
-                <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;"></span>
-            </div>
-            <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;opacity:0;">
-                <span style="font-weight:700;font-size:12px;">TRABAJO REALIZADO:</span>
-                <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;"></span>
-            </div>
-            <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;opacity:0;">
-                <span style="font-weight:700;font-size:12px;">TRABAJO REALIZADO:</span>
-                <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;"></span>
-            </div>
-            
-            <div style="display:flex;justify-content:space-between;margin-top:12px;gap:32px;">
-                <div style="flex:1;text-align:center;"><div style="border-top:1px solid #000;padding-top:4px;font-size:11px;">OPERADOR</div></div>
-                <div style="flex:1;text-align:center;"><div style="border-top:1px solid #000;padding-top:4px;font-size:11px;">SUPERVISOR</div></div>
-            </div>
-        </div>
-    `;
-    
-    previewBody.innerHTML = html;
-    impresionPreview.classList.add('active');
-}
+        `;
+        
+        previewBody.innerHTML = html;
+        impresionPreview.classList.add('active');
+    }
 
-function cerrarPrevisualizacion() {
-    impresionPreview.classList.remove('active');
-}
+    function cerrarPrevisualizacion() {
+        impresionPreview.classList.remove('active');
+    }
 
-function imprimirDesdePreview() {
-    // Obtener el contenido EXACTO de la previsualización
-    const contenido = document.getElementById('previewBody').innerHTML;
+    function imprimirDesdePreview() {
+        const contenido = document.getElementById('previewBody').innerHTML;
+        
+        const ventana = window.open('', '_blank');
+        ventana.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Tareo diario - IMCO</title>' +
+            '<style>' +
+            '*{margin:0;padding:0;box-sizing:border-box;}' +
+            'body{background:white;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:monospace;padding:20px;}' +
+            '.tarjeta{font-family:monospace;padding:10px;background:white;max-width:800px;width:100%;}' +
+            '.titulo{text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #cbd5e1;padding-bottom:8px;margin-bottom:12px;}' +
+            '.subtitulo{text-align:center;font-size:14px;margin-bottom:12px;}' +
+            '.fila{display:flex;flex-wrap:wrap;align-items:baseline;margin-bottom:6px;gap:8px;}' +
+            '.doble{display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;}' +
+            '.col{flex:1;display:flex;align-items:baseline;gap:8px;}' +
+            '.etiqueta{font-weight:700;font-size:12px;white-space:nowrap;}' +
+            '.linea{border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;min-height:20px;}' +
+            '.linea-larga{flex:2;border-bottom:1.5px solid #334155;padding:0 4px;font-size:12px;min-height:20px;}' +
+            '.linea-corta{width:120px;border-bottom:1.5px solid #334155;padding:0 4px;font-size:12px;min-height:20px;}' +
+            '.firmas{display:flex;justify-content:space-between;margin-top:12px;gap:32px;}' +
+            '.firma-item{flex:1;text-align:center;}' +
+            '.firma-linea{border-top:1px solid #000;padding-top:4px;font-size:11px;}' +
+            '@media print{' +
+            'body{padding:0;background:white;}' +
+            '.tarjeta{padding:5px;}' +
+            '.linea,.linea-larga,.linea-corta{border-bottom:1px solid black;}' +
+            '.doble,.fila{margin-bottom:4px;}' +
+            '@page{size:A4;margin:2mm 2mm 180mm 2mm;}' +
+            '}' +
+            '</style></head><body><div class="tarjeta">' +
+            contenido +
+            '</div><script>window.onload=function(){window.print();};<\/script></body></html>');
+        ventana.document.close();
+        cerrarPrevisualizacion();
+    }
     
-    // Crear ventana con el MISMO estilo que la previsualización
-    const ventana = window.open('', '_blank');
-    ventana.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Tareo diario - IMCO</title>' +
-        '<style>' +
-        '*{margin:0;padding:0;box-sizing:border-box;}' +
-        'body{background:white;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:monospace;padding:20px;}' +
-        // ⭐ MISMO ESTILO QUE LA PREVISUALIZACIÓN ⭐
-        '.tarjeta{font-family:monospace;padding:10px;background:white;max-width:800px;width:100%;}' +
-        '.titulo{text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #cbd5e1;padding-bottom:8px;margin-bottom:12px;}' +
-        '.subtitulo{text-align:center;font-size:14px;margin-bottom:12px;}' +
-        '.fila{display:flex;flex-wrap:wrap;align-items:baseline;margin-bottom:6px;gap:8px;}' +
-        '.doble{display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;}' +
-        '.col{flex:1;display:flex;align-items:baseline;gap:8px;}' +
-        '.etiqueta{font-weight:700;font-size:12px;white-space:nowrap;}' +
-        '.linea{border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;min-height:20px;}' +
-        '.linea-larga{flex:2;border-bottom:1.5px solid #334155;padding:0 4px;font-size:12px;min-height:20px;}' +
-        '.linea-corta{width:120px;border-bottom:1.5px solid #334155;padding:0 4px;font-size:12px;min-height:20px;}' +
-        '.firmas{display:flex;justify-content:space-between;margin-top:12px;gap:32px;}' +
-        '.firma-item{flex:1;text-align:center;}' +
-        '.firma-linea{border-top:1px solid #000;padding-top:4px;font-size:11px;}' +
-        '@media print{' +
-        'body{padding:0;background:white;}' +
-        '.tarjeta{padding:5px;}' +
-        '.linea,.linea-larga,.linea-corta{border-bottom:1px solid black;}' +
-        '.doble,.fila{margin-bottom:4px;}' +
-        '@page{size:A4;margin:2mm 2mm 180mm 2mm;}' +
-        '}' +
-        '</style></head><body><div class="tarjeta">' +
-        contenido +
-        '</div><script>window.onload=function(){window.print();};<\/script></body></html>');
-    ventana.document.close();
-    cerrarPrevisualizacion();
-}
-    
-    // Exponer funciones de previsualización
     window.mostrarPrevisualizacion = mostrarPrevisualizacion;
     window.cerrarPrevisualizacion = cerrarPrevisualizacion;
     window.imprimirDesdePreview = imprimirDesdePreview;
@@ -2001,150 +2197,133 @@ function imprimirDesdePreview() {
     // 📋 FUNCIONES DE REPORTE - RESTANTES
     // ============================================================
     
-   function agregarRegistroReporte() {
-    let nombre = reporteConductor.value;
-    let fecha = reporteFecha.value;
-    let horario = reporteHorario.value;
-    let tipoVehiculo = reporteTipoVehiculo.value;
-    let capacidad = reporteCapacidad.value;
-    let placa = reportePlaca.value;
-    let kmInicial = reporteKmInicial.value;
-    let kmFinal = reporteKmFinal.value;
-    let hi = reporteHoraInicio.value;
-    let hf = reporteHoraFinal.value;
-    let hib = reporteHoraInicioB.value;
-    let hfb = reporteHoraFinalB.value;
-    
-    // ============================================================
-    // 1. VALIDAR CAMPOS
-    // ============================================================
-    if (!nombre || !fecha || !horario || !tipoVehiculo || !capacidad || !placa || !kmInicial || !kmFinal) {
-        showToast('❌ Complete todos los campos');
-        return false;
-    }
-    if (horario === 'corrido' && (!hi || !hf)) {
-        showToast('❌ Complete las horas de inicio y final');
-        return false;
-    }
-    if (horario === 'partido' && (!hi || !hf || !hib || !hfb)) {
-        showToast('❌ Complete todas las horas');
-        return false;
-    }
-    
-    let fechaForm = fecha.split('-').reverse().join('/');
-    
-    // ============================================================
-    // 2. CONSTRUIR TEXTO COMPLETO (TAL CUAL COMO EN EL HISTORIAL)
-    // ============================================================
-    let textoCompleto = `📋 ${nombre}\n`;
-    textoCompleto += `📅 ${fechaForm}\n`;
-    textoCompleto += `🚗 ${tipoVehiculo} - ${placa}\n`;
-    textoCompleto += `⚖️ Capacidad: ${capacidad}\n`;
-    textoCompleto += `📊 Km: ${kmInicial} - ${kmFinal}\n`;
-    
-    if (horario === 'corrido') {
-        textoCompleto += `🕐 Hora inicial: ${hi}\n`;
-        textoCompleto += `🕒 Hora final: ${hf}`;
-    } else if (horario === 'partido') {
-        textoCompleto += `🕐 Hora inicial A: ${hi}\n`;
-        textoCompleto += `🕒 Hora final A: ${hf}\n`;
-        textoCompleto += `🕐 Hora inicial B: ${hib}\n`;
-        textoCompleto += `🕒 Hora final B: ${hfb}`;
-    }
-    
-    // ============================================================
-    // 3. GUARDAR EN EL HISTORIAL LOCAL
-    // ============================================================
-    registros.unshift({ 
-        id: Date.now(), 
-        fecha: fechaForm, 
-        nombre: nombre, 
-        horario: horario === 'corrido' ? 'Horario corrido' : 'Horario partido', 
-        tipoVehiculo: tipoVehiculo, 
-        capacidad: capacidad, 
-        horaInicio: hi, 
-        horaFinal: hf, 
-        horaInicioB: hib, 
-        horaFinalB: hfb, 
-        placa: placa, 
-        kilometrajeInicial: kmInicial, 
-        kilometrajeFinal: kmFinal, 
-        timestamp: new Date().toLocaleString() 
-    });
-    guardarRegistros();
-    mostrarRegistros();
-    
-    // ============================================================
-    // 4. ENVIAR A LA SALA DE TAREO (PARA CONSULTA DEL USUARIO)
-    // ============================================================
-    if (!database) {
-        showToast('❌ Error de conexión con Firebase');
-        return false;
-    }
-    
-    // Mensaje para la sala de tareo (ruta del usuario)
-    const tareoMessage = {
-        user: currentUser || 'USR-001',
-        displayName: currentDisplayName || nombre,
-        text: textoCompleto,
-        time: getTime(),
-        timestamp: firebase.database.ServerValue.TIMESTAMP,
-        isTareo: true,
-        tareoTipo: 'completo',
-        tareoUsuario: currentDisplayName || nombre,
-        tareoEmoji: '📋'
-    };
-    
-    // ✅ DATOS PARA GOOGLE SHEETS (RUTA ÚNICA)
-    const reporteData = {
-        fecha: fechaForm,
-        fechaISO: fecha,
-        conductor: nombre,
-        usuarioRegistro: currentDisplayName || nombre,
-        tipoVehiculo: tipoVehiculo,
-        placa: placa,
-        capacidad: capacidad,
-        horarioTipo: horario === 'corrido' ? 'Corrido' : 'Partido',
-        horaInicio: hi,
-        horaFinal: hf,
-        horaInicioB: hib || '',
-        horaFinalB: hfb || '',
-        kmInicial: kmInicial,
-        kmFinal: kmFinal,
-        timestamp: firebase.database.ServerValue.TIMESTAMP,
-        time: getTime(),
-        isReporte: true
-    };
-    
-    showLoading('Enviando registro...');
-    
-    // Guardar en ambas rutas
-    const tareoRef = database.ref(`messages/tareo/${currentUser || 'USR-001'}`);
-    const reporteRef = database.ref(`messages/reporte`); // ← RUTA ÚNICA PARA SHEETS
-    
-    Promise.all([
-        tareoRef.push(tareoMessage),
-        reporteRef.push(reporteData)
-    ]).then(() => {
-        hideLoading();
-        showToast('✅ Registro enviado correctamente');
+    function agregarRegistroReporte() {
+        let nombre = reporteConductor.value;
+        let fecha = reporteFecha.value;
+        let horario = reporteHorario.value;
+        let tipoVehiculo = reporteTipoVehiculo.value;
+        let capacidad = reporteCapacidad.value;
+        let placa = reportePlaca.value;
+        let kmInicial = reporteKmInicial.value;
+        let kmFinal = reporteKmFinal.value;
+        let hi = reporteHoraInicio.value;
+        let hf = reporteHoraFinal.value;
+        let hib = reporteHoraInicioB.value;
+        let hfb = reporteHoraFinalB.value;
         
-        // Recargar mensajes de tareo si estamos en esa sala
-        if (currentRoom === 'tareo') {
-            loadMessages('tareo');
+        if (!nombre || !fecha || !horario || !tipoVehiculo || !capacidad || !placa || !kmInicial || !kmFinal) {
+            showToast('❌ Complete todos los campos');
+            return false;
+        }
+        if (horario === 'corrido' && (!hi || !hf)) {
+            showToast('❌ Complete las horas de inicio y final');
+            return false;
+        }
+        if (horario === 'partido' && (!hi || !hf || !hib || !hfb)) {
+            showToast('❌ Complete todas las horas');
+            return false;
         }
         
-        // Limpiar formulario
-        limpiarReporte();
+        let fechaForm = fecha.split('-').reverse().join('/');
         
-    }).catch((error) => {
-        hideLoading();
-        console.error('❌ Error al enviar:', error);
-        showToast('❌ Error al enviar registro: ' + error.message);
-    });
-    
-    return true;
-}
+        let textoCompleto = `📋 ${nombre}\n`;
+        textoCompleto += `📅 ${fechaForm}\n`;
+        textoCompleto += `🚗 ${tipoVehiculo} - ${placa}\n`;
+        textoCompleto += `⚖️ Capacidad: ${capacidad}\n`;
+        textoCompleto += `📊 Km: ${kmInicial} - ${kmFinal}\n`;
+        
+        if (horario === 'corrido') {
+            textoCompleto += `🕐 Hora inicial: ${hi}\n`;
+            textoCompleto += `🕒 Hora final: ${hf}`;
+        } else if (horario === 'partido') {
+            textoCompleto += `🕐 Hora inicial A: ${hi}\n`;
+            textoCompleto += `🕒 Hora final A: ${hf}\n`;
+            textoCompleto += `🕐 Hora inicial B: ${hib}\n`;
+            textoCompleto += `🕒 Hora final B: ${hfb}`;
+        }
+        
+        registros.unshift({ 
+            id: Date.now(), 
+            fecha: fechaForm, 
+            nombre: nombre, 
+            horario: horario === 'corrido' ? 'Horario corrido' : 'Horario partido', 
+            tipoVehiculo: tipoVehiculo, 
+            capacidad: capacidad, 
+            horaInicio: hi, 
+            horaFinal: hf, 
+            horaInicioB: hib, 
+            horaFinalB: hfb, 
+            placa: placa, 
+            kilometrajeInicial: kmInicial, 
+            kilometrajeFinal: kmFinal, 
+            timestamp: new Date().toLocaleString() 
+        });
+        guardarRegistros();
+        mostrarRegistros();
+        
+        if (!database) {
+            showToast('❌ Error de conexión con Firebase');
+            return false;
+        }
+        
+        const tareoMessage = {
+            user: currentUser || 'USR-001',
+            displayName: currentDisplayName || nombre,
+            text: textoCompleto,
+            time: getTime(),
+            timestamp: firebase.database.ServerValue.TIMESTAMP,
+            isTareo: true,
+            tareoTipo: 'completo',
+            tareoUsuario: currentDisplayName || nombre,
+            tareoEmoji: '📋'
+        };
+        
+        const reporteData = {
+            fecha: fechaForm,
+            fechaISO: fecha,
+            conductor: nombre,
+            usuarioRegistro: currentDisplayName || nombre,
+            tipoVehiculo: tipoVehiculo,
+            placa: placa,
+            capacidad: capacidad,
+            horarioTipo: horario === 'corrido' ? 'Corrido' : 'Partido',
+            horaInicio: hi,
+            horaFinal: hf,
+            horaInicioB: hib || '',
+            horaFinalB: hfb || '',
+            kmInicial: kmInicial,
+            kmFinal: kmFinal,
+            timestamp: firebase.database.ServerValue.TIMESTAMP,
+            time: getTime(),
+            isReporte: true
+        };
+        
+        showLoading('Enviando registro...');
+        
+        const tareoRef = database.ref(`messages/tareo/${currentUser || 'USR-001'}`);
+        const reporteRef = database.ref(`messages/reporte`);
+        
+        Promise.all([
+            tareoRef.push(tareoMessage),
+            reporteRef.push(reporteData)
+        ]).then(() => {
+            hideLoading();
+            showToast('✅ Registro enviado correctamente');
+            
+            if (currentRoom === 'tareo') {
+                loadMessages('tareo');
+            }
+            
+            limpiarReporte();
+            
+        }).catch((error) => {
+            hideLoading();
+            console.error('❌ Error al enviar:', error);
+            showToast('❌ Error al enviar registro: ' + error.message);
+        });
+        
+        return true;
+    }
     
     function mostrarRegistros() {
         if (registros.length === 0) { 
@@ -2451,12 +2630,14 @@ function imprimirDesdePreview() {
             btnGeneral.classList.add('active');
             btnTareo.classList.remove('active');
             btnReporte.classList.remove('active');
+            btnPlanilla.classList.remove('active');
             chatRoomTitle.textContent = '💬 Chat General';
             document.getElementById('inputArea').style.display = 'flex';
             messagesContainer.classList.remove('hidden');
             tareoMessagesContainer.classList.add('hidden');
             reporteContainer.classList.remove('active');
-            tareoFiltro.classList.remove('active');
+            planillaContainer.classList.remove('active');
+            tareoFiltro.style.display = 'none';
             tareoAcciones.classList.remove('active');
             
             initReporte();
@@ -2587,12 +2768,11 @@ function imprimirDesdePreview() {
     
     renderUserGrid([]);
     
-    console.log('🚛 Transportes Mantenimiento - Chat con 3 Salas');
+    console.log('🚛 Transportes Mantenimiento - Chat con 4 Salas');
     console.log('📋 Usuarios autorizados:', Object.keys(AUTHORIZED_USERS).length);
     console.log('🚗 Placas disponibles:', PLACAS_LIST.length);
-    console.log('🖨️ Previsualización de impresión SIN RESTRICCIONES');
-    console.log('✅ Puedes ver el documento antes de imprimir');
-    console.log('📌 REGLAS DE Ffunction mostrarPrevisualizacion() {IREBASE:');
+    console.log('📊 Planilla Google Sheets (solo lectura)');
+    console.log('📌 Reglas de Firebase:');
     console.log('{');
     console.log('  "rules": {');
     console.log('    "messages": { ".read": true, ".write": true },');
