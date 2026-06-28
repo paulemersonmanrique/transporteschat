@@ -821,7 +821,7 @@
         <button class="header-btn active" id="btnGeneral" onclick="switchRoom('general')">💬</button>
         <button class="header-btn" id="btnTareo" onclick="switchRoom('tareo')">⏰</button>
         <button class="header-btn" id="btnReporte" onclick="switchRoom('reporte')">📋</button>
-        <button class="header-btn" id="btnPlanilla" onclick="switchRoom('planilla')">📊</button>
+        <button class="header-btn" id="btnPlanilla" onclick="switchRoom('planilla')" style="display:none;">📊</button>
         <button class="header-btn" id="sizeToggleBtn" onclick="toggleSizeSelector()" title="Tamaño">
             <i class="fas fa-font"></i>
         </button>
@@ -965,9 +965,9 @@
             </div>
         </div>
         
-        <!-- PLANILLA GOOGLE SHEETS (SOLO LECTURA) -->
+        <!-- PLANILLA GOOGLE SHEETS (SOLO ADMIN) -->
         <div class="planilla-container" id="planillaContainer">
-            <div class="planilla-titulo">📊 Planilla de Tareo <span>(solo lectura)</span></div>
+            <div class="planilla-titulo">📊 Planilla de Tareo <span>(solo Administrador)</span></div>
             <div id="planillaFrameContainer">
                 <iframe id="planillaIframe" src="about:blank" frameborder="0"></iframe>
             </div>
@@ -1056,10 +1056,10 @@
     };
 
     // ============================================================
-    // 📊 URL DE LA PLANILLA (SOLO LECTURA CON FILTRO)
+    // 📊 URL DE LA PLANILLA (SOLO ADMIN) - ACTUALIZADA
     // ============================================================
     
-    const SHEET_ID = "15mtLc9jPNgDe6w-0Dvdja-8VDdCI7jqpXbQ2Kaid0ug";
+    const PLANILLA_URL = "https://docs.google.com/spreadsheets/d/1Jhn-zql02gywrth_c35T7VsxCHvoGJ5jKfkJ-enKv1k/edit?usp=sharing";
 
     // ============================================================
     // INICIALIZAR FIREBASE
@@ -1168,6 +1168,14 @@
     const reporteLabelFinal = document.getElementById('reporteLabelFinal');
     const reporteHorasB = document.getElementById('reporteHorasB');
     const reporteHorasB2 = document.getElementById('reporteHorasB2');
+
+    // ============================================================
+    // 🔐 VERIFICAR SI ES ADMINISTRADOR
+    // ============================================================
+
+    function esAdministrador() {
+        return currentDisplayName === "ADMINISTRADOR";
+    }
 
     // ============================================================
     // 🎨 FUNCIONES DE TEMA Y TAMAÑO
@@ -1500,6 +1508,12 @@
         if (!currentUser) return;
         if (room === currentRoom) return;
         
+        // Si el usuario no es administrador y trata de ir a planilla, redirigir
+        if (room === 'planilla' && !esAdministrador()) {
+            showToast('⛔ Solo el Administrador puede ver la planilla');
+            return;
+        }
+        
         currentRoom = room;
         
         btnGeneral.classList.toggle('active', room === 'general');
@@ -1535,8 +1549,8 @@
             document.getElementById('inputArea').style.display = 'flex';
         }
         
-        // Cargar planilla si se cambia a esa pestaña
-        if (room === 'planilla') {
+        // Cargar planilla si se cambia a esa pestaña y es administrador
+        if (room === 'planilla' && esAdministrador()) {
             setTimeout(cargarPlanilla, 300);
         }
         
@@ -1552,36 +1566,50 @@
     window.switchRoom = switchRoom;
 
     // ============================================================
-    // 📊 FUNCIONES DE PLANILLA GOOGLE SHEETS (CON FILTRO POR USUARIO)
+    // 📊 FUNCIONES DE PLANILLA GOOGLE SHEETS (SOLO ADMIN)
     // ============================================================
-    
+
     function cargarPlanilla() {
+        if (!esAdministrador()) {
+            showToast('⛔ Solo el Administrador puede ver la planilla');
+            return;
+        }
+        
         if (!planillaIframe) return;
         
         const usuario = encodeURIComponent(currentDisplayName || '');
         
-        // Usar URL de publicación con filtro de búsqueda
-        let url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vREDyz-JW6zBmBB2aQiD_d85ZATgOfY6jN4zSN3fmBvDpviYWzihDCz-7JXpg9gVigMd7d22KjUyCpc/pubhtml?gid=0&single=true`;
+        let url = PLANILLA_URL;
         
-        // Agregar filtro por nombre de usuario (solo si hay usuario)
+        // Agregar filtro por usuario si existe
         if (usuario) {
             url += `&q=${usuario}`;
         }
         
         planillaIframe.src = url;
-        showToast(`📊 Cargando planilla para: ${currentDisplayName || 'todos'}`);
+        showToast('📊 Cargando planilla...');
     }
-    
+
     function abrirPlanillaCompleta() {
+        if (!esAdministrador()) {
+            showToast('⛔ Solo el Administrador puede abrir la planilla');
+            return;
+        }
+        
         const usuario = encodeURIComponent(currentDisplayName || '');
-        let url = `https://docs.google.com/spreadsheets/d/e/2PACX-1vREDyz-JW6zBmBB2aQiD_d85ZATgOfY6jN4zSN3fmBvDpviYWzihDCz-7JXpg9gVigMd7d22KjUyCpc/pubhtml?gid=0&single=true`;
+        let url = PLANILLA_URL;
         if (usuario) {
             url += `&q=${usuario}`;
         }
         window.open(url, '_blank');
     }
-    
+
     function recargarPlanilla() {
+        if (!esAdministrador()) {
+            showToast('⛔ Solo el Administrador puede recargar la planilla');
+            return;
+        }
+        
         if (planillaIframe) {
             planillaIframe.src = 'about:blank';
             setTimeout(() => {
@@ -1590,7 +1618,7 @@
             }, 300);
         }
     }
-    
+
     window.cargarPlanilla = cargarPlanilla;
     window.abrirPlanillaCompleta = abrirPlanillaCompleta;
     window.recargarPlanilla = recargarPlanilla;
@@ -2640,6 +2668,13 @@
             tareoFiltro.style.display = 'none';
             tareoAcciones.classList.remove('active');
             
+            // ✅ OCULTAR BOTÓN DE PLANILLA SI NO ES ADMINISTRADOR
+            if (esAdministrador()) {
+                btnPlanilla.style.display = 'inline-block';
+            } else {
+                btnPlanilla.style.display = 'none';
+            }
+            
             initReporte();
             
             loadMessages('general');
@@ -2771,7 +2806,7 @@
     console.log('🚛 Transportes Mantenimiento - Chat con 4 Salas');
     console.log('📋 Usuarios autorizados:', Object.keys(AUTHORIZED_USERS).length);
     console.log('🚗 Placas disponibles:', PLACAS_LIST.length);
-    console.log('📊 Planilla Google Sheets (solo lectura)');
+    console.log('📊 Planilla Google Sheets (solo ADMINISTRADOR)');
     console.log('📌 Reglas de Firebase:');
     console.log('{');
     console.log('  "rules": {');
