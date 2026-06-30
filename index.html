@@ -423,6 +423,18 @@
             touch-action: manipulation;
         }
         .tareo-acciones .btn-seleccionar-todos:active { transform: scale(0.95); }
+        .tareo-acciones .btn-imprimir-seleccionados {
+            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
+            border: none;
+            border-radius: calc(var(--radius-base) * 0.4);
+            background: #2c3e50;
+            color: white;
+            font-size: calc(11px * var(--scale));
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .tareo-acciones .btn-imprimir-seleccionados:active { transform: scale(0.95); }
+        .tareo-acciones .btn-imprimir-seleccionados:hover { background: #1a2632; }
         .tareo-acciones .contador-seleccionados {
             font-size: calc(11px * var(--scale));
             color: #333;
@@ -853,7 +865,8 @@
     <div class="tareo-acciones" id="tareoAcciones">
         <span class="contador-seleccionados" id="contadorSeleccionados">0 seleccionados</span>
         <button class="btn-seleccionar-todos" onclick="seleccionarTodosTareo()">☑ Todos</button>
-        <button class="btn-eliminar-seleccionados" onclick="eliminarSeleccionadosTareo()">🗑️ Eliminar seleccionados</button>
+        <button class="btn-imprimir-seleccionados" onclick="imprimirSeleccionadosTareo()">🖨️ Imprimir</button>
+        <button class="btn-eliminar-seleccionados" onclick="eliminarSeleccionadosTareo()">🗑️ Eliminar</button>
     </div>
     
     <!-- CONTENEDOR PRINCIPAL -->
@@ -1056,7 +1069,7 @@
     };
 
     // ============================================================
-    // 📊 URL DE LA PLANILLA (SOLO ADMIN) - ACTUALIZADA
+    // 📊 URL DE LA PLANILLA (SOLO ADMIN)
     // ============================================================
     
     const PLANILLA_URL = "https://docs.google.com/spreadsheets/d/1Jhn-zql02gywrth_c35T7VsxCHvoGJ5jKfkJ-enKv1k/edit?usp=sharing";
@@ -1926,6 +1939,285 @@
             showToast('❌ Error al eliminar algunos mensajes');
         });
     }
+
+    // ============================================================
+    // 🖨️ IMPRIMIR SELECCIONADOS DE TAREO (MISMO FORMATO QUE REPORTE)
+    // ============================================================
+
+    // ============================================================
+// 🖨️ IMPRIMIR SELECCIONADOS DE TAREO
+// ============================================================
+
+function imprimirSeleccionadosTareo() {
+    const checkboxes = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox:checked');
+    const checkboxesVisibles = Array.from(checkboxes).filter(cb => cb.offsetParent !== null);
+    
+    if (checkboxesVisibles.length === 0) {
+        showToast('⚠️ No hay mensajes seleccionados para imprimir');
+        return;
+    }
+    
+    // Obtener los mensajes seleccionados
+    const mensajesSeleccionados = [];
+    checkboxesVisibles.forEach(cb => {
+        const messageDiv = cb.closest('.message.tareo');
+        if (messageDiv) {
+            const detalleDiv = messageDiv.querySelector('.tareo-detalle');
+            let texto = '';
+            if (detalleDiv) {
+                texto = detalleDiv.innerHTML.replace(/<br\s*\/?>/gi, '\n');
+                texto = texto.replace(/<[^>]*>/g, '');
+            }
+            const usuario = messageDiv.querySelector('.tareo-text')?.textContent || '';
+            const hora = messageDiv.querySelector('.footer span')?.textContent || '';
+            mensajesSeleccionados.push({ usuario, texto, hora });
+        }
+    });
+    
+    if (mensajesSeleccionados.length === 0) {
+        showToast('⚠️ No se encontraron mensajes para imprimir');
+        return;
+    }
+    
+    // Construir HTML - SIN líneas grises
+    let html = `
+        <div style="font-family:monospace;padding:10px;background:white;max-width:100%;">
+            <div style="text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px;">
+                TAREO DIARIO DE OPERADORES (VEHÍCULOS)
+            </div>
+            <div style="text-align:center;font-size:14px;margin-bottom:12px;">IMCO</div>
+    `;
+    
+    mensajesSeleccionados.forEach((msg) => {
+        const lineas = msg.texto.split('\n').filter(line => line.trim() !== '');
+        
+        let nombre = msg.usuario || '';
+        let fecha = '';
+        let vehiculo = '';
+        let placa = '';
+        let capacidad = '';
+        let km = '';
+        let horaInicio = '';
+        let horaFinal = '';
+        let horaInicioB = '';
+        let horaFinalB = '';
+        
+        lineas.forEach(linea => {
+            if (linea.includes('📋')) {
+                nombre = linea.replace('📋', '').trim();
+            }
+            else if (linea.includes('📅')) {
+                fecha = linea.replace('📅', '').trim();
+            }
+            else if (linea.includes('🚗')) {
+                const textoLinea = linea.replace('🚗', '').trim();
+                const partes = textoLinea.split('-');
+                if (partes.length === 2) {
+                    vehiculo = partes[0].trim();
+                    placa = partes[1].trim();
+                } else {
+                    const match = textoLinea.match(/^(.*?)\s*-\s*(.+)$/);
+                    if (match) {
+                        vehiculo = match[1].trim();
+                        placa = match[2].trim();
+                    } else {
+                        vehiculo = textoLinea;
+                    }
+                }
+            }
+            else if (linea.includes('⚖️ Capacidad:')) {
+                capacidad = linea.replace('⚖️ Capacidad:', '').trim();
+            }
+            else if (linea.includes('📊 Km:')) {
+                km = linea.replace('📊 Km:', '').trim();
+            }
+            else if (linea.includes('🕐 Hora inicial A:')) {
+                horaInicio = linea.replace('🕐 Hora inicial A:', '').trim();
+            }
+            else if (linea.includes('🕒 Hora final A:')) {
+                horaFinal = linea.replace('🕒 Hora final A:', '').trim();
+            }
+            else if (linea.includes('🕐 Hora inicial B:')) {
+                horaInicioB = linea.replace('🕐 Hora inicial B:', '').trim();
+            }
+            else if (linea.includes('🕒 Hora final B:')) {
+                horaFinalB = linea.replace('🕒 Hora final B:', '').trim();
+            }
+            else if (linea.includes('🕐 Hora inicial:')) {
+                horaInicio = linea.replace('🕐 Hora inicial:', '').trim();
+            }
+            else if (linea.includes('🕒 Hora final:')) {
+                horaFinal = linea.replace('🕒 Hora final:', '').trim();
+            }
+        });
+        
+        const esPartido = horaInicioB && horaFinalB;
+        
+        // SIN LÍNEAS GRISES
+        html += `
+            <div style="margin-bottom:16px;padding:8px 0;page-break-inside:avoid;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">FECHA:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${fecha || '________'}</span>
+                    </div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">UNIDAD:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${vehiculo || '________'}</span>
+                    </div>
+                </div>
+                
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">PLACA:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${placa || '________'}</span>
+                    </div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">CAPACIDAD:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${capacidad || '________'}</span>
+                    </div>
+                </div>
+                
+                <div style="display:flex;align-items:baseline;margin-bottom:4px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;">OPERADOR:</span>
+                    <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${nombre || '________________________'}</span>
+                </div>
+                
+                <div style="display:flex;align-items:baseline;margin-bottom:4px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;">MANIOBRISTA:</span>
+                    <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
+                </div>
+                
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">CLIENTE:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">Sociedad Minera Cerro Verde</span>
+                    </div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">RUC:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">20170072465</span>
+                    </div>
+                </div>
+                
+                <div style="display:flex;align-items:baseline;margin-bottom:4px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;">DIRECCIÓN:</span>
+                    <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">Asiento Minero Cerro Verde s/n Uchumayo - Arequipa</span>
+                </div>
+                
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">HORA DE INICIO:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${horaInicio || '________'}</span>
+                    </div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">HORA FINAL:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${horaFinal || '________'}</span>
+                    </div>
+                </div>
+                
+                ${esPartido ? `
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">HORA INICIO B:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${horaInicioB || '________'}</span>
+                    </div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">HORA FINAL B:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${horaFinalB || '________'}</span>
+                    </div>
+                </div>
+                ` : ''}
+                
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">HOROMETRO INICIAL:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${km ? km.split('-')[0]?.trim() || '________' : '________'}</span>
+                    </div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">HOROMETRO FINAL:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${km ? km.split('-')[1]?.trim() || '________' : '________'}</span>
+                    </div>
+                </div>
+                
+                <div style="display:flex;align-items:baseline;margin-bottom:4px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;">RESPONSABLE:</span>
+                    <span style="border-bottom:1.5px solid #000;flex:2;padding:0 4px;font-size:12px;">Carlos Medrano - Leonardo Rodríguez</span>
+                </div>
+                
+                <div style="display:flex;gap:32px;margin-bottom:4px;">
+                    <div style="display:flex;align-items:baseline;gap:8px;flex:1;">
+                        <span style="font-weight:700;font-size:12px;">OTI:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
+                    </div>
+                    <div style="display:flex;align-items:baseline;gap:8px;flex:1;">
+                        <span style="font-weight:700;font-size:12px;">OSI:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
+                    </div>
+                </div>
+                
+                <!-- TRABAJO REALIZADO - 3 LÍNEAS DE EXTREMO A EXTREMO -->
+                <div style="display:flex;align-items:baseline;margin-bottom:2px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;">TRABAJO REALIZADO:</span>
+                    <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
+                </div>
+                <div style="display:flex;align-items:baseline;margin-bottom:2px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;opacity:0;">TRABAJO REALIZADO:</span>
+                    <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
+                </div>
+                <div style="display:flex;align-items:baseline;margin-bottom:4px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;opacity:0;">TRABAJO REALIZADO:</span>
+                    <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
+                </div>
+                
+                <div style="display:flex;justify-content:space-between;margin-top:12px;gap:32px;">
+                    <div style="flex:1;text-align:center;">
+                        <div style="border-top:1px solid #000;padding-top:4px;font-size:11px;font-weight:bold;">OPERADOR</div>
+                    </div>
+                    <div style="flex:1;text-align:center;">
+                        <div style="border-top:1px solid #000;padding-top:4px;font-size:11px;font-weight:bold;">SUPERVISOR</div>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+    
+    // SIN línea gris en el footer
+    html += `
+                    </div>
+    `;
+    
+    const ventana = window.open('', '_blank');
+    ventana.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Tareo diario - IMCO</title>' +
+        '<style>' +
+        '*{margin:0;padding:0;box-sizing:border-box;}' +
+        'body{background:white;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:monospace;padding:20px;}' +
+        '.tarjeta{font-family:monospace;padding:10px;background:white;max-width:800px;width:100%;}' +
+        '.titulo{text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px;}' +
+        '.subtitulo{text-align:center;font-size:14px;margin-bottom:12px;}' +
+        '.fila{display:flex;flex-wrap:wrap;align-items:baseline;margin-bottom:4px;gap:8px;}' +
+        '.doble{display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;}' +
+        '.col{flex:1;display:flex;align-items:baseline;gap:8px;}' +
+        '.etiqueta{font-weight:700;font-size:12px;white-space:nowrap;}' +
+        '.linea{border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;min-height:20px;}' +
+        '.linea-larga{flex:2;border-bottom:1.5px solid #000;padding:0 4px;font-size:12px;min-height:20px;}' +
+        '.linea-corta{width:120px;border-bottom:1.5px solid #000;padding:0 4px;font-size:12px;min-height:20px;}' +
+        '.firmas{display:flex;justify-content:space-between;margin-top:12px;gap:32px;}' +
+        '.firma-item{flex:1;text-align:center;}' +
+        '.firma-linea{border-top:1px solid #000;padding-top:4px;font-size:11px;}' +
+        '@media print{' +
+        'body{padding:0;background:white;}' +
+        '.linea{border-bottom:1px solid black;}' +
+        '.fila,.doble{margin-bottom:3px;}' +
+        '@page{size:A4;margin:5mm 5mm 170mm 5mm;}' +
+        '}' +
+        '</style></head><body><div class="tarjeta">' +
+        html +
+        '</div><script>window.onload=function(){window.print();};<\/script></body></html>');
+    ventana.document.close();
+    setTimeout(() => { ventana.print(); }, 500);
+}
+
+window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
 
     // ============================================================
     // 📋 FUNCIONES DE TAREO - FILTROS
@@ -2807,6 +3099,7 @@
     console.log('📋 Usuarios autorizados:', Object.keys(AUTHORIZED_USERS).length);
     console.log('🚗 Placas disponibles:', PLACAS_LIST.length);
     console.log('📊 Planilla Google Sheets (solo ADMINISTRADOR)');
+    console.log('🖨️ Impresión de tareo con formato IMCO');
     console.log('📌 Reglas de Firebase:');
     console.log('{');
     console.log('  "rules": {');
