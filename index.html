@@ -918,6 +918,9 @@
                         <option value="camioneta">camioneta</option>
                         <option value="montacarga">montacarga</option>
                         <option value="manlift">manlift</option>
+			<option value="scissorlift">scissorlift</option>
+			<option value="grua">grua</option>
+			<option value="cisterna">cisterna</option>
                     </select>
                 </div>
                 <div class="reporte-group">
@@ -972,7 +975,7 @@
             <div class="reporte-historial">
                 <div class="historial-titulo">
                     <h3>📋 Registro Histórico</h3>
-                    <button class="btn-limpiar-todo" onclick="limpiarTodoHistorial()">🗑️ Limpiar todo</button>
+                    <button class="btn-limpiar-todo" onclick="limpiarTodoHistorial()" style="display:none;">🗑️ Limpiar todo</button>
                 </div>
                 <div id="listaRegistros"><div class="registro-vacio">No hay registros aún</div></div>
             </div>
@@ -1023,16 +1026,23 @@
     // ============================================================
     
     const PLACAS_LIST = [
-        "APJ-912", "BSR-921", "BWB-603", "CNH-087",
-        "V6H-718", "V7S-792", "V9J-722",
-        "VAP-774", "VAP-826", "VAQ-005", "VAZ-878",
-        "VBJ-626", "VBK-206", "VBX-797",
-        "VCD-945", "VCE-712", "VCF-939", "VCJ-608",
-        "VCQ-501", "VCP-736", "VCR-165", "VCS-684", "VCZ-454",
-        "VDK-332", "VDN-919", "VDG-470", "VDR-359",
-        "VER-895", "VES-828",
-        "VFF-815", "VFF-837"
-    ].sort();
+    "APD-835", "APJ-912", "APM-936", "AYB-701", "AZR-944", "AZT-781",
+    "BSR-921", "BTO-748", "BWB-603", "BXJ-718", "BYP-595",
+    "CCQ-836", "CEE-354", "CHG-289", "CNH-087",
+    "D7Y-940",
+    "F1U-957",
+    "LTM 1050",
+    "RT780",
+    "V0T-627", "V0U-041", "V0X-833", "V4W-779", "V6H-718", "V7O-730", "V7S-792", "V7U-846", "V8H-917", "V8T-824", "V9J-722",
+    "VAB-845", "VAQ-005", "VAP-476", "VAP-587", "VAP-774", "VAP-796", "VAP-826", "VAP-920", "VAR-508", "VAZ-878",
+    "VBJ-005", "VBJ-462", "VBJ-494", "VBJ-626", "VBK-206", "VBO-519", "VBQ-955", "VBQ-963", "VBQ-968", "VBX-797",
+    "VCB-394", "VCB-395", "VCD-462", "VCD-470", "VCD-945", "VCE-712", "VCE-750", "VCE-758", "VCF-939", "VCH-357", "VCH-613",
+    "VCI-025", "VCJ-257", "VCJ-284", "VCJ-608", "VCM-847", "VCP-736", "VCQ-501", "VCQ-527", "VCQ-561", "VCQ-577",
+    "VCR-165", "VCS-675", "VCS-684", "VCV-415", "VCZ-454",
+    "VDG-470", "VDK-332", "VDN-919", "VDR-359", "VDW-950",
+    "VER-895", "VES-828", "VEW-879", "VFJ-967", "VFM-959", "VFF-797", "VFF-958", "VFF-969", "VFU-966", "Z-45/25", "Z-60/34"
+	, "GS-5390", "ZA14J", "Z-80/60", "Z-62/40", "S-100" 
+].sort();
 
     // ============================================================
     // 📋 LISTA DE USUARIOS
@@ -1042,6 +1052,7 @@
         "ADMINISTRADOR": "admin123",
         "Alex Antonio Cornejo Quispe": "7890",
         "Alexander Gomez Chora": "1234",
+	"Apaza Apaza, Luis Fernando": "6789",
         "Anders Willian Zegarra Yanque": "2345",
         "Carlos Alfredo Mamani Viveros": "4567",
         "Cristhian John De La Cruz Jara": "9012",
@@ -1053,7 +1064,7 @@
         "Henry Raul Calderon Arela": "7777",
         "Jhunior Reymuer Quispe Nina": "7878",
         "Joe Anthony Contreras Panuera": "5678",
-        "Joel Alejo": "4444",
+        "Joel Alexander Alejo Soto": "4444",
         "Jose Luis Alvarez Iquiapaza": "8888",
         "Jose Luis Camargo Bautista": "9090",
         "Jose Luis Rivas Morales": "2222",
@@ -1065,7 +1076,10 @@
         "Rafael Hernando Ordoñez Huaco": "3434",
         "Renzo Gonzalo Lipa Lipa": "9999",
         "Sandro Augusto Calizaya Calizaya": "5656",
-        "Tito Enrique Macedo Apaza": "6789"
+        "Caceres Llutani, Williams": "6789",
+	"Poccori Leon, Cesar Orlando": "6789",
+	"Valdivia Tito, Humberto Manuel": "6789",	
+	"Rimachi Chacca, Luis Alfredo": "6789"
     };
 
     // ============================================================
@@ -1644,6 +1658,7 @@
         if (document.querySelector(`[data-key="${key}"]`)) return;
         
         const isOwn = data.user === currentUser;
+        const isAdmin = esAdministrador();
         const time = data.time || getTime();
         const targetContainer = container || messagesContainer;
         
@@ -1656,7 +1671,16 @@
             let textoConSaltos = escapeHTML(data.text || '');
             textoConSaltos = textoConSaltos.replace(/\n/g, '<br>');
             
-            const checkboxHTML = isOwn ? `<input type="checkbox" class="tareo-checkbox" data-key="${key}" onchange="actualizarContadorTareo()">` : '';
+            // ✅ ADMINISTRADOR PUEDE VER CHECKBOX EN TODOS LOS MENSAJES
+            // ✅ USUARIO NORMAL SOLO EN SUS PROPIOS MENSAJES
+            let mostrarCheckbox = false;
+            if (isAdmin) {
+                mostrarCheckbox = true;
+            } else if (isOwn) {
+                mostrarCheckbox = true;
+            }
+            
+            const checkboxHTML = mostrarCheckbox ? `<input type="checkbox" class="tareo-checkbox" data-key="${key}" onchange="actualizarContadorTareo()">` : '';
             
             messageDiv.innerHTML = `
                 <div class="tareo-header">
@@ -1664,6 +1688,7 @@
                     <span class="tareo-icon">${data.tareoEmoji || '📋'}</span>
                     <span class="tareo-text">${escapeHTML(data.tareoUsuario || data.displayName)}</span>
                     ${isOwn ? '<span style="font-size:8px;color:#999;margin-left:auto;">(tuyo)</span>' : ''}
+                    ${isAdmin && !isOwn ? '<span style="font-size:8px;color:#D63384;margin-left:auto;">👑 Admin</span>' : ''}
                 </div>
                 <div class="tareo-detalle" style="white-space:pre-wrap;font-size:calc(11px * var(--scale));line-height:1.5;color:#1A1A1A;">
                     ${textoConSaltos}
@@ -1717,39 +1742,30 @@
     }
     
     function loadMessages(room) {
-        const roomKey = room || currentRoom;
-        if (!database) {
-            const container = roomKey === 'general' ? messagesContainer : tareoMessagesContainer;
-            container.innerHTML = '<div style="text-align:center;padding:calc(var(--padding-base) * 2);color:#667781;font-size:calc(12px * var(--scale));">⚠️ Error de conexión con Firebase</div>';
-            return;
-        }
-        
+    const roomKey = room || currentRoom;
+    if (!database) {
         const container = roomKey === 'general' ? messagesContainer : tareoMessagesContainer;
-        container.innerHTML = '<div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>';
-        
-        if (roomKey === 'general' && messagesRef) {
-            messagesRef.off();
-            messagesRef = null;
-        } else if (roomKey === 'tareo' && tareoMessagesRef) {
-            tareoMessagesRef.off();
-            tareoMessagesRef = null;
-        }
-        
-        let path = '';
-        if (roomKey === 'general') {
-            path = 'messages/general';
-        } else if (roomKey === 'tareo') {
-            path = `messages/tareo/${currentUser || 'USR-001'}`;
-        } else {
-            path = `messages/${roomKey}`;
-        }
-        
-        const ref = database.ref(path);
-        if (roomKey === 'general') {
-            messagesRef = ref;
-        } else {
-            tareoMessagesRef = ref;
-        }
+        container.innerHTML = '<div style="text-align:center;padding:calc(var(--padding-base) * 2);color:#667781;font-size:calc(12px * var(--scale));">⚠️ Error de conexión con Firebase</div>';
+        return;
+    }
+    
+    const container = roomKey === 'general' ? messagesContainer : tareoMessagesContainer;
+    container.innerHTML = '<div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>';
+    
+    if (roomKey === 'general' && messagesRef) {
+        messagesRef.off();
+        messagesRef = null;
+    } else if (roomKey === 'tareo' && tareoMessagesRef) {
+        tareoMessagesRef.off();
+        tareoMessagesRef = null;
+    }
+    
+    // ============================================================
+    // CHAT GENERAL
+    // ============================================================
+    if (roomKey === 'general') {
+        const ref = database.ref('messages/general');
+        messagesRef = ref;
         
         ref.limitToLast(50).once('value', (snapshot) => {
             const data = snapshot.val();
@@ -1771,13 +1787,11 @@
                     addMessageToDOM(msg, key, container);
                 });
             } else {
-                const emptyMsg = roomKey === 'general' 
-                    ? 'No hay mensajes en el chat general' 
-                    : 'No tienes registros de tareo aún.\nCompleta el formulario en la pestaña "Reporte"';
                 container.innerHTML = `
                     <div style="text-align:center;padding:calc(var(--padding-base) * 2) calc(var(--padding-base) * 1.5);color:#667781;">
-                        <i class="fas fa-${roomKey === 'general' ? 'comment' : 'clock'}" style="font-size:calc(32px * var(--scale));opacity:0.3;display:block;margin-bottom:calc(var(--padding-base) * 0.6);"></i>
-                        <p style="font-size:calc(12px * var(--scale));white-space:pre-wrap;">${emptyMsg}</p>
+                        <i class="fas fa-comment" style="font-size:calc(32px * var(--scale));opacity:0.3;display:block;margin-bottom:calc(var(--padding-base) * 0.6);"></i>
+                        <p style="font-size:calc(12px * var(--scale));">No hay mensajes en el chat general</p>
+                        <p style="font-size:calc(10px * var(--scale));">¡Envía el primer mensaje!</p>
                     </div>
                 `;
             }
@@ -1789,7 +1803,152 @@
                 }
             });
         });
+        return;
     }
+    
+    // ============================================================
+    // SALA DE TAREO
+    // ============================================================
+    if (roomKey === 'tareo') {
+        const isAdmin = esAdministrador();
+        
+        if (isAdmin) {
+            // ✅ ADMINISTRADOR: Leer TODAS las subcarpetas de messages/tareo/
+            const ref = database.ref('messages/tareo');
+            tareoMessagesRef = ref;
+            
+            ref.once('value', (snapshot) => {
+                const data = snapshot.val();
+                container.innerHTML = '';
+                
+                if (data) {
+                    // Recorrer cada usuario (subcarpeta)
+                    const usuarios = Object.keys(data);
+                    let todosLosMensajes = [];
+                    
+                    usuarios.forEach(usuario => {
+                        const mensajesUsuario = data[usuario];
+                        if (mensajesUsuario) {
+                            Object.keys(mensajesUsuario).forEach(key => {
+                                const msg = mensajesUsuario[key];
+                                if (msg && msg.isTareo) {
+                                    // Agregar el usuario al mensaje para saber quién lo envió
+                                    todosLosMensajes.push({
+                                        key: key,
+                                        usuario: usuario,
+                                        displayName: msg.displayName || msg.tareoUsuario || usuario,
+                                        ...msg
+                                    });
+                                }
+                            });
+                        }
+                    });
+                    
+                    // Ordenar por timestamp (más antiguos primero)
+                    todosLosMensajes.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+                    
+                    if (todosLosMensajes.length > 0) {
+                        let lastDate = '';
+                        todosLosMensajes.forEach(item => {
+                            const msgDate = new Date(item.timestamp || Date.now()).toLocaleDateString('es-ES');
+                            if (msgDate !== lastDate) {
+                                lastDate = msgDate;
+                                const divider = document.createElement('div');
+                                divider.className = 'date-divider';
+                                divider.innerHTML = `<span>${msgDate === new Date().toLocaleDateString('es-ES') ? 'Hoy' : msgDate}</span>`;
+                                container.appendChild(divider);
+                            }
+                            addMessageToDOM(item, item.key, container);
+                        });
+                    } else {
+                        container.innerHTML = `
+                            <div style="text-align:center;padding:calc(var(--padding-base) * 2) calc(var(--padding-base) * 1.5);color:#667781;">
+                                <i class="fas fa-clock" style="font-size:calc(32px * var(--scale));opacity:0.3;display:block;margin-bottom:calc(var(--padding-base) * 0.6);"></i>
+                                <p style="font-size:calc(12px * var(--scale));">No hay registros de tareo de ningún usuario</p>
+                            </div>
+                        `;
+                    }
+                } else {
+                    container.innerHTML = `
+                        <div style="text-align:center;padding:calc(var(--padding-base) * 2) calc(var(--padding-base) * 1.5);color:#667781;">
+                            <i class="fas fa-clock" style="font-size:calc(32px * var(--scale));opacity:0.3;display:block;margin-bottom:calc(var(--padding-base) * 0.6);"></i>
+                            <p style="font-size:calc(12px * var(--scale));">No hay registros de tareo de ningún usuario</p>
+                        </div>
+                    `;
+                }
+            });
+            
+            // Escuchar nuevos mensajes en tiempo real para admin
+            // Se agrega un listener en cada subcarpeta
+            const refUsuarios = database.ref('messages/tareo');
+            refUsuarios.on('child_added', (usuarioSnapshot) => {
+                const usuario = usuarioSnapshot.key;
+                const refMensajes = database.ref(`messages/tareo/${usuario}`);
+                refMensajes.limitToLast(1).on('child_added', (mensajeSnapshot) => {
+                    const msg = mensajeSnapshot.val();
+                    if (msg && msg.isTareo) {
+                        // Verificar si el mensaje ya está en el DOM
+                        const key = mensajeSnapshot.key;
+                        if (!document.querySelector(`[data-key="${key}"]`)) {
+                            const item = {
+                                key: key,
+                                usuario: usuario,
+                                displayName: msg.displayName || msg.tareoUsuario || usuario,
+                                ...msg
+                            };
+                            addMessageToDOM(item, key, container);
+                        }
+                    }
+                });
+            });
+            return;
+            
+        } else {
+            // ✅ USUARIO NORMAL: Leer solo su carpeta
+            const path = `messages/tareo/${currentUser || 'USR-001'}`;
+            const ref = database.ref(path);
+            tareoMessagesRef = ref;
+            
+            ref.limitToLast(50).once('value', (snapshot) => {
+                const data = snapshot.val();
+                container.innerHTML = '';
+                
+                if (data) {
+                    const keys = Object.keys(data).sort();
+                    let lastDate = '';
+                    keys.forEach(key => {
+                        const msg = data[key];
+                        const msgDate = new Date(msg.timestamp || Date.now()).toLocaleDateString('es-ES');
+                        if (msgDate !== lastDate) {
+                            lastDate = msgDate;
+                            const divider = document.createElement('div');
+                            divider.className = 'date-divider';
+                            divider.innerHTML = `<span>${msgDate === new Date().toLocaleDateString('es-ES') ? 'Hoy' : msgDate}</span>`;
+                            container.appendChild(divider);
+                        }
+                        addMessageToDOM(msg, key, container);
+                    });
+                } else {
+                    container.innerHTML = `
+                        <div style="text-align:center;padding:calc(var(--padding-base) * 2) calc(var(--padding-base) * 1.5);color:#667781;">
+                            <i class="fas fa-clock" style="font-size:calc(32px * var(--scale));opacity:0.3;display:block;margin-bottom:calc(var(--padding-base) * 0.6);"></i>
+                            <p style="font-size:calc(12px * var(--scale));">No tienes registros de tareo aún.</p>
+                            <p style="font-size:calc(10px * var(--scale));">Completa el formulario en la pestaña "Reporte"</p>
+                        </div>
+                    `;
+                }
+                
+                ref.limitToLast(1).on('child_added', (snapshot) => {
+                    const msg = snapshot.val();
+                    if (msg && msg.user !== currentUser) {
+                        addMessageToDOM(msg, snapshot.key, container);
+                    }
+                });
+            });
+            return;
+        }
+    }
+}
     
     function sendMessage() {
         const text = messageInput.value.trim();
@@ -1882,7 +2041,7 @@
     }
 
     // ============================================================
-    // 📋 FUNCIONES DE TAREO - CHECKBOX Y ELIMINACIÓN (SOLO DEL USUARIO)
+    // 📋 FUNCIONES DE TAREO - CHECKBOX Y ELIMINACIÓN
     // ============================================================
 
     function actualizarContadorTareo() {
@@ -1896,7 +2055,7 @@
         const checkboxesVisibles = Array.from(checkboxes).filter(cb => cb.offsetParent !== null);
         
         if (checkboxesVisibles.length === 0) {
-            showToast('⚠️ No tienes mensajes para seleccionar');
+            showToast(esAdministrador() ? '⚠️ No hay mensajes para seleccionar' : '⚠️ No tienes mensajes para seleccionar');
             return;
         }
         
@@ -1907,18 +2066,22 @@
 
     function eliminarSeleccionadosTareo() {
         const checkboxes = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox:checked');
-        const checkboxesVisibles = Array.from(checkboxes).filter(cb => cb.offsetParent !== null);
+        const isAdmin = esAdministrador();
         
-        if (checkboxesVisibles.length === 0) {
-            showToast('⚠️ No tienes mensajes seleccionados para eliminar');
+        if (checkboxes.length === 0) {
+            showToast('⚠️ No hay mensajes seleccionados para eliminar');
             return;
         }
         
-        if (!confirm(`¿Eliminar ${checkboxesVisibles.length} mensaje(s) tuyo(s)?`)) return;
+        const mensajeConfirm = isAdmin 
+            ? `¿Eliminar ${checkboxes.length} mensaje(s) (incluyendo de otros usuarios)?` 
+            : `¿Eliminar ${checkboxes.length} mensaje(s) tuyo(s)?`;
+        
+        if (!confirm(mensajeConfirm)) return;
         if (!database) { showToast('❌ Error de conexión'); return; }
         
         const keys = [];
-        checkboxesVisibles.forEach(cb => {
+        checkboxes.forEach(cb => {
             const key = cb.dataset.key;
             if (key) keys.push(key);
         });
@@ -1926,7 +2089,15 @@
         if (keys.length === 0) return;
         
         showLoading('Eliminando mensajes...');
-        const promises = keys.map(key => database.ref(`messages/tareo/${key}`).remove());
+        
+        let path = '';
+        if (isAdmin) {
+            path = 'messages/tareo';
+        } else {
+            path = `messages/tareo/${currentUser || 'USR-001'}`;
+        }
+        
+        const promises = keys.map(key => database.ref(`${path}/${key}`).remove());
         
         Promise.all(promises).then(() => {
             hideLoading();
@@ -1941,11 +2112,7 @@
     }
 
     // ============================================================
-    // 🖨️ IMPRIMIR SELECCIONADOS DE TAREO (MISMO FORMATO QUE REPORTE)
-    // ============================================================
-
-    // ============================================================
-// 🖨️ IMPRIMIR SELECCIONADOS DE TAREO
+// 🖨️ IMPRIMIR SELECCIONADOS DE TAREO (VERSIÓN ORIGINAL - SIN CAMBIOS)
 // ============================================================
 
 function imprimirSeleccionadosTareo() {
@@ -2218,6 +2385,7 @@ function imprimirSeleccionadosTareo() {
 }
 
 window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
+
 
     // ============================================================
     // 📋 FUNCIONES DE TAREO - FILTROS
@@ -2686,7 +2854,11 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
     }
     
     function limpiarTodoHistorial() { 
-        if (confirm("⚠️ ¿Eliminar TODOS los registros?")) { 
+        if (!esAdministrador()) {
+            showToast('⛔ Solo el Administrador puede limpiar el historial');
+            return;
+        }
+        if (confirm("⚠️ ¿Eliminar TODOS los registros del historial?")) { 
             registros = []; 
             guardarRegistros(); 
             mostrarRegistros(); 
@@ -2878,7 +3050,7 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
     }
 
     // ============================================================
-    // UNIRSE AL CHAT
+    // UNIRSE AL CHAT (LA SESIÓN SE MANTIENE ACTIVA)
     // ============================================================
     
     async function joinChat(displayName, password) {
@@ -2960,11 +3132,21 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
             tareoFiltro.style.display = 'none';
             tareoAcciones.classList.remove('active');
             
-            // ✅ OCULTAR BOTÓN DE PLANILLA SI NO ES ADMINISTRADOR
+            // OCULTAR BOTÓN DE PLANILLA SI NO ES ADMINISTRADOR
             if (esAdministrador()) {
                 btnPlanilla.style.display = 'inline-block';
             } else {
                 btnPlanilla.style.display = 'none';
+            }
+            
+            // OCULTAR BOTÓN "LIMPIAR TODO" SI NO ES ADMINISTRADOR
+            const btnLimpiarTodo = document.querySelector('.btn-limpiar-todo');
+            if (btnLimpiarTodo) {
+                if (esAdministrador()) {
+                    btnLimpiarTodo.style.display = 'inline-block';
+                } else {
+                    btnLimpiarTodo.style.display = 'none';
+                }
             }
             
             initReporte();
@@ -3099,7 +3281,10 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
     console.log('📋 Usuarios autorizados:', Object.keys(AUTHORIZED_USERS).length);
     console.log('🚗 Placas disponibles:', PLACAS_LIST.length);
     console.log('📊 Planilla Google Sheets (solo ADMINISTRADOR)');
-    console.log('🖨️ Impresión de tareo con formato IMCO');
+    console.log('👑 Administrador puede ver y eliminar TODOS los mensajes de Tareo');
+    console.log('📌 Los usuarios solo eliminan SUS mensajes');
+    console.log('📌 Los usuarios NO pueden limpiar el historial de Reporte');
+    console.log('📌 La sesión se mantiene activa hasta usar "Salir"');
     console.log('📌 Reglas de Firebase:');
     console.log('{');
     console.log('  "rules": {');
