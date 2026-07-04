@@ -1317,7 +1317,7 @@
     } catch(e) {}
 
     // ============================================================
-    // FUNCIONES BASE
+    // FUNCIONES BASE (CORREGIDAS CON ZONA HORARIA PERÚ UTC-5)
     // ============================================================
     
     function getInitials(name) {
@@ -1328,11 +1328,17 @@
     }
     
     function getTime() {
-        return new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+        // ✅ ZONA HORARIA DE PERÚ (UTC-5)
+        const ahora = new Date();
+        const peruTime = new Date(ahora.getTime() - 5 * 60 * 60 * 1000);
+        return peruTime.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false });
     }
     
     function getTodayISO() {
-        return new Date().toISOString().split('T')[0];
+        // ✅ ZONA HORARIA DE PERÚ (UTC-5)
+        const ahora = new Date();
+        const peruTime = new Date(ahora.getTime() - 5 * 60 * 60 * 1000);
+        return peruTime.toISOString().split('T')[0];
     }
     
     function escapeHTML(text) {
@@ -1777,7 +1783,8 @@
                 let lastDate = '';
                 keys.forEach(key => {
                     const msg = data[key];
-                    const msgDate = new Date(msg.timestamp || Date.now()).toLocaleDateString('es-ES');
+                    // ✅ ZONA HORARIA PERÚ (UTC-5)
+                    const msgDate = new Date((msg.timestamp || Date.now()) - 5 * 60 * 60 * 1000).toLocaleDateString('es-ES');
                     if (msgDate !== lastDate) {
                         lastDate = msgDate;
                         const divider = document.createElement('div');
@@ -1851,7 +1858,8 @@
                     if (todosLosMensajes.length > 0) {
                         let lastDate = '';
                         todosLosMensajes.forEach(item => {
-                            const msgDate = new Date(item.timestamp || Date.now()).toLocaleDateString('es-ES');
+                            // ✅ ZONA HORARIA PERÚ (UTC-5)
+                            const msgDate = new Date((item.timestamp || Date.now()) - 5 * 60 * 60 * 1000).toLocaleDateString('es-ES');
                             if (msgDate !== lastDate) {
                                 lastDate = msgDate;
                                 const divider = document.createElement('div');
@@ -1919,7 +1927,8 @@
                     let lastDate = '';
                     keys.forEach(key => {
                         const msg = data[key];
-                        const msgDate = new Date(msg.timestamp || Date.now()).toLocaleDateString('es-ES');
+                        // ✅ ZONA HORARIA PERÚ (UTC-5)
+                        const msgDate = new Date((msg.timestamp || Date.now()) - 5 * 60 * 60 * 1000).toLocaleDateString('es-ES');
                         if (msgDate !== lastDate) {
                             lastDate = msgDate;
                             const divider = document.createElement('div');
@@ -2471,8 +2480,10 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
     }
     
     function initReporte() {
+        // ✅ ZONA HORARIA PERÚ (UTC-5)
         const hoy = new Date();
-        reporteFecha.value = hoy.toISOString().split('T')[0];
+        const peruTime = new Date(hoy.getTime() - 5 * 60 * 60 * 1000);
+        reporteFecha.value = peruTime.toISOString().split('T')[0];
         
         cargarConductores();
         cargarPlacas();
@@ -2894,7 +2905,8 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
             reporteHoraFinalB.value = '';
             reporteHorario.dispatchEvent(new Event('change'));
             const hoy = new Date();
-            reporteFecha.value = hoy.toISOString().split('T')[0];
+            const peruTime = new Date(hoy.getTime() - 5 * 60 * 60 * 1000);
+            reporteFecha.value = peruTime.toISOString().split('T')[0];
             showToast('✅ Campos limpiados');
         }
     }
@@ -3286,6 +3298,7 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
     console.log('📌 Los usuarios solo eliminan SUS mensajes');
     console.log('📌 Los usuarios NO pueden limpiar el historial de Reporte');
     console.log('📌 La sesión se mantiene activa hasta usar "Salir"');
+    console.log('🕐 Zona horaria configurada: Perú (UTC-5)');
     console.log('📌 Reglas de Firebase:');
     console.log('{');
     console.log('  "rules": {');
