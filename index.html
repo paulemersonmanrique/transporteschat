@@ -904,6 +904,7 @@
                         <option value="">Seleccione</option>
                         <option value="corrido">Horario corrido</option>
                         <option value="partido">Horario partido</option>
+                        <option value="noche">Turno noche</option>
                     </select>
                 </div>
                 <div class="reporte-group">
@@ -981,9 +982,9 @@
             </div>
         </div>
         
-        <!-- PLANILLA GOOGLE SHEETS (SOLO ADMIN) -->
+        <!-- PLANILLA GOOGLE SHEETS -->
         <div class="planilla-container" id="planillaContainer">
-            <div class="planilla-titulo">📊 Planilla de Tareo <span>(solo Administrador)</span></div>
+            <div class="planilla-titulo">📊 Planilla de Tareo <span>(solo Administrador y Paul Manrique)</span></div>
             <div id="planillaFrameContainer">
                 <iframe id="planillaIframe" src="about:blank" frameborder="0"></iframe>
             </div>
@@ -1084,7 +1085,7 @@
     };
 
     // ============================================================
-    // 📊 URL DE LA PLANILLA (SOLO ADMIN)
+    // 📊 URL DE LA PLANILLA
     // ============================================================
     
     const PLANILLA_URL = "https://docs.google.com/spreadsheets/d/1Jhn-zql02gywrth_c35T7VsxCHvoGJ5jKfkJ-enKv1k/edit?usp=sharing";
@@ -1198,8 +1199,12 @@
     const reporteHorasB2 = document.getElementById('reporteHorasB2');
 
     // ============================================================
-    // 🔐 VERIFICAR SI ES ADMINISTRADOR
+    // 🔐 VERIFICAR SI ES ADMINISTRADOR O PAUL MANRIQUE
     // ============================================================
+
+    function puedeVerPlanilla() {
+        return esAdministrador() || currentDisplayName === "Paul Emerson Manrique Monzon";
+    }
 
     function esAdministrador() {
         return currentDisplayName === "ADMINISTRADOR";
@@ -1542,9 +1547,9 @@
         if (!currentUser) return;
         if (room === currentRoom) return;
         
-        // Si el usuario no es administrador y trata de ir a planilla, redirigir
-        if (room === 'planilla' && !esAdministrador()) {
-            showToast('⛔ Solo el Administrador puede ver la planilla');
+        // Si el usuario no tiene permisos para ver planilla
+        if (room === 'planilla' && !puedeVerPlanilla()) {
+            showToast('⛔ Solo Administrador y Paul Manrique pueden ver la planilla');
             return;
         }
         
@@ -1583,8 +1588,8 @@
             document.getElementById('inputArea').style.display = 'flex';
         }
         
-        // Cargar planilla si se cambia a esa pestaña y es administrador
-        if (room === 'planilla' && esAdministrador()) {
+        // Cargar planilla si se cambia a esa pestaña y tiene permisos
+        if (room === 'planilla' && puedeVerPlanilla()) {
             setTimeout(cargarPlanilla, 300);
         }
         
@@ -1600,12 +1605,12 @@
     window.switchRoom = switchRoom;
 
     // ============================================================
-    // 📊 FUNCIONES DE PLANILLA GOOGLE SHEETS (SOLO ADMIN)
+    // 📊 FUNCIONES DE PLANILLA GOOGLE SHEETS
     // ============================================================
 
     function cargarPlanilla() {
-        if (!esAdministrador()) {
-            showToast('⛔ Solo el Administrador puede ver la planilla');
+        if (!puedeVerPlanilla()) {
+            showToast('⛔ No tienes permisos para ver la planilla');
             return;
         }
         
@@ -1625,8 +1630,8 @@
     }
 
     function abrirPlanillaCompleta() {
-        if (!esAdministrador()) {
-            showToast('⛔ Solo el Administrador puede abrir la planilla');
+        if (!puedeVerPlanilla()) {
+            showToast('⛔ No tienes permisos para abrir la planilla');
             return;
         }
         
@@ -1639,8 +1644,8 @@
     }
 
     function recargarPlanilla() {
-        if (!esAdministrador()) {
-            showToast('⛔ Solo el Administrador puede recargar la planilla');
+        if (!puedeVerPlanilla()) {
+            showToast('⛔ No tienes permisos para recargar la planilla');
             return;
         }
         
@@ -2525,6 +2530,13 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
                 reporteHorasB2.style.display = 'block';
                 reporteLabelInicio.textContent = '🕐 Hora inicial A:';
                 reporteLabelFinal.textContent = '🕒 Hora final A:';
+            } else if (valor === 'noche') {
+                reporteHorasB.style.display = 'none';
+                reporteHorasB2.style.display = 'none';
+                reporteLabelInicio.textContent = '🕐 Hora inicial:';
+                reporteLabelFinal.textContent = '🕒 Hora final:';
+                reporteHoraInicioB.value = '';
+                reporteHoraFinalB.value = '';
             } else {
                 reporteHorasB.style.display = 'none';
                 reporteHorasB2.style.display = 'none';
@@ -2608,6 +2620,12 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
                 <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
                     <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA INICIO B:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaInicioB || '________'}</span></div>
                     <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA FINAL B:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaFinalB || '________'}</span></div>
+                </div>
+                ` : ''}
+                
+                ${horario === 'noche' ? `
+                <div style="display:flex;justify-content:center;margin-bottom:6px;">
+                    <span style="font-weight:700;font-size:14px;color:#1a2632;">🌙 Turno noche</span>
                 </div>
                 ` : ''}
                 
@@ -2723,6 +2741,10 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
             showToast('❌ Complete todas las horas');
             return false;
         }
+        if (horario === 'noche' && (!hi || !hf)) {
+            showToast('❌ Complete las horas de inicio y final');
+            return false;
+        }
         
         let fechaForm = fecha.split('-').reverse().join('/');
         
@@ -2733,6 +2755,10 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
         textoCompleto += `📊 Km: ${kmInicial} - ${kmFinal}\n`;
         
         if (horario === 'corrido') {
+            textoCompleto += `🕐 Hora inicial: ${hi}\n`;
+            textoCompleto += `🕒 Hora final: ${hf}`;
+        } else if (horario === 'noche') {
+            textoCompleto += `🌙 Turno noche\n`;
             textoCompleto += `🕐 Hora inicial: ${hi}\n`;
             textoCompleto += `🕒 Hora final: ${hf}`;
         } else if (horario === 'partido') {
@@ -2746,7 +2772,7 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
             id: Date.now(), 
             fecha: fechaForm, 
             nombre: nombre, 
-            horario: horario === 'corrido' ? 'Horario corrido' : 'Horario partido', 
+            horario: horario === 'corrido' ? 'Horario corrido' : horario === 'noche' ? 'Turno noche' : 'Horario partido', 
             tipoVehiculo: tipoVehiculo, 
             capacidad: capacidad, 
             horaInicio: hi, 
@@ -2786,7 +2812,7 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
             tipoVehiculo: tipoVehiculo,
             placa: placa,
             capacidad: capacidad,
-            horarioTipo: horario === 'corrido' ? 'Corrido' : 'Partido',
+            horarioTipo: horario === 'corrido' ? 'Corrido' : horario === 'noche' ? 'Noche' : 'Partido',
             horaInicio: hi,
             horaFinal: hf,
             horaInicioB: hib || '',
@@ -2842,6 +2868,9 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
                 <p><strong>📊 Km Final:</strong> ${r.kilometrajeFinal} km</p>
                 <p><strong>⏰ Horario:</strong> ${r.horario}</p>`;
             if (r.horario === 'Horario corrido') {
+                html += `<p><strong>🕐 Hora inicial:</strong> ${r.horaInicio}</p>
+                         <p><strong>🕒 Hora final:</strong> ${r.horaFinal}</p>`;
+            } else if (r.horario === 'Turno noche') {
                 html += `<p><strong>🕐 Hora inicial:</strong> ${r.horaInicio}</p>
                          <p><strong>🕒 Hora final:</strong> ${r.horaFinal}</p>`;
             } else {
@@ -2943,6 +2972,11 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
         if (horario === 'corrido') {
             if (!hi || !hf) { showToast("❌ Complete las horas"); return; }
             texto += `⏰ Horario: Corrido\n`;
+            texto += `🕐 Inicio: ${hi}\n`;
+            texto += `🕒 Final: ${hf}\n`;
+        } else if (horario === 'noche') {
+            if (!hi || !hf) { showToast("❌ Complete las horas"); return; }
+            texto += `⏰ Horario: 🌙 Turno noche\n`;
             texto += `🕐 Inicio: ${hi}\n`;
             texto += `🕒 Final: ${hf}\n`;
         } else if (horario === 'partido') {
@@ -3145,8 +3179,8 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
             tareoFiltro.style.display = 'none';
             tareoAcciones.classList.remove('active');
             
-            // OCULTAR BOTÓN DE PLANILLA SI NO ES ADMINISTRADOR
-            if (esAdministrador()) {
+            // OCULTAR BOTÓN DE PLANILLA SI NO TIENE PERMISOS
+            if (puedeVerPlanilla()) {
                 btnPlanilla.style.display = 'inline-block';
             } else {
                 btnPlanilla.style.display = 'none';
@@ -3293,7 +3327,7 @@ window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
     console.log('🚛 Transportes Mantenimiento - Chat con 4 Salas');
     console.log('📋 Usuarios autorizados:', Object.keys(AUTHORIZED_USERS).length);
     console.log('🚗 Placas disponibles:', PLACAS_LIST.length);
-    console.log('📊 Planilla Google Sheets (solo ADMINISTRADOR)');
+    console.log('📊 Planilla Google Sheets - Acceso: Administrador y Paul Emerson Manrique Monzon');
     console.log('👑 Administrador puede ver y eliminar TODOS los mensajes de Tareo');
     console.log('📌 Los usuarios solo eliminan SUS mensajes');
     console.log('📌 Los usuarios NO pueden limpiar el historial de Reporte');
