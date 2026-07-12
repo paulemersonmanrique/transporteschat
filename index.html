@@ -778,6 +778,52 @@
             background: #a61c1c;
         }
         
+        /* ===== ESTILOS DE IMPRESIÓN ===== */
+        @media print {
+            body, html {
+                overflow: visible !important;
+                background: white !important;
+            }
+            .impresion-preview {
+                position: static !important;
+                background: white !important;
+                backdrop-filter: none !important;
+                padding: 0 !important;
+                display: block !important;
+                z-index: auto !important;
+            }
+            .impresion-preview .preview-content {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                max-width: 100% !important;
+                max-height: none !important;
+                padding: 20px !important;
+                overflow: visible !important;
+            }
+            .impresion-preview .preview-header {
+                display: none !important;
+            }
+            #chatApp, #loginScreen, .loading-overlay, .toast, .notification-badge, .sound-indicator {
+                display: none !important;
+            }
+            .impresion-preview .preview-content .preview-body {
+                display: block !important;
+            }
+            .message.tareo {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+            .message.tareo .tareo-checkbox {
+                display: none !important;
+            }
+            .message .msg-checkbox {
+                display: none !important;
+            }
+            .chat-acciones, .tareo-acciones, .tareo-filtro, .input-area, .online-users, .chat-header {
+                display: none !important;
+            }
+        }
+        
         /* ===== PLANILLA GOOGLE SHEETS ===== */
         .planilla-container {
             display: none;
@@ -968,6 +1014,75 @@
             .font-btn { 
                 font-size: calc(7px * var(--scale)); 
                 padding: calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.4); 
+            }
+        }
+        
+        /* ===== ESTILOS DE IMPRESIÓN ===== */
+        @media print {
+            /* Ocultar todo excepto la previsualización */
+            body, html {
+                overflow: visible !important;
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                height: auto !important;
+            }
+            
+            .impresion-preview {
+                position: static !important;
+                background: white !important;
+                backdrop-filter: none !important;
+                padding: 0 !important;
+                display: block !important;
+                z-index: auto !important;
+                width: 100% !important;
+                height: auto !important;
+            }
+            
+            .impresion-preview .preview-content {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                max-width: 100% !important;
+                max-height: none !important;
+                padding: 10px !important;
+                overflow: visible !important;
+                width: 100% !important;
+            }
+            
+            .impresion-preview .preview-header {
+                display: none !important;
+            }
+            
+            #chatApp, #loginScreen, .loading-overlay, .toast, .notification-badge, .sound-indicator {
+                display: none !important;
+            }
+            
+            .message.tareo {
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                border-left: 3px solid #000 !important;
+            }
+            
+            .message.tareo .tareo-checkbox {
+                display: none !important;
+            }
+            
+            .message .msg-checkbox {
+                display: none !important;
+            }
+            
+            .chat-acciones, .tareo-acciones, .tareo-filtro, .input-area, .online-users, .chat-header {
+                display: none !important;
+            }
+            
+            .message {
+                box-shadow: none !important;
+                border: 1px solid #ddd !important;
+            }
+            
+            .date-divider span {
+                background: #f0f0f0 !important;
+                color: #333 !important;
             }
         }
     </style>
@@ -2719,6 +2834,10 @@
         impresionPreview.classList.add('active');
         // Guardar el contenido para imprimir
         window._previewContent = html;
+        // Mostrar el diálogo de impresión automáticamente
+        setTimeout(() => {
+            window.print();
+        }, 500);
     }
 
     window.mostrarPrevisualizacionTareo = mostrarPrevisualizacionTareo;
@@ -2858,6 +2977,10 @@
         previewBody.innerHTML = html;
         impresionPreview.classList.add('active');
         window._previewContent = html;
+        // Mostrar el diálogo de impresión automáticamente
+        setTimeout(() => {
+            window.print();
+        }, 500);
     }
 
     window.mostrarPrevisualizacionReporte = mostrarPrevisualizacionReporte;
@@ -2873,43 +2996,8 @@
     }
 
     function imprimirDesdePreview() {
-        const contenido = window._previewContent || previewBody.innerHTML;
-        if (!contenido) {
-            showToast('⚠️ No hay contenido para imprimir');
-            return;
-        }
-        
-        const ventana = window.open('', '_blank');
-        ventana.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Tareo diario - IMCO</title>' +
-            '<style>' +
-            '*{margin:0;padding:0;box-sizing:border-box;}' +
-            'body{background:white;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:monospace;padding:20px;}' +
-            '.tarjeta{font-family:monospace;padding:10px;background:white;max-width:800px;width:100%;}' +
-            '.titulo{text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #cbd5e1;padding-bottom:8px;margin-bottom:12px;}' +
-            '.subtitulo{text-align:center;font-size:14px;margin-bottom:12px;}' +
-            '.fila{display:flex;flex-wrap:wrap;align-items:baseline;margin-bottom:6px;gap:8px;}' +
-            '.doble{display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;}' +
-            '.col{flex:1;display:flex;align-items:baseline;gap:8px;}' +
-            '.etiqueta{font-weight:700;font-size:12px;white-space:nowrap;}' +
-            '.linea{border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;min-height:20px;}' +
-            '.linea-larga{flex:2;border-bottom:1.5px solid #334155;padding:0 4px;font-size:12px;min-height:20px;}' +
-            '.linea-corta{width:120px;border-bottom:1.5px solid #334155;padding:0 4px;font-size:12px;min-height:20px;}' +
-            '.firmas{display:flex;justify-content:space-between;margin-top:12px;gap:32px;}' +
-            '.firma-item{flex:1;text-align:center;}' +
-            '.firma-linea{border-top:1px solid #000;padding-top:4px;font-size:11px;}' +
-            '@media print{' +
-            'body{padding:0;background:white;}' +
-            '.tarjeta{padding:5px;}' +
-            '.linea,.linea-larga,.linea-corta{border-bottom:1px solid black;}' +
-            '.doble,.fila{margin-bottom:4px;}' +
-            '@page{size:A4;margin:2mm 2mm 180mm 2mm;}' +
-            '}' +
-            '</style></head><body><div class="tarjeta">' +
-            contenido +
-            '</div><script>window.onload=function(){window.print();};<\/script></body></html>');
-        ventana.document.close();
-        setTimeout(() => { ventana.print(); }, 500);
-        cerrarPrevisualizacion();
+        // Usar window.print directamente en la página actual
+        window.print();
     }
 
     window.cerrarPrevisualizacion = cerrarPrevisualizacion;
