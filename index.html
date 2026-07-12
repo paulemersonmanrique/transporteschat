@@ -149,9 +149,9 @@
         
         .user-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: 1fr;
             gap: var(--user-grid-gap);
-            max-height: calc(160px * var(--scale));
+            max-height: calc(200px * var(--scale));
             overflow-y: auto;
             padding: calc(var(--padding-base) * 0.3);
         }
@@ -169,14 +169,45 @@
             -webkit-tap-highlight-color: transparent;
             position: relative;
             touch-action: manipulation;
+            display: flex;
+            align-items: center;
+            gap: calc(var(--padding-base) * 0.8);
+            padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8);
         }
         .user-card:hover { background: var(--primary-lighter); border-color: var(--primary-lighter); }
-        .user-card:active { transform: scale(0.96); }
+        .user-card:active { transform: scale(0.98); }
         .user-card.selected { background: var(--primary-lighter); border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.15); }
         .user-card.selected .user-avatar { background: var(--primary); color: white; }
-        .user-card .user-avatar { width: var(--user-avatar-size); height: var(--user-avatar-size); border-radius: 50%; background: #DEE2E6; color: #495057; display: flex; align-items: center; justify-content: center; margin: 0 auto calc(var(--padding-base) * 0.3); font-weight: 700; font-size: calc(var(--user-name-size) * 1.1); transition: all 0.3s; }
-        .user-card .user-name { font-size: var(--user-name-size); font-weight: 500; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .user-card .user-status-dot { position: absolute; top: calc(var(--padding-base) * 0.4); right: calc(var(--padding-base) * 0.4); width: var(--badge-size); height: var(--badge-size); border-radius: 50%; border: 2px solid white; }
+        .user-card .user-avatar { 
+            width: var(--user-avatar-size); 
+            height: var(--user-avatar-size); 
+            border-radius: 50%; 
+            background: #DEE2E6; 
+            color: #495057; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-weight: 700; 
+            font-size: calc(var(--user-name-size) * 1.1); 
+            transition: all 0.3s; 
+            flex-shrink: 0;
+        }
+        .user-card .user-name { 
+            font-size: var(--user-name-size); 
+            font-weight: 500; 
+            color: #1A1A1A; 
+            text-align: left;
+            flex: 1;
+        }
+        .user-card .user-status-dot { 
+            position: absolute; 
+            top: calc(var(--padding-base) * 0.4); 
+            right: calc(var(--padding-base) * 0.4); 
+            width: var(--badge-size); 
+            height: var(--badge-size); 
+            border-radius: 50%; 
+            border: 2px solid white; 
+        }
         .user-card .user-status-dot.online { background: #28a745; }
         .user-card .user-status-dot.offline { background: #ccc; }
         
@@ -717,14 +748,115 @@
         .btn-planilla:active { transform: scale(0.96); }
         .btn-planilla:hover { opacity: 0.85; }
         
+        /* ===== ESTILOS PARA CELULAR - LOGIN OCUPA TODA LA PANTALLA ===== */
         @media (max-width: 520px) {
             body { padding: 0 !important; margin: 0 !important; }
-            #loginScreen { padding: calc(var(--login-padding) * 0.6); border-radius: calc(var(--login-radius) * 0.7); width: 94%; max-width: 360px; }
-            .user-grid { grid-template-columns: repeat(3, 1fr); gap: calc(var(--user-grid-gap) * 0.7); max-height: calc(140px * var(--scale)); }
-            .reporte-grid { grid-template-columns: 1fr; }
-            .reporte-botones { grid-template-columns: 1fr 1fr; }
-            .reporte-botones .btn-reporte.whatsapp { grid-column: span 2; }
-            .message.tareo .tareo-detalle span { display: block; margin-bottom: 2px; }
+            
+            /* LOGIN OCUPA EL 100% DE LA PANTALLA */
+            #loginScreen { 
+                padding: calc(var(--login-padding) * 0.6); 
+                border-radius: 0; 
+                width: 100%; 
+                max-width: 100%; 
+                max-height: 100vh;
+                height: 100vh;
+                height: 100dvh;
+                margin: 0;
+                box-shadow: none;
+                overflow-y: auto;
+                display: block !important;
+            }
+            
+            /* CUADRÍCULA DE USUARIOS EN COLUMNA VERTICAL */
+            .user-grid { 
+                grid-template-columns: 1fr;
+                gap: calc(var(--user-grid-gap) * 0.8); 
+                max-height: 45vh;
+                min-height: calc(150px * var(--scale));
+                padding: calc(var(--padding-base) * 0.5);
+                overflow-y: auto;
+                border: 1px solid #E9EDEF;
+                border-radius: calc(var(--radius-base) * 0.6);
+                background: #FAFBFC;
+            }
+            
+            .user-card {
+                display: flex;
+                align-items: center;
+                gap: calc(var(--padding-base) * 0.8);
+                padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8);
+                text-align: left;
+            }
+            
+            .user-card .user-avatar { 
+                width: calc(var(--user-avatar-size) * 0.9); 
+                height: calc(var(--user-avatar-size) * 0.9); 
+                font-size: calc(var(--user-name-size) * 1); 
+                flex-shrink: 0;
+            }
+            .user-card .user-name { 
+                font-size: calc(var(--user-name-size) * 0.9); 
+                text-align: left;
+                flex: 1;
+            }
+            
+            /* SELECTORES MÁS COMPACTOS */
+            .size-selector { gap: calc(var(--padding-base) * 0.2); margin: calc(var(--padding-base) * 0.4) 0; }
+            .size-btn { 
+                font-size: calc(9px * var(--scale)); 
+                padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.7); 
+            }
+            
+            .theme-selector { gap: calc(var(--padding-base) * 0.4); margin: calc(var(--padding-base) * 0.3) 0; }
+            .theme-btn { width: calc(26px * var(--scale)); height: calc(26px * var(--scale)); }
+            
+            .font-selector { gap: calc(var(--padding-base) * 0.2); margin: calc(var(--padding-base) * 0.3) 0; }
+            .font-btn { 
+                font-size: calc(8px * var(--scale)); 
+                padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.6); 
+            }
+            
+            .logo-icon { font-size: calc(var(--logo-size) * 0.9); margin-bottom: calc(var(--padding-base) * 0.2); }
+            .logo-title { font-size: calc(var(--title-size) * 0.9); }
+            .logo-subtitle { font-size: calc(var(--subtitle-size) * 0.85); margin-bottom: calc(var(--padding-base) * 0.8); }
+            
+            .user-selector .label { font-size: calc(var(--subtitle-size) * 0.8); margin-bottom: calc(var(--padding-base) * 0.3); }
+            
+            .form-group { margin-bottom: calc(var(--padding-base) * 0.8); }
+            .form-group label { font-size: calc(var(--subtitle-size) * 0.8); }
+            .form-group input { 
+                font-size: calc(15px * var(--scale)); 
+                padding: calc(var(--padding-base) * 0.8) calc(var(--padding-base) * 1.2); 
+                height: calc(var(--input-height) * 1);
+            }
+            
+            .btn-primary { 
+                font-size: calc(14px * var(--scale)); 
+                padding: calc(var(--padding-base) * 1); 
+                height: calc(var(--input-height) * 1.1);
+                margin-top: calc(var(--padding-base) * 0.3);
+            }
+            
+            .error-msg, .success-msg, .warning-msg { font-size: calc(11px * var(--scale)); padding: calc(var(--padding-base) * 0.5); }
+        }
+
+        @media (max-width: 400px) {
+            #loginScreen { 
+                padding: calc(var(--login-padding) * 0.4); 
+            }
+            .user-grid { 
+                max-height: 40vh;
+                min-height: calc(120px * var(--scale));
+            }
+            .size-btn { 
+                font-size: calc(8px * var(--scale)); 
+                padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.5); 
+            }
+            .theme-btn { width: calc(22px * var(--scale)); height: calc(22px * var(--scale)); }
+            .font-btn { 
+                font-size: calc(7px * var(--scale)); 
+                padding: calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.4); 
+            }
         }
     </style>
 </head>
@@ -919,9 +1051,9 @@
                         <option value="camioneta">camioneta</option>
                         <option value="montacarga">montacarga</option>
                         <option value="manlift">manlift</option>
-			<option value="scissorlift">scissorlift</option>
-			<option value="grua">grua</option>
-			<option value="cisterna">cisterna</option>
+                        <option value="scissorlift">scissorlift</option>
+                        <option value="grua">grua</option>
+                        <option value="cisterna">cisterna</option>
                     </select>
                 </div>
                 <div class="reporte-group">
@@ -1042,7 +1174,7 @@
     "VCR-165", "VCS-675", "VCS-684", "VCV-415", "VCZ-454",
     "VDG-470", "VDK-332", "VDN-919", "VDR-359", "VDW-950",
     "VER-895", "VES-828", "VEW-879", "VFJ-967", "VFM-959", "VFF-797", "VFF-958", "VFF-969", "VFU-966", "Z-45/25", "Z-60/34"
-	, "GS-5390", "ZA14J", "Z-80/60", "Z-62/40", "S-100" 
+    , "GS-5390", "ZA14J", "Z-80/60", "Z-62/40", "S-100" 
 ].sort();
 
     // ============================================================
@@ -1052,10 +1184,10 @@
     const AUTHORIZED_USERS = {
         "ADMINISTRADOR": "admin123",
         "Alex Antonio Cornejo Quispe": "7890",
-        "Alexander Gomez Chora": "1234",	
+        "Alexander Gomez Chora": "1234",    
         "Anders Willian Zegarra Yanque": "2345",
         "Carlos Alfredo Mamani Viveros": "4567",
-        "Cristhian John De La Cruz Jara": "9012",	
+        "Cristhian John De La Cruz Jara": "9012",    
         "Dante Dennis Torrez Enriquez": "0123",
         "Edgar Raul Almanza Castro": "0000",
         "Elvis Joel Tunque Palomino": "6666",
@@ -1077,11 +1209,11 @@
         "Renzo Gonzalo Lipa Lipa": "9999",
         "Sandro Augusto Calizaya Calizaya": "5656",
         "Caceres Llutani, Williams": "6589",
-	"Poccori Leon, Cesar Orlando": "6489",
-	"Valdivia Tito, Humberto Manuel": "6389",
-	"Apaza Apaza, Luis Fernando": "6789",	
-	"Rimachi Chacca, Luis Alfredo": "6689",
-	"De la Cruz Mendoza , Christian Jesus": "9022"
+    "Poccori Leon, Cesar Orlando": "6489",
+    "Valdivia Tito, Humberto Manuel": "6389",
+    "Apaza Apaza, Luis Fernando": "6789",    
+    "Rimachi Chacca, Luis Alfredo": "6689",
+    "De la Cruz Mendoza , Christian Jesus": "9022"
     };
 
     // ============================================================
