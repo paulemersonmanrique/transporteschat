@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+en este codigo haz que el tamaño de la interface de ingreso, donde estan los nombrs de usuario,cajon de clave, etc  se adapte a la pantalla de celular : <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -149,9 +149,9 @@
         
         .user-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: var(--user-grid-gap);
-            max-height: calc(200px * var(--scale));
+            max-height: calc(160px * var(--scale));
             overflow-y: auto;
             padding: calc(var(--padding-base) * 0.3);
         }
@@ -169,45 +169,14 @@
             -webkit-tap-highlight-color: transparent;
             position: relative;
             touch-action: manipulation;
-            display: flex;
-            align-items: center;
-            gap: calc(var(--padding-base) * 0.8);
-            padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8);
         }
         .user-card:hover { background: var(--primary-lighter); border-color: var(--primary-lighter); }
-        .user-card:active { transform: scale(0.98); }
+        .user-card:active { transform: scale(0.96); }
         .user-card.selected { background: var(--primary-lighter); border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.15); }
         .user-card.selected .user-avatar { background: var(--primary); color: white; }
-        .user-card .user-avatar { 
-            width: var(--user-avatar-size); 
-            height: var(--user-avatar-size); 
-            border-radius: 50%; 
-            background: #DEE2E6; 
-            color: #495057; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            font-weight: 700; 
-            font-size: calc(var(--user-name-size) * 1.1); 
-            transition: all 0.3s; 
-            flex-shrink: 0;
-        }
-        .user-card .user-name { 
-            font-size: var(--user-name-size); 
-            font-weight: 500; 
-            color: #1A1A1A; 
-            text-align: left;
-            flex: 1;
-        }
-        .user-card .user-status-dot { 
-            position: absolute; 
-            top: calc(var(--padding-base) * 0.4); 
-            right: calc(var(--padding-base) * 0.4); 
-            width: var(--badge-size); 
-            height: var(--badge-size); 
-            border-radius: 50%; 
-            border: 2px solid white; 
-        }
+        .user-card .user-avatar { width: var(--user-avatar-size); height: var(--user-avatar-size); border-radius: 50%; background: #DEE2E6; color: #495057; display: flex; align-items: center; justify-content: center; margin: 0 auto calc(var(--padding-base) * 0.3); font-weight: 700; font-size: calc(var(--user-name-size) * 1.1); transition: all 0.3s; }
+        .user-card .user-name { font-size: var(--user-name-size); font-weight: 500; color: #1A1A1A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .user-card .user-status-dot { position: absolute; top: calc(var(--padding-base) * 0.4); right: calc(var(--padding-base) * 0.4); width: var(--badge-size); height: var(--badge-size); border-radius: 50%; border: 2px solid white; }
         .user-card .user-status-dot.online { background: #28a745; }
         .user-card .user-status-dot.offline { background: #ccc; }
         
@@ -379,87 +348,14 @@
         }
         .messages-container.hidden { display: none; }
         
-        .message { 
-            max-width: 85%; 
-            padding: var(--msg-padding); 
-            border-radius: calc(var(--radius-base) * 0.8); 
-            animation: slideIn 0.2s ease; 
-            word-wrap: break-word; 
-            box-shadow: 0 1px 2px rgba(0,0,0,0.04); 
-            touch-action: manipulation;
-            display: flex;
-            align-items: flex-start;
-            gap: calc(var(--padding-base) * 0.3);
-        }
+        .message { max-width: 85%; padding: var(--msg-padding); border-radius: calc(var(--radius-base) * 0.8); animation: slideIn 0.2s ease; word-wrap: break-word; box-shadow: 0 1px 2px rgba(0,0,0,0.04); touch-action: manipulation; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(4px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-        .message .msg-content {
-            flex: 1;
-            min-width: 0;
-        }
-        .message .msg-checkbox {
-            margin-top: calc(var(--padding-base) * 0.2);
-            flex-shrink: 0;
-            cursor: pointer;
-            touch-action: manipulation;
-        }
-        .message .msg-checkbox input[type="checkbox"] {
-            transform: scale(1.1);
-            cursor: pointer;
-        }
-        .message.sent { 
-            background: var(--bubble-sent); 
-            align-self: flex-end; 
-            border-bottom-right-radius: calc(var(--radius-base) * 0.2); 
-            transition: background 0.3s; 
-        }
-        .message.received { 
-            background: var(--bubble-received); 
-            align-self: flex-start; 
-            border-bottom-left-radius: calc(var(--radius-base) * 0.2); 
-        }
+        .message.sent { background: var(--bubble-sent); align-self: flex-end; border-bottom-right-radius: calc(var(--radius-base) * 0.2); transition: background 0.3s; }
+        .message.received { background: var(--bubble-received); align-self: flex-start; border-bottom-left-radius: calc(var(--radius-base) * 0.2); }
         .message .text { font-size: var(--msg-font); line-height: 1.4; color: #1A1A1A; }
         .message .footer { display: flex; align-items: center; justify-content: flex-end; gap: calc(var(--padding-base) * 0.3); margin-top: calc(var(--padding-base) * 0.1); font-size: var(--msg-footer-font); color: #667781; }
         .message .footer .author { font-weight: 600; color: var(--primary); transition: color 0.3s; }
         .message .footer .status { font-size: calc(var(--msg-footer-font) * 1.2); }
-        
-        /* ===== BARRA DE ACCIONES DEL CHAT GENERAL ===== */
-        .chat-acciones {
-            display: none;
-            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
-            background: #FFF3CD;
-            border-bottom: 1px solid #FFEEBA;
-            gap: calc(var(--padding-base) * 0.5);
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .chat-acciones.active { display: flex; }
-        .chat-acciones .btn-eliminar-seleccionados {
-            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
-            border: none;
-            border-radius: calc(var(--radius-base) * 0.4);
-            background: var(--error);
-            color: white;
-            font-size: calc(11px * var(--scale));
-            cursor: pointer;
-            touch-action: manipulation;
-        }
-        .chat-acciones .btn-eliminar-seleccionados:active { transform: scale(0.95); }
-        .chat-acciones .btn-seleccionar-todos {
-            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
-            border: none;
-            border-radius: calc(var(--radius-base) * 0.4);
-            background: var(--primary);
-            color: white;
-            font-size: calc(11px * var(--scale));
-            cursor: pointer;
-            touch-action: manipulation;
-        }
-        .chat-acciones .btn-seleccionar-todos:active { transform: scale(0.95); }
-        .chat-acciones .contador-seleccionados {
-            font-size: calc(11px * var(--scale));
-            color: #333;
-            font-weight: 600;
-        }
         
         /* ===== MENSAJES DE TAREO ===== */
         .message.tareo { 
@@ -494,24 +390,7 @@
             gap: calc(var(--padding-base) * 0.3);
         }
         
-        /* ===== MENSAJE DE TAREO EN CHAT GENERAL ===== */
-        .message.tareo-chat {
-            background: #E8F5E9;
-            border-left: 4px solid #4CAF50;
-            max-width: 90%;
-            align-self: flex-start;
-            border-radius: calc(var(--radius-base) * 0.8);
-            padding: var(--msg-padding);
-        }
-        .message.tareo-chat .tareo-label {
-            font-size: calc(var(--msg-footer-font) * 0.9);
-            color: #2E7D32;
-            font-weight: 600;
-            display: block;
-            margin-bottom: calc(var(--padding-base) * 0.1);
-        }
-        
-        /* ===== BOTÓN ELIMINAR SELECCIONADOS TAREO ===== */
+        /* ===== BOTÓN ELIMINAR SELECCIONADOS ===== */
         .tareo-acciones {
             display: none;
             padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
@@ -838,129 +717,14 @@
         .btn-planilla:active { transform: scale(0.96); }
         .btn-planilla:hover { opacity: 0.85; }
         
-        /* ===== ESTILOS PARA CELULAR - LOGIN OCUPA TODA LA PANTALLA ===== */
         @media (max-width: 520px) {
             body { padding: 0 !important; margin: 0 !important; }
-            
-            /* LOGIN OCUPA EL 100% DE LA PANTALLA */
-            #loginScreen { 
-                padding: calc(var(--login-padding) * 0.6); 
-                border-radius: 0; 
-                width: 100%; 
-                max-width: 100%; 
-                max-height: 100vh;
-                height: 100vh;
-                height: 100dvh;
-                margin: 0;
-                box-shadow: none;
-                overflow-y: auto;
-                display: block !important;
-            }
-            
-            /* CUADRÍCULA DE USUARIOS EN COLUMNA VERTICAL */
-            .user-grid { 
-                grid-template-columns: 1fr;
-                gap: calc(var(--user-grid-gap) * 0.8); 
-                max-height: 45vh;
-                min-height: calc(150px * var(--scale));
-                padding: calc(var(--padding-base) * 0.5);
-                overflow-y: auto;
-                border: 1px solid #E9EDEF;
-                border-radius: calc(var(--radius-base) * 0.6);
-                background: #FAFBFC;
-            }
-            
-            .user-card {
-                display: flex;
-                align-items: center;
-                gap: calc(var(--padding-base) * 0.8);
-                padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8);
-                text-align: left;
-            }
-            
-            .user-card .user-avatar { 
-                width: calc(var(--user-avatar-size) * 0.9); 
-                height: calc(var(--user-avatar-size) * 0.9); 
-                font-size: calc(var(--user-name-size) * 1); 
-                flex-shrink: 0;
-            }
-            .user-card .user-name { 
-                font-size: calc(var(--user-name-size) * 0.9); 
-                text-align: left;
-                flex: 1;
-            }
-            
-            /* SELECTORES MÁS COMPACTOS */
-            .size-selector { gap: calc(var(--padding-base) * 0.2); margin: calc(var(--padding-base) * 0.4) 0; }
-            .size-btn { 
-                font-size: calc(9px * var(--scale)); 
-                padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.7); 
-            }
-            
-            .theme-selector { gap: calc(var(--padding-base) * 0.4); margin: calc(var(--padding-base) * 0.3) 0; }
-            .theme-btn { width: calc(26px * var(--scale)); height: calc(26px * var(--scale)); }
-            
-            .font-selector { gap: calc(var(--padding-base) * 0.2); margin: calc(var(--padding-base) * 0.3) 0; }
-            .font-btn { 
-                font-size: calc(8px * var(--scale)); 
-                padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.6); 
-            }
-            
-            .logo-icon { font-size: calc(var(--logo-size) * 0.9); margin-bottom: calc(var(--padding-base) * 0.2); }
-            .logo-title { font-size: calc(var(--title-size) * 0.9); }
-            .logo-subtitle { font-size: calc(var(--subtitle-size) * 0.85); margin-bottom: calc(var(--padding-base) * 0.8); }
-            
-            .user-selector .label { font-size: calc(var(--subtitle-size) * 0.8); margin-bottom: calc(var(--padding-base) * 0.3); }
-            
-            .form-group { margin-bottom: calc(var(--padding-base) * 0.8); }
-            .form-group label { font-size: calc(var(--subtitle-size) * 0.8); }
-            .form-group input { 
-                font-size: calc(15px * var(--scale)); 
-                padding: calc(var(--padding-base) * 0.8) calc(var(--padding-base) * 1.2); 
-                height: calc(var(--input-height) * 1);
-            }
-            
-            .btn-primary { 
-                font-size: calc(14px * var(--scale)); 
-                padding: calc(var(--padding-base) * 1); 
-                height: calc(var(--input-height) * 1.1);
-                margin-top: calc(var(--padding-base) * 0.3);
-            }
-            
-            .error-msg, .success-msg, .warning-msg { font-size: calc(11px * var(--scale)); padding: calc(var(--padding-base) * 0.5); }
-            
-            /* CHAT ACCIONES EN MÓVIL */
-            .chat-acciones, .tareo-acciones {
-                padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.4);
-                gap: calc(var(--padding-base) * 0.3);
-            }
-            .chat-acciones .btn-eliminar-seleccionados,
-            .chat-acciones .btn-seleccionar-todos,
-            .tareo-acciones .btn-eliminar-seleccionados,
-            .tareo-acciones .btn-seleccionar-todos,
-            .tareo-acciones .btn-imprimir-seleccionados {
-                font-size: calc(9px * var(--scale));
-                padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.5);
-            }
-        }
-
-        @media (max-width: 400px) {
-            #loginScreen { 
-                padding: calc(var(--login-padding) * 0.4); 
-            }
-            .user-grid { 
-                max-height: 40vh;
-                min-height: calc(120px * var(--scale));
-            }
-            .size-btn { 
-                font-size: calc(8px * var(--scale)); 
-                padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.5); 
-            }
-            .theme-btn { width: calc(22px * var(--scale)); height: calc(22px * var(--scale)); }
-            .font-btn { 
-                font-size: calc(7px * var(--scale)); 
-                padding: calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.4); 
-            }
+            #loginScreen { padding: calc(var(--login-padding) * 0.6); border-radius: calc(var(--login-radius) * 0.7); width: 94%; max-width: 360px; }
+            .user-grid { grid-template-columns: repeat(3, 1fr); gap: calc(var(--user-grid-gap) * 0.7); max-height: calc(140px * var(--scale)); }
+            .reporte-grid { grid-template-columns: 1fr; }
+            .reporte-botones { grid-template-columns: 1fr 1fr; }
+            .reporte-botones .btn-reporte.whatsapp { grid-column: span 2; }
+            .message.tareo .tareo-detalle span { display: block; margin-bottom: 2px; }
         }
     </style>
 </head>
@@ -1089,13 +853,6 @@
         <span id="userList">Cargando...</span>
     </div>
     
-    <!-- ===== ACCIONES DEL CHAT GENERAL ===== -->
-    <div class="chat-acciones" id="chatAcciones">
-        <span class="contador-seleccionados" id="contadorSeleccionadosChat">0 seleccionados</span>
-        <button class="btn-seleccionar-todos" onclick="seleccionarTodosChat()">☑ Todos</button>
-        <button class="btn-eliminar-seleccionados" onclick="eliminarSeleccionadosChat()">🗑️ Eliminar</button>
-    </div>
-    
     <!-- ===== FILTRO DE FECHA PARA TAREO ===== -->
     <div class="tareo-filtro" id="tareoFiltro" style="display:none; padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8); background: #f8f9fa; border-bottom: 1px solid #e9ecef; gap: 8px; align-items: center; flex-wrap: wrap;">
         <label style="font-size:calc(11px * var(--scale)); font-weight:600;">🔍 Buscar fecha:</label>
@@ -1162,9 +919,9 @@
                         <option value="camioneta">camioneta</option>
                         <option value="montacarga">montacarga</option>
                         <option value="manlift">manlift</option>
-                        <option value="scissorlift">scissorlift</option>
-                        <option value="grua">grua</option>
-                        <option value="cisterna">cisterna</option>
+			<option value="scissorlift">scissorlift</option>
+			<option value="grua">grua</option>
+			<option value="cisterna">cisterna</option>
                     </select>
                 </div>
                 <div class="reporte-group">
@@ -1285,7 +1042,7 @@
     "VCR-165", "VCS-675", "VCS-684", "VCV-415", "VCZ-454",
     "VDG-470", "VDK-332", "VDN-919", "VDR-359", "VDW-950",
     "VER-895", "VES-828", "VEW-879", "VFJ-967", "VFM-959", "VFF-797", "VFF-958", "VFF-969", "VFU-966", "Z-45/25", "Z-60/34"
-    , "GS-5390", "ZA14J", "Z-80/60", "Z-62/40", "S-100" 
+	, "GS-5390", "ZA14J", "Z-80/60", "Z-62/40", "S-100" 
 ].sort();
 
     // ============================================================
@@ -1295,10 +1052,10 @@
     const AUTHORIZED_USERS = {
         "ADMINISTRADOR": "admin123",
         "Alex Antonio Cornejo Quispe": "7890",
-        "Alexander Gomez Chora": "1234",    
+        "Alexander Gomez Chora": "1234",	
         "Anders Willian Zegarra Yanque": "2345",
         "Carlos Alfredo Mamani Viveros": "4567",
-        "Cristhian John De La Cruz Jara": "9012",    
+        "Cristhian John De La Cruz Jara": "9012",	
         "Dante Dennis Torrez Enriquez": "0123",
         "Edgar Raul Almanza Castro": "0000",
         "Elvis Joel Tunque Palomino": "6666",
@@ -1320,11 +1077,11 @@
         "Renzo Gonzalo Lipa Lipa": "9999",
         "Sandro Augusto Calizaya Calizaya": "5656",
         "Caceres Llutani, Williams": "6589",
-    "Poccori Leon, Cesar Orlando": "6489",
-    "Valdivia Tito, Humberto Manuel": "6389",
-    "Apaza Apaza, Luis Fernando": "6789",    
-    "Rimachi Chacca, Luis Alfredo": "6689",
-    "De la Cruz Mendoza , Christian Jesus": "9022"
+	"Poccori Leon, Cesar Orlando": "6489",
+	"Valdivia Tito, Humberto Manuel": "6389",
+	"Apaza Apaza, Luis Fernando": "6789",	
+	"Rimachi Chacca, Luis Alfredo": "6689",
+	"De la Cruz Mendoza , Christian Jesus": "9022"
     };
 
     // ============================================================
@@ -1419,8 +1176,6 @@
     const tareoBuscarFecha = document.getElementById('tareoBuscarFecha');
     const tareoAcciones = document.getElementById('tareoAcciones');
     const contadorSeleccionados = document.getElementById('contadorSeleccionados');
-    const chatAcciones = document.getElementById('chatAcciones');
-    const contadorSeleccionadosChat = document.getElementById('contadorSeleccionadosChat');
     const impresionPreview = document.getElementById('impresionPreview');
     const previewBody = document.getElementById('previewBody');
     const planillaIframe = document.getElementById('planillaIframe');
@@ -1818,13 +1573,6 @@
         reporteContainer.classList.toggle('active', room === 'reporte');
         planillaContainer.classList.toggle('active', room === 'planilla');
         
-        // Mostrar/ocultar acciones del chat general
-        if (room === 'general') {
-            chatAcciones.classList.add('active');
-        } else {
-            chatAcciones.classList.remove('active');
-        }
-        
         // Mostrar/ocultar filtro y acciones de tareo
         if (room === 'tareo') {
             tareoFiltro.style.display = 'flex';
@@ -1834,7 +1582,6 @@
             tareoAcciones.classList.remove('active');
         }
         
-        // En las salas de Reporte y Planilla NO se muestra el input
         if (room === 'reporte' || room === 'planilla') {
             document.getElementById('inputArea').style.display = 'none';
         } else {
@@ -1927,7 +1674,7 @@
         const time = data.time || getTime();
         const targetContainer = container || messagesContainer;
         
-        // Mensaje de Tareo (desde el formulario de Reporte)
+        // Mensaje de Tareo
         if (data.isTareo) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `message tareo ${data.tareoTipo || ''}`;
@@ -1936,6 +1683,8 @@
             let textoConSaltos = escapeHTML(data.text || '');
             textoConSaltos = textoConSaltos.replace(/\n/g, '<br>');
             
+            // ✅ ADMINISTRADOR PUEDE VER CHECKBOX EN TODOS LOS MENSAJES
+            // ✅ USUARIO NORMAL SOLO EN SUS PROPIOS MENSAJES
             let mostrarCheckbox = false;
             if (isAdmin) {
                 mostrarCheckbox = true;
@@ -1974,50 +1723,24 @@
             return;
         }
         
-        // Mensaje normal del chat general
+        // Mensaje normal
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${isOwn ? 'sent' : 'received'}`;
         messageDiv.dataset.key = key;
-        
-        // ✅ ADMINISTRADOR PUEDE VER CHECKBOX EN TODOS LOS MENSAJES
-        // ✅ USUARIO NORMAL SOLO EN SUS PROPIOS MENSAJES
-        let mostrarCheckbox = false;
-        if (isAdmin) {
-            mostrarCheckbox = true;
-        } else if (isOwn) {
-            mostrarCheckbox = true;
-        }
-        
-        const checkboxHTML = mostrarCheckbox ? `
-            <div class="msg-checkbox">
-                <input type="checkbox" class="chat-checkbox" data-key="${key}" onchange="actualizarContadorChat()">
-            </div>
-        ` : '';
         
         const authorHTML = !isOwn ? `<span class="author">${escapeHTML(data.displayName || data.user)}</span>` : '';
         const statusHTML = isOwn ? `<span class="status"><i class="fas fa-check-double" style="color:var(--primary);"></i></span>` : '';
         
         let textContent = data.text || '';
         
-        // Verificar si es un mensaje enviado desde Tareo (tiene indicador especial)
-        const esTareoChat = data.desdeTareo === true;
-        
         messageDiv.innerHTML = `
-            ${checkboxHTML}
-            <div class="msg-content">
-                ${esTareoChat ? `<span class="tareo-label">📝 [Tareo]</span>` : ''}
-                <div class="text">${escapeHTML(textContent)}</div>
-                <div class="footer">
-                    ${authorHTML}
-                    <span>${escapeHTML(time)}</span>
-                    ${statusHTML}
-                </div>
+            <div class="text">${escapeHTML(textContent)}</div>
+            <div class="footer">
+                ${authorHTML}
+                <span>${escapeHTML(time)}</span>
+                ${statusHTML}
             </div>
         `;
-        
-        if (esTareoChat) {
-            messageDiv.classList.add('tareo-chat');
-        }
         
         const loader = targetContainer.querySelector('.loader');
         if (loader) loader.remove();
@@ -2242,23 +1965,10 @@
     }
 }
     
-    // ============================================================
-    // 📨 ENVIAR MENSAJE DESDE CUALQUIER SALA (GENERAL O TAREO)
-    // ============================================================
-    
     function sendMessage() {
         const text = messageInput.value.trim();
         if (!text || !currentUser || isSending) return;
-        if (!database) { showToast('❌ Error de conexión'); return; }
-        
-        // Si estamos en la sala de Tareo, el mensaje va al chat general
-        if (currentRoom === 'tareo') {
-            sendMessageToGeneral(text);
-            return;
-        }
-        
-        // Si estamos en el chat general
-        if (!messagesRef) {
+        if (!database || !messagesRef) {
             showToast('❌ Error de conexión');
             return;
         }
@@ -2272,8 +1982,7 @@
             displayName: currentDisplayName,
             text: text,
             time: getTime(),
-            timestamp: firebase.database.ServerValue.TIMESTAMP,
-            desdeTareo: false
+            timestamp: firebase.database.ServerValue.TIMESTAMP
         };
         
         messagesRef.push(newMessage).then(() => {
@@ -2289,45 +1998,6 @@
         }).catch((error) => {
             console.error('Error al enviar:', error);
             showToast('❌ Error al enviar mensaje');
-            isSending = false;
-            sendBtn.disabled = false;
-        });
-    }
-    
-    // ============================================================
-    // 📨 ENVIAR MENSAJE DESDE TAREO AL CHAT GENERAL
-    // ============================================================
-    
-    function sendMessageToGeneral(text) {
-        isSending = true;
-        sendBtn.disabled = true;
-        playSoundSend();
-        
-        const newMessage = {
-            user: currentUser,
-            displayName: currentDisplayName,
-            text: text,
-            time: getTime(),
-            timestamp: firebase.database.ServerValue.TIMESTAMP,
-            desdeTareo: true  // Indicador especial para saber que viene de Tareo
-        };
-        
-        const generalRef = database.ref('messages/general');
-        
-        generalRef.push(newMessage).then(() => {
-            addMessageToDOM(newMessage, Date.now().toString(), messagesContainer);
-            messageInput.value = '';
-            isSending = false;
-            sendBtn.disabled = false;
-            if (typingRef) {
-                typingRef.remove();
-                isTyping = false;
-            }
-            scrollToBottom();
-            showToast('📝 Mensaje enviado al chat general desde Tareo');
-        }).catch((error) => {
-            console.error('Error al enviar desde Tareo:', error);
-            showToast('❌ Error al enviar mensaje desde Tareo');
             isSending = false;
             sendBtn.disabled = false;
         });
@@ -2384,74 +2054,6 @@
             }
         });
     }
-
-    // ============================================================
-    // 📋 FUNCIONES DEL CHAT GENERAL - CHECKBOX Y ELIMINACIÓN
-    // ============================================================
-
-    function actualizarContadorChat() {
-        const checkboxes = document.querySelectorAll('#messagesContainer .chat-checkbox:checked');
-        const total = document.querySelectorAll('#messagesContainer .chat-checkbox').length;
-        contadorSeleccionadosChat.textContent = `${checkboxes.length} de ${total} seleccionados`;
-    }
-
-    function seleccionarTodosChat() {
-        const checkboxes = document.querySelectorAll('#messagesContainer .chat-checkbox');
-        const checkboxesVisibles = Array.from(checkboxes).filter(cb => cb.offsetParent !== null);
-        
-        if (checkboxesVisibles.length === 0) {
-            showToast(esAdministrador() ? '⚠️ No hay mensajes para seleccionar' : '⚠️ No tienes mensajes para seleccionar');
-            return;
-        }
-        
-        const allChecked = checkboxesVisibles.every(cb => cb.checked);
-        checkboxesVisibles.forEach(cb => cb.checked = !allChecked);
-        actualizarContadorChat();
-    }
-
-    function eliminarSeleccionadosChat() {
-        const checkboxes = document.querySelectorAll('#messagesContainer .chat-checkbox:checked');
-        const isAdmin = esAdministrador();
-        
-        if (checkboxes.length === 0) {
-            showToast('⚠️ No hay mensajes seleccionados para eliminar');
-            return;
-        }
-        
-        const mensajeConfirm = isAdmin 
-            ? `¿Eliminar ${checkboxes.length} mensaje(s) del chat (incluyendo de otros usuarios)?` 
-            : `¿Eliminar ${checkboxes.length} mensaje(s) tuyo(s)?`;
-        
-        if (!confirm(mensajeConfirm)) return;
-        if (!database) { showToast('❌ Error de conexión'); return; }
-        
-        const keys = [];
-        checkboxes.forEach(cb => {
-            const key = cb.dataset.key;
-            if (key) keys.push(key);
-        });
-        
-        if (keys.length === 0) return;
-        
-        showLoading('Eliminando mensajes...');
-        
-        const promises = keys.map(key => database.ref(`messages/general/${key}`).remove());
-        
-        Promise.all(promises).then(() => {
-            hideLoading();
-            showToast(`✅ ${keys.length} mensaje(s) eliminado(s)`);
-            loadMessages('general');
-            actualizarContadorChat();
-        }).catch((error) => {
-            hideLoading();
-            console.error('Error al eliminar:', error);
-            showToast('❌ Error al eliminar algunos mensajes');
-        });
-    }
-
-    window.actualizarContadorChat = actualizarContadorChat;
-    window.seleccionarTodosChat = seleccionarTodosChat;
-    window.eliminarSeleccionadosChat = eliminarSeleccionadosChat;
 
     // ============================================================
     // 📋 FUNCIONES DE TAREO - CHECKBOX Y ELIMINACIÓN
@@ -2525,274 +2127,280 @@
     }
 
     // ============================================================
-    // 🖨️ IMPRIMIR SELECCIONADOS DE TAREO
-    // ============================================================
+// 🖨️ IMPRIMIR SELECCIONADOS DE TAREO (VERSIÓN ORIGINAL - SIN CAMBIOS)
+// ============================================================
 
-    function imprimirSeleccionadosTareo() {
-        const checkboxes = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox:checked');
-        const checkboxesVisibles = Array.from(checkboxes).filter(cb => cb.offsetParent !== null);
-        
-        if (checkboxesVisibles.length === 0) {
-            showToast('⚠️ No hay mensajes seleccionados para imprimir');
-            return;
+function imprimirSeleccionadosTareo() {
+    const checkboxes = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox:checked');
+    const checkboxesVisibles = Array.from(checkboxes).filter(cb => cb.offsetParent !== null);
+    
+    if (checkboxesVisibles.length === 0) {
+        showToast('⚠️ No hay mensajes seleccionados para imprimir');
+        return;
+    }
+    
+    // Obtener los mensajes seleccionados
+    const mensajesSeleccionados = [];
+    checkboxesVisibles.forEach(cb => {
+        const messageDiv = cb.closest('.message.tareo');
+        if (messageDiv) {
+            const detalleDiv = messageDiv.querySelector('.tareo-detalle');
+            let texto = '';
+            if (detalleDiv) {
+                texto = detalleDiv.innerHTML.replace(/<br\s*\/?>/gi, '\n');
+                texto = texto.replace(/<[^>]*>/g, '');
+            }
+            const usuario = messageDiv.querySelector('.tareo-text')?.textContent || '';
+            const hora = messageDiv.querySelector('.footer span')?.textContent || '';
+            mensajesSeleccionados.push({ usuario, texto, hora });
         }
+    });
+    
+    if (mensajesSeleccionados.length === 0) {
+        showToast('⚠️ No se encontraron mensajes para imprimir');
+        return;
+    }
+    
+    // Construir HTML - SIN líneas grises
+    let html = `
+        <div style="font-family:monospace;padding:10px;background:white;max-width:100%;">
+            <div style="text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px;">
+                TAREO DIARIO DE OPERADORES (VEHÍCULOS)
+            </div>
+            <div style="text-align:center;font-size:14px;margin-bottom:12px;">IMCO</div>
+    `;
+    
+    mensajesSeleccionados.forEach((msg) => {
+        const lineas = msg.texto.split('\n').filter(line => line.trim() !== '');
         
-        // Obtener los mensajes seleccionados
-        const mensajesSeleccionados = [];
-        checkboxesVisibles.forEach(cb => {
-            const messageDiv = cb.closest('.message.tareo');
-            if (messageDiv) {
-                const detalleDiv = messageDiv.querySelector('.tareo-detalle');
-                let texto = '';
-                if (detalleDiv) {
-                    texto = detalleDiv.innerHTML.replace(/<br\s*\/?>/gi, '\n');
-                    texto = texto.replace(/<[^>]*>/g, '');
+        let nombre = msg.usuario || '';
+        let fecha = '';
+        let vehiculo = '';
+        let placa = '';
+        let capacidad = '';
+        let km = '';
+        let horaInicio = '';
+        let horaFinal = '';
+        let horaInicioB = '';
+        let horaFinalB = '';
+        
+        lineas.forEach(linea => {
+            if (linea.includes('📋')) {
+                nombre = linea.replace('📋', '').trim();
+            }
+            else if (linea.includes('📅')) {
+                fecha = linea.replace('📅', '').trim();
+            }
+            else if (linea.includes('🚗')) {
+                const textoLinea = linea.replace('🚗', '').trim();
+                const partes = textoLinea.split('-');
+                if (partes.length === 2) {
+                    vehiculo = partes[0].trim();
+                    placa = partes[1].trim();
+                } else {
+                    const match = textoLinea.match(/^(.*?)\s*-\s*(.+)$/);
+                    if (match) {
+                        vehiculo = match[1].trim();
+                        placa = match[2].trim();
+                    } else {
+                        vehiculo = textoLinea;
+                    }
                 }
-                const usuario = messageDiv.querySelector('.tareo-text')?.textContent || '';
-                const hora = messageDiv.querySelector('.footer span')?.textContent || '';
-                mensajesSeleccionados.push({ usuario, texto, hora });
+            }
+            else if (linea.includes('⚖️ Capacidad:')) {
+                capacidad = linea.replace('⚖️ Capacidad:', '').trim();
+            }
+            else if (linea.includes('📊 Km:')) {
+                km = linea.replace('📊 Km:', '').trim();
+            }
+            else if (linea.includes('🕐 Hora inicial A:')) {
+                horaInicio = linea.replace('🕐 Hora inicial A:', '').trim();
+            }
+            else if (linea.includes('🕒 Hora final A:')) {
+                horaFinal = linea.replace('🕒 Hora final A:', '').trim();
+            }
+            else if (linea.includes('🕐 Hora inicial B:')) {
+                horaInicioB = linea.replace('🕐 Hora inicial B:', '').trim();
+            }
+            else if (linea.includes('🕒 Hora final B:')) {
+                horaFinalB = linea.replace('🕒 Hora final B:', '').trim();
+            }
+            else if (linea.includes('🕐 Hora inicial:')) {
+                horaInicio = linea.replace('🕐 Hora inicial:', '').trim();
+            }
+            else if (linea.includes('🕒 Hora final:')) {
+                horaFinal = linea.replace('🕒 Hora final:', '').trim();
             }
         });
         
-        if (mensajesSeleccionados.length === 0) {
-            showToast('⚠️ No se encontraron mensajes para imprimir');
-            return;
-        }
+        const esPartido = horaInicioB && horaFinalB;
         
-        // Construir HTML
-        let html = `
-            <div style="font-family:monospace;padding:10px;background:white;max-width:100%;">
-                <div style="text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px;">
-                    TAREO DIARIO DE OPERADORES (VEHÍCULOS)
+        // SIN LÍNEAS GRISES
+        html += `
+            <div style="margin-bottom:16px;padding:8px 0;page-break-inside:avoid;">
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">FECHA:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${fecha || '________'}</span>
+                    </div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">UNIDAD:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${vehiculo || '________'}</span>
+                    </div>
                 </div>
-                <div style="text-align:center;font-size:14px;margin-bottom:12px;">IMCO</div>
+                
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">PLACA:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${placa || '________'}</span>
+                    </div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">CAPACIDAD:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${capacidad || '________'}</span>
+                    </div>
+                </div>
+                
+                <div style="display:flex;align-items:baseline;margin-bottom:4px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;">OPERADOR:</span>
+                    <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${nombre || '________________________'}</span>
+                </div>
+                
+                <div style="display:flex;align-items:baseline;margin-bottom:4px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;">MANIOBRISTA:</span>
+                    <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
+                </div>
+                
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">CLIENTE:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">Sociedad Minera Cerro Verde</span>
+                    </div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">RUC:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">20170072465</span>
+                    </div>
+                </div>
+                
+                <div style="display:flex;align-items:baseline;margin-bottom:4px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;">DIRECCIÓN:</span>
+                    <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">Asiento Minero Cerro Verde s/n Uchumayo - Arequipa</span>
+                </div>
+                
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">HORA DE INICIO:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${horaInicio || '________'}</span>
+                    </div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">HORA FINAL:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${horaFinal || '________'}</span>
+                    </div>
+                </div>
+                
+                ${esPartido ? `
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">HORA INICIO B:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${horaInicioB || '________'}</span>
+                    </div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">HORA FINAL B:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${horaFinalB || '________'}</span>
+                    </div>
+                </div>
+                ` : ''}
+                
+                <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">HOROMETRO INICIAL:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${km ? km.split('-')[0]?.trim() || '________' : '________'}</span>
+                    </div>
+                    <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
+                        <span style="font-weight:700;font-size:12px;">HOROMETRO FINAL:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${km ? km.split('-')[1]?.trim() || '________' : '________'}</span>
+                    </div>
+                </div>
+                
+                <div style="display:flex;align-items:baseline;margin-bottom:4px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;">RESPONSABLE:</span>
+                    <span style="border-bottom:1.5px solid #000;flex:2;padding:0 4px;font-size:12px;">Carlos Medrano - Leonardo Rodríguez</span>
+                </div>
+                
+                <div style="display:flex;gap:32px;margin-bottom:4px;">
+                    <div style="display:flex;align-items:baseline;gap:8px;flex:1;">
+                        <span style="font-weight:700;font-size:12px;">OTI:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
+                    </div>
+                    <div style="display:flex;align-items:baseline;gap:8px;flex:1;">
+                        <span style="font-weight:700;font-size:12px;">OSI:</span>
+                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
+                    </div>
+                </div>
+                
+                <!-- TRABAJO REALIZADO - 3 LÍNEAS DE EXTREMO A EXTREMO -->
+                <div style="display:flex;align-items:baseline;margin-bottom:2px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;">TRABAJO REALIZADO:</span>
+                    <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
+                </div>
+                <div style="display:flex;align-items:baseline;margin-bottom:2px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;opacity:0;">TRABAJO REALIZADO:</span>
+                    <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
+                </div>
+                <div style="display:flex;align-items:baseline;margin-bottom:4px;gap:8px;">
+                    <span style="font-weight:700;font-size:12px;opacity:0;">TRABAJO REALIZADO:</span>
+                    <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
+                </div>
+                
+                <div style="display:flex;justify-content:space-between;margin-top:12px;gap:32px;">
+                    <div style="flex:1;text-align:center;">
+                        <div style="border-top:1px solid #000;padding-top:4px;font-size:11px;font-weight:bold;">OPERADOR</div>
+                    </div>
+                    <div style="flex:1;text-align:center;">
+                        <div style="border-top:1px solid #000;padding-top:4px;font-size:11px;font-weight:bold;">SUPERVISOR</div>
+                    </div>
+                </div>
+            </div>
         `;
-        
-        mensajesSeleccionados.forEach((msg) => {
-            const lineas = msg.texto.split('\n').filter(line => line.trim() !== '');
-            
-            let nombre = msg.usuario || '';
-            let fecha = '';
-            let vehiculo = '';
-            let placa = '';
-            let capacidad = '';
-            let km = '';
-            let horaInicio = '';
-            let horaFinal = '';
-            let horaInicioB = '';
-            let horaFinalB = '';
-            
-            lineas.forEach(linea => {
-                if (linea.includes('📋')) {
-                    nombre = linea.replace('📋', '').trim();
-                }
-                else if (linea.includes('📅')) {
-                    fecha = linea.replace('📅', '').trim();
-                }
-                else if (linea.includes('🚗')) {
-                    const textoLinea = linea.replace('🚗', '').trim();
-                    const partes = textoLinea.split('-');
-                    if (partes.length === 2) {
-                        vehiculo = partes[0].trim();
-                        placa = partes[1].trim();
-                    } else {
-                        const match = textoLinea.match(/^(.*?)\s*-\s*(.+)$/);
-                        if (match) {
-                            vehiculo = match[1].trim();
-                            placa = match[2].trim();
-                        } else {
-                            vehiculo = textoLinea;
-                        }
-                    }
-                }
-                else if (linea.includes('⚖️ Capacidad:')) {
-                    capacidad = linea.replace('⚖️ Capacidad:', '').trim();
-                }
-                else if (linea.includes('📊 Km:')) {
-                    km = linea.replace('📊 Km:', '').trim();
-                }
-                else if (linea.includes('🕐 Hora inicial A:')) {
-                    horaInicio = linea.replace('🕐 Hora inicial A:', '').trim();
-                }
-                else if (linea.includes('🕒 Hora final A:')) {
-                    horaFinal = linea.replace('🕒 Hora final A:', '').trim();
-                }
-                else if (linea.includes('🕐 Hora inicial B:')) {
-                    horaInicioB = linea.replace('🕐 Hora inicial B:', '').trim();
-                }
-                else if (linea.includes('🕒 Hora final B:')) {
-                    horaFinalB = linea.replace('🕒 Hora final B:', '').trim();
-                }
-                else if (linea.includes('🕐 Hora inicial:')) {
-                    horaInicio = linea.replace('🕐 Hora inicial:', '').trim();
-                }
-                else if (linea.includes('🕒 Hora final:')) {
-                    horaFinal = linea.replace('🕒 Hora final:', '').trim();
-                }
-            });
-            
-            const esPartido = horaInicioB && horaFinalB;
-            
-            html += `
-                <div style="margin-bottom:16px;padding:8px 0;page-break-inside:avoid;">
-                    <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
-                            <span style="font-weight:700;font-size:12px;">FECHA:</span>
-                            <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${fecha || '________'}</span>
-                        </div>
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
-                            <span style="font-weight:700;font-size:12px;">UNIDAD:</span>
-                            <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${vehiculo || '________'}</span>
-                        </div>
+    });
+    
+    // SIN línea gris en el footer
+    html += `
                     </div>
-                    
-                    <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
-                            <span style="font-weight:700;font-size:12px;">PLACA:</span>
-                            <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${placa || '________'}</span>
-                        </div>
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
-                            <span style="font-weight:700;font-size:12px;">CAPACIDAD:</span>
-                            <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${capacidad || '________'}</span>
-                        </div>
-                    </div>
-                    
-                    <div style="display:flex;align-items:baseline;margin-bottom:4px;gap:8px;">
-                        <span style="font-weight:700;font-size:12px;">OPERADOR:</span>
-                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${nombre || '________________________'}</span>
-                    </div>
-                    
-                    <div style="display:flex;align-items:baseline;margin-bottom:4px;gap:8px;">
-                        <span style="font-weight:700;font-size:12px;">MANIOBRISTA:</span>
-                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
-                    </div>
-                    
-                    <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
-                            <span style="font-weight:700;font-size:12px;">CLIENTE:</span>
-                            <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">Sociedad Minera Cerro Verde</span>
-                        </div>
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
-                            <span style="font-weight:700;font-size:12px;">RUC:</span>
-                            <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">20170072465</span>
-                        </div>
-                    </div>
-                    
-                    <div style="display:flex;align-items:baseline;margin-bottom:4px;gap:8px;">
-                        <span style="font-weight:700;font-size:12px;">DIRECCIÓN:</span>
-                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">Asiento Minero Cerro Verde s/n Uchumayo - Arequipa</span>
-                    </div>
-                    
-                    <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
-                            <span style="font-weight:700;font-size:12px;">HORA DE INICIO:</span>
-                            <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${horaInicio || '________'}</span>
-                        </div>
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
-                            <span style="font-weight:700;font-size:12px;">HORA FINAL:</span>
-                            <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${horaFinal || '________'}</span>
-                        </div>
-                    </div>
-                    
-                    ${esPartido ? `
-                    <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
-                            <span style="font-weight:700;font-size:12px;">HORA INICIO B:</span>
-                            <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${horaInicioB || '________'}</span>
-                        </div>
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
-                            <span style="font-weight:700;font-size:12px;">HORA FINAL B:</span>
-                            <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${horaFinalB || '________'}</span>
-                        </div>
-                    </div>
-                    ` : ''}
-                    
-                    <div style="display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;">
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
-                            <span style="font-weight:700;font-size:12px;">HOROMETRO INICIAL:</span>
-                            <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${km ? km.split('-')[0]?.trim() || '________' : '________'}</span>
-                        </div>
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;">
-                            <span style="font-weight:700;font-size:12px;">HOROMETRO FINAL:</span>
-                            <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;">${km ? km.split('-')[1]?.trim() || '________' : '________'}</span>
-                        </div>
-                    </div>
-                    
-                    <div style="display:flex;align-items:baseline;margin-bottom:4px;gap:8px;">
-                        <span style="font-weight:700;font-size:12px;">RESPONSABLE:</span>
-                        <span style="border-bottom:1.5px solid #000;flex:2;padding:0 4px;font-size:12px;">Carlos Medrano - Leonardo Rodríguez</span>
-                    </div>
-                    
-                    <div style="display:flex;gap:32px;margin-bottom:4px;">
-                        <div style="display:flex;align-items:baseline;gap:8px;flex:1;">
-                            <span style="font-weight:700;font-size:12px;">OTI:</span>
-                            <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
-                        </div>
-                        <div style="display:flex;align-items:baseline;gap:8px;flex:1;">
-                            <span style="font-weight:700;font-size:12px;">OSI:</span>
-                            <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
-                        </div>
-                    </div>
-                    
-                    <div style="display:flex;align-items:baseline;margin-bottom:2px;gap:8px;">
-                        <span style="font-weight:700;font-size:12px;">TRABAJO REALIZADO:</span>
-                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
-                    </div>
-                    <div style="display:flex;align-items:baseline;margin-bottom:2px;gap:8px;">
-                        <span style="font-weight:700;font-size:12px;opacity:0;">TRABAJO REALIZADO:</span>
-                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
-                    </div>
-                    <div style="display:flex;align-items:baseline;margin-bottom:4px;gap:8px;">
-                        <span style="font-weight:700;font-size:12px;opacity:0;">TRABAJO REALIZADO:</span>
-                        <span style="border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;"></span>
-                    </div>
-                    
-                    <div style="display:flex;justify-content:space-between;margin-top:12px;gap:32px;">
-                        <div style="flex:1;text-align:center;">
-                            <div style="border-top:1px solid #000;padding-top:4px;font-size:11px;font-weight:bold;">OPERADOR</div>
-                        </div>
-                        <div style="flex:1;text-align:center;">
-                            <div style="border-top:1px solid #000;padding-top:4px;font-size:11px;font-weight:bold;">SUPERVISOR</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        });
-        
-        html += `</div>`;
-        
-        const ventana = window.open('', '_blank');
-        ventana.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Tareo diario - IMCO</title>' +
-            '<style>' +
-            '*{margin:0;padding:0;box-sizing:border-box;}' +
-            'body{background:white;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:monospace;padding:20px;}' +
-            '.tarjeta{font-family:monospace;padding:10px;background:white;max-width:800px;width:100%;}' +
-            '.titulo{text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px;}' +
-            '.subtitulo{text-align:center;font-size:14px;margin-bottom:12px;}' +
-            '.fila{display:flex;flex-wrap:wrap;align-items:baseline;margin-bottom:4px;gap:8px;}' +
-            '.doble{display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;}' +
-            '.col{flex:1;display:flex;align-items:baseline;gap:8px;}' +
-            '.etiqueta{font-weight:700;font-size:12px;white-space:nowrap;}' +
-            '.linea{border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;min-height:20px;}' +
-            '.linea-larga{flex:2;border-bottom:1.5px solid #000;padding:0 4px;font-size:12px;min-height:20px;}' +
-            '.linea-corta{width:120px;border-bottom:1.5px solid #000;padding:0 4px;font-size:12px;min-height:20px;}' +
-            '.firmas{display:flex;justify-content:space-between;margin-top:12px;gap:32px;}' +
-            '.firma-item{flex:1;text-align:center;}' +
-            '.firma-linea{border-top:1px solid #000;padding-top:4px;font-size:11px;}' +
-            '@media print{' +
-            'body{padding:0;background:white;}' +
-            '.linea{border-bottom:1px solid black;}' +
-            '.fila,.doble{margin-bottom:3px;}' +
-            '@page{size:A4;margin:5mm 5mm 170mm 5mm;}' +
-            '}' +
-            '</style></head><body><div class="tarjeta">' +
-            html +
-            '</div><script>window.onload=function(){window.print();};<\/script></body></html>');
-        ventana.document.close();
-        setTimeout(() => { ventana.print(); }, 500);
-    }
+    `;
+    
+    const ventana = window.open('', '_blank');
+    ventana.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Tareo diario - IMCO</title>' +
+        '<style>' +
+        '*{margin:0;padding:0;box-sizing:border-box;}' +
+        'body{background:white;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:monospace;padding:20px;}' +
+        '.tarjeta{font-family:monospace;padding:10px;background:white;max-width:800px;width:100%;}' +
+        '.titulo{text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px;}' +
+        '.subtitulo{text-align:center;font-size:14px;margin-bottom:12px;}' +
+        '.fila{display:flex;flex-wrap:wrap;align-items:baseline;margin-bottom:4px;gap:8px;}' +
+        '.doble{display:flex;justify-content:space-between;margin-bottom:4px;gap:16px;}' +
+        '.col{flex:1;display:flex;align-items:baseline;gap:8px;}' +
+        '.etiqueta{font-weight:700;font-size:12px;white-space:nowrap;}' +
+        '.linea{border-bottom:1.5px solid #000;flex:1;padding:0 4px;font-size:12px;min-height:20px;}' +
+        '.linea-larga{flex:2;border-bottom:1.5px solid #000;padding:0 4px;font-size:12px;min-height:20px;}' +
+        '.linea-corta{width:120px;border-bottom:1.5px solid #000;padding:0 4px;font-size:12px;min-height:20px;}' +
+        '.firmas{display:flex;justify-content:space-between;margin-top:12px;gap:32px;}' +
+        '.firma-item{flex:1;text-align:center;}' +
+        '.firma-linea{border-top:1px solid #000;padding-top:4px;font-size:11px;}' +
+        '@media print{' +
+        'body{padding:0;background:white;}' +
+        '.linea{border-bottom:1px solid black;}' +
+        '.fila,.doble{margin-bottom:3px;}' +
+        '@page{size:A4;margin:5mm 5mm 170mm 5mm;}' +
+        '}' +
+        '</style></head><body><div class="tarjeta">' +
+        html +
+        '</div><script>window.onload=function(){window.print();};<\/script></body></html>');
+    ventana.document.close();
+    setTimeout(() => { ventana.print(); }, 500);
+}
 
-    window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
+window.imprimirSeleccionadosTareo = imprimirSeleccionadosTareo;
+
 
     // ============================================================
     // 📋 FUNCIONES DE TAREO - FILTROS
@@ -3570,7 +3178,6 @@
             planillaContainer.classList.remove('active');
             tareoFiltro.style.display = 'none';
             tareoAcciones.classList.remove('active');
-            chatAcciones.classList.add('active');
             
             // OCULTAR BOTÓN DE PLANILLA SI NO TIENE PERMISOS
             if (puedeVerPlanilla()) {
@@ -3721,12 +3328,19 @@
     console.log('📋 Usuarios autorizados:', Object.keys(AUTHORIZED_USERS).length);
     console.log('🚗 Placas disponibles:', PLACAS_LIST.length);
     console.log('📊 Planilla Google Sheets - Acceso: Administrador y Paul Emerson Manrique Monzon');
-    console.log('👑 Administrador puede ver y eliminar TODOS los mensajes de Tareo y Chat General');
+    console.log('👑 Administrador puede ver y eliminar TODOS los mensajes de Tareo');
     console.log('📌 Los usuarios solo eliminan SUS mensajes');
     console.log('📌 Los usuarios NO pueden limpiar el historial de Reporte');
     console.log('📌 La sesión se mantiene activa hasta usar "Salir"');
     console.log('🕐 Zona horaria configurada: Perú (UTC-5)');
-    console.log('📌 En la sala de Tareo, lo que escribas aparecerá en el chat general');
+    console.log('📌 Reglas de Firebase:');
+    console.log('{');
+    console.log('  "rules": {');
+    console.log('    "messages": { ".read": true, ".write": true },');
+    console.log('    "presence": { ".read": true, ".write": true },');
+    console.log('    "typing": { ".read": true, ".write": true }');
+    console.log('  }');
+    console.log('}');
 </script>
 </body>
 </html>
