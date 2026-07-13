@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Transportes Mantenimiento - IMCO</title>
+    <title>Transportes Mantenimiento</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
@@ -1177,7 +1177,7 @@
         
         <!-- REPORTE -->
         <div class="reporte-container" id="reporteContainer">
-            <div class="reporte-titulo">📋 Registro diario de transporte - IMCO</div>
+            <div class="reporte-titulo">📋 Registro diario de transporte</div>
             
             <div class="reporte-grid">
                 <div class="reporte-group full">
@@ -1264,7 +1264,7 @@
             <div class="reporte-botones">
                 <button class="btn-reporte imprimir" onclick="mostrarPrevisualizacion()">🖨️ Previsualizar</button>
                 <button class="btn-reporte limpiar" onclick="limpiarReporte()">🧹 Limpiar</button>
-                <button class="btn-reporte whatsapp" onclick="enviarReporteWhatsApp()">💬 Enviar al Supervisor</button>
+                <button class="btn-reporte whatsapp" onclick="enviarReporteWhatsApp()">💬 Enviar Tareo</button>
             </div>
             
             <div class="reporte-historial">
@@ -1889,7 +1889,7 @@
         const titles = {
             'general': '💬 Chat General',
             'tareo': '⏰ Tareo Diario',
-            'reporte': '📋 Reporte IMCO',
+            'reporte': '📋 Reporte Diario',
             'planilla': '📊 Planilla de Tareo'
         };
         chatRoomTitle.textContent = titles[room] || '💬 Chat General';
@@ -2194,7 +2194,7 @@
             }
             
             // Ordenar por timestamp (más antiguos primero)
-            mensajesData.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+            mensajesData.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
             
             if (mensajesData.length === 0) {
                 showToast('⚠️ No hay más mensajes antiguos');
@@ -2224,19 +2224,14 @@
                     };
                     const messageDiv = crearMensajeTareo(msgData, key, isAdmin);
                     // Insertar al principio del contenedor
-                    const firstChild = container.firstChild;
-                    if (firstChild) {
-                        container.insertBefore(messageDiv, firstChild);
-                    } else {
-                        container.appendChild(messageDiv);
-                    }
+                    container.appendChild(messageDiv);
                     nuevosMensajes++;
                 }
             });
             
             // Actualizar la última clave para la próxima carga
             if (mensajesData.length > 0) {
-                tareoUltimaKey = mensajesData[0].key;
+                tareoUltimaKey = mensajesData[mensajesData.length - 1].key;
             }
             
             tareoMensajesCargados += nuevosMensajes;
@@ -2426,7 +2421,7 @@
             
             if (ultimosMensajes.length > 0) {
                 // Ordenar por timestamp (más antiguos primero para mostrar en orden)
-                ultimosMensajes.sort((a, b) => (a.timestamp || 0) - (b.timestamp || 0));
+                ultimosMensajes.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
                 
                 ultimosMensajes.forEach(item => {
                     const msgData = {
