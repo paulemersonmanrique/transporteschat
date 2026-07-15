@@ -521,7 +521,7 @@
         .cargar-mas-container {
             text-align: center;
             padding: calc(var(--padding-base) * 0.8);
-            display: block;  /* ← CAMBIADO: siempre visible */
+            display: block;
         }
         .btn-cargar-mas {
             padding: calc(var(--padding-base) * 0.5) calc(var(--padding-base) * 1.5);
@@ -589,6 +589,18 @@
         }
         .tareo-acciones .btn-imprimir-seleccionados:active { transform: scale(0.95); }
         .tareo-acciones .btn-imprimir-seleccionados:hover { background: #1a2632; }
+        .tareo-acciones .btn-corregir {
+            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
+            border: none;
+            border-radius: calc(var(--radius-base) * 0.4);
+            background: #f39c12;
+            color: white;
+            font-size: calc(11px * var(--scale));
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .tareo-acciones .btn-corregir:active { transform: scale(0.95); }
+        .tareo-acciones .btn-corregir:hover { background: #e67e22; }
         .tareo-acciones .contador-seleccionados {
             font-size: calc(11px * var(--scale));
             color: #333;
@@ -746,26 +758,26 @@
         .sound-indicator i { font-size: calc(12px * var(--scale)); }
         @keyframes fadeInOut { 0% { opacity: 0; transform: translateX(-50%) translateY(-6px); } 20% { opacity: 1; transform: translateX(-50%) translateY(0); } 80% { opacity: 1; transform: translateX(-50%) translateY(0); } 100% { opacity: 0; transform: translateX(-50%) translateY(-6px); } }
         
-        /* ===== PREVISUALIZACIÓN DE IMPRESIÓN ===== */
-        .impresion-preview {
+        /* ===== MODAL DE CORRECCIÓN ===== */
+        .modal-corregir {
             display: none;
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.6);
-            z-index: 9999;
+            background: rgba(0,0,0,0.7);
+            z-index: 10000;
             align-items: center;
             justify-content: center;
             padding: 20px;
             backdrop-filter: blur(4px);
         }
-        .impresion-preview.active { display: flex; }
-        .impresion-preview .preview-content {
+        .modal-corregir.active { display: flex; }
+        .modal-corregir .modal-content {
             background: white;
             border-radius: 12px;
-            max-width: 800px;
+            max-width: 500px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
@@ -773,40 +785,72 @@
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             position: relative;
         }
-        .impresion-preview .preview-close {
-            position: sticky;
-            top: 0;
-            float: right;
+        .modal-corregir .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .modal-corregir .modal-header h3 {
+            font-size: calc(16px * var(--scale));
+            color: var(--primary-dark);
+        }
+        .modal-corregir .modal-close {
             background: var(--error);
             color: white;
             border: none;
             border-radius: 50%;
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             font-size: 16px;
             cursor: pointer;
-            z-index: 10;
             touch-action: manipulation;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
         }
-        .impresion-preview .preview-close:hover { background: #a61c1c; }
-        .impresion-preview .btn-imprimir-preview {
-            padding: 8px 20px;
-            background: var(--primary);
+        .modal-corregir .modal-close:hover { background: #a61c1c; }
+        .modal-corregir .form-group {
+            margin-bottom: 12px;
+            text-align: left;
+        }
+        .modal-corregir .form-group label {
+            display: block;
+            font-size: calc(12px * var(--scale));
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 3px;
+        }
+        .modal-corregir .form-group input,
+        .modal-corregir .form-group select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 2px solid #D9D9D9;
+            border-radius: 6px;
+            font-size: calc(14px * var(--scale));
+            font-family: inherit;
+            background: white;
+        }
+        .modal-corregir .form-group input:focus,
+        .modal-corregir .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1);
+        }
+        .modal-corregir .btn-guardar {
+            width: 100%;
+            padding: 10px;
+            background: var(--success);
             color: white;
             border: none;
             border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
+            font-size: calc(14px * var(--scale));
+            font-weight: 700;
             cursor: pointer;
             touch-action: manipulation;
-            margin-top: 10px;
-            width: 100%;
+            margin-top: 5px;
         }
-        .impresion-preview .btn-imprimir-preview:hover { background: var(--primary-dark); }
+        .modal-corregir .btn-guardar:hover { opacity: 0.85; }
+        .modal-corregir .btn-guardar:active { transform: scale(0.97); }
         
         /* ===== PLANILLA GOOGLE SHEETS ===== */
         .planilla-container {
@@ -967,7 +1011,8 @@
             .chat-acciones .btn-seleccionar-todos,
             .tareo-acciones .btn-eliminar-seleccionados,
             .tareo-acciones .btn-seleccionar-todos,
-            .tareo-acciones .btn-imprimir-seleccionados {
+            .tareo-acciones .btn-imprimir-seleccionados,
+            .tareo-acciones .btn-corregir {
                 font-size: calc(9px * var(--scale));
                 padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.5);
             }
@@ -983,6 +1028,17 @@
             .btn-cargar-mas {
                 font-size: calc(11px * var(--scale));
                 padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 1);
+            }
+            
+            .modal-corregir .modal-content {
+                padding: 15px;
+                max-width: 100%;
+                margin: 10px;
+            }
+            .modal-corregir .form-group input,
+            .modal-corregir .form-group select {
+                font-size: calc(13px * var(--scale));
+                padding: 6px 8px;
             }
         }
 
@@ -1031,11 +1087,109 @@
 </div>
 
 <!-- ===== PREVISUALIZACIÓN DE IMPRESIÓN ===== -->
-<div class="impresion-preview" id="impresionPreview">
+<div class="impresion-preview" id="impresionPreview" style="display:none !important;">
     <div class="preview-content" id="previewContent">
         <button class="preview-close" onclick="cerrarPrevisualizacion()">✕</button>
         <div id="previewBody"></div>
         <button class="btn-imprimir-preview" onclick="imprimirDesdePreview()">🖨️ Imprimir</button>
+    </div>
+</div>
+
+<!-- ===== MODAL DE CORRECCIÓN ===== -->
+<div class="modal-corregir" id="modalCorregir">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>✏️ Corregir registro de Tareo</h3>
+            <button class="modal-close" onclick="cerrarModalCorregir()">✕</button>
+        </div>
+        <form id="formCorregir" onsubmit="guardarCorreccion(event)">
+            <input type="hidden" id="corregirKey">
+            <input type="hidden" id="corregirPath">
+            
+            <div class="form-group">
+                <label>📅 Fecha de Registro</label>
+                <input type="date" id="corregirFecha">
+            </div>
+            
+            <div class="form-group">
+                <label>👤 Conductor</label>
+                <select id="corregirConductor">
+                    <option value="">Seleccione un conductor</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>⏰ Horario</label>
+                <select id="corregirHorario">
+                    <option value="">Seleccione</option>
+                    <option value="corrido">Horario corrido</option>
+                    <option value="partido">Horario partido</option>
+                    <option value="noche">Turno noche</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>🚗 T. Vehículo</label>
+                <select id="corregirTipoVehiculo">
+                    <option value="">Seleccione</option>
+                    <option value="camión">camión</option>
+                    <option value="camión grúa">camión grúa</option>
+                    <option value="bus">bus</option>
+                    <option value="minibús">minibús</option>
+                    <option value="minivan">minivan</option>
+                    <option value="camioneta">camioneta</option>
+                    <option value="montacarga">montacarga</option>
+                    <option value="manlift">manlift</option>
+                    <option value="scissorlift">scissorlift</option>
+                    <option value="grua">grua</option>
+                    <option value="cisterna">cisterna</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>⚖️ Capacidad</label>
+                <input type="number" id="corregirCapacidad" placeholder="0">
+            </div>
+            
+            <div class="form-group">
+                <label>🚗 Placa</label>
+                <select id="corregirPlaca">
+                    <option value="">Seleccione una placa</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>📊 Km Inicial</label>
+                <input type="number" id="corregirKmInicial" placeholder="Ej: 12000">
+            </div>
+            
+            <div class="form-group">
+                <label>📊 Km Final</label>
+                <input type="number" id="corregirKmFinal" placeholder="Ej: 12500">
+            </div>
+            
+            <div class="form-group">
+                <label>🕐 Hora inicial A</label>
+                <input type="text" id="corregirHoraInicio" placeholder="HH:MM" maxlength="5">
+            </div>
+            
+            <div class="form-group">
+                <label>🕒 Hora final A</label>
+                <input type="text" id="corregirHoraFinal" placeholder="HH:MM" maxlength="5">
+            </div>
+            
+            <div class="form-group" id="corregirHorasB" style="display:none;">
+                <label>🕐 Hora inicial B</label>
+                <input type="text" id="corregirHoraInicioB" placeholder="HH:MM" maxlength="5">
+            </div>
+            
+            <div class="form-group" id="corregirHorasB2" style="display:none;">
+                <label>🕒 Hora final B</label>
+                <input type="text" id="corregirHoraFinalB" placeholder="HH:MM" maxlength="5">
+            </div>
+            
+            <button type="submit" class="btn-guardar">💾 Guardar cambios</button>
+        </form>
     </div>
 </div>
 
@@ -1157,6 +1311,7 @@
         <span class="contador-seleccionados" id="contadorSeleccionados">0 seleccionados</span>
         <button class="btn-seleccionar-todos" onclick="seleccionarTodosTareo()">☑ Todos</button>
         <button class="btn-imprimir-seleccionados" onclick="imprimirSeleccionadosTareo()">🖨️ Imprimir</button>
+        <button class="btn-corregir" onclick="corregirMensajeTareo()">✏️ Corregir</button>
         <button class="btn-eliminar-seleccionados" onclick="eliminarSeleccionadosTareo()">🗑️ Eliminar</button>
     </div>
     
@@ -1486,6 +1641,26 @@
     const btnCargarMas = document.getElementById('btnCargarMas');
     const cargarMasContainer = document.getElementById('cargarMasContainer');
     
+    // Modal de corrección
+    const modalCorregir = document.getElementById('modalCorregir');
+    const corregirKey = document.getElementById('corregirKey');
+    const corregirPath = document.getElementById('corregirPath');
+    const corregirFecha = document.getElementById('corregirFecha');
+    const corregirConductor = document.getElementById('corregirConductor');
+    const corregirHorario = document.getElementById('corregirHorario');
+    const corregirTipoVehiculo = document.getElementById('corregirTipoVehiculo');
+    const corregirCapacidad = document.getElementById('corregirCapacidad');
+    const corregirPlaca = document.getElementById('corregirPlaca');
+    const corregirKmInicial = document.getElementById('corregirKmInicial');
+    const corregirKmFinal = document.getElementById('corregirKmFinal');
+    const corregirHoraInicio = document.getElementById('corregirHoraInicio');
+    const corregirHoraFinal = document.getElementById('corregirHoraFinal');
+    const corregirHoraInicioB = document.getElementById('corregirHoraInicioB');
+    const corregirHoraFinalB = document.getElementById('corregirHoraFinalB');
+    const corregirHorasB = document.getElementById('corregirHorasB');
+    const corregirHorasB2 = document.getElementById('corregirHorasB2');
+    const formCorregir = document.getElementById('formCorregir');
+    
     // Reporte inputs
     const reporteFecha = document.getElementById('reporteFecha');
     const reporteConductor = document.getElementById('reporteConductor');
@@ -1639,14 +1814,12 @@
     }
     
     function getTime() {
-        // ✅ ZONA HORARIA DE PERÚ (UTC-5)
         const ahora = new Date();
         const peruTime = new Date(ahora.getTime() - 5 * 60 * 60 * 1000);
         return peruTime.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: false });
     }
     
     function getTodayISO() {
-        // ✅ ZONA HORARIA DE PERÚ (UTC-5)
         const ahora = new Date();
         const peruTime = new Date(ahora.getTime() - 5 * 60 * 60 * 1000);
         return peruTime.toISOString().split('T')[0];
@@ -1873,7 +2046,6 @@
         if (!currentUser) return;
         if (room === currentRoom) return;
         
-        // Si el usuario no tiene permisos para ver planilla
         if (room === 'planilla' && !puedeVerPlanilla()) {
             showToast('⛔ Solo Administrador y Paul Manrique pueden ver la planilla');
             return;
@@ -1899,34 +2071,28 @@
         reporteContainer.classList.toggle('active', room === 'reporte');
         planillaContainer.classList.toggle('active', room === 'planilla');
         
-        // Mostrar/ocultar acciones del chat general
         if (room === 'general') {
             chatAcciones.classList.add('active');
         } else {
             chatAcciones.classList.remove('active');
         }
         
-        // Mostrar/ocultar filtro y acciones de tareo
         if (room === 'tareo') {
             tareoFiltro.style.display = 'flex';
             tareoAcciones.classList.add('active');
-            // El botón cargar más siempre visible en tareo
             cargarMasContainer.style.display = 'block';
         } else {
             tareoFiltro.style.display = 'none';
             tareoAcciones.classList.remove('active');
-            // Ocultar en otras salas
             cargarMasContainer.style.display = 'none';
         }
         
-        // En las salas de Reporte y Planilla NO se muestra el input
         if (room === 'reporte' || room === 'planilla') {
             document.getElementById('inputArea').style.display = 'none';
         } else {
             document.getElementById('inputArea').style.display = 'flex';
         }
         
-        // Cargar planilla si se cambia a esa pestaña y tiene permisos
         if (room === 'planilla' && puedeVerPlanilla()) {
             setTimeout(cargarPlanilla, 300);
         }
@@ -1935,7 +2101,6 @@
             tareoPrimeraCarga = true;
             loadMessages('general');
         } else if (room === 'tareo') {
-            // Resetear variables de paginación
             tareoUltimaKey = null;
             tareoTodasLasKeys = [];
             tareoMensajesCargados = 0;
@@ -1966,7 +2131,6 @@
         
         let url = PLANILLA_URL;
         
-        // Agregar filtro por usuario si existe
         if (usuario) {
             url += `&q=${usuario}`;
         }
@@ -2009,6 +2173,28 @@
     window.recargarPlanilla = recargarPlanilla;
 
     // ============================================================
+    // 📨 FUNCIÓN PARA EXTRAER FECHA DEL TEXTO
+    // ============================================================
+    
+    function extraerFechaDelTexto(texto) {
+        if (!texto) return null;
+        const lineas = texto.split('\n');
+        for (let linea of lineas) {
+            if (linea.includes('📅 Fecha:')) {
+                const fechaStr = linea.replace('📅 Fecha:', '').trim();
+                const partes = fechaStr.split('/');
+                if (partes.length === 3) {
+                    const dia = parseInt(partes[0]);
+                    const mes = parseInt(partes[1]) - 1;
+                    const anio = parseInt(partes[2]);
+                    return new Date(anio, mes, dia);
+                }
+            }
+        }
+        return null;
+    }
+
+    // ============================================================
     // 📨 FUNCIONES DE CHAT
     // ============================================================
     
@@ -2020,9 +2206,7 @@
         const time = data.time || getTime();
         const targetContainer = container || messagesContainer;
         
-        // Mensaje de Tareo (desde el formulario de Reporte)
         if (data.isTareo) {
-            // Determinar si es admin para mostrar checkbox
             let mostrarCheckbox = false;
             if (isAdmin) {
                 mostrarCheckbox = true;
@@ -2030,14 +2214,12 @@
                 mostrarCheckbox = true;
             }
             
-            // Construir el texto plano del mensaje
             let textoPlano = data.text || '';
             
             const messageDiv = document.createElement('div');
             messageDiv.className = `message tareo ${data.tareoTipo || ''}`;
             messageDiv.dataset.key = key;
             
-            // Checkbox solo visible para admin o autor
             const checkboxHTML = mostrarCheckbox ? `<input type="checkbox" class="tareo-checkbox" data-key="${key}" onchange="actualizarContadorTareo()">` : '';
             
             messageDiv.innerHTML = `
@@ -2067,13 +2249,10 @@
             return;
         }
         
-        // Mensaje normal del chat general
         const messageDiv = document.createElement('div');
         messageDiv.className = `message ${isOwn ? 'sent' : 'received'}`;
         messageDiv.dataset.key = key;
         
-        // ✅ ADMINISTRADOR PUEDE VER CHECKBOX EN TODOS LOS MENSAJES
-        // ✅ USUARIO NORMAL SOLO EN SUS PROPIOS MENSAJES
         let mostrarCheckbox = false;
         if (isAdmin) {
             mostrarCheckbox = true;
@@ -2091,8 +2270,6 @@
         const statusHTML = isOwn ? `<span class="status"><i class="fas fa-check-double" style="color:var(--primary);"></i></span>` : '';
         
         let textContent = data.text || '';
-        
-        // Verificar si es un mensaje enviado desde Tareo (tiene indicador especial)
         const esTareoChat = data.desdeTareo === true;
         
         messageDiv.innerHTML = `
@@ -2146,7 +2323,6 @@
         
         const ref = database.ref(path);
         
-        // Cargar 5 mensajes anteriores a la última clave
         ref.orderByKey().endBefore(tareoUltimaKey).limitToLast(5).once('value', (snapshot) => {
             const data = snapshot.val();
             if (!data) {
@@ -2156,11 +2332,9 @@
                 return;
             }
             
-            // Obtener todas las keys y ordenarlas
             let mensajesData = [];
             
             if (isAdmin) {
-                // Para admin, recorrer todas las subcarpetas
                 const usuarios = Object.keys(data);
                 usuarios.forEach(usuario => {
                     const mensajesUsuario = data[usuario];
@@ -2179,7 +2353,6 @@
                     }
                 });
             } else {
-                // Para usuario normal
                 Object.keys(data).forEach(key => {
                     const msg = data[key];
                     if (msg && msg.isTareo) {
@@ -2193,8 +2366,14 @@
                 });
             }
             
-            // Ordenar por timestamp (más antiguos primero)
-            mensajesData.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+            mensajesData.sort((a, b) => {
+                const fechaA = extraerFechaDelTexto(a.msg.text || '');
+                const fechaB = extraerFechaDelTexto(b.msg.text || '');
+                if (fechaA && fechaB) {
+                    return fechaB - fechaA;
+                }
+                return (b.timestamp || 0) - (a.timestamp || 0);
+            });
             
             if (mensajesData.length === 0) {
                 showToast('⚠️ No hay más mensajes antiguos');
@@ -2203,13 +2382,11 @@
                 return;
             }
             
-            // Insertar mensajes al principio del contenedor
             let nuevosMensajes = 0;
             const container = tareoMessagesContainer;
             
             mensajesData.forEach(item => {
                 const key = item.key;
-                // Verificar si ya existe en el DOM
                 if (!document.querySelector(`[data-key="${key}"]`)) {
                     const msgData = {
                         user: item.usuario,
@@ -2223,20 +2400,18 @@
                         tareoEmoji: item.msg.tareoEmoji || '📋'
                     };
                     const messageDiv = crearMensajeTareo(msgData, key, isAdmin);
-                    // Insertar al principio del contenedor
+                    // ✅ INSERTAR AL FINAL (hacia abajo)
                     container.appendChild(messageDiv);
                     nuevosMensajes++;
                 }
             });
             
-            // Actualizar la última clave para la próxima carga
             if (mensajesData.length > 0) {
                 tareoUltimaKey = mensajesData[mensajesData.length - 1].key;
             }
             
             tareoMensajesCargados += nuevosMensajes;
             
-            // Actualizar el texto del botón
             const restantes = tareoTotalMensajes - tareoMensajesCargados;
             if (restantes > 0) {
                 btnCargarMas.disabled = false;
@@ -2248,7 +2423,6 @@
             
             showToast(`✅ Cargados ${nuevosMensajes} mensajes más`);
             
-            // Mantener la posición del scroll
             if (container) {
                 setTimeout(() => {
                     container.scrollTop = container.scrollHeight - container.clientHeight;
@@ -2320,7 +2494,6 @@
         database.ref(path).remove().then(() => {
             hideLoading();
             showToast('✅ Mensaje eliminado');
-            // Remover del DOM
             const el = document.querySelector(`[data-key="${key}"]`);
             if (el) el.remove();
             actualizarContadorTareo();
@@ -2328,6 +2501,281 @@
             hideLoading();
             console.error('Error al eliminar:', error);
             showToast('❌ Error al eliminar mensaje');
+        });
+    }
+    
+    // ============================================================
+    // 📨 FUNCIÓN PARA CARGAR CONDUCTORES EN MODAL
+    // ============================================================
+    
+    function cargarConductoresModal() {
+        const select = corregirConductor;
+        while (select.options.length > 1) { select.remove(1); }
+        const nombres = Object.keys(AUTHORIZED_USERS).sort();
+        nombres.forEach(nombre => {
+            const option = document.createElement('option');
+            option.value = nombre;
+            option.textContent = nombre;
+            select.appendChild(option);
+        });
+    }
+    
+    function cargarPlacasModal() {
+        const select = corregirPlaca;
+        while (select.options.length > 1) { select.remove(1); }
+        PLACAS_LIST.forEach(placa => {
+            const option = document.createElement('option');
+            option.value = placa;
+            option.textContent = placa;
+            select.appendChild(option);
+        });
+    }
+    
+    // ============================================================
+    // 📨 FUNCIÓN CORREGIR MENSAJE TAREO
+    // ============================================================
+    
+    function corregirMensajeTareo() {
+        const checkboxes = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox:checked');
+        const checkboxesVisibles = Array.from(checkboxes).filter(cb => cb.offsetParent !== null);
+        
+        if (checkboxesVisibles.length === 0) {
+            showToast('⚠️ Selecciona un mensaje para corregir');
+            return;
+        }
+        
+        if (checkboxesVisibles.length > 1) {
+            showToast('⚠️ Solo puedes corregir un mensaje a la vez');
+            return;
+        }
+        
+        const cb = checkboxesVisibles[0];
+        const key = cb.dataset.key;
+        const messageDiv = cb.closest('.message.tareo');
+        
+        if (!messageDiv) {
+            showToast('❌ No se encontró el mensaje');
+            return;
+        }
+        
+        const textoPlano = messageDiv.querySelector('.tareo-texto-plano');
+        if (!textoPlano) {
+            showToast('❌ No se encontró el texto del mensaje');
+            return;
+        }
+        
+        const texto = textoPlano.textContent || '';
+        const lineas = texto.split('\n');
+        
+        // Extraer datos del texto
+        let datos = {
+            fecha: '',
+            conductor: '',
+            tipoVehiculo: '',
+            capacidad: '',
+            placa: '',
+            kmInicial: '',
+            kmFinal: '',
+            horario: '',
+            horaInicio: '',
+            horaFinal: '',
+            horaInicioB: '',
+            horaFinalB: ''
+        };
+        
+        lineas.forEach(linea => {
+            if (linea.includes('📅 Fecha:')) {
+                datos.fecha = linea.replace('📅 Fecha:', '').trim();
+            } else if (linea.includes('👤 Conductor:')) {
+                datos.conductor = linea.replace('👤 Conductor:', '').trim();
+            } else if (linea.includes('🚗 T. Vehículo:')) {
+                datos.tipoVehiculo = linea.replace('🚗 T. Vehículo:', '').trim();
+            } else if (linea.includes('⚖️ Cap.:')) {
+                datos.capacidad = linea.replace('⚖️ Cap.:', '').trim();
+            } else if (linea.includes('🚗 Placa:')) {
+                datos.placa = linea.replace('🚗 Placa:', '').trim();
+            } else if (linea.includes('📊 Km Inicial:')) {
+                datos.kmInicial = linea.replace('📊 Km Inicial:', '').replace(' km', '').trim();
+            } else if (linea.includes('📊 Km Final:')) {
+                datos.kmFinal = linea.replace('📊 Km Final:', '').replace(' km', '').trim();
+            } else if (linea.includes('⏰ Horario:')) {
+                const horarioText = linea.replace('⏰ Horario:', '').trim();
+                if (horarioText === 'Horario corrido') datos.horario = 'corrido';
+                else if (horarioText === 'Turno noche') datos.horario = 'noche';
+                else if (horarioText === 'Horario partido') datos.horario = 'partido';
+            } else if (linea.includes('🕐 Hora inicial A:')) {
+                datos.horaInicio = linea.replace('🕐 Hora inicial A:', '').trim();
+            } else if (linea.includes('🕒 Hora final A:')) {
+                datos.horaFinal = linea.replace('🕒 Hora final A:', '').trim();
+            } else if (linea.includes('🕐 Hora inicial B:')) {
+                datos.horaInicioB = linea.replace('🕐 Hora inicial B:', '').trim();
+            } else if (linea.includes('🕒 Hora final B:')) {
+                datos.horaFinalB = linea.replace('🕒 Hora final B:', '').trim();
+            } else if (linea.includes('🕐 Hora inicial:')) {
+                datos.horaInicio = linea.replace('🕐 Hora inicial:', '').trim();
+            } else if (linea.includes('🕒 Hora final:')) {
+                datos.horaFinal = linea.replace('🕒 Hora final:', '').trim();
+            }
+        });
+        
+        // Convertir fecha DD/MM/YYYY a YYYY-MM-DD para input date
+        let fechaISO = '';
+        if (datos.fecha) {
+            const partes = datos.fecha.split('/');
+            if (partes.length === 3) {
+                fechaISO = `${partes[2]}-${partes[1].padStart(2, '0')}-${partes[0].padStart(2, '0')}`;
+            }
+        }
+        
+        // Llenar el modal
+        corregirKey.value = key;
+        
+        // Determinar la ruta correcta
+        const isAdmin = esAdministrador();
+        if (isAdmin) {
+            // Para admin, necesitamos saber a qué usuario pertenece
+            const usuario = messageDiv.querySelector('.footer span')?.textContent || '';
+            // Buscar en el texto el usuario
+            let usuarioEncontrado = '';
+            lineas.forEach(linea => {
+                if (linea.includes('👤 Conductor:')) {
+                    usuarioEncontrado = linea.replace('👤 Conductor:', '').trim();
+                }
+            });
+            if (usuarioEncontrado && AUTHORIZED_USERS[usuarioEncontrado]) {
+                const secretId = getUserSecretId(usuarioEncontrado);
+                corregirPath.value = `messages/tareo/${secretId}`;
+            } else {
+                corregirPath.value = `messages/tareo/${currentUser || 'USR-001'}`;
+            }
+        } else {
+            corregirPath.value = `messages/tareo/${currentUser || 'USR-001'}`;
+        }
+        
+        corregirFecha.value = fechaISO;
+        corregirConductor.value = datos.conductor;
+        corregirHorario.value = datos.horario;
+        corregirTipoVehiculo.value = datos.tipoVehiculo;
+        corregirCapacidad.value = datos.capacidad;
+        corregirPlaca.value = datos.placa;
+        corregirKmInicial.value = datos.kmInicial;
+        corregirKmFinal.value = datos.kmFinal;
+        corregirHoraInicio.value = datos.horaInicio;
+        corregirHoraFinal.value = datos.horaFinal;
+        corregirHoraInicioB.value = datos.horaInicioB;
+        corregirHoraFinalB.value = datos.horaFinalB;
+        
+        // Mostrar/ocultar campos B según horario
+        if (datos.horario === 'partido') {
+            corregirHorasB.style.display = 'block';
+            corregirHorasB2.style.display = 'block';
+        } else {
+            corregirHorasB.style.display = 'none';
+            corregirHorasB2.style.display = 'none';
+        }
+        
+        modalCorregir.classList.add('active');
+    }
+    
+    // ============================================================
+    // 📨 FUNCIÓN CERRAR MODAL
+    // ============================================================
+    
+    function cerrarModalCorregir() {
+        modalCorregir.classList.remove('active');
+        formCorregir.reset();
+    }
+    
+    // ============================================================
+    // 📨 FUNCIÓN GUARDAR CORRECCIÓN
+    // ============================================================
+    
+    function guardarCorreccion(event) {
+        event.preventDefault();
+        
+        const key = corregirKey.value;
+        const path = corregirPath.value;
+        const fecha = corregirFecha.value;
+        const conductor = corregirConductor.value;
+        const horario = corregirHorario.value;
+        const tipoVehiculo = corregirTipoVehiculo.value;
+        const capacidad = corregirCapacidad.value;
+        const placa = corregirPlaca.value;
+        const kmInicial = corregirKmInicial.value;
+        const kmFinal = corregirKmFinal.value;
+        const hi = corregirHoraInicio.value;
+        const hf = corregirHoraFinal.value;
+        const hib = corregirHoraInicioB.value;
+        const hfb = corregirHoraFinalB.value;
+        
+        if (!fecha || !conductor || !horario || !tipoVehiculo || !capacidad || !placa || !kmInicial || !kmFinal) {
+            showToast('❌ Complete todos los campos');
+            return;
+        }
+        
+        if (horario === 'corrido' && (!hi || !hf)) {
+            showToast('❌ Complete las horas de inicio y final');
+            return;
+        }
+        if (horario === 'partido' && (!hi || !hf || !hib || !hfb)) {
+            showToast('❌ Complete todas las horas');
+            return;
+        }
+        if (horario === 'noche' && (!hi || !hf)) {
+            showToast('❌ Complete las horas de inicio y final');
+            return;
+        }
+        
+        const fechaForm = fecha.split('-').reverse().join('/');
+        const horarioTexto = horario === 'corrido' ? 'Horario corrido' : horario === 'noche' ? 'Turno noche' : 'Horario partido';
+        
+        let textoCompleto = `📅 Fecha: ${fechaForm}\n`;
+        textoCompleto += `👤 Conductor: ${conductor}\n`;
+        textoCompleto += `🚗 T. Vehículo: ${tipoVehiculo}\n`;
+        textoCompleto += `⚖️ Cap.: ${capacidad}\n`;
+        textoCompleto += `🚗 Placa: ${placa}\n`;
+        textoCompleto += `📊 Km Inicial: ${kmInicial} km\n`;
+        textoCompleto += `📊 Km Final: ${kmFinal} km\n`;
+        textoCompleto += `⏰ Horario: ${horarioTexto}\n`;
+        
+        if (horario === 'corrido') {
+            textoCompleto += `🕐 Hora inicial: ${hi}\n`;
+            textoCompleto += `🕒 Hora final: ${hf}`;
+        } else if (horario === 'noche') {
+            textoCompleto += `🌙 Turno noche\n`;
+            textoCompleto += `🕐 Hora inicial: ${hi}\n`;
+            textoCompleto += `🕒 Hora final: ${hf}`;
+        } else if (horario === 'partido') {
+            textoCompleto += `🕐 Hora inicial A: ${hi}\n`;
+            textoCompleto += `🕒 Hora final A: ${hf}\n`;
+            textoCompleto += `🕐 Hora inicial B: ${hib}\n`;
+            textoCompleto += `🕒 Hora final B: ${hfb}`;
+        }
+        
+        if (!database) { showToast('❌ Error de conexión'); return; }
+        
+        showLoading('Guardando cambios...');
+        
+        const ref = database.ref(`${path}/${key}`);
+        ref.update({
+            text: textoCompleto,
+            time: getTime(),
+            timestamp: firebase.database.ServerValue.TIMESTAMP
+        }).then(() => {
+            hideLoading();
+            showToast('✅ Registro actualizado correctamente');
+            cerrarModalCorregir();
+            // Recargar mensajes
+            tareoUltimaKey = null;
+            tareoTodasLasKeys = [];
+            tareoMensajesCargados = 0;
+            tareoTotalMensajes = 0;
+            tareoPrimeraCarga = true;
+            cargarMensajesTareo();
+        }).catch((error) => {
+            hideLoading();
+            console.error('Error al actualizar:', error);
+            showToast('❌ Error al actualizar el registro');
         });
     }
     
@@ -2353,7 +2801,6 @@
         
         const ref = database.ref(path);
         
-        // Primero obtener el total de mensajes
         ref.once('value', (snapshot) => {
             const data = snapshot.val();
             let totalMensajes = 0;
@@ -2361,7 +2808,6 @@
             
             if (data) {
                 if (isAdmin) {
-                    // Para admin, recorrer todas las subcarpetas
                     const usuarios = Object.keys(data);
                     usuarios.forEach(usuario => {
                         const mensajesUsuario = data[usuario];
@@ -2380,7 +2826,6 @@
                         }
                     });
                 } else {
-                    // Para usuario normal, solo sus mensajes
                     Object.keys(data).forEach(key => {
                         const msg = data[key];
                         if (msg && msg.isTareo) {
@@ -2395,16 +2840,20 @@
                 }
             }
             
-            // Ordenar por timestamp (más nuevos primero)
-            todosLosMensajes.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+            todosLosMensajes.sort((a, b) => {
+                const fechaA = extraerFechaDelTexto(a.msg.text || '');
+                const fechaB = extraerFechaDelTexto(b.msg.text || '');
+                if (fechaA && fechaB) {
+                    return fechaB - fechaA;
+                }
+                return (b.timestamp || 0) - (a.timestamp || 0);
+            });
             
             tareoTotalMensajes = todosLosMensajes.length;
             tareoTodasLasKeys = todosLosMensajes.map(item => item.key);
             
-            // Obtener solo los últimos 5 mensajes (más nuevos)
             const ultimosMensajes = todosLosMensajes.slice(0, 5);
             
-            // Guardar la última clave para paginación (la más antigua de las cargadas)
             if (ultimosMensajes.length > 0) {
                 const ultimoIndex = ultimosMensajes.length - 1;
                 tareoUltimaKey = ultimosMensajes[ultimoIndex].key;
@@ -2416,13 +2865,9 @@
                 tareoMensajesCargados = 0;
             }
             
-            // Mostrar mensajes
             tareoMessagesContainer.innerHTML = '';
             
             if (ultimosMensajes.length > 0) {
-                // Ordenar por timestamp (más antiguos primero para mostrar en orden)
-                ultimosMensajes.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
-                
                 ultimosMensajes.forEach(item => {
                     const msgData = {
                         user: item.usuario,
@@ -2447,7 +2892,6 @@
                 `;
             }
             
-            // Actualizar el botón cargar más
             const restantes = tareoTotalMensajes - tareoMensajesCargados;
             if (restantes > 0) {
                 btnCargarMas.disabled = false;
@@ -2457,7 +2901,6 @@
                 btnCargarMas.textContent = '✅ No hay más mensajes';
             }
             
-            // ✅ AUTO-SCROLL AL ÚLTIMO MENSAJE (solo en la primera carga)
             if (tareoPrimeraCarga) {
                 setTimeout(() => {
                     if (tareoMessagesContainer) {
@@ -2491,15 +2934,12 @@
                                 };
                                 const messageDiv = crearMensajeTareo(msgData, key, isAdmin);
                                 tareoMessagesContainer.appendChild(messageDiv);
-                                // ✅ AUTO-SCROLL AL NUEVO MENSAJE
                                 setTimeout(() => {
                                     if (tareoMessagesContainer) {
                                         tareoMessagesContainer.scrollTop = tareoMessagesContainer.scrollHeight;
                                     }
                                 }, 150);
-                                // Actualizar contador
                                 tareoTotalMensajes++;
-                                // Actualizar botón
                                 const restantesNuevo = tareoTotalMensajes - tareoMensajesCargados;
                                 if (restantesNuevo > 0) {
                                     btnCargarMas.textContent = `🔄 Cargar más mensajes (${restantesNuevo} restantes)`;
@@ -2530,7 +2970,6 @@
                             };
                             const messageDiv = crearMensajeTareo(msgData, key, isAdmin);
                             tareoMessagesContainer.appendChild(messageDiv);
-                            // ✅ AUTO-SCROLL AL NUEVO MENSAJE
                             setTimeout(() => {
                                 if (tareoMessagesContainer) {
                                     tareoMessagesContainer.scrollTop = tareoMessagesContainer.scrollHeight;
@@ -2601,7 +3040,6 @@
                     `;
                 }
                 
-                // ✅ AUTO-SCROLL AL ÚLTIMO MENSAJE EN CHAT GENERAL
                 setTimeout(() => {
                     if (messagesContainer) {
                         messagesContainer.scrollTop = messagesContainer.scrollHeight;
@@ -2633,13 +3071,11 @@
         if (!text || !currentUser || isSending) return;
         if (!database) { showToast('❌ Error de conexión'); return; }
         
-        // Si estamos en la sala de Tareo, el mensaje va al chat general
         if (currentRoom === 'tareo') {
             sendMessageToGeneral(text);
             return;
         }
         
-        // Si estamos en el chat general
         if (!messagesRef) {
             showToast('❌ Error de conexión');
             return;
@@ -2800,7 +3236,6 @@
             return;
         }
         
-        // SIN CONFIRMAR - eliminar directamente
         if (!database) { showToast('❌ Error de conexión'); return; }
         
         const keys = [];
@@ -2864,7 +3299,6 @@
             return;
         }
         
-        // SIN CONFIRMAR - eliminar directamente
         if (!database) { showToast('❌ Error de conexión'); return; }
         
         const keys = [];
@@ -2889,7 +3323,6 @@
         Promise.all(promises).then(() => {
             hideLoading();
             showToast(`✅ ${keys.length} mensaje(s) eliminado(s)`);
-            // Recargar mensajes
             tareoUltimaKey = null;
             tareoTodasLasKeys = [];
             tareoMensajesCargados = 0;
@@ -2917,7 +3350,6 @@
             return;
         }
         
-        // Obtener los mensajes seleccionados
         const mensajesSeleccionados = [];
         checkboxesVisibles.forEach(cb => {
             const messageDiv = cb.closest('.message.tareo');
@@ -2938,7 +3370,6 @@
             return;
         }
         
-        // Construir HTML
         let html = `
             <div style="font-family:monospace;padding:10px;background:white;max-width:100%;">
                 <div style="text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px;">
@@ -3023,7 +3454,7 @@
     // 📋 FUNCIONES DE REPORTE
     // ============================================================
     
-    function cargarConductores() {
+    function cargarConductoresReporte() {
         const select = reporteConductor;
         while (select.options.length > 1) { select.remove(1); }
         const nombres = Object.keys(AUTHORIZED_USERS).sort();
@@ -3035,7 +3466,7 @@
         });
     }
     
-    function cargarPlacas() {
+    function cargarPlacasReporte() {
         const select = reportePlaca;
         while (select.options.length > 1) { select.remove(1); }
         PLACAS_LIST.forEach(placa => {
@@ -3064,13 +3495,16 @@
     }
     
     function initReporte() {
-        // ✅ ZONA HORARIA PERÚ (UTC-5)
         const hoy = new Date();
         const peruTime = new Date(hoy.getTime() - 5 * 60 * 60 * 1000);
         reporteFecha.value = peruTime.toISOString().split('T')[0];
         
-        cargarConductores();
-        cargarPlacas();
+        cargarConductoresReporte();
+        cargarPlacasReporte();
+        
+        // Cargar conductores y placas en el modal también
+        cargarConductoresModal();
+        cargarPlacasModal();
         
         if (currentDisplayName) {
             const options = reporteConductor.options;
@@ -3094,6 +3528,12 @@
         mascaraReporte(reporteHoraFinal);
         mascaraReporte(reporteHoraInicioB);
         mascaraReporte(reporteHoraFinalB);
+        
+        // También aplicar máscara a los campos del modal
+        mascaraReporte(corregirHoraInicio);
+        mascaraReporte(corregirHoraFinal);
+        mascaraReporte(corregirHoraInicioB);
+        mascaraReporte(corregirHoraFinalB);
         
         reporteHorario.addEventListener('change', function() {
             const valor = this.value;
@@ -3123,6 +3563,30 @@
                 reporteLabelFinal.textContent = '🕒 Hora final:';
                 reporteHoraInicioB.value = '';
                 reporteHoraFinalB.value = '';
+            }
+        });
+        
+        // Evento para el modal de corrección - horario
+        corregirHorario.addEventListener('change', function() {
+            const valor = this.value;
+            if (valor === 'corrido') {
+                corregirHorasB.style.display = 'none';
+                corregirHorasB2.style.display = 'none';
+                corregirHoraInicioB.value = '';
+                corregirHoraFinalB.value = '';
+            } else if (valor === 'partido') {
+                corregirHorasB.style.display = 'block';
+                corregirHorasB2.style.display = 'block';
+            } else if (valor === 'noche') {
+                corregirHorasB.style.display = 'none';
+                corregirHorasB2.style.display = 'none';
+                corregirHoraInicioB.value = '';
+                corregirHoraFinalB.value = '';
+            } else {
+                corregirHorasB.style.display = 'none';
+                corregirHorasB2.style.display = 'none';
+                corregirHoraInicioB.value = '';
+                corregirHoraFinalB.value = '';
             }
         });
         
@@ -3419,7 +3883,6 @@
             showToast('✅ Registro enviado correctamente');
             
             if (currentRoom === 'tareo') {
-                // Recargar mensajes de tareo
                 tareoUltimaKey = null;
                 tareoTodasLasKeys = [];
                 tareoMensajesCargados = 0;
@@ -3474,7 +3937,6 @@
     }
     
     function eliminarRegistro(id) { 
-        // SIN CONFIRMAR - eliminar directamente
         registros = registros.filter(r => r.id !== id); 
         guardarRegistros(); 
         mostrarRegistros(); 
@@ -3486,7 +3948,6 @@
             showToast('⛔ Solo el Administrador puede limpiar el historial');
             return;
         }
-        // SIN CONFIRMAR - limpiar directamente
         registros = []; 
         guardarRegistros(); 
         mostrarRegistros(); 
@@ -3766,14 +4227,12 @@
             tareoAcciones.classList.remove('active');
             chatAcciones.classList.add('active');
             
-            // OCULTAR BOTÓN DE PLANILLA SI NO TIENE PERMISOS
             if (puedeVerPlanilla()) {
                 btnPlanilla.style.display = 'inline-block';
             } else {
                 btnPlanilla.style.display = 'none';
             }
             
-            // OCULTAR BOTÓN "LIMPIAR TODO" SI NO ES ADMINISTRADOR
             const btnLimpiarTodo = document.querySelector('.btn-limpiar-todo');
             if (btnLimpiarTodo) {
                 if (esAdministrador()) {
@@ -3924,6 +4383,9 @@
     console.log('📌 Eliminación de mensajes SIN confirmación en todas las salas');
     console.log('📌 Sala de Tareo: solo últimos 5 mensajes, con botón "Cargar más" siempre visible');
     console.log('📌 Auto-scroll al último mensaje en todas las salas');
+    console.log('📌 Mensajes ordenados por FECHA del registro');
+    console.log('📌 Botón "✏️ Corregir" para modificar mensajes seleccionados');
+    console.log('📌 "Cargar más" agrega mensajes hacia abajo');
 </script>
 </body>
 </html>
