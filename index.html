@@ -589,6 +589,18 @@
         }
         .tareo-acciones .btn-imprimir-seleccionados:active { transform: scale(0.95); }
         .tareo-acciones .btn-imprimir-seleccionados:hover { background: #1a2632; }
+        .tareo-acciones .btn-corregir {
+            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
+            border: none;
+            border-radius: calc(var(--radius-base) * 0.4);
+            background: #f39c12;
+            color: white;
+            font-size: calc(11px * var(--scale));
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .tareo-acciones .btn-corregir:active { transform: scale(0.95); }
+        .tareo-acciones .btn-corregir:hover { background: #e67e22; }
         .tareo-acciones .contador-seleccionados {
             font-size: calc(11px * var(--scale));
             color: #333;
@@ -1061,7 +1073,8 @@
             .chat-acciones .btn-seleccionar-todos,
             .tareo-acciones .btn-eliminar-seleccionados,
             .tareo-acciones .btn-seleccionar-todos,
-            .tareo-acciones .btn-imprimir-seleccionados {
+            .tareo-acciones .btn-imprimir-seleccionados,
+            .tareo-acciones .btn-corregir {
                 font-size: calc(9px * var(--scale));
                 padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.5);
             }
@@ -1242,10 +1255,11 @@
     </div>
 </div>
 
+<!-- ===== PANTALLA DE LOGIN ===== -->
 <div id="loginScreen">
     <i class="fas fa-bus logo-icon"></i>
     <div class="logo-title">Transportes <span>Mantenimiento</span></div>
-    <div class="logo-subtitle">Bienvenido Paul Manrique</div>
+    <div class="logo-subtitle">Selecciona tu usuario y ingresa tu clave</div>
     
     <!-- SELECTOR DE TAMAÑO -->
     <div class="size-selector" id="sizeSelector">
@@ -1276,7 +1290,26 @@
         <button class="font-btn" data-font="rounded" onclick="changeFont('rounded')">🔤 Rounded</button>
     </div>
     
+    <div class="user-selector">
+        <div class="label">
+            <i class="fas fa-users"></i> Selecciona tu usuario
+            <span style="font-size:var(--online-font);color:#8899A6;font-weight:400;margin-left:auto;" id="userCountLabel">0 conectados</span>
+        </div>
+        <div class="user-grid" id="userGrid"></div>
+    </div>
+    
     <form id="loginForm" autocomplete="on" novalidate>
+        <div class="form-group">
+            <label>🔑 Clave de acceso</label>
+            <div class="input-icon">
+                <i class="fas fa-key"></i>
+                <input type="password" id="userPasswordInput" placeholder="Ingresa tu clave secreta" required autocomplete="off" maxlength="20">
+                <button type="button" class="password-toggle" id="togglePassword">
+                    <i class="fas fa-eye"></i>
+                </button>
+            </div>
+        </div>
+        
         <button type="submit" class="btn-primary" id="joinBtn">
             <i class="fas fa-sign-in-alt"></i> Entrar al chat
         </button>
@@ -1287,6 +1320,7 @@
     </form>
 </div>
 
+<!-- ===== CHAT ===== -->
 <div id="chatApp">
     <header class="chat-header">
         <i class="fas fa-bus header-icon"></i>
@@ -1336,11 +1370,12 @@
         <button class="btn-filtrar" onclick="limpiarFiltroTareo()" style="padding:4px 12px; background:#95a5a6; color:white; border:none; border-radius:4px; cursor:pointer; font-size:calc(11px * var(--scale));">Limpiar</button>
     </div>
     
-    <!-- ===== ACCIONES TAREO ===== -->
+    <!-- ===== ACCIONES TAREO (CON BOTÓN CORREGIR) ===== -->
     <div class="tareo-acciones" id="tareoAcciones">
         <span class="contador-seleccionados" id="contadorSeleccionados">0 seleccionados</span>
         <button class="btn-seleccionar-todos" onclick="seleccionarTodosTareo()">☑ Todos</button>
         <button class="btn-imprimir-seleccionados" onclick="imprimirSeleccionadosTareo()">🖨️ Imprimir</button>
+        <button class="btn-corregir" onclick="corregirMensajeTareo()">✏️ Corregir</button>
         <button class="btn-eliminar-seleccionados" onclick="eliminarSeleccionadosTareo()">🗑️ Eliminar</button>
     </div>
     
@@ -1353,11 +1388,11 @@
         
         <!-- Mensajes Tareo -->
         <div class="messages-container hidden" id="tareoMessagesContainer">
-    <div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando registros de tareo...</div>
-</div>
-<div class="cargar-mas-container" id="cargarMasContainer">
-    <button class="btn-cargar-mas" id="btnCargarMas" onclick="cargarMasMensajes()">🔄 Cargar más mensajes</button>
-</div>
+            <div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando registros de tareo...</div>
+        </div>
+        <div class="cargar-mas-container" id="cargarMasContainer">
+            <button class="btn-cargar-mas" id="btnCargarMas" onclick="cargarMasMensajes()">🔄 Cargar más mensajes</button>
+        </div>
         
         <!-- REPORTE -->
         <div class="reporte-container" id="reporteContainer">
@@ -1602,6 +1637,8 @@
     const loginScreen = document.getElementById('loginScreen');
     const chatApp = document.getElementById('chatApp');
     const loginForm = document.getElementById('loginForm');
+    const userPasswordInput = document.getElementById('userPasswordInput');
+    const togglePassword = document.getElementById('togglePassword');
     const joinBtn = document.getElementById('joinBtn');
     const authError = document.getElementById('authError');
     const authWarning = document.getElementById('authWarning');
@@ -2002,7 +2039,7 @@
     }
 
     // ============================================================
-    // 👥 RENDERIZAR SELECTOR DE USUARIOS (SOLO PAUL, OCULTO)
+    // 👥 RENDERIZAR SELECTOR DE USUARIOS
     // ============================================================
     
     function renderUserGrid(connectedUsers) {
@@ -2012,8 +2049,10 @@
             return;
         }
         
-        // Seleccionar a Paul automáticamente
-        selectedUser = "Paul Emerson Manrique Monzon";
+        // Si no hay usuario seleccionado y Paul está en la lista, seleccionarlo automáticamente
+        if (!selectedUser && names.includes("Paul Emerson Manrique Monzon")) {
+            selectedUser = "Paul Emerson Manrique Monzon";
+        }
         
         userGrid.innerHTML = names.map(name => {
             const isConnected = connectedUsers && connectedUsers.includes(name);
@@ -2038,10 +2077,12 @@
             el.classList.remove('selected');
             if (el.dataset.user === name) el.classList.add('selected');
         });
+        userPasswordInput.focus();
+        userPasswordInput.value = '';
     };
 
     // ============================================================
-    // 🔐 VERIFICAR CREDENCIALES (SIEMPRE TRUE PARA PAUL)
+    // 🔐 VERIFICAR CREDENCIALES
     // ============================================================
     
     function validateCredentials(name, password) {
@@ -3521,7 +3562,7 @@
         });
         
         const ventana = window.open('', '_blank');
-        ventana.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Tareo diario - IMCO</title>' +
+        ventana.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Tareo diario</title>' +
             '<style>' +
             '*{margin:0;padding:0;box-sizing:border-box;}' +
             'body{background:white;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:monospace;padding:20px;}' +
@@ -3545,7 +3586,7 @@
             '.doble,.fila{margin-bottom:4px;}' +
             '@page{size:A4;margin:2mm 2mm 180mm 2mm;}' +
             '}' +
-            '</style></head><body>' +
+            '</style></head><body><div class="tarjeta">' +
             html +
             '</div><script>window.onload=function(){window.print();};<\/script></body></html>');
         ventana.document.close();
@@ -4096,11 +4137,11 @@
     }
     
     function guardarRegistros() { 
-        localStorage.setItem('registrosTransporteIMCO', JSON.stringify(registros)); 
+        localStorage.setItem('registrosTransporte', JSON.stringify(registros)); 
     }
     
     function cargarRegistros() { 
-        let g = localStorage.getItem('registrosTransporteIMCO'); 
+        let g = localStorage.getItem('registrosTransporte'); 
         if (g) { 
             registros = JSON.parse(g); 
             mostrarRegistros(); 
@@ -4424,6 +4465,7 @@
         clearNotification();
         
         document.querySelectorAll('.user-card').forEach(el => el.classList.remove('selected'));
+        userPasswordInput.value = '';
         renderUserGrid([]);
         showToast('👋 Sesión cerrada');
     }
@@ -4444,10 +4486,25 @@
     // EVENTOS
     // ============================================================
     
+    togglePassword.addEventListener('click', function(e) {
+        e.preventDefault();
+        const type = userPasswordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        userPasswordInput.setAttribute('type', type);
+        this.querySelector('i').classList.toggle('fa-eye');
+        this.querySelector('i').classList.toggle('fa-eye-slash');
+    });
+    
     loginForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        // Usuario fijo: Paul Emerson Manrique Monzon (sin contraseña)
-        const displayName = "Paul Emerson Manrique Monzon";
+        const displayName = selectedUser;
+        const password = userPasswordInput.value.trim();
+        
+        if (!displayName) {
+            authError.textContent = '⚠️ Por favor selecciona un usuario de la lista';
+            authError.style.display = 'block';
+            return;
+        }
+        // Paul Manrique no necesita contraseña, pero si hay contraseña se ignora
         joinBtn.disabled = true;
         await joinChat(displayName);
         joinBtn.disabled = false;
@@ -4469,23 +4526,31 @@
             leaveChat();
         }
     });
+    
+    userPasswordInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            loginForm.dispatchEvent(new Event('submit'));
+        }
+    });
 
     // ============================================================
-    // INICIO - CONFIGURACIÓN INICIAL
+    // INICIO
     // ============================================================
     
-    // Seleccionar a Paul Manrique automáticamente (oculto)
+    // Seleccionar a Paul Manrique automáticamente
     selectedUser = "Paul Emerson Manrique Monzon";
     renderUserGrid([]);
     
     console.log('🚛 Transportes Mantenimiento - Chat con 4 Salas');
     console.log('👤 Usuario: Paul Emerson Manrique Monzon (USR-023)');
     console.log('👑 Paul Manrique tiene permisos de ADMINISTRADOR');
-    console.log('🔓 Ingreso sin contraseña');
+    console.log('🔓 Ingreso sin contraseña (puedes escribir cualquier clave)');
     console.log('📊 Planilla Google Sheets - Acceso: Administrador y Paul Manrique');
     console.log('📌 Paul Manrique puede ver y eliminar TODOS los mensajes de Tareo y Chat General');
     console.log('📌 La sesión se mantiene activa hasta usar "Salir"');
     console.log('🕐 Zona horaria configurada: Perú (UTC-5)');
+    console.log('📌 Botón "✏️ Corregir" disponible en la sala de Tareo');
 </script>
 </body>
 </html>
