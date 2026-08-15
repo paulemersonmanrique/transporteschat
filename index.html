@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+en este codigo que el usuario paul manrique pueda ingresar directamente, esconde a los demas usuarios por el momento: <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -758,68 +758,6 @@
         .sound-indicator i { font-size: calc(12px * var(--scale)); }
         @keyframes fadeInOut { 0% { opacity: 0; transform: translateX(-50%) translateY(-6px); } 20% { opacity: 1; transform: translateX(-50%) translateY(0); } 80% { opacity: 1; transform: translateX(-50%) translateY(0); } 100% { opacity: 0; transform: translateX(-50%) translateY(-6px); } }
         
-        /* ===== PREVISUALIZACIÓN DE IMPRESIÓN ===== */
-        .impresion-preview {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.6);
-            z-index: 9999;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            backdrop-filter: blur(4px);
-        }
-        .impresion-preview.active { display: flex; }
-        .impresion-preview .preview-content {
-            background: white;
-            border-radius: 12px;
-            max-width: 800px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            padding: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            position: relative;
-        }
-        .impresion-preview .preview-close {
-            position: sticky;
-            top: 0;
-            float: right;
-            background: var(--error);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            font-size: 16px;
-            cursor: pointer;
-            z-index: 10;
-            touch-action: manipulation;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-        .impresion-preview .preview-close:hover { background: #a61c1c; }
-        .impresion-preview .btn-imprimir-preview {
-            padding: 8px 20px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            touch-action: manipulation;
-            margin-top: 10px;
-            width: 100%;
-        }
-        .impresion-preview .btn-imprimir-preview:hover { background: var(--primary-dark); }
-        
         /* ===== MODAL DE CORRECCIÓN ===== */
         .modal-corregir {
             display: none;
@@ -1149,7 +1087,7 @@
 </div>
 
 <!-- ===== PREVISUALIZACIÓN DE IMPRESIÓN ===== -->
-<div class="impresion-preview" id="impresionPreview">
+<div class="impresion-preview" id="impresionPreview" style="display:none !important;">
     <div class="preview-content" id="previewContent">
         <button class="preview-close" onclick="cerrarPrevisualizacion()">✕</button>
         <div id="previewBody"></div>
@@ -1255,7 +1193,6 @@
     </div>
 </div>
 
-<!-- ===== PANTALLA DE LOGIN ===== -->
 <div id="loginScreen">
     <i class="fas fa-bus logo-icon"></i>
     <div class="logo-title">Transportes <span>Mantenimiento</span></div>
@@ -1320,7 +1257,6 @@
     </form>
 </div>
 
-<!-- ===== CHAT ===== -->
 <div id="chatApp">
     <header class="chat-header">
         <i class="fas fa-bus header-icon"></i>
@@ -1370,7 +1306,7 @@
         <button class="btn-filtrar" onclick="limpiarFiltroTareo()" style="padding:4px 12px; background:#95a5a6; color:white; border:none; border-radius:4px; cursor:pointer; font-size:calc(11px * var(--scale));">Limpiar</button>
     </div>
     
-    <!-- ===== ACCIONES TAREO (CON BOTÓN CORREGIR) ===== -->
+    <!-- ===== ACCIONES TAREO ===== -->
     <div class="tareo-acciones" id="tareoAcciones">
         <span class="contador-seleccionados" id="contadorSeleccionados">0 seleccionados</span>
         <button class="btn-seleccionar-todos" onclick="seleccionarTodosTareo()">☑ Todos</button>
@@ -1388,11 +1324,11 @@
         
         <!-- Mensajes Tareo -->
         <div class="messages-container hidden" id="tareoMessagesContainer">
-            <div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando registros de tareo...</div>
-        </div>
-        <div class="cargar-mas-container" id="cargarMasContainer">
-            <button class="btn-cargar-mas" id="btnCargarMas" onclick="cargarMasMensajes()">🔄 Cargar más mensajes</button>
-        </div>
+    <div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando registros de tareo...</div>
+</div>
+<div class="cargar-mas-container" id="cargarMasContainer">
+    <button class="btn-cargar-mas" id="btnCargarMas" onclick="cargarMasMensajes()">🔄 Cargar más mensajes</button>
+</div>
         
         <!-- REPORTE -->
         <div class="reporte-container" id="reporteContainer">
@@ -1559,11 +1495,42 @@
 ].sort();
 
     // ============================================================
-    // 📋 LISTA DE USUARIOS - SOLO PAUL MANRIQUE
+    // 📋 LISTA DE USUARIOS
     // ============================================================
     
     const AUTHORIZED_USERS = {
-        "Paul Emerson Manrique Monzon": ""
+        "ADMINISTRADOR": "admin123",
+        "Alex Antonio Cornejo Quispe": "7890",
+        "Alexander Gomez Chora": "1234",    
+        "Anders Willian Zegarra Yanque": "2345",
+        "Carlos Alfredo Mamani Viveros": "4567",
+        "Cristhian John De La Cruz Jara": "9012",    
+        "Dante Dennis Torrez Enriquez": "0123",
+        "Edgar Raul Almanza Castro": "0000",
+        "Elvis Joel Tunque Palomino": "6666",
+        "Fabian Aurelio Huamani Choquehuanca": "8901",
+        "Felipe Zenon Mayta Yanqui": "9090",
+        "Henry Raul Calderon Arela": "7777",
+        "Jhunior Reymuer Quispe Nina": "7878",
+        "Joe Anthony Contreras Panuera": "5678",
+        "Joel Alexander Alejo Soto": "4444",
+        "Jose Luis Alvarez Iquiapaza": "8888",
+        "Jose Luis Camargo Bautista": "9090",
+        "Jose Luis Rivas Morales": "2222",
+        "Juan Manuel Gomez Rodriguez": "1212",
+        "Julio Nina Huayllani": "5555",
+        "Marcos Antonio Mamani Monzon": "3456",
+        "Oscar Tomas Moron Zuñiga": "1111",
+        "Paul Emerson Manrique Monzon": "3333",
+        "Rafael Hernando Ordoñez Huaco": "3434",
+        "Renzo Gonzalo Lipa Lipa": "9999",
+        "Sandro Augusto Calizaya Calizaya": "5656",
+        "Caceres Llutani, Williams": "6589",
+    "Poccori Leon, Cesar Orlando": "6489",
+    "Valdivia Tito, Humberto Manuel": "6389",
+    "Apaza Apaza, Luis Fernando": "6789",    
+    "Rimachi Chacca, Luis Alfredo": "6689",
+    "De la Cruz Mendoza , Christian Jesus": "9022"
     };
 
     // ============================================================
@@ -1571,12 +1538,6 @@
     // ============================================================
     
     const PLANILLA_URL = "https://docs.google.com/spreadsheets/d/1Jhn-zql02gywrth_c35T7VsxCHvoGJ5jKfkJ-enKv1k/edit?usp=sharing";
-
-    // ============================================================
-    // 🆔 ID FIJO DE PAUL MANRIQUE
-    // ============================================================
-    
-    const PAUL_USER_ID = "USR-023";
 
     // ============================================================
     // INICIALIZAR FIREBASE
@@ -1719,28 +1680,15 @@
     const reporteHorasB2 = document.getElementById('reporteHorasB2');
 
     // ============================================================
-    // 🔐 VERIFICAR SI ES ADMINISTRADOR (PAUL MANRIQUE ES ADMIN)
+    // 🔐 VERIFICAR SI ES ADMINISTRADOR O PAUL MANRIQUE
     // ============================================================
 
     function puedeVerPlanilla() {
-        return esAdministrador();
+        return esAdministrador() || currentDisplayName === "Paul Emerson Manrique Monzon";
     }
 
     function esAdministrador() {
-        // Paul Manrique tiene permisos de Administrador
-        return currentDisplayName === "Paul Emerson Manrique Monzon";
-    }
-
-    // ============================================================
-    // 🔐 OBTENER ID DE USUARIO (PAUL MANRIQUE USA USR-023 FIJO)
-    // ============================================================
-    
-    function getUserSecretId(name) {
-        // Si es Paul Manrique, devolver USR-023 fijo
-        if (name === "Paul Emerson Manrique Monzon") {
-            return PAUL_USER_ID;
-        }
-        return null;
+        return currentDisplayName === "ADMINISTRADOR";
     }
 
     // ============================================================
@@ -2048,12 +1996,6 @@
             userGrid.innerHTML = '<span style="color:#999;font-size:calc(10px * var(--scale));grid-column:1/-1;text-align:center;padding:calc(var(--padding-base) * 1);">No hay usuarios autorizados</span>';
             return;
         }
-        
-        // Si no hay usuario seleccionado y Paul está en la lista, seleccionarlo automáticamente
-        if (!selectedUser && names.includes("Paul Emerson Manrique Monzon")) {
-            selectedUser = "Paul Emerson Manrique Monzon";
-        }
-        
         userGrid.innerHTML = names.map(name => {
             const isConnected = connectedUsers && connectedUsers.includes(name);
             const isSelected = selectedUser === name;
@@ -2086,11 +2028,14 @@
     // ============================================================
     
     function validateCredentials(name, password) {
-        // Paul Manrique no necesita contraseña
-        if (name === "Paul Emerson Manrique Monzon") {
-            return true;
-        }
-        return false;
+        return AUTHORIZED_USERS[name] === password;
+    }
+    
+    function getUserSecretId(name) {
+        const names = Object.keys(AUTHORIZED_USERS);
+        const index = names.indexOf(name);
+        if (index === -1) return null;
+        return "USR-" + String(index + 1).padStart(3, '0');
     }
 
     // ============================================================
@@ -2455,6 +2400,7 @@
                         tareoEmoji: item.msg.tareoEmoji || '📋'
                     };
                     const messageDiv = crearMensajeTareo(msgData, key, isAdmin);
+                    // ✅ INSERTAR AL FINAL (hacia abajo)
                     container.appendChild(messageDiv);
                     nuevosMensajes++;
                 }
@@ -2688,13 +2634,15 @@
         const isAdmin = esAdministrador();
         if (isAdmin) {
             // Para admin, necesitamos saber a qué usuario pertenece
+            const usuario = messageDiv.querySelector('.footer span')?.textContent || '';
+            // Buscar en el texto el usuario
             let usuarioEncontrado = '';
             lineas.forEach(linea => {
                 if (linea.includes('👤 Conductor:')) {
                     usuarioEncontrado = linea.replace('👤 Conductor:', '').trim();
                 }
             });
-            if (usuarioEncontrado && AUTHORIZED_USERS[usuarioEncontrado] !== undefined) {
+            if (usuarioEncontrado && AUTHORIZED_USERS[usuarioEncontrado]) {
                 const secretId = getUserSecretId(usuarioEncontrado);
                 corregirPath.value = `messages/tareo/${secretId}`;
             } else {
@@ -3390,7 +3338,7 @@
     }
 
     // ============================================================
-    // 🖨️ IMPRIMIR SELECCIONADOS DE TAREO (IGUAL QUE REPORTE)
+    // 🖨️ IMPRIMIR SELECCIONADOS DE TAREO
     // ============================================================
 
     function imprimirSeleccionadosTareo() {
@@ -3411,179 +3359,48 @@
                 if (textoPlano) {
                     texto = textoPlano.textContent || '';
                 }
-                mensajesSeleccionados.push({ texto });
+                const usuario = messageDiv.querySelector('.footer span')?.textContent || '';
+                const hora = messageDiv.querySelector('.footer span')?.textContent || '';
+                mensajesSeleccionados.push({ usuario, texto, hora });
             }
         });
         
         if (mensajesSeleccionados.length === 0) {
-            showToast('⚠️ No se encontraron datos para imprimir');
+            showToast('⚠️ No se encontraron mensajes para imprimir');
             return;
         }
         
-        let html = '';
-        
-        mensajesSeleccionados.forEach((msg, index) => {
-            const lineas = msg.texto.split('\n').filter(line => line.trim() !== '');
-            
-            // Extraer datos de las líneas
-            let fecha = '', unidad = '', placa = '', capacidad = '', operador = '';
-            let horaInicio = '', horaFinal = '', kmInicial = '', kmFinal = '';
-            let horario = '', horaInicioB = '', horaFinalB = '';
-            
-            lineas.forEach(linea => {
-                if (linea.includes('📅 Fecha:')) fecha = linea.replace('📅 Fecha:', '').trim();
-                else if (linea.includes('🚗 T. Vehículo:')) unidad = linea.replace('🚗 T. Vehículo:', '').trim();
-                else if (linea.includes('🚗 Placa:')) placa = linea.replace('🚗 Placa:', '').trim();
-                else if (linea.includes('⚖️ Cap.:')) capacidad = linea.replace('⚖️ Cap.:', '').trim();
-                else if (linea.includes('👤 Conductor:')) operador = linea.replace('👤 Conductor:', '').trim();
-                else if (linea.includes('🕐 Hora inicial:')) horaInicio = linea.replace('🕐 Hora inicial:', '').trim();
-                else if (linea.includes('🕒 Hora final:')) horaFinal = linea.replace('🕒 Hora final:', '').trim();
-                else if (linea.includes('🕐 Hora inicial A:')) horaInicio = linea.replace('🕐 Hora inicial A:', '').trim();
-                else if (linea.includes('🕒 Hora final A:')) horaFinal = linea.replace('🕒 Hora final A:', '').trim();
-                else if (linea.includes('🕐 Hora inicial B:')) horaInicioB = linea.replace('🕐 Hora inicial B:', '').trim();
-                else if (linea.includes('🕒 Hora final B:')) horaFinalB = linea.replace('🕒 Hora final B:', '').trim();
-                else if (linea.includes('📊 Km Inicial:')) kmInicial = linea.replace('📊 Km Inicial:', '').replace(' km', '').trim();
-                else if (linea.includes('📊 Km Final:')) kmFinal = linea.replace('📊 Km Final:', '').replace(' km', '').trim();
-                else if (linea.includes('⏰ Horario:')) {
-                    const horarioText = linea.replace('⏰ Horario:', '').trim();
-                    if (horarioText === 'Horario corrido') horario = 'corrido';
-                    else if (horarioText === 'Turno noche') horario = 'noche';
-                    else if (horarioText === 'Horario partido') horario = 'partido';
-                }
-            });
-            
-            // Si no se encontró fecha, intentar obtenerla del texto
-            if (!fecha && lineas.length > 0) {
-                const primeraLinea = lineas[0];
-                if (primeraLinea.includes('📅 Fecha:')) {
-                    fecha = primeraLinea.replace('📅 Fecha:', '').trim();
-                }
-            }
-            
-            let clienteFijo = "Sociedad Minera Cerro Verde";
-            let direccionFija = "Asiento Minero Cerro Verde s/n Uchumayo - Arequipa";
-            let rucFijo = "20170072465";
-            let responsableFijo = "Carlos Medrano - Leonardo Rodríguez";
-            
-            // Generar el HTML con el formato de Reporte
-            html += `
-                <div style="font-family:monospace;padding:10px;background:white;max-width:100%;">
-                    <div style="text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #cbd5e1;padding-bottom:8px;margin-bottom:12px;">
-                        TAREO DIARIO DE OPERADORES (VEHÍCULOS)
-                    </div>
-                    
-                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">FECHA:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${fecha || '________'}</span></div>
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">UNIDAD:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${unidad || '________'}</span></div>
-                    </div>
-                    
-                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">PLACA:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${placa || '________'}</span></div>
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">CAPACIDAD:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${capacidad || '________'}</span></div>
-                    </div>
-                    
-                    <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
-                        <span style="font-weight:700;font-size:12px;">OPERADOR:</span>
-                        <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${operador || '________________________'}</span>
-                    </div>
-                    
-                    <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
-                        <span style="font-weight:700;font-size:12px;">MANIOBRISTA:</span>
-                        <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">________________________</span>
-                    </div>
-                    
-                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">CLIENTE:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${clienteFijo}</span></div>
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">RUC:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${rucFijo}</span></div>
-                    </div>
-                    
-                    <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
-                        <span style="font-weight:700;font-size:12px;">DIRECCIÓN:</span>
-                        <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${direccionFija}</span>
-                    </div>
-                    
-                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA DE INICIO:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaInicio || '________'}</span></div>
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA FINAL:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaFinal || '________'}</span></div>
-                    </div>
-                    
-                    ${horario === 'partido' ? `
-                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA INICIO B:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaInicioB || '________'}</span></div>
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HORA FINAL B:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${horaFinalB || '________'}</span></div>
-                    </div>
-                    ` : ''}
-                    
-                    ${horario === 'noche' ? `
-                    <div style="display:flex;justify-content:center;margin-bottom:6px;">
-                        <span style="font-weight:700;font-size:14px;color:#1a2632;">🌙 Turno noche</span>
-                    </div>
-                    ` : ''}
-                    
-                    <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HOROMETRO INICIAL:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${kmInicial || '________'}</span></div>
-                        <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">HOROMETRO FINAL:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${kmFinal || '________'}</span></div>
-                    </div>
-                    
-                    <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
-                        <span style="font-weight:700;font-size:12px;">RESPONSABLE:</span>
-                        <span style="border-bottom:1.5px solid #334155;flex:2;padding:0 4px;font-size:12px;">${responsableFijo}</span>
-                    </div>
-                    
-                    <div style="display:flex;gap:32px;margin-bottom:6px;">
-                        <div style="display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">OTI:</span><span style="border-bottom:1.5px solid #334155;width:120px;padding:0 4px;font-size:12px;"></span></div>
-                        <div style="display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">OSI:</span><span style="border-bottom:1.5px solid #334155;width:120px;padding:0 4px;font-size:12px;"></span></div>
-                    </div>
-                    
-                    <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;">
-                        <span style="font-weight:700;font-size:12px;">TRABAJO REALIZADO:</span>
-                        <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;"></span>
-                    </div>
-                    <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;opacity:0;">
-                        <span style="font-weight:700;font-size:12px;">TRABAJO REALIZADO:</span>
-                        <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;"></span>
-                    </div>
-                    <div style="display:flex;align-items:baseline;margin-bottom:6px;gap:8px;opacity:0;">
-                        <span style="font-weight:700;font-size:12px;">TRABAJO REALIZADO:</span>
-                        <span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;"></span>
-                    </div>
-                    
-                    <div style="display:flex;justify-content:space-between;margin-top:12px;gap:32px;">
-                        <div style="flex:1;text-align:center;"><div style="border-top:1px solid #000;padding-top:4px;font-size:11px;">OPERADOR</div></div>
-                        <div style="flex:1;text-align:center;"><div style="border-top:1px solid #000;padding-top:4px;font-size:11px;">SUPERVISOR</div></div>
-                    </div>
+        let html = `
+            <div style="font-family:monospace;padding:10px;background:white;max-width:100%;">
+                <div style="text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px;">
+                    TAREO DIARIO DE OPERADORES (VEHÍCULOS)
                 </div>
-            `;
-            
-            // Agregar separador entre registros
-            if (index < mensajesSeleccionados.length - 1) {
-                html += `<div style="page-break-after:always;"></div>`;
-            }
+                <div style="text-align:center;font-size:14px;margin-bottom:12px;">IMCO</div>
+        `;
+        
+        mensajesSeleccionados.forEach((msg) => {
+            const lineas = msg.texto.split('\n').filter(line => line.trim() !== '');
+            html += `<div style="margin-bottom:16px;padding:8px 0;page-break-inside:avoid;">`;
+            lineas.forEach(linea => {
+                html += `<div style="font-size:12px;line-height:1.6;">${escapeHTML(linea)}</div>`;
+            });
+            html += `</div>`;
         });
         
+        html += `</div>`;
+        
         const ventana = window.open('', '_blank');
-        ventana.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Tareo diario</title>' +
+        ventana.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Tareo diario - IMCO</title>' +
             '<style>' +
             '*{margin:0;padding:0;box-sizing:border-box;}' +
             'body{background:white;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:monospace;padding:20px;}' +
             '.tarjeta{font-family:monospace;padding:10px;background:white;max-width:800px;width:100%;}' +
-            '.titulo{text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #cbd5e1;padding-bottom:8px;margin-bottom:12px;}' +
+            '.titulo{text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px;}' +
             '.subtitulo{text-align:center;font-size:14px;margin-bottom:12px;}' +
-            '.fila{display:flex;flex-wrap:wrap;align-items:baseline;margin-bottom:6px;gap:8px;}' +
-            '.doble{display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;}' +
-            '.col{flex:1;display:flex;align-items:baseline;gap:8px;}' +
-            '.etiqueta{font-weight:700;font-size:12px;white-space:nowrap;}' +
-            '.linea{border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;min-height:20px;}' +
-            '.linea-larga{flex:2;border-bottom:1.5px solid #334155;padding:0 4px;font-size:12px;min-height:20px;}' +
-            '.linea-corta{width:120px;border-bottom:1.5px solid #334155;padding:0 4px;font-size:12px;min-height:20px;}' +
-            '.firmas{display:flex;justify-content:space-between;margin-top:12px;gap:32px;}' +
-            '.firma-item{flex:1;text-align:center;}' +
-            '.firma-linea{border-top:1px solid #000;padding-top:4px;font-size:11px;}' +
+            '.fila{font-size:12px;line-height:1.6;}' +
             '@media print{' +
             'body{padding:0;background:white;}' +
             '.tarjeta{padding:5px;}' +
-            '.linea,.linea-larga,.linea-corta{border-bottom:1px solid black;}' +
-            '.doble,.fila{margin-bottom:4px;}' +
             '@page{size:A4;margin:2mm 2mm 180mm 2mm;}' +
             '}' +
             '</style></head><body><div class="tarjeta">' +
@@ -3777,7 +3594,7 @@
     }
     
     // ============================================================
-    // 🖨️ PREVISUALIZACIÓN DE IMPRESIÓN (REPORTE)
+    // 🖨️ PREVISUALIZACIÓN DE IMPRESIÓN
     // ============================================================
     
     function mostrarPrevisualizacion() {
@@ -3805,6 +3622,7 @@
                 <div style="text-align:center;font-size:20px;font-weight:800;text-transform:uppercase;border-bottom:2px solid #cbd5e1;padding-bottom:8px;margin-bottom:12px;">
                     TAREO DIARIO DE OPERADORES (VEHÍCULOS)
                 </div>
+                <div style="text-align:center;font-size:14px;margin-bottom:12px;">IMCO</div>
                 
                 <div style="display:flex;justify-content:space-between;margin-bottom:6px;gap:16px;">
                     <div style="flex:1;display:flex;align-items:baseline;gap:8px;"><span style="font-weight:700;font-size:12px;">FECHA:</span><span style="border-bottom:1.5px solid #334155;flex:1;padding:0 4px;font-size:12px;">${fechaFormateada || '________'}</span></div>
@@ -3901,7 +3719,7 @@
         const contenido = document.getElementById('previewBody').innerHTML;
         
         const ventana = window.open('', '_blank');
-        ventana.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Tareo diario</title>' +
+        ventana.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Tareo diario - IMCO</title>' +
             '<style>' +
             '*{margin:0;padding:0;box-sizing:border-box;}' +
             'body{background:white;display:flex;justify-content:center;align-items:center;min-height:100vh;font-family:monospace;padding:20px;}' +
@@ -4137,11 +3955,11 @@
     }
     
     function guardarRegistros() { 
-        localStorage.setItem('registrosTransporte', JSON.stringify(registros)); 
+        localStorage.setItem('registrosTransporteIMCO', JSON.stringify(registros)); 
     }
     
     function cargarRegistros() { 
-        let g = localStorage.getItem('registrosTransporte'); 
+        let g = localStorage.getItem('registrosTransporteIMCO'); 
         if (g) { 
             registros = JSON.parse(g); 
             mostrarRegistros(); 
@@ -4189,7 +4007,7 @@
         }
 
         const fechaForm = fecha.split('-').reverse().join('/');
-        let texto = `📋 *TAREO DIARIO*\n`;
+        let texto = `📋 *TAREO DIARIO - IMCO*\n`;
         texto += `📅 Fecha: ${fechaForm}\n`;
         texto += `👤 Conductor: ${nombre}\n`;
         texto += `🚗 Vehículo: ${tipoVehiculo}\n`;
@@ -4326,10 +4144,10 @@
     }
 
     // ============================================================
-    // UNIRSE AL CHAT (SIN CONTRASEÑA)
+    // UNIRSE AL CHAT (LA SESIÓN SE MANTIENE ACTIVA)
     // ============================================================
     
-    async function joinChat(displayName) {
+    async function joinChat(displayName, password) {
         authError.style.display = 'none';
         authWarning.style.display = 'none';
         authSuccess.style.display = 'none';
@@ -4346,7 +4164,14 @@
             return;
         }
         
-        // Paul Manrique no necesita contraseña, siempre válido
+        if (!validateCredentials(displayName, password)) {
+            authError.textContent = '❌ Clave incorrecta. Verifica tu clave de acceso.';
+            authError.style.display = 'block';
+            userPasswordInput.value = '';
+            userPasswordInput.focus();
+            return;
+        }
+        
         const secretId = getUserSecretId(displayName);
         if (!secretId) {
             authError.textContent = '❌ Error: Usuario no encontrado.';
@@ -4504,9 +4329,14 @@
             authError.style.display = 'block';
             return;
         }
-        // Paul Manrique no necesita contraseña, pero si hay contraseña se ignora
+        if (!password) {
+            authError.textContent = '⚠️ Por favor ingresa tu clave de acceso';
+            authError.style.display = 'block';
+            userPasswordInput.focus();
+            return;
+        }
         joinBtn.disabled = true;
-        await joinChat(displayName);
+        await joinChat(displayName, password);
         joinBtn.disabled = false;
     });
     
@@ -4538,19 +4368,24 @@
     // INICIO
     // ============================================================
     
-    // Seleccionar a Paul Manrique automáticamente
-    selectedUser = "Paul Emerson Manrique Monzon";
     renderUserGrid([]);
     
     console.log('🚛 Transportes Mantenimiento - Chat con 4 Salas');
-    console.log('👤 Usuario: Paul Emerson Manrique Monzon (USR-023)');
-    console.log('👑 Paul Manrique tiene permisos de ADMINISTRADOR');
-    console.log('🔓 Ingreso sin contraseña (puedes escribir cualquier clave)');
-    console.log('📊 Planilla Google Sheets - Acceso: Administrador y Paul Manrique');
-    console.log('📌 Paul Manrique puede ver y eliminar TODOS los mensajes de Tareo y Chat General');
+    console.log('📋 Usuarios autorizados:', Object.keys(AUTHORIZED_USERS).length);
+    console.log('🚗 Placas disponibles:', PLACAS_LIST.length);
+    console.log('📊 Planilla Google Sheets - Acceso: Administrador y Paul Emerson Manrique Monzon');
+    console.log('👑 Administrador puede ver y eliminar TODOS los mensajes de Tareo y Chat General');
+    console.log('📌 Los usuarios solo eliminan SUS mensajes');
+    console.log('📌 Los usuarios NO pueden limpiar el historial de Reporte');
     console.log('📌 La sesión se mantiene activa hasta usar "Salir"');
     console.log('🕐 Zona horaria configurada: Perú (UTC-5)');
-    console.log('📌 Botón "✏️ Corregir" disponible en la sala de Tareo');
+    console.log('📌 En la sala de Tareo, lo que escribas aparecerá en el chat general');
+    console.log('📌 Eliminación de mensajes SIN confirmación en todas las salas');
+    console.log('📌 Sala de Tareo: solo últimos 5 mensajes, con botón "Cargar más" siempre visible');
+    console.log('📌 Auto-scroll al último mensaje en todas las salas');
+    console.log('📌 Mensajes ordenados por FECHA del registro');
+    console.log('📌 Botón "✏️ Corregir" para modificar mensajes seleccionados');
+    console.log('📌 "Cargar más" agrega mensajes hacia abajo');
 </script>
 </body>
 </html>
