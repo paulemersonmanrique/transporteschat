@@ -915,6 +915,101 @@
         .btn-planilla:active { transform: scale(0.96); }
         .btn-planilla:hover { opacity: 0.85; }
         
+        /* ===== ESTILO PARA SELECTOR DE PLACA CON INPUT ===== */
+        .placa-selector-wrapper {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            width: 100%;
+        }
+        .placa-selector-wrapper select {
+            flex: 1;
+            padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.6);
+            border: 2px solid #D9D9D9;
+            border-radius: calc(var(--radius-base) * 0.5);
+            font-size: calc(14px * var(--scale));
+            font-family: inherit;
+            background: white;
+            width: 100%;
+            min-height: 38px;
+        }
+        .placa-selector-wrapper select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1);
+        }
+        .placa-selector-wrapper .btn-agregar-placa {
+            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
+            background: var(--success);
+            color: white;
+            border: none;
+            border-radius: calc(var(--radius-base) * 0.5);
+            cursor: pointer;
+            font-size: calc(12px * var(--scale));
+            white-space: nowrap;
+            touch-action: manipulation;
+            min-height: 38px;
+            min-width: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .placa-selector-wrapper .btn-agregar-placa:active { transform: scale(0.95); }
+        .placa-selector-wrapper .btn-agregar-placa:hover { opacity: 0.85; }
+        .placa-selector-wrapper .input-placa-nueva {
+            flex: 1;
+            padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.6);
+            border: 2px solid var(--primary);
+            border-radius: calc(var(--radius-base) * 0.5);
+            font-size: calc(14px * var(--scale));
+            font-family: inherit;
+            background: #f0f7ff;
+            width: 100%;
+            display: none;
+            min-height: 38px;
+        }
+        .placa-selector-wrapper .input-placa-nueva:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1);
+        }
+        .placa-selector-wrapper .btn-cancelar-placa {
+            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
+            background: var(--error);
+            color: white;
+            border: none;
+            border-radius: calc(var(--radius-base) * 0.5);
+            cursor: pointer;
+            font-size: calc(12px * var(--scale));
+            white-space: nowrap;
+            touch-action: manipulation;
+            display: none;
+            min-height: 38px;
+            min-width: 34px;
+            align-items: center;
+            justify-content: center;
+        }
+        .placa-selector-wrapper .btn-cancelar-placa:active { transform: scale(0.95); }
+        .placa-selector-wrapper .btn-cancelar-placa:hover { opacity: 0.85; }
+        .placa-selector-wrapper .btn-guardar-placa {
+            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: calc(var(--radius-base) * 0.5);
+            cursor: pointer;
+            font-size: calc(12px * var(--scale));
+            white-space: nowrap;
+            touch-action: manipulation;
+            display: none;
+            min-height: 38px;
+            min-width: 34px;
+            align-items: center;
+            justify-content: center;
+        }
+        .placa-selector-wrapper .btn-guardar-placa:active { transform: scale(0.95); }
+        .placa-selector-wrapper .btn-guardar-placa:hover { opacity: 0.85; }
+        
         /* ===== ESTILOS PARA CELULAR ===== */
         @media (max-width: 520px) {
             body { padding: 0 !important; margin: 0 !important; }
@@ -1040,6 +1135,22 @@
                 font-size: calc(13px * var(--scale));
                 padding: 6px 8px;
             }
+            
+            .placa-selector-wrapper {
+                flex-wrap: wrap;
+            }
+            .placa-selector-wrapper .btn-agregar-placa,
+            .placa-selector-wrapper .btn-cancelar-placa,
+            .placa-selector-wrapper .btn-guardar-placa {
+                min-height: 34px;
+                font-size: calc(11px * var(--scale));
+                padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.6);
+            }
+            .placa-selector-wrapper .input-placa-nueva {
+                font-size: calc(13px * var(--scale));
+                padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.6);
+                min-height: 34px;
+            }
         }
 
         @media (max-width: 400px) {
@@ -1153,9 +1264,15 @@
             
             <div class="form-group">
                 <label>🚗 Placa</label>
-                <select id="corregirPlaca">
-                    <option value="">Seleccione una placa</option>
-                </select>
+                <div class="placa-selector-wrapper" id="corregirPlacaWrapper">
+                    <select id="corregirPlaca">
+                        <option value="">Seleccione una placa</option>
+                    </select>
+                    <button class="btn-agregar-placa" onclick="mostrarInputPlaca('corregir')" title="Agregar placa nueva">+</button>
+                    <input type="text" class="input-placa-nueva" id="corregirPlacaNueva" placeholder="Escribe la placa nueva..." maxlength="20">
+                    <button class="btn-guardar-placa" onclick="agregarNuevaPlaca('corregir')" title="Guardar placa">💾</button>
+                    <button class="btn-cancelar-placa" onclick="cancelarNuevaPlaca('corregir')">✕</button>
+                </div>
             </div>
             
             <div class="form-group">
@@ -1324,11 +1441,11 @@
         
         <!-- Mensajes Tareo -->
         <div class="messages-container hidden" id="tareoMessagesContainer">
-    <div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando registros de tareo...</div>
-</div>
-<div class="cargar-mas-container" id="cargarMasContainer">
-    <button class="btn-cargar-mas" id="btnCargarMas" onclick="cargarMasMensajes()">🔄 Cargar más mensajes</button>
-</div>
+            <div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando registros de tareo...</div>
+        </div>
+        <div class="cargar-mas-container" id="cargarMasContainer">
+            <button class="btn-cargar-mas" id="btnCargarMas" onclick="cargarMasMensajes()">🔄 Cargar más mensajes</button>
+        </div>
         
         <!-- REPORTE -->
         <div class="reporte-container" id="reporteContainer">
@@ -1379,9 +1496,15 @@
                 </div>
                 <div class="reporte-group">
                     <label>🚗 Placa</label>
-                    <select id="reportePlaca">
-                        <option value="">Seleccione una placa</option>
-                    </select>
+                    <div class="placa-selector-wrapper" id="reportePlacaWrapper">
+                        <select id="reportePlaca">
+                            <option value="">Seleccione una placa</option>
+                        </select>
+                        <button class="btn-agregar-placa" onclick="mostrarInputPlaca('reporte')" title="Agregar placa nueva">+</button>
+                        <input type="text" class="input-placa-nueva" id="reportePlacaNueva" placeholder="Escribe la placa nueva..." maxlength="20">
+                        <button class="btn-guardar-placa" onclick="agregarNuevaPlaca('reporte')" title="Guardar placa">💾</button>
+                        <button class="btn-cancelar-placa" onclick="cancelarNuevaPlaca('reporte')">✕</button>
+                    </div>
                 </div>
             </div>
             
@@ -1526,11 +1649,11 @@
         "Renzo Gonzalo Lipa Lipa": "9999",
         "Sandro Augusto Calizaya Calizaya": "5656",
         "Caceres Llutani, Williams": "6589",
-    "Poccori Leon, Cesar Orlando": "6489",
-    "Valdivia Tito, Humberto Manuel": "6389",
-    "Apaza Apaza, Luis Fernando": "6789",    
-    "Rimachi Chacca, Luis Alfredo": "6689",
-    "De la Cruz Mendoza , Christian Jesus": "9022"
+        "Poccori Leon, Cesar Orlando": "6489",
+        "Valdivia Tito, Humberto Manuel": "6389",
+        "Apaza Apaza, Luis Fernando": "6789",    
+        "Rimachi Chacca, Luis Alfredo": "6689",
+        "De la Cruz Mendoza , Christian Jesus": "9022"
     };
 
     // ============================================================
@@ -3591,6 +3714,235 @@
         });
         
         cargarRegistros();
+        
+        // ============================================================
+        // 🔄 FUNCIONES PARA SELECTORES DE PLACA CON INPUT
+        // ============================================================
+        
+        function mostrarInputPlaca(tipo) {
+            const wrapper = document.querySelector(`#${tipo}PlacaWrapper`) || document.querySelector(`#${tipo}Placa`)?.closest('.placa-selector-wrapper');
+            if (!wrapper) {
+                console.error(`No se encontró el wrapper para: ${tipo}`);
+                showToast('❌ Error al abrir el campo de placa');
+                return;
+            }
+            
+            const select = wrapper.querySelector('select');
+            const input = wrapper.querySelector('.input-placa-nueva');
+            const btnAgregar = wrapper.querySelector('.btn-agregar-placa');
+            const btnGuardar = wrapper.querySelector('.btn-guardar-placa');
+            const btnCancelar = wrapper.querySelector('.btn-cancelar-placa');
+            
+            if (select) select.style.display = 'none';
+            if (btnAgregar) btnAgregar.style.display = 'none';
+            if (btnGuardar) btnGuardar.style.display = 'inline-flex';
+            if (input) {
+                input.style.display = 'block';
+                input.value = '';
+                setTimeout(() => input.focus(), 100);
+            }
+            if (btnCancelar) btnCancelar.style.display = 'inline-flex';
+        }
+        
+        function cancelarNuevaPlaca(tipo) {
+            const wrapper = document.querySelector(`#${tipo}PlacaWrapper`) || document.querySelector(`#${tipo}Placa`)?.closest('.placa-selector-wrapper');
+            if (!wrapper) return;
+            
+            const select = wrapper.querySelector('select');
+            const input = wrapper.querySelector('.input-placa-nueva');
+            const btnAgregar = wrapper.querySelector('.btn-agregar-placa');
+            const btnGuardar = wrapper.querySelector('.btn-guardar-placa');
+            const btnCancelar = wrapper.querySelector('.btn-cancelar-placa');
+            
+            if (select) select.style.display = 'block';
+            if (btnAgregar) btnAgregar.style.display = 'inline-flex';
+            if (btnGuardar) btnGuardar.style.display = 'none';
+            if (input) {
+                input.style.display = 'none';
+                input.value = '';
+            }
+            if (btnCancelar) btnCancelar.style.display = 'none';
+        }
+        
+        function agregarNuevaPlaca(tipo) {
+            console.log(`➡️ agregarNuevaPlaca llamado con tipo: ${tipo}`);
+            
+            const wrapper = document.querySelector(`#${tipo}PlacaWrapper`) || document.querySelector(`#${tipo}Placa`)?.closest('.placa-selector-wrapper');
+            if (!wrapper) {
+                console.error(`No se encontró el wrapper para: ${tipo}`);
+                showToast('❌ Error: no se encontró el selector');
+                return;
+            }
+            
+            const input = wrapper.querySelector('.input-placa-nueva');
+            if (!input) {
+                console.error('No se encontró el input');
+                showToast('❌ Error: no se encontró el campo de texto');
+                return;
+            }
+            
+            const placa = input.value.trim().toUpperCase();
+            if (!placa) {
+                showToast('⚠️ Escribe una placa válida');
+                input.focus();
+                return;
+            }
+            
+            if (placa.length < 3) {
+                showToast('⚠️ La placa debe tener al menos 3 caracteres');
+                input.focus();
+                return;
+            }
+            
+            console.log(`🔧 Intentando guardar placa: "${placa}"`);
+            
+            // Verificar si ya existe en la lista
+            const todas = getListaPlacas();
+            if (todas.includes(placa)) {
+                const select = wrapper.querySelector('select');
+                if (select) {
+                    select.value = placa;
+                }
+                showToast(`✅ Placa "${placa}" ya existe, seleccionada`);
+                cancelarNuevaPlaca(tipo);
+                return;
+            }
+            
+            // Guardar en localStorage
+            guardarPlacaPersonalizada(placa);
+            
+            // Actualizar todos los selectores
+            actualizarTodosLosSelectoresPlaca();
+            
+            // Seleccionar la placa en el selector actual
+            const select = wrapper.querySelector('select');
+            if (select) {
+                select.value = placa;
+            }
+            
+            showToast(`✅ Placa "${placa}" agregada correctamente`);
+            cancelarNuevaPlaca(tipo);
+        }
+        
+        function getListaPlacas() {
+            const personalizadas = getPlacasGuardadas() || [];
+            const todas = [...PLACAS_LIST];
+            personalizadas.forEach(p => {
+                if (!todas.includes(p)) {
+                    todas.push(p);
+                }
+            });
+            return todas.sort();
+        }
+        
+        function getPlacasGuardadas() {
+            try {
+                const guardadas = localStorage.getItem('placasPersonalizadas');
+                if (guardadas) {
+                    const parsed = JSON.parse(guardadas);
+                    if (Array.isArray(parsed) && parsed.length > 0) {
+                        return parsed;
+                    }
+                }
+            } catch(e) {}
+            return null;
+        }
+        
+        function guardarPlacaPersonalizada(placa) {
+            if (!placa || placa.trim() === '') return false;
+            placa = placa.trim().toUpperCase();
+            
+            try {
+                let personalizadas = getPlacasGuardadas() || [];
+                if (!personalizadas.includes(placa)) {
+                    personalizadas.push(placa);
+                    localStorage.setItem('placasPersonalizadas', JSON.stringify(personalizadas));
+                    console.log(`💾 Placa "${placa}" guardada en localStorage`);
+                    return true;
+                }
+                return false;
+            } catch(e) {
+                console.error('❌ Error al guardar placa:', e);
+                return false;
+            }
+        }
+        
+        function actualizarTodosLosSelectoresPlaca() {
+            console.log('🔄 Actualizando todos los selectores de placa...');
+            const todas = getListaPlacas();
+            console.log(`📋 Total de placas: ${todas.length}`);
+            
+            // Actualizar reportePlaca
+            const reporteSelect = document.getElementById('reportePlaca');
+            if (reporteSelect) {
+                const currentValue = reporteSelect.value;
+                reporteSelect.innerHTML = '<option value="">Seleccione una placa</option>';
+                todas.forEach(p => {
+                    const opt = document.createElement('option');
+                    opt.value = p;
+                    opt.textContent = p;
+                    reporteSelect.appendChild(opt);
+                });
+                if (currentValue && todas.includes(currentValue)) {
+                    reporteSelect.value = currentValue;
+                }
+                console.log('✅ Selector de reporte actualizado');
+            }
+            
+            // Actualizar corregirPlaca
+            const corregirSelect = document.getElementById('corregirPlaca');
+            if (corregirSelect) {
+                const currentValue = corregirSelect.value;
+                corregirSelect.innerHTML = '<option value="">Seleccione una placa</option>';
+                todas.forEach(p => {
+                    const opt = document.createElement('option');
+                    opt.value = p;
+                    opt.textContent = p;
+                    corregirSelect.appendChild(opt);
+                });
+                if (currentValue && todas.includes(currentValue)) {
+                    corregirSelect.value = currentValue;
+                }
+                console.log('✅ Selector de corrección actualizado');
+            }
+        }
+        
+        function setupInputPlacaEventos() {
+            const reporteInput = document.getElementById('reportePlacaNueva');
+            if (reporteInput) {
+                reporteInput.removeEventListener('keydown', reporteInput._keydownHandler);
+                reporteInput._keydownHandler = function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        agregarNuevaPlaca('reporte');
+                    }
+                };
+                reporteInput.addEventListener('keydown', reporteInput._keydownHandler);
+            }
+            
+            const corregirInput = document.getElementById('corregirPlacaNueva');
+            if (corregirInput) {
+                corregirInput.removeEventListener('keydown', corregirInput._keydownHandler);
+                corregirInput._keydownHandler = function(e) {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        agregarNuevaPlaca('corregir');
+                    }
+                };
+                corregirInput.addEventListener('keydown', corregirInput._keydownHandler);
+            }
+        }
+        
+        // Exponer funciones globalmente
+        window.mostrarInputPlaca = mostrarInputPlaca;
+        window.cancelarNuevaPlaca = cancelarNuevaPlaca;
+        window.agregarNuevaPlaca = agregarNuevaPlaca;
+        window.getListaPlacas = getListaPlacas;
+        window.guardarPlacaPersonalizada = guardarPlacaPersonalizada;
+        window.actualizarTodosLosSelectoresPlaca = actualizarTodosLosSelectoresPlaca;
+        
+        // Configurar eventos de los inputs de placa nueva
+        setupInputPlacaEventos();
     }
     
     // ============================================================
@@ -4386,6 +4738,7 @@
     console.log('📌 Mensajes ordenados por FECHA del registro');
     console.log('📌 Botón "✏️ Corregir" para modificar mensajes seleccionados');
     console.log('📌 "Cargar más" agrega mensajes hacia abajo');
+    console.log('📌 Ahora se pueden agregar placas manualmente con el botón "+"');
 </script>
 </body>
 </html>
