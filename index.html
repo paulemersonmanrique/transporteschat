@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Transportes Mantenimiento</title>
+    <title>Tareo Transportes Mantenimiento</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
@@ -15,10 +15,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
-        /* ===== RESET ===== */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        /* ===== TEMAS ===== */
         :root {
             --primary-dark: #0A2E5C;
             --primary: #1A5FB4;
@@ -36,7 +34,6 @@
             --tareo-termino: #dc3545;
             --reporte-bg: #F8F9FA;
             
-            /* ===== TAMAÑOS ===== */
             --scale: 1;
             --font-base: 14px;
             --padding-base: 8px;
@@ -67,14 +64,12 @@
             --send-btn-size: 32px;
         }
         
-        /* ===== TAMAÑOS ===== */
         .size-small { --scale: 0.8; --font-base: 12px; --padding-base: 5px; --radius-base: 8px; --avatar-size: 28px; --input-height: 32px; --btn-size: 30px; --card-padding: 4px 2px; --header-height: 36px; --msg-padding: 3px 6px; --tareo-input-width: 36px; --tareo-label-width: 40px; --login-padding: 14px; --login-radius: 14px; --logo-size: 36px; --title-size: 15px; --subtitle-size: 10px; --user-card-padding: 4px 2px; --user-avatar-size: 24px; --user-name-size: 8px; --user-grid-gap: 4px; --badge-size: 6px; --badge-font: 7px; --online-font: 8px; --msg-font: 11px; --msg-footer-font: 7px; --input-padding: 4px 6px; --send-btn-size: 28px; }
         .size-medium { --scale: 1; --font-base: 14px; --padding-base: 8px; --radius-base: 10px; --avatar-size: 34px; --input-height: 38px; --btn-size: 36px; --card-padding: 8px 4px; --header-height: 44px; --msg-padding: 5px 8px; --tareo-input-width: 44px; --tareo-label-width: 50px; --login-padding: 24px; --login-radius: 20px; --logo-size: 48px; --title-size: 18px; --subtitle-size: 12px; --user-card-padding: 8px 4px; --user-avatar-size: 30px; --user-name-size: 10px; --user-grid-gap: 6px; --badge-size: 8px; --badge-font: 8px; --online-font: 9px; --msg-font: 12px; --msg-footer-font: 8px; --input-padding: 6px 8px; --send-btn-size: 32px; }
         .size-large { --scale: 1.15; --font-base: 16px; --padding-base: 10px; --radius-base: 12px; --avatar-size: 40px; --input-height: 44px; --btn-size: 42px; --card-padding: 10px 6px; --header-height: 52px; --msg-padding: 7px 10px; --tareo-input-width: 50px; --tareo-label-width: 58px; --login-padding: 28px; --login-radius: 24px; --logo-size: 56px; --title-size: 22px; --subtitle-size: 14px; --user-card-padding: 10px 6px; --user-avatar-size: 36px; --user-name-size: 12px; --user-grid-gap: 8px; --badge-size: 10px; --badge-font: 10px; --online-font: 11px; --msg-font: 14px; --msg-footer-font: 10px; --input-padding: 8px 10px; --send-btn-size: 38px; }
         .size-xlarge { --scale: 1.35; --font-base: 18px; --padding-base: 12px; --radius-base: 14px; --avatar-size: 48px; --input-height: 52px; --btn-size: 50px; --card-padding: 12px 8px; --header-height: 60px; --msg-padding: 9px 12px; --tareo-input-width: 58px; --tareo-label-width: 68px; --login-padding: 34px; --login-radius: 28px; --logo-size: 64px; --title-size: 26px; --subtitle-size: 16px; --user-card-padding: 12px 8px; --user-avatar-size: 44px; --user-name-size: 14px; --user-grid-gap: 10px; --badge-size: 12px; --badge-font: 12px; --online-font: 13px; --msg-font: 16px; --msg-footer-font: 12px; --input-padding: 10px 12px; --send-btn-size: 46px; }
         .size-xxlarge { --scale: 1.6; --font-base: 22px; --padding-base: 16px; --radius-base: 18px; --avatar-size: 58px; --input-height: 60px; --btn-size: 58px; --card-padding: 16px 10px; --header-height: 72px; --msg-padding: 12px 16px; --tareo-input-width: 68px; --tareo-label-width: 80px; --login-padding: 40px; --login-radius: 32px; --logo-size: 76px; --title-size: 32px; --subtitle-size: 20px; --user-card-padding: 16px 10px; --user-avatar-size: 54px; --user-name-size: 18px; --user-grid-gap: 12px; --badge-size: 14px; --badge-font: 14px; --online-font: 16px; --msg-font: 20px; --msg-footer-font: 14px; --input-padding: 14px 16px; --send-btn-size: 56px; }
         
-        /* ===== TEMAS DE COLOR ===== */
         .theme-azul { --primary-dark: #0A2E5C; --primary: #1A5FB4; --primary-light: #4A90D9; --primary-lighter: #E8F0FE; --bubble-sent: #D6E8FF; --bg-header: #0A2E5C; }
         .theme-verde { --primary-dark: #1A6B3C; --primary: #28A745; --primary-light: #5DD68C; --primary-lighter: #E6F9ED; --bubble-sent: #D4EDDA; --bg-header: #1A6B3C; }
         .theme-rojo { --primary-dark: #7A1A1A; --primary: #C82333; --primary-light: #E86A7A; --primary-lighter: #FDE8EA; --bubble-sent: #FDDDE0; --bg-header: #7A1A1A; }
@@ -83,14 +78,12 @@
         .theme-rosa { --primary-dark: #6B1A3A; --primary: #D63384; --primary-light: #E86A9A; --primary-lighter: #FDE8F0; --bubble-sent: #FDDDE8; --bg-header: #6B1A3A; }
         .theme-gris { --primary-dark: #2D3436; --primary: #636E72; --primary-light: #A0A4A8; --primary-lighter: #F0F0F0; --bubble-sent: #DEDEDE; --bg-header: #2D3436; }
         
-        /* ===== FUENTES ===== */
         .font-default { font-family: -apple-system, 'Segoe UI', Roboto, sans-serif; }
         .font-monospace { font-family: 'Courier New', monospace; }
         .font-sans { font-family: 'Segoe UI', Arial, sans-serif; }
         .font-serif { font-family: Georgia, 'Times New Roman', serif; }
         .font-rounded { font-family: 'Nunito', 'Segoe UI', rounded, sans-serif; }
         
-        /* ===== BODY ===== */
         html, body {
             height: 100%;
             width: 100%;
@@ -118,7 +111,6 @@
             height: 100dvh;
         }
         
-        /* ===== LOGIN ===== */
         #loginScreen {
             display: block !important;
             background: white;
@@ -199,17 +191,6 @@
             text-align: left;
             flex: 1;
         }
-        .user-card .user-status-dot { 
-            position: absolute; 
-            top: calc(var(--padding-base) * 0.4); 
-            right: calc(var(--padding-base) * 0.4); 
-            width: var(--badge-size); 
-            height: var(--badge-size); 
-            border-radius: 50%; 
-            border: 2px solid white; 
-        }
-        .user-card .user-status-dot.online { background: #28a745; }
-        .user-card .user-status-dot.offline { background: #ccc; }
         
         .form-group { margin-bottom: calc(var(--padding-base) * 1.2); text-align: left; }
         .form-group label { display: block; font-size: calc(var(--subtitle-size) * 0.9); font-weight: 600; color: #1A1A1A; margin-bottom: calc(var(--padding-base) * 0.3); }
@@ -236,7 +217,6 @@
         .success-msg { color: var(--success); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #F0FFF4; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--success); }
         .warning-msg { color: var(--warning); font-size: calc(12px * var(--scale)); margin-top: calc(var(--padding-base) * 0.8); display: none; padding: calc(var(--padding-base) * 0.8); background: #FFF3CD; border-radius: calc(var(--radius-base) * 0.6); border-left: 4px solid var(--warning); }
         
-        /* ===== SELECTOR DE TAMAÑO ===== */
         .size-selector {
             display: flex;
             gap: calc(var(--padding-base) * 0.3);
@@ -261,7 +241,6 @@
         .size-btn.active { border-color: var(--primary); background: var(--primary-lighter); color: var(--primary); }
         .size-btn i { margin-right: 4px; }
         
-        /* ===== SELECTOR DE TEMA ===== */
         .theme-selector { display: flex; gap: calc(var(--padding-base) * 0.6); justify-content: center; margin: calc(var(--padding-base) * 0.5) 0 calc(var(--padding-base) * 1); flex-wrap: wrap; }
         .theme-btn { width: calc(28px * var(--scale)); height: calc(28px * var(--scale)); border-radius: 50%; border: 3px solid #E9EDEF; cursor: pointer; transition: all 0.3s; -webkit-tap-highlight-color: transparent; position: relative; touch-action: manipulation; }
         .theme-btn:hover { transform: scale(1.1); }
@@ -276,7 +255,6 @@
         .theme-rosa-btn { background: #D63384; }
         .theme-gris-btn { background: #636E72; }
         
-        /* ===== SELECTOR DE FUENTE ===== */
         .font-selector {
             display: flex;
             gap: calc(var(--padding-base) * 0.3);
@@ -299,7 +277,6 @@
         .font-btn:active { transform: scale(0.95); }
         .font-btn.active { border-color: var(--primary); background: var(--primary-lighter); color: var(--primary); }
         
-        /* ===== CHAT ===== */
         #chatApp {
             display: none;
             width: 100%;
@@ -324,7 +301,7 @@
         .chat-header .header-icon { color: white; font-size: calc(16px * var(--scale)); }
         .chat-header .avatar { width: calc(var(--avatar-size) * 0.85); height: calc(var(--avatar-size) * 0.85); border-radius: 50%; background: rgba(255,255,255,0.2); color: white; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: calc(12px * var(--scale)); flex-shrink: 0; }
         .chat-header .info { flex: 1; min-width: 0; }
-        .chat-header .info h2 { color: white; font-size: calc(12px * var(--scale)); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .chat-header .info h2 { color: white; font-size: calc(14px * var(--scale)); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .chat-header .info .status { color: rgba(255,255,255,0.8); font-size: var(--online-font); }
         .chat-header .info .status .dot { width: calc(5px * var(--scale)); height: calc(5px * var(--scale)); background: #4CAF50; border-radius: 50%; display: inline-block; margin-right: 2px; animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
@@ -333,34 +310,6 @@
         .chat-header .header-btn.active { background: rgba(255,255,255,0.3); border-bottom: 2px solid white; }
         .chat-header .logout-btn { background: rgba(255,255,255,0.15); border: none; color: white; padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.6); border-radius: calc(var(--radius-base) * 0.4); cursor: pointer; font-size: calc(10px * var(--scale)); transition: all 0.2s; font-family: inherit; white-space: nowrap; touch-action: manipulation; }
         
-        .notification-badge {
-            position: fixed;
-            top: calc(var(--padding-base) * 1.2);
-            right: calc(var(--padding-base) * 1.2);
-            background: #dc3545;
-            color: white;
-            border-radius: 50%;
-            width: calc(20px * var(--scale));
-            height: calc(20px * var(--scale));
-            font-size: var(--badge-font);
-            font-weight: 700;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
-            animation: notifPop 0.3s ease;
-            cursor: pointer;
-        }
-        .notification-badge.show { display: flex; }
-        @keyframes notifPop { 0% { transform: scale(0.5); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
-        
-        .online-users { padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8); background: #F8F9FA; border-bottom: 1px solid #E9EDEF; font-size: var(--online-font); color: #667781; display: flex; gap: calc(var(--padding-base) * 0.3); flex-wrap: wrap; align-items: center; flex-shrink: 0; min-height: calc(22px * var(--scale)); }
-        .online-users .badge { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.2); background: #E9EDEF; padding: calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.3); border-radius: calc(var(--radius-base) * 0.5); font-size: calc(var(--badge-font) * 0.9); }
-        .online-users .badge .dot { width: calc(4px * var(--scale)); height: calc(4px * var(--scale)); border-radius: 50%; display: inline-block; }
-        .online-users .badge .dot.online { background: #4CAF50; }
-        
-        /* ===== CONTENEDOR DE MENSAJES ===== */
         .content-container {
             flex: 1;
             overflow-y: auto;
@@ -422,129 +371,6 @@
         .message .footer .author { font-weight: 600; color: var(--primary); transition: color 0.3s; }
         .message .footer .status { font-size: calc(var(--msg-footer-font) * 1.2); }
         
-        /* ===== BARRA DE ACCIONES DEL CHAT GENERAL ===== */
-        .chat-acciones {
-            display: none;
-            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
-            background: #FFF3CD;
-            border-bottom: 1px solid #FFEEBA;
-            gap: calc(var(--padding-base) * 0.5);
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        .chat-acciones.active { display: flex; }
-        .chat-acciones .btn-eliminar-seleccionados {
-            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
-            border: none;
-            border-radius: calc(var(--radius-base) * 0.4);
-            background: var(--error);
-            color: white;
-            font-size: calc(11px * var(--scale));
-            cursor: pointer;
-            touch-action: manipulation;
-        }
-        .chat-acciones .btn-eliminar-seleccionados:active { transform: scale(0.95); }
-        .chat-acciones .btn-seleccionar-todos {
-            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
-            border: none;
-            border-radius: calc(var(--radius-base) * 0.4);
-            background: var(--primary);
-            color: white;
-            font-size: calc(11px * var(--scale));
-            cursor: pointer;
-            touch-action: manipulation;
-        }
-        .chat-acciones .btn-seleccionar-todos:active { transform: scale(0.95); }
-        .chat-acciones .contador-seleccionados {
-            font-size: calc(11px * var(--scale));
-            color: #333;
-            font-weight: 600;
-        }
-        
-        /* ===== MENSAJES DE TAREO ===== */
-        .message.tareo { 
-            max-width: 95%; 
-            background: var(--tareo-bg); 
-            border-left: 4px solid var(--primary); 
-            align-self: flex-start; 
-            text-align: left; 
-            border-radius: calc(var(--radius-base) * 0.8); 
-            padding: calc(var(--padding-base) * 0.8) calc(var(--padding-base) * 1.2);
-            width: 100%;
-            margin-bottom: calc(var(--padding-base) * 0.2);
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: monospace;
-            font-size: calc(12px * var(--scale));
-            line-height: 1.6;
-        }
-        .message.tareo .tareo-checkbox {
-            margin-right: calc(var(--padding-base) * 0.3);
-            transform: scale(1.1);
-            cursor: pointer;
-            touch-action: manipulation;
-        }
-        .message.tareo .tareo-header {
-            display: none;
-        }
-        .message.tareo .tareo-detalle {
-            display: none;
-        }
-        .message.tareo .tareo-texto-plano {
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            font-family: monospace;
-            font-size: calc(12px * var(--scale));
-            line-height: 1.6;
-            color: #1A1A1A;
-        }
-        .message.tareo .footer { 
-            justify-content: flex-start; 
-            margin-top: calc(var(--padding-base) * 0.2); 
-            font-size: calc(10px * var(--scale));
-            color: #667781;
-        }
-        .message.tareo .btn-eliminar-tareo {
-            padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.6);
-            border: none;
-            border-radius: calc(var(--radius-base) * 0.3);
-            background: var(--error);
-            color: white;
-            font-size: calc(10px * var(--scale));
-            cursor: pointer;
-            margin-top: calc(var(--padding-base) * 0.2);
-            touch-action: manipulation;
-        }
-        .message.tareo .btn-eliminar-tareo:active { transform: scale(0.95); }
-        
-        /* ===== BOTÓN CARGAR MÁS MENSAJES ===== */
-        .cargar-mas-container {
-            text-align: center;
-            padding: calc(var(--padding-base) * 0.8);
-            display: block;
-        }
-        .btn-cargar-mas {
-            padding: calc(var(--padding-base) * 0.5) calc(var(--padding-base) * 1.5);
-            border: none;
-            border-radius: calc(var(--radius-base) * 0.5);
-            background: var(--primary);
-            color: white;
-            font-size: calc(12px * var(--scale));
-            cursor: pointer;
-            touch-action: manipulation;
-            transition: all 0.2s;
-            width: 100%;
-            max-width: 300px;
-            margin: 0 auto;
-        }
-        .btn-cargar-mas:active { transform: scale(0.96); }
-        .btn-cargar-mas:hover { opacity: 0.85; }
-        .btn-cargar-mas:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        /* ===== BOTÓN ELIMINAR SELECCIONADOS TAREO ===== */
         .tareo-acciones {
             display: none;
             padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
@@ -610,25 +436,111 @@
         .date-divider { text-align: center; margin: calc(var(--padding-base) * 0.3) 0 calc(var(--padding-base) * 0.6); }
         .date-divider span { background: rgba(26, 95, 180, 0.08); padding: calc(var(--padding-base) * 0.1) calc(var(--padding-base) * 0.8); border-radius: calc(var(--radius-base) * 0.4); font-size: calc(9px * var(--scale)); color: #667781; }
         
-        .typing-indicator { display: flex; align-items: center; gap: calc(var(--padding-base) * 0.3); padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8); background: rgba(255,255,255,0.85); border-radius: calc(var(--radius-base) * 0.8); align-self: flex-start; margin-bottom: calc(var(--padding-base) * 0.1); box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
-        .typing-dot { width: calc(4px * var(--scale)); height: calc(4px * var(--scale)); background: #667781; border-radius: 50%; animation: typingAnim 1.4s infinite; }
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typingAnim { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-3px); opacity: 1; } }
-        .typing-text { font-size: calc(9px * var(--scale)); color: #667781; margin-left: calc(var(--padding-base) * 0.2); }
+        .message.tareo { 
+            max-width: 95%; 
+            background: var(--tareo-bg); 
+            border-left: 4px solid var(--primary); 
+            align-self: flex-start; 
+            text-align: left; 
+            border-radius: calc(var(--radius-base) * 0.8); 
+            padding: calc(var(--padding-base) * 0.8) calc(var(--padding-base) * 1.2);
+            width: 100%;
+            margin-bottom: calc(var(--padding-base) * 0.2);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: monospace;
+            font-size: calc(12px * var(--scale));
+            line-height: 1.6;
+        }
+        .message.tareo .tareo-checkbox {
+            margin-right: calc(var(--padding-base) * 0.3);
+            transform: scale(1.1);
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .message.tareo .tareo-texto-plano {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: monospace;
+            font-size: calc(12px * var(--scale));
+            line-height: 1.6;
+            color: #1A1A1A;
+        }
+        .message.tareo .footer { 
+            justify-content: flex-start; 
+            margin-top: calc(var(--padding-base) * 0.2); 
+            font-size: calc(10px * var(--scale));
+            color: #667781;
+        }
+        .message.tareo .btn-eliminar-tareo {
+            padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.6);
+            border: none;
+            border-radius: calc(var(--radius-base) * 0.3);
+            background: var(--error);
+            color: white;
+            font-size: calc(10px * var(--scale));
+            cursor: pointer;
+            margin-top: calc(var(--padding-base) * 0.2);
+            touch-action: manipulation;
+        }
+        .message.tareo .btn-eliminar-tareo:active { transform: scale(0.95); }
         
-        /* ===== INPUT AREA ===== */
-        .input-area { background: #F0F2F5; padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.6); display: flex; flex-direction: column; gap: calc(var(--padding-base) * 0.3); border-top: 1px solid #D9D9D9; flex-shrink: 0; }
-        .input-area .input-row { display: flex; gap: calc(var(--padding-base) * 0.4); align-items: center; width: 100%; }
-        .input-area input[type="text"] { flex: 1; padding: var(--input-padding); border: 2px solid transparent; border-radius: calc(var(--radius-base) * 1.2); font-size: calc(16px * var(--scale)); outline: none; font-family: inherit; background: white; transition: all 0.3s; -webkit-appearance: none; appearance: none; min-height: calc(var(--input-height) * 0.9); touch-action: manipulation; }
-        .input-area input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1); }
-        .input-area input[type="text"]::placeholder { color: #8899A6; font-size: calc(12px * var(--scale)); }
-        .input-area .send-btn { background: var(--primary); border: none; color: white; width: var(--send-btn-size); height: var(--send-btn-size); border-radius: 50%; font-size: calc(12px * var(--scale)); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-        .input-area .send-btn:active { transform: scale(0.92); }
-        .input-area .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
-        .input-area .input-row.hidden { display: none; }
+        .cargar-mas-container {
+            text-align: center;
+            padding: calc(var(--padding-base) * 0.8);
+            display: block;
+        }
+        .btn-cargar-mas {
+            padding: calc(var(--padding-base) * 0.5) calc(var(--padding-base) * 1.5);
+            border: none;
+            border-radius: calc(var(--radius-base) * 0.5);
+            background: var(--primary);
+            color: white;
+            font-size: calc(12px * var(--scale));
+            cursor: pointer;
+            touch-action: manipulation;
+            transition: all 0.2s;
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+        .btn-cargar-mas:active { transform: scale(0.96); }
+        .btn-cargar-mas:hover { opacity: 0.85; }
+        .btn-cargar-mas:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
         
-        /* ===== REPORTE ===== */
+        .tareo-filtro {
+            display: none;
+            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .tareo-filtro label {
+            font-size: calc(11px * var(--scale));
+            font-weight: 600;
+        }
+        .tareo-filtro input[type="date"] {
+            padding: 4px 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: calc(12px * var(--scale));
+        }
+        .tareo-filtro .btn-filtrar {
+            padding: 4px 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: calc(11px * var(--scale));
+        }
+        .tareo-filtro .btn-filtrar:hover { opacity: 0.85; }
+        
         .reporte-container {
             display: none;
             flex-direction: column;
@@ -753,12 +665,6 @@
         .loading-overlay .text { color: white; font-size: calc(14px * var(--scale)); font-weight: 500; }
         @keyframes spin { to { transform: rotate(360deg); } }
         
-        .sound-indicator { position: fixed; top: calc(var(--padding-base) * 1.2); left: 50%; transform: translateX(-50%); background: rgba(0,0,0,0.7); color: white; padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.8); border-radius: calc(var(--radius-base) * 1.2); font-size: calc(10px * var(--scale)); z-index: 999; display: none; align-items: center; gap: calc(var(--padding-base) * 0.4); animation: fadeInOut 1.5s ease; }
-        .sound-indicator.show { display: flex; }
-        .sound-indicator i { font-size: calc(12px * var(--scale)); }
-        @keyframes fadeInOut { 0% { opacity: 0; transform: translateX(-50%) translateY(-6px); } 20% { opacity: 1; transform: translateX(-50%) translateY(0); } 80% { opacity: 1; transform: translateX(-50%) translateY(0); } 100% { opacity: 0; transform: translateX(-50%) translateY(-6px); } }
-        
-        /* ===== MODAL DE CORRECCIÓN ===== */
         .modal-corregir {
             display: none;
             position: fixed;
@@ -852,70 +758,6 @@
         .modal-corregir .btn-guardar:hover { opacity: 0.85; }
         .modal-corregir .btn-guardar:active { transform: scale(0.97); }
         
-        /* ===== PLANILLA GOOGLE SHEETS ===== */
-        .planilla-container {
-            display: none;
-            flex-direction: column;
-            gap: calc(var(--padding-base) * 0.5);
-            padding: calc(var(--padding-base) * 0.5);
-            height: 100%;
-        }
-        .planilla-container.active { display: flex; }
-        
-        .planilla-titulo {
-            font-size: calc(16px * var(--scale));
-            font-weight: 700;
-            color: var(--primary-dark);
-            text-align: center;
-            border-bottom: 2px solid var(--primary);
-            padding-bottom: calc(var(--padding-base) * 0.3);
-        }
-        .planilla-titulo span {
-            font-size: calc(10px * var(--scale));
-            color: #999;
-            font-weight: 400;
-        }
-        
-        #planillaFrameContainer {
-            flex: 1;
-            min-height: 0;
-            border-radius: calc(var(--radius-base) * 0.8);
-            overflow: hidden;
-            background: #f5f5f5;
-            border: 1px solid #e0e0e0;
-        }
-        
-        #planillaIframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            background: white;
-        }
-        
-        .planilla-footer {
-            display: flex;
-            gap: calc(var(--padding-base) * 0.4);
-            justify-content: center;
-            flex-wrap: wrap;
-            padding-bottom: calc(var(--padding-base) * 0.3);
-        }
-        
-        .btn-planilla {
-            padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 1);
-            border: none;
-            border-radius: calc(var(--radius-base) * 0.5);
-            font-size: calc(11px * var(--scale));
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            touch-action: manipulation;
-            background: var(--primary);
-            color: white;
-        }
-        .btn-planilla:active { transform: scale(0.96); }
-        .btn-planilla:hover { opacity: 0.85; }
-        
-        /* ===== ESTILO PARA SELECTOR DE PLACA CON INPUT ===== */
         .placa-selector-wrapper {
             display: flex;
             gap: 6px;
@@ -1010,10 +852,8 @@
         .placa-selector-wrapper .btn-guardar-placa:active { transform: scale(0.95); }
         .placa-selector-wrapper .btn-guardar-placa:hover { opacity: 0.85; }
         
-        /* ===== ESTILOS PARA CELULAR ===== */
         @media (max-width: 520px) {
             body { padding: 0 !important; margin: 0 !important; }
-            
             #loginScreen { 
                 padding: calc(var(--login-padding) * 0.6); 
                 border-radius: 0; 
@@ -1027,7 +867,6 @@
                 overflow-y: auto;
                 display: block !important;
             }
-            
             .user-grid { 
                 grid-template-columns: 1fr;
                 gap: calc(var(--user-grid-gap) * 0.8); 
@@ -1039,7 +878,6 @@
                 border-radius: calc(var(--radius-base) * 0.6);
                 background: #FAFBFC;
             }
-            
             .user-card {
                 display: flex;
                 align-items: center;
@@ -1047,7 +885,6 @@
                 padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 0.8);
                 text-align: left;
             }
-            
             .user-card .user-avatar { 
                 width: calc(var(--user-avatar-size) * 0.9); 
                 height: calc(var(--user-avatar-size) * 0.9); 
@@ -1059,28 +896,22 @@
                 text-align: left;
                 flex: 1;
             }
-            
             .size-selector { gap: calc(var(--padding-base) * 0.2); margin: calc(var(--padding-base) * 0.4) 0; }
             .size-btn { 
                 font-size: calc(9px * var(--scale)); 
                 padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.7); 
             }
-            
             .theme-selector { gap: calc(var(--padding-base) * 0.4); margin: calc(var(--padding-base) * 0.3) 0; }
             .theme-btn { width: calc(26px * var(--scale)); height: calc(26px * var(--scale)); }
-            
             .font-selector { gap: calc(var(--padding-base) * 0.2); margin: calc(var(--padding-base) * 0.3) 0; }
             .font-btn { 
                 font-size: calc(8px * var(--scale)); 
                 padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.6); 
             }
-            
             .logo-icon { font-size: calc(var(--logo-size) * 0.9); margin-bottom: calc(var(--padding-base) * 0.2); }
             .logo-title { font-size: calc(var(--title-size) * 0.9); }
             .logo-subtitle { font-size: calc(var(--subtitle-size) * 0.85); margin-bottom: calc(var(--padding-base) * 0.8); }
-            
             .user-selector .label { font-size: calc(var(--subtitle-size) * 0.8); margin-bottom: calc(var(--padding-base) * 0.3); }
-            
             .form-group { margin-bottom: calc(var(--padding-base) * 0.8); }
             .form-group label { font-size: calc(var(--subtitle-size) * 0.8); }
             .form-group input { 
@@ -1088,22 +919,17 @@
                 padding: calc(var(--padding-base) * 0.8) calc(var(--padding-base) * 1.2); 
                 height: calc(var(--input-height) * 1);
             }
-            
             .btn-primary { 
                 font-size: calc(14px * var(--scale)); 
                 padding: calc(var(--padding-base) * 1); 
                 height: calc(var(--input-height) * 1.1);
                 margin-top: calc(var(--padding-base) * 0.3);
             }
-            
             .error-msg, .success-msg, .warning-msg { font-size: calc(11px * var(--scale)); padding: calc(var(--padding-base) * 0.5); }
-            
-            .chat-acciones, .tareo-acciones {
+            .tareo-acciones {
                 padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.4);
                 gap: calc(var(--padding-base) * 0.3);
             }
-            .chat-acciones .btn-eliminar-seleccionados,
-            .chat-acciones .btn-seleccionar-todos,
             .tareo-acciones .btn-eliminar-seleccionados,
             .tareo-acciones .btn-seleccionar-todos,
             .tareo-acciones .btn-imprimir-seleccionados,
@@ -1111,7 +937,6 @@
                 font-size: calc(9px * var(--scale));
                 padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.5);
             }
-            
             .message.tareo {
                 font-size: calc(11px * var(--scale));
                 padding: calc(var(--padding-base) * 0.6) calc(var(--padding-base) * 1);
@@ -1119,12 +944,10 @@
             .message.tareo .tareo-texto-plano {
                 font-size: calc(11px * var(--scale));
             }
-            
             .btn-cargar-mas {
                 font-size: calc(11px * var(--scale));
                 padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 1);
             }
-            
             .modal-corregir .modal-content {
                 padding: 15px;
                 max-width: 100%;
@@ -1135,7 +958,6 @@
                 font-size: calc(13px * var(--scale));
                 padding: 6px 8px;
             }
-            
             .placa-selector-wrapper {
                 flex-wrap: wrap;
             }
@@ -1150,6 +972,19 @@
                 font-size: calc(13px * var(--scale));
                 padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.6);
                 min-height: 34px;
+            }
+            .reporte-grid {
+                grid-template-columns: 1fr;
+            }
+            .reporte-botones {
+                grid-template-columns: 1fr;
+            }
+            .reporte-botones .btn-reporte.whatsapp {
+                grid-column: 1;
+            }
+            .chat-header .header-btn {
+                font-size: calc(8px * var(--scale));
+                padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.4);
             }
         }
 
@@ -1177,6 +1012,186 @@
                 font-size: calc(10px * var(--scale));
             }
         }
+
+        .impresion-preview {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 9999;
+            padding: 20px;
+            overflow-y: auto;
+            align-items: center;
+            justify-content: center;
+        }
+        .impresion-preview.active { display: flex; }
+        .impresion-preview .preview-content {
+            background: white;
+            max-width: 800px;
+            width: 100%;
+            border-radius: 12px;
+            padding: 20px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+        }
+        .impresion-preview .preview-close {
+            position: sticky;
+            top: 0;
+            float: right;
+            background: var(--error);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .impresion-preview .btn-imprimir-preview {
+            width: 100%;
+            padding: 12px;
+            background: #2c3e50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 16px;
+        }
+        .impresion-preview .btn-imprimir-preview:hover { background: #1a2632; }
+        
+        .sound-indicator { 
+            position: fixed; 
+            top: calc(var(--padding-base) * 1.2); 
+            left: 50%; 
+            transform: translateX(-50%); 
+            background: rgba(0,0,0,0.7); 
+            color: white; 
+            padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.8); 
+            border-radius: calc(var(--radius-base) * 1.2); 
+            font-size: calc(10px * var(--scale)); 
+            z-index: 999; 
+            display: none; 
+            align-items: center; 
+            gap: calc(var(--padding-base) * 0.4); 
+            animation: fadeInOut 1.5s ease; 
+        }
+        .sound-indicator.show { display: flex; }
+        .sound-indicator i { font-size: calc(12px * var(--scale)); }
+        @keyframes fadeInOut { 
+            0% { opacity: 0; transform: translateX(-50%) translateY(-6px); } 
+            20% { opacity: 1; transform: translateX(-50%) translateY(0); } 
+            80% { opacity: 1; transform: translateX(-50%) translateY(0); } 
+            100% { opacity: 0; transform: translateX(-50%) translateY(-6px); } 
+        }
+
+        .notification-badge {
+            position: fixed;
+            top: calc(var(--padding-base) * 1.2);
+            right: calc(var(--padding-base) * 1.2);
+            background: #dc3545;
+            color: white;
+            border-radius: 50%;
+            width: calc(20px * var(--scale));
+            height: calc(20px * var(--scale));
+            font-size: var(--badge-font);
+            font-weight: 700;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+            animation: notifPop 0.3s ease;
+            cursor: pointer;
+        }
+        .notification-badge.show { display: flex; }
+        @keyframes notifPop { 0% { transform: scale(0.5); } 70% { transform: scale(1.2); } 100% { transform: scale(1); } }
+
+        .input-area { 
+            background: #F0F2F5; 
+            padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 0.6); 
+            display: flex; 
+            flex-direction: column; 
+            gap: calc(var(--padding-base) * 0.3); 
+            border-top: 1px solid #D9D9D9; 
+            flex-shrink: 0; 
+        }
+        .input-area .input-row { display: flex; gap: calc(var(--padding-base) * 0.4); align-items: center; width: 100%; }
+        .input-area input[type="text"] { 
+            flex: 1; padding: var(--input-padding); border: 2px solid transparent; border-radius: calc(var(--radius-base) * 1.2); font-size: calc(16px * var(--scale)); outline: none; font-family: inherit; background: white; transition: all 0.3s; -webkit-appearance: none; appearance: none; min-height: calc(var(--input-height) * 0.9); touch-action: manipulation; 
+        }
+        .input-area input[type="text"]:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1); }
+        .input-area input[type="text"]::placeholder { color: #8899A6; font-size: calc(12px * var(--scale)); }
+        .input-area .send-btn { background: var(--primary); border: none; color: white; width: var(--send-btn-size); height: var(--send-btn-size); border-radius: 50%; font-size: calc(12px * var(--scale)); cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; flex-shrink: 0; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+        .input-area .send-btn:active { transform: scale(0.92); }
+        .input-area .send-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; }
+        .input-area .input-row.hidden { display: none; }
+
+        .planilla-container {
+            display: none;
+            flex-direction: column;
+            gap: calc(var(--padding-base) * 0.5);
+            padding: calc(var(--padding-base) * 0.5);
+            height: 100%;
+        }
+        .planilla-container.active { display: flex; }
+        .planilla-titulo {
+            font-size: calc(16px * var(--scale));
+            font-weight: 700;
+            color: var(--primary-dark);
+            text-align: center;
+            border-bottom: 2px solid var(--primary);
+            padding-bottom: calc(var(--padding-base) * 0.3);
+        }
+        .planilla-titulo span {
+            font-size: calc(10px * var(--scale));
+            color: #999;
+            font-weight: 400;
+        }
+        #planillaFrameContainer {
+            flex: 1;
+            min-height: 0;
+            border-radius: calc(var(--radius-base) * 0.8);
+            overflow: hidden;
+            background: #f5f5f5;
+            border: 1px solid #e0e0e0;
+        }
+        #planillaIframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: white;
+        }
+        .planilla-footer {
+            display: flex;
+            gap: calc(var(--padding-base) * 0.4);
+            justify-content: center;
+            flex-wrap: wrap;
+            padding-bottom: calc(var(--padding-base) * 0.3);
+        }
+        .btn-planilla {
+            padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 1);
+            border: none;
+            border-radius: calc(var(--radius-base) * 0.5);
+            font-size: calc(11px * var(--scale));
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            touch-action: manipulation;
+            background: var(--primary);
+            color: white;
+        }
+        .btn-planilla:active { transform: scale(0.96); }
+        .btn-planilla:hover { opacity: 0.85; }
     </style>
 </head>
 <body>
@@ -1193,12 +1208,11 @@
     <span id="soundText">🔊 Sonido</span>
 </div>
 
-<div class="notification-badge" id="notificationBadge" onclick="scrollToBottom()">
+<div class="notification-badge" id="notificationBadge" onclick="scrollToBottomTareo()">
     <span id="notifCount">0</span>
 </div>
 
-<!-- ===== PREVISUALIZACIÓN DE IMPRESIÓN ===== -->
-<div class="impresion-preview" id="impresionPreview" style="display:none !important;">
+<div class="impresion-preview" id="impresionPreview">
     <div class="preview-content" id="previewContent">
         <button class="preview-close" onclick="cerrarPrevisualizacion()">✕</button>
         <div id="previewBody"></div>
@@ -1206,7 +1220,6 @@
     </div>
 </div>
 
-<!-- ===== MODAL DE CORRECCIÓN ===== -->
 <div class="modal-corregir" id="modalCorregir">
     <div class="modal-content">
         <div class="modal-header">
@@ -1311,11 +1324,10 @@
 </div>
 
 <div id="loginScreen">
-    <i class="fas fa-bus logo-icon"></i>
-    <div class="logo-title">Transportes <span>Mantenimiento</span></div>
-    <div class="logo-subtitle">Selecciona tu usuario y ingresa tu clave</div>
+    <i class="fas fa-clipboard-list logo-icon"></i>
+    <div class="logo-title">Tareo <span>Transportes Mantenimiento</span></div>
+    <div class="logo-subtitle">Paul Manrique - Acceso al sistema</div>
     
-    <!-- SELECTOR DE TAMAÑO -->
     <div class="size-selector" id="sizeSelector">
         <button class="size-btn" data-size="small" onclick="changeSize('small')"><i class="fas fa-font"></i> Peq</button>
         <button class="size-btn active" data-size="medium" onclick="changeSize('medium')"><i class="fas fa-font"></i> Med</button>
@@ -1324,7 +1336,6 @@
         <button class="size-btn" data-size="xxlarge" onclick="changeSize('xxlarge')"><i class="fas fa-font"></i> UGrd</button>
     </div>
     
-    <!-- SELECTOR DE TEMA -->
     <div class="theme-selector" id="themeSelector">
         <button class="theme-btn theme-azul-btn active" data-theme="azul" onclick="changeTheme('azul')"><span class="check">✓</span></button>
         <button class="theme-btn theme-verde-btn" data-theme="verde" onclick="changeTheme('verde')"><span class="check">✓</span></button>
@@ -1335,7 +1346,6 @@
         <button class="theme-btn theme-gris-btn" data-theme="gris" onclick="changeTheme('gris')"><span class="check">✓</span></button>
     </div>
     
-    <!-- SELECTOR DE FUENTE -->
     <div class="font-selector" id="fontSelector">
         <button class="font-btn active" data-font="default" onclick="changeFont('default')">🔤 Default</button>
         <button class="font-btn" data-font="monospace" onclick="changeFont('monospace')">🔤 Mono</button>
@@ -1346,7 +1356,7 @@
     
     <div class="user-selector">
         <div class="label">
-            <i class="fas fa-users"></i> Selecciona tu usuario
+            <i class="fas fa-user"></i> Usuario autorizado
             <span style="font-size:var(--online-font);color:#8899A6;font-weight:400;margin-left:auto;" id="userCountLabel">0 conectados</span>
         </div>
         <div class="user-grid" id="userGrid"></div>
@@ -1365,7 +1375,7 @@
         </div>
         
         <button type="submit" class="btn-primary" id="joinBtn">
-            <i class="fas fa-sign-in-alt"></i> Entrar al chat
+            <i class="fas fa-sign-in-alt"></i> Ingresar al sistema
         </button>
         
         <div class="error-msg" id="authError"></div>
@@ -1376,19 +1386,18 @@
 
 <div id="chatApp">
     <header class="chat-header">
-        <i class="fas fa-bus header-icon"></i>
+        <i class="fas fa-clipboard-list header-icon"></i>
         <div class="avatar" id="chatAvatar">👤</div>
         <div class="info">
-            <h2 id="chatRoomTitle">💬 Chat General</h2>
+            <h2 id="chatRoomTitle">⏰ Tareo Transportes Mantenimiento</h2>
             <div class="status">
                 <span class="dot"></span>
                 <span id="userCount">0</span> conectados
             </div>
         </div>
-        <button class="header-btn active" id="btnGeneral" onclick="switchRoom('general')">💬</button>
-        <button class="header-btn" id="btnTareo" onclick="switchRoom('tareo')">⏰</button>
+        <button class="header-btn active" id="btnTareo" onclick="switchRoom('tareo')">⏰</button>
         <button class="header-btn" id="btnReporte" onclick="switchRoom('reporte')">📋</button>
-        <button class="header-btn" id="btnPlanilla" onclick="switchRoom('planilla')" style="display:none;">📊</button>
+        <button class="header-btn" id="btnPlanilla" onclick="switchRoom('planilla')">📊</button>
         <button class="header-btn" id="sizeToggleBtn" onclick="toggleSizeSelector()" title="Tamaño">
             <i class="fas fa-font"></i>
         </button>
@@ -1403,27 +1412,13 @@
         </button>
     </header>
     
-    <div class="online-users" id="onlineUsers">
-        <span style="font-weight:600;">🟢 Conectados:</span>
-        <span id="userList">Cargando...</span>
+    <div class="tareo-filtro" id="tareoFiltro">
+        <label>🔍 Buscar fecha:</label>
+        <input type="date" id="tareoBuscarFecha">
+        <button class="btn-filtrar" onclick="filtrarTareoPorFecha()">Buscar</button>
+        <button class="btn-filtrar" onclick="limpiarFiltroTareo()">Limpiar</button>
     </div>
     
-    <!-- ===== ACCIONES DEL CHAT GENERAL ===== -->
-    <div class="chat-acciones" id="chatAcciones">
-        <span class="contador-seleccionados" id="contadorSeleccionadosChat">0 seleccionados</span>
-        <button class="btn-seleccionar-todos" onclick="seleccionarTodosChat()">☑ Todos</button>
-        <button class="btn-eliminar-seleccionados" onclick="eliminarSeleccionadosChat()">🗑️ Eliminar</button>
-    </div>
-    
-    <!-- ===== FILTRO DE FECHA PARA TAREO ===== -->
-    <div class="tareo-filtro" id="tareoFiltro" style="display:none; padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8); background: #f8f9fa; border-bottom: 1px solid #e9ecef; gap: 8px; align-items: center; flex-wrap: wrap;">
-        <label style="font-size:calc(11px * var(--scale)); font-weight:600;">🔍 Buscar fecha:</label>
-        <input type="date" id="tareoBuscarFecha" style="padding:4px 8px; border:1px solid #ccc; border-radius:4px; font-size:calc(12px * var(--scale));">
-        <button class="btn-filtrar" onclick="filtrarTareoPorFecha()" style="padding:4px 12px; background:var(--primary); color:white; border:none; border-radius:4px; cursor:pointer; font-size:calc(11px * var(--scale));">Buscar</button>
-        <button class="btn-filtrar" onclick="limpiarFiltroTareo()" style="padding:4px 12px; background:#95a5a6; color:white; border:none; border-radius:4px; cursor:pointer; font-size:calc(11px * var(--scale));">Limpiar</button>
-    </div>
-    
-    <!-- ===== ACCIONES TAREO ===== -->
     <div class="tareo-acciones" id="tareoAcciones">
         <span class="contador-seleccionados" id="contadorSeleccionados">0 seleccionados</span>
         <button class="btn-seleccionar-todos" onclick="seleccionarTodosTareo()">☑ Todos</button>
@@ -1432,22 +1427,14 @@
         <button class="btn-eliminar-seleccionados" onclick="eliminarSeleccionadosTareo()">🗑️ Eliminar</button>
     </div>
     
-    <!-- CONTENEDOR PRINCIPAL -->
     <div class="content-container" id="contentContainer">
-        <!-- Mensajes General -->
-        <div class="messages-container" id="messagesContainer">
-            <div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>
-        </div>
-        
-        <!-- Mensajes Tareo -->
-        <div class="messages-container hidden" id="tareoMessagesContainer">
+        <div class="messages-container" id="tareoMessagesContainer">
             <div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando registros de tareo...</div>
         </div>
         <div class="cargar-mas-container" id="cargarMasContainer">
             <button class="btn-cargar-mas" id="btnCargarMas" onclick="cargarMasMensajes()">🔄 Cargar más mensajes</button>
         </div>
         
-        <!-- REPORTE -->
         <div class="reporte-container" id="reporteContainer">
             <div class="reporte-titulo">📋 Registro diario de transporte</div>
             
@@ -1508,7 +1495,6 @@
                 </div>
             </div>
             
-            <!-- Horas -->
             <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px;">
                 <div class="reporte-group">
                     <label id="reporteLabelInicio">🕐 Hora inicial A</label>
@@ -1548,15 +1534,14 @@
             <div class="reporte-historial">
                 <div class="historial-titulo">
                     <h3>📋 Registro Histórico</h3>
-                    <button class="btn-limpiar-todo" onclick="limpiarTodoHistorial()" style="display:none;">🗑️ Limpiar todo</button>
+                    <button class="btn-limpiar-todo" onclick="limpiarTodoHistorial()">🗑️ Limpiar todo</button>
                 </div>
                 <div id="listaRegistros"><div class="registro-vacio">No hay registros aún</div></div>
             </div>
         </div>
         
-        <!-- PLANILLA GOOGLE SHEETS -->
         <div class="planilla-container" id="planillaContainer">
-            <div class="planilla-titulo">📊 Planilla de Tareo <span>(solo Administrador y Paul Manrique)</span></div>
+            <div class="planilla-titulo">📊 Planilla de Tareo <span>(solo Paul Manrique)</span></div>
             <div id="planillaFrameContainer">
                 <iframe id="planillaIframe" src="about:blank" frameborder="0"></iframe>
             </div>
@@ -1567,10 +1552,9 @@
         </div>
     </div>
     
-    <!-- INPUT AREA -->
     <div class="input-area" id="inputArea">
         <div class="input-row" id="chatInputRow">
-            <input type="text" id="messageInput" placeholder="Escribe un mensaje..." autocomplete="off" inputmode="text" enterkeyhint="send">
+            <input type="text" id="messageInput" placeholder="Escribe un mensaje para el chat general..." autocomplete="off" inputmode="text" enterkeyhint="send">
             <button class="send-btn" id="sendBtn">
                 <i class="fas fa-paper-plane"></i>
             </button>
@@ -1599,61 +1583,33 @@
     // ============================================================
     
     const PLACAS_LIST = [
-    "APD-835", "APJ-912", "APM-936", "AYB-701", "AZR-944", "AZT-781",
-    "BSR-921", "BTO-748", "BWB-603", "BXJ-718", "BYP-595",
-    "CCQ-836", "CEE-354", "CHG-289", "CNH-087",
-    "D7Y-940",
-    "F1U-957",
-    "LTM 1050",
-    "RT780",
-    "V0T-627", "V0U-041", "V0X-833", "V4W-779", "V6H-718", "V7O-730", "V7S-792", "V7U-846", "V8H-917", "V8T-824", "V9J-722",
-    "VAB-845", "VAQ-005", "VAP-476", "VAP-587", "VAP-774", "VAP-796", "VAP-826", "VAP-920", "VAR-508", "VAZ-878",
-    "VBJ-005", "VBJ-462", "VBJ-494", "VBJ-626", "VBK-206", "VBO-519", "VBQ-955", "VBQ-963", "VBQ-968", "VBX-797",
-    "VCB-394", "VCB-395", "VCD-462", "VCD-470", "VCD-945", "VCE-712", "VCE-750", "VCE-758", "VCF-939", "VCH-357", "VCH-613",
-    "VCI-025", "VCJ-257", "VCJ-284", "VCJ-608", "VCM-847", "VCP-736", "VCQ-501", "VCQ-527", "VCQ-561", "VCQ-577",
-    "VCR-165", "VCS-675", "VCS-684", "VCV-415", "VCZ-454",
-    "VDG-470", "VDK-332", "VDN-919", "VDR-359", "VDW-950",
-    "VER-895", "VES-828", "VEW-879", "VFJ-967", "VFM-959", "VFF-797", "VFF-958", "VFF-969", "VFU-966", "Z-45/25", "Z-60/34"
-    , "GS-5390", "ZA14J", "Z-80/60", "Z-62/40", "S-100" 
-].sort();
+        "APD-835", "APJ-912", "APM-936", "AYB-701", "AZR-944", "AZT-781",
+        "BSR-921", "BTO-748", "BWB-603", "BXJ-718", "BYP-595",
+        "CCQ-836", "CEE-354", "CHG-289", "CNH-087",
+        "D7Y-940", "F1U-957",
+        "LTM 1050", "RT780",
+        "V0T-627", "V0U-041", "V0X-833", "V4W-779", "V6H-718", "V7O-730", "V7S-792", "V7U-846", "V8H-917", "V8T-824", "V9J-722",
+        "VAB-845", "VAQ-005", "VAP-476", "VAP-587", "VAP-774", "VAP-796", "VAP-826", "VAP-920", "VAR-508", "VAZ-878",
+        "VBJ-005", "VBJ-462", "VBJ-494", "VBJ-626", "VBK-206", "VBO-519", "VBQ-955", "VBQ-963", "VBQ-968", "VBX-797",
+        "VCB-394", "VCB-395", "VCD-462", "VCD-470", "VCD-945", "VCE-712", "VCE-750", "VCE-758", "VCF-939", "VCH-357", "VCH-613",
+        "VCI-025", "VCJ-257", "VCJ-284", "VCJ-608", "VCM-847", "VCP-736", "VCQ-501", "VCQ-527", "VCQ-561", "VCQ-577",
+        "VCR-165", "VCS-675", "VCS-684", "VCV-415", "VCZ-454",
+        "VDG-470", "VDK-332", "VDN-919", "VDR-359", "VDW-950",
+        "VER-895", "VES-828", "VEW-879", "VFJ-967", "VFM-959", "VFF-797", "VFF-958", "VFF-969", "VFU-966", "Z-45/25", "Z-60/34",
+        "GS-5390", "ZA14J", "Z-80/60", "Z-62/40", "S-100"
+    ].sort();
 
     // ============================================================
-    // 📋 LISTA DE USUARIOS
+    // 📋 LISTA DE USUARIOS - SOLO PAUL MANRIQUE (USR-023)
     // ============================================================
     
     const AUTHORIZED_USERS = {
-        "ADMINISTRADOR": "admin123",
-        "Alex Antonio Cornejo Quispe": "7890",
-        "Alexander Gomez Chora": "1234",    
-        "Anders Willian Zegarra Yanque": "2345",
-        "Carlos Alfredo Mamani Viveros": "4567",
-        "Cristhian John De La Cruz Jara": "9012",    
-        "Dante Dennis Torrez Enriquez": "0123",
-        "Edgar Raul Almanza Castro": "0000",
-        "Elvis Joel Tunque Palomino": "6666",
-        "Fabian Aurelio Huamani Choquehuanca": "8901",
-        "Felipe Zenon Mayta Yanqui": "9090",
-        "Henry Raul Calderon Arela": "7777",
-        "Jhunior Reymuer Quispe Nina": "7878",
-        "Joe Anthony Contreras Panuera": "5678",
-        "Joel Alexander Alejo Soto": "4444",
-        "Jose Luis Alvarez Iquiapaza": "8888",
-        "Jose Luis Camargo Bautista": "9090",
-        "Jose Luis Rivas Morales": "2222",
-        "Juan Manuel Gomez Rodriguez": "1212",
-        "Julio Nina Huayllani": "5555",
-        "Marcos Antonio Mamani Monzon": "3456",
-        "Oscar Tomas Moron Zuñiga": "1111",
-        "Paul Emerson Manrique Monzon": "3333",
-        //"Rafael Hernando Ordoñez Huaco": "3434",
-        //"Renzo Gonzalo Lipa Lipa": "9999",
-        //"Sandro Augusto Calizaya Calizaya": "5656",
-        //"Caceres Llutani, Williams": "6589",
-        //"Poccori Leon, Cesar Orlando": "6489",
-        //"Valdivia Tito, Humberto Manuel": "6389",
-        //"Apaza Apaza, Luis Fernando": "6789",    
-        //"Rimachi Chacca, Luis Alfredo": "6689",
-        //"De la Cruz Mendoza , Christian Jesus": "9022"
+        "Paul Emerson Manrique Monzon": "3333"
+    };
+
+    // Mapeo de nombres de usuario a IDs de Firebase
+    const USER_ID_MAP = {
+        "Paul Emerson Manrique Monzon": "USR-023"
     };
 
     // ============================================================
@@ -1689,7 +1645,7 @@
     // ============================================================
     let currentUser = '';
     let currentDisplayName = '';
-    let currentRoom = 'general';
+    let currentRoom = 'tareo';
     let messagesRef = null;
     let tareoMessagesRef = null;
     let presenceRef = null;
@@ -1704,7 +1660,6 @@
     let sessionActive = false;
     let unreadCount = 0;
     
-    // Variables para paginación de Tareo
     let tareoUltimaKey = null;
     let tareoTodasLasKeys = [];
     let tareoMensajesCargados = 0;
@@ -1712,7 +1667,6 @@
     let tareoUltimoMensajeKey = null;
     let tareoPrimeraCarga = true;
     
-    // Reporte variables
     let registros = [];
 
     // ============================================================
@@ -1731,13 +1685,11 @@
     const userCountLabel = document.getElementById('userCountLabel');
     const messageInput = document.getElementById('messageInput');
     const sendBtn = document.getElementById('sendBtn');
-    const messagesContainer = document.getElementById('messagesContainer');
     const tareoMessagesContainer = document.getElementById('tareoMessagesContainer');
     const reporteContainer = document.getElementById('reporteContainer');
     const planillaContainer = document.getElementById('planillaContainer');
     const chatAvatar = document.getElementById('chatAvatar');
     const chatRoomTitle = document.getElementById('chatRoomTitle');
-    const userList = document.getElementById('userList');
     const userCount = document.getElementById('userCount');
     const logoutBtn = document.getElementById('logoutBtn');
     const toast = document.getElementById('toast');
@@ -1745,7 +1697,6 @@
     const loadingText = document.getElementById('loadingText');
     const notificationBadge = document.getElementById('notificationBadge');
     const notifCount = document.getElementById('notifCount');
-    const btnGeneral = document.getElementById('btnGeneral');
     const btnTareo = document.getElementById('btnTareo');
     const btnReporte = document.getElementById('btnReporte');
     const btnPlanilla = document.getElementById('btnPlanilla');
@@ -1756,15 +1707,13 @@
     const tareoBuscarFecha = document.getElementById('tareoBuscarFecha');
     const tareoAcciones = document.getElementById('tareoAcciones');
     const contadorSeleccionados = document.getElementById('contadorSeleccionados');
-    const chatAcciones = document.getElementById('chatAcciones');
-    const contadorSeleccionadosChat = document.getElementById('contadorSeleccionadosChat');
     const impresionPreview = document.getElementById('impresionPreview');
     const previewBody = document.getElementById('previewBody');
     const planillaIframe = document.getElementById('planillaIframe');
     const btnCargarMas = document.getElementById('btnCargarMas');
     const cargarMasContainer = document.getElementById('cargarMasContainer');
+    const inputArea = document.getElementById('inputArea');
     
-    // Modal de corrección
     const modalCorregir = document.getElementById('modalCorregir');
     const corregirKey = document.getElementById('corregirKey');
     const corregirPath = document.getElementById('corregirPath');
@@ -1784,7 +1733,6 @@
     const corregirHorasB2 = document.getElementById('corregirHorasB2');
     const formCorregir = document.getElementById('formCorregir');
     
-    // Reporte inputs
     const reporteFecha = document.getElementById('reporteFecha');
     const reporteConductor = document.getElementById('reporteConductor');
     const reporteHorario = document.getElementById('reporteHorario');
@@ -1801,18 +1749,6 @@
     const reporteLabelFinal = document.getElementById('reporteLabelFinal');
     const reporteHorasB = document.getElementById('reporteHorasB');
     const reporteHorasB2 = document.getElementById('reporteHorasB2');
-
-    // ============================================================
-    // 🔐 VERIFICAR SI ES ADMINISTRADOR O PAUL MANRIQUE
-    // ============================================================
-
-    function puedeVerPlanilla() {
-        return esAdministrador() || currentDisplayName === "Paul Emerson Manrique Monzon";
-    }
-
-    function esAdministrador() {
-        return currentDisplayName === "ADMINISTRADOR";
-    }
 
     // ============================================================
     // 🎨 FUNCIONES DE TEMA Y TAMAÑO
@@ -1869,10 +1805,6 @@
         }
     }
     
-    // ============================================================
-    // 🔤 FUNCIONES DE FUENTE
-    // ============================================================
-    
     function changeFont(font) {
         currentFont = font;
         document.body.className = document.body.className.split(' ').filter(c => !c.startsWith('font-')).join(' ');
@@ -1906,7 +1838,6 @@
     window.changeFont = changeFont;
     window.toggleFontSelector = toggleFontSelector;
     
-    // Cargar configuraciones guardadas
     try {
         const savedSize = localStorage.getItem('chatSize');
         if (savedSize && ['small','medium','large','xlarge','xxlarge'].includes(savedSize)) {
@@ -1926,7 +1857,7 @@
     } catch(e) {}
 
     // ============================================================
-    // FUNCIONES BASE (CORREGIDAS CON ZONA HORARIA PERÚ UTC-5)
+    // FUNCIONES BASE (ZONA HORARIA PERÚ UTC-5)
     // ============================================================
     
     function getInitials(name) {
@@ -1954,34 +1885,13 @@
         return div.innerHTML;
     }
     
-    // ============================================================
-    // 📜 FUNCIONES DE SCROLL
-    // ============================================================
-    
-    function scrollToBottom() {
-        const container = currentRoom === 'general' ? messagesContainer : tareoMessagesContainer;
-        if (container) {
-            setTimeout(() => {
-                container.scrollTop = container.scrollHeight;
-            }, 100);
-        }
-        clearNotification();
-    }
-    
     function scrollToBottomTareo() {
         if (tareoMessagesContainer) {
             setTimeout(() => {
                 tareoMessagesContainer.scrollTop = tareoMessagesContainer.scrollHeight;
             }, 150);
         }
-    }
-    
-    function scrollToBottomGeneral() {
-        if (messagesContainer) {
-            setTimeout(() => {
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-            }, 100);
-        }
+        clearNotification();
     }
     
     function showToast(message) {
@@ -2002,10 +1912,6 @@
         loadingOverlay.classList.remove('show');
     }
 
-    // ============================================================
-    // 🔔 NOTIFICACIONES
-    // ============================================================
-    
     function updateNotification(count) {
         unreadCount = count;
         if (count > 0) {
@@ -2022,10 +1928,6 @@
         notificationBadge.classList.remove('show');
     }
 
-    // ============================================================
-    // 🔊 SONIDOS
-    // ============================================================
-    
     function playSoundSend() {
         try {
             const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -2041,37 +1943,6 @@
             oscillator.start(audioCtx.currentTime);
             oscillator.stop(audioCtx.currentTime + 0.15);
             showSoundIndicator('📤 Enviado');
-        } catch(e) {}
-    }
-    
-    function playSoundReceive() {
-        try {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc1 = audioCtx.createOscillator();
-            const gain1 = audioCtx.createGain();
-            osc1.connect(gain1);
-            gain1.connect(audioCtx.destination);
-            osc1.frequency.value = 440;
-            osc1.type = 'sine';
-            gain1.gain.setValueAtTime(0.15, audioCtx.currentTime);
-            gain1.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
-            osc1.start(audioCtx.currentTime);
-            osc1.stop(audioCtx.currentTime + 0.12);
-            setTimeout(() => {
-                try {
-                    const osc2 = audioCtx.createOscillator();
-                    const gain2 = audioCtx.createGain();
-                    osc2.connect(gain2);
-                    gain2.connect(audioCtx.destination);
-                    osc2.frequency.value = 550;
-                    osc2.type = 'sine';
-                    gain2.gain.setValueAtTime(0.15, audioCtx.currentTime);
-                    gain2.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
-                    osc2.start(audioCtx.currentTime);
-                    osc2.stop(audioCtx.currentTime + 0.12);
-                } catch(e) {}
-            }, 150);
-            showSoundIndicator('📩 Nuevo mensaje');
         } catch(e) {}
     }
     
@@ -2124,7 +1995,6 @@
             const isSelected = selectedUser === name;
             const initials = getInitials(name);
             return `<div class="user-card ${isSelected ? 'selected' : ''}" data-user="${escapeHTML(name)}" onclick="selectUser('${escapeHTML(name)}')">
-                <span class="user-status-dot ${isConnected ? 'online' : 'offline'}"></span>
                 <div class="user-avatar">${initials}</div>
                 <div class="user-name">${escapeHTML(name)}</div>
             </div>`;
@@ -2155,6 +2025,11 @@
     }
     
     function getUserSecretId(name) {
+        // Usar el mapeo USER_ID_MAP para obtener USR-023
+        if (USER_ID_MAP[name]) {
+            return USER_ID_MAP[name];
+        }
+        // Fallback: buscar en las claves
         const names = Object.keys(AUTHORIZED_USERS);
         const index = names.indexOf(name);
         if (index === -1) return null;
@@ -2169,68 +2044,50 @@
         if (!currentUser) return;
         if (room === currentRoom) return;
         
-        if (room === 'planilla' && !puedeVerPlanilla()) {
-            showToast('⛔ Solo Administrador y Paul Manrique pueden ver la planilla');
-            return;
-        }
-        
         currentRoom = room;
         
-        btnGeneral.classList.toggle('active', room === 'general');
         btnTareo.classList.toggle('active', room === 'tareo');
         btnReporte.classList.toggle('active', room === 'reporte');
         btnPlanilla.classList.toggle('active', room === 'planilla');
         
         const titles = {
-            'general': '💬 Chat General',
-            'tareo': '⏰ Tareo Diario',
+            'tareo': '⏰ Tareo Transportes Mantenimiento',
             'reporte': '📋 Reporte Diario',
             'planilla': '📊 Planilla de Tareo'
         };
-        chatRoomTitle.textContent = titles[room] || '💬 Chat General';
+        chatRoomTitle.textContent = titles[room] || '⏰ Tareo Transportes Mantenimiento';
         
-        messagesContainer.classList.toggle('hidden', room !== 'general');
         tareoMessagesContainer.classList.toggle('hidden', room !== 'tareo');
         reporteContainer.classList.toggle('active', room === 'reporte');
         planillaContainer.classList.toggle('active', room === 'planilla');
-        
-        if (room === 'general') {
-            chatAcciones.classList.add('active');
-        } else {
-            chatAcciones.classList.remove('active');
-        }
         
         if (room === 'tareo') {
             tareoFiltro.style.display = 'flex';
             tareoAcciones.classList.add('active');
             cargarMasContainer.style.display = 'block';
-        } else {
+            inputArea.style.display = 'flex';
+            chatInputRow.style.display = 'flex';
+        } else if (room === 'reporte') {
             tareoFiltro.style.display = 'none';
             tareoAcciones.classList.remove('active');
             cargarMasContainer.style.display = 'none';
-        }
-        
-        if (room === 'reporte' || room === 'planilla') {
-            document.getElementById('inputArea').style.display = 'none';
-        } else {
-            document.getElementById('inputArea').style.display = 'flex';
-        }
-        
-        if (room === 'planilla' && puedeVerPlanilla()) {
+            inputArea.style.display = 'none';
+        } else if (room === 'planilla') {
+            tareoFiltro.style.display = 'none';
+            tareoAcciones.classList.remove('active');
+            cargarMasContainer.style.display = 'none';
+            inputArea.style.display = 'none';
             setTimeout(cargarPlanilla, 300);
         }
         
-        if (room === 'general') {
-            tareoPrimeraCarga = true;
-            loadMessages('general');
-        } else if (room === 'tareo') {
+        if (room === 'tareo') {
             tareoUltimaKey = null;
             tareoTodasLasKeys = [];
             tareoMensajesCargados = 0;
             tareoTotalMensajes = 0;
             tareoUltimoMensajeKey = null;
             tareoPrimeraCarga = true;
-            loadMessages('tareo');
+            cargarMensajesTareo();
         }
         
         console.log(`🔄 Cambiado a sala: ${room}`);
@@ -2243,31 +2100,17 @@
     // ============================================================
 
     function cargarPlanilla() {
-        if (!puedeVerPlanilla()) {
-            showToast('⛔ No tienes permisos para ver la planilla');
-            return;
-        }
-        
         if (!planillaIframe) return;
-        
         const usuario = encodeURIComponent(currentDisplayName || '');
-        
         let url = PLANILLA_URL;
-        
         if (usuario) {
             url += `&q=${usuario}`;
         }
-        
         planillaIframe.src = url;
         showToast('📊 Cargando planilla...');
     }
 
     function abrirPlanillaCompleta() {
-        if (!puedeVerPlanilla()) {
-            showToast('⛔ No tienes permisos para abrir la planilla');
-            return;
-        }
-        
         const usuario = encodeURIComponent(currentDisplayName || '');
         let url = PLANILLA_URL;
         if (usuario) {
@@ -2277,11 +2120,6 @@
     }
 
     function recargarPlanilla() {
-        if (!puedeVerPlanilla()) {
-            showToast('⛔ No tienes permisos para recargar la planilla');
-            return;
-        }
-        
         if (planillaIframe) {
             planillaIframe.src = 'about:blank';
             setTimeout(() => {
@@ -2318,246 +2156,6 @@
     }
 
     // ============================================================
-    // 📨 FUNCIONES DE CHAT
-    // ============================================================
-    
-    function addMessageToDOM(data, key, container) {
-        if (document.querySelector(`[data-key="${key}"]`)) return;
-        
-        const isOwn = data.user === currentUser;
-        const isAdmin = esAdministrador();
-        const time = data.time || getTime();
-        const targetContainer = container || messagesContainer;
-        
-        if (data.isTareo) {
-            let mostrarCheckbox = false;
-            if (isAdmin) {
-                mostrarCheckbox = true;
-            } else if (isOwn) {
-                mostrarCheckbox = true;
-            }
-            
-            let textoPlano = data.text || '';
-            
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message tareo ${data.tareoTipo || ''}`;
-            messageDiv.dataset.key = key;
-            
-            const checkboxHTML = mostrarCheckbox ? `<input type="checkbox" class="tareo-checkbox" data-key="${key}" onchange="actualizarContadorTareo()">` : '';
-            
-            messageDiv.innerHTML = `
-                <div style="display:flex; align-items:flex-start; gap:8px; width:100%;">
-                    ${checkboxHTML}
-                    <div style="flex:1; min-width:0;">
-                        <div class="tareo-texto-plano">${escapeHTML(textoPlano)}</div>
-                        <div class="footer">
-                            <span>${escapeHTML(time)}</span>
-                            ${isOwn ? '<span style="font-size:8px;color:#999;">✓ enviado</span>' : ''}
-                            ${isAdmin && !isOwn ? '<span style="font-size:8px;color:#D63384;">👑 Admin</span>' : ''}
-                        </div>
-                        ${mostrarCheckbox ? `<button class="btn-eliminar-tareo" onclick="eliminarMensajeTareo('${key}')">🗑️ Eliminar</button>` : ''}
-                    </div>
-                </div>
-            `;
-            
-            const loader = targetContainer.querySelector('.loader');
-            if (loader) loader.remove();
-            targetContainer.appendChild(messageDiv);
-            scrollToBottomTareo();
-            
-            if (!isOwn) {
-                playSoundTareo();
-                updateNotification(unreadCount + 1);
-            }
-            return;
-        }
-        
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${isOwn ? 'sent' : 'received'}`;
-        messageDiv.dataset.key = key;
-        
-        let mostrarCheckbox = false;
-        if (isAdmin) {
-            mostrarCheckbox = true;
-        } else if (isOwn) {
-            mostrarCheckbox = true;
-        }
-        
-        const checkboxHTML = mostrarCheckbox ? `
-            <div class="msg-checkbox">
-                <input type="checkbox" class="chat-checkbox" data-key="${key}" onchange="actualizarContadorChat()">
-            </div>
-        ` : '';
-        
-        const authorHTML = !isOwn ? `<span class="author">${escapeHTML(data.displayName || data.user)}</span>` : '';
-        const statusHTML = isOwn ? `<span class="status"><i class="fas fa-check-double" style="color:var(--primary);"></i></span>` : '';
-        
-        let textContent = data.text || '';
-        const esTareoChat = data.desdeTareo === true;
-        
-        messageDiv.innerHTML = `
-            ${checkboxHTML}
-            <div class="msg-content">
-                ${esTareoChat ? `<span class="tareo-label">📝 [Tareo]</span>` : ''}
-                <div class="text">${escapeHTML(textContent)}</div>
-                <div class="footer">
-                    ${authorHTML}
-                    <span>${escapeHTML(time)}</span>
-                    ${statusHTML}
-                </div>
-            </div>
-        `;
-        
-        if (esTareoChat) {
-            messageDiv.classList.add('tareo-chat');
-        }
-        
-        const loader = targetContainer.querySelector('.loader');
-        if (loader) loader.remove();
-        targetContainer.appendChild(messageDiv);
-        scrollToBottomGeneral();
-        
-        if (!isOwn && data.user !== currentUser) {
-            playSoundReceive();
-            updateNotification(unreadCount + 1);
-        }
-    }
-    
-    // ============================================================
-    // 📨 FUNCIÓN PARA CARGAR MÁS MENSAJES EN TAREO
-    // ============================================================
-    
-    function cargarMasMensajes() {
-        if (!database) { showToast('❌ Error de conexión'); return; }
-        if (!tareoUltimaKey) {
-            showToast('⚠️ No hay más mensajes para cargar');
-            btnCargarMas.disabled = true;
-            btnCargarMas.textContent = '✅ No hay más mensajes';
-            return;
-        }
-        
-        const isAdmin = esAdministrador();
-        let path = '';
-        if (isAdmin) {
-            path = 'messages/tareo';
-        } else {
-            path = `messages/tareo/${currentUser || 'USR-001'}`;
-        }
-        
-        const ref = database.ref(path);
-        
-        ref.orderByKey().endBefore(tareoUltimaKey).limitToLast(5).once('value', (snapshot) => {
-            const data = snapshot.val();
-            if (!data) {
-                showToast('⚠️ No hay más mensajes antiguos');
-                btnCargarMas.disabled = true;
-                btnCargarMas.textContent = '✅ No hay más mensajes';
-                return;
-            }
-            
-            let mensajesData = [];
-            
-            if (isAdmin) {
-                const usuarios = Object.keys(data);
-                usuarios.forEach(usuario => {
-                    const mensajesUsuario = data[usuario];
-                    if (mensajesUsuario) {
-                        Object.keys(mensajesUsuario).forEach(key => {
-                            const msg = mensajesUsuario[key];
-                            if (msg && msg.isTareo) {
-                                mensajesData.push({
-                                    key: key,
-                                    usuario: usuario,
-                                    timestamp: msg.timestamp || 0,
-                                    msg: msg
-                                });
-                            }
-                        });
-                    }
-                });
-            } else {
-                Object.keys(data).forEach(key => {
-                    const msg = data[key];
-                    if (msg && msg.isTareo) {
-                        mensajesData.push({
-                            key: key,
-                            usuario: currentUser,
-                            timestamp: msg.timestamp || 0,
-                            msg: msg
-                        });
-                    }
-                });
-            }
-            
-            mensajesData.sort((a, b) => {
-                const fechaA = extraerFechaDelTexto(a.msg.text || '');
-                const fechaB = extraerFechaDelTexto(b.msg.text || '');
-                if (fechaA && fechaB) {
-                    return fechaB - fechaA;
-                }
-                return (b.timestamp || 0) - (a.timestamp || 0);
-            });
-            
-            if (mensajesData.length === 0) {
-                showToast('⚠️ No hay más mensajes antiguos');
-                btnCargarMas.disabled = true;
-                btnCargarMas.textContent = '✅ No hay más mensajes';
-                return;
-            }
-            
-            let nuevosMensajes = 0;
-            const container = tareoMessagesContainer;
-            
-            mensajesData.forEach(item => {
-                const key = item.key;
-                if (!document.querySelector(`[data-key="${key}"]`)) {
-                    const msgData = {
-                        user: item.usuario,
-                        displayName: item.msg.displayName || item.msg.tareoUsuario || item.usuario,
-                        text: item.msg.text || '',
-                        time: item.msg.time || getTime(),
-                        timestamp: item.msg.timestamp || 0,
-                        isTareo: true,
-                        tareoTipo: item.msg.tareoTipo || '',
-                        tareoUsuario: item.msg.tareoUsuario || item.usuario,
-                        tareoEmoji: item.msg.tareoEmoji || '📋'
-                    };
-                    const messageDiv = crearMensajeTareo(msgData, key, isAdmin);
-                    // ✅ INSERTAR AL FINAL (hacia abajo)
-                    container.appendChild(messageDiv);
-                    nuevosMensajes++;
-                }
-            });
-            
-            if (mensajesData.length > 0) {
-                tareoUltimaKey = mensajesData[mensajesData.length - 1].key;
-            }
-            
-            tareoMensajesCargados += nuevosMensajes;
-            
-            const restantes = tareoTotalMensajes - tareoMensajesCargados;
-            if (restantes > 0) {
-                btnCargarMas.disabled = false;
-                btnCargarMas.textContent = `🔄 Cargar más mensajes (${restantes} restantes)`;
-            } else {
-                btnCargarMas.disabled = true;
-                btnCargarMas.textContent = '✅ No hay más mensajes';
-            }
-            
-            showToast(`✅ Cargados ${nuevosMensajes} mensajes más`);
-            
-            if (container) {
-                setTimeout(() => {
-                    container.scrollTop = container.scrollHeight - container.clientHeight;
-                }, 50);
-            }
-        }).catch((error) => {
-            console.error('Error al cargar más mensajes:', error);
-            showToast('❌ Error al cargar más mensajes');
-        });
-    }
-    
-    // ============================================================
     // 📨 FUNCIÓN PARA CREAR UN MENSAJE DE TAREO
     // ============================================================
     
@@ -2570,14 +2168,9 @@
         messageDiv.className = 'message tareo';
         messageDiv.dataset.key = key;
         
-        let mostrarCheckbox = false;
-        if (isAdmin) {
-            mostrarCheckbox = true;
-        } else if (isOwn) {
-            mostrarCheckbox = true;
-        }
+        let mostrarCheckbox = true;
         
-        const checkboxHTML = mostrarCheckbox ? `<input type="checkbox" class="tareo-checkbox" data-key="${key}" onchange="actualizarContadorTareo()">` : '';
+        const checkboxHTML = `<input type="checkbox" class="tareo-checkbox" data-key="${key}" onchange="actualizarContadorTareo()">`;
         
         messageDiv.innerHTML = `
             <div style="display:flex; align-items:flex-start; gap:8px; width:100%;">
@@ -2587,9 +2180,8 @@
                     <div class="footer">
                         <span>${escapeHTML(time)}</span>
                         ${isOwn ? '<span style="font-size:8px;color:#999;">✓ enviado</span>' : ''}
-                        ${isAdmin && !isOwn ? '<span style="font-size:8px;color:#D63384;">👑 Admin</span>' : ''}
                     </div>
-                    ${mostrarCheckbox ? `<button class="btn-eliminar-tareo" onclick="eliminarMensajeTareo('${key}')">🗑️ Eliminar</button>` : ''}
+                    <button class="btn-eliminar-tareo" onclick="eliminarMensajeTareo('${key}')">🗑️ Eliminar</button>
                 </div>
             </div>
         `;
@@ -2598,23 +2190,17 @@
     }
     
     // ============================================================
-    // 📨 ELIMINAR MENSAJE INDIVIDUAL DE TAREO (SIN CONFIRMAR)
+    // 📨 ELIMINAR MENSAJE INDIVIDUAL DE TAREO
     // ============================================================
     
     function eliminarMensajeTareo(key) {
         if (!database) { showToast('❌ Error de conexión'); return; }
         if (!key) { showToast('❌ Error: clave no válida'); return; }
         
-        const isAdmin = esAdministrador();
-        let path = '';
-        if (isAdmin) {
-            path = `messages/tareo/${key}`;
-        } else {
-            path = `messages/tareo/${currentUser || 'USR-001'}/${key}`;
-        }
+        const path = `messages/tareo/${currentUser}`;
         
         showLoading('Eliminando mensaje...');
-        database.ref(path).remove().then(() => {
+        database.ref(`${path}/${key}`).remove().then(() => {
             hideLoading();
             showToast('✅ Mensaje eliminado');
             const el = document.querySelector(`[data-key="${key}"]`);
@@ -2690,7 +2276,6 @@
         const texto = textoPlano.textContent || '';
         const lineas = texto.split('\n');
         
-        // Extraer datos del texto
         let datos = {
             fecha: '',
             conductor: '',
@@ -2741,7 +2326,6 @@
             }
         });
         
-        // Convertir fecha DD/MM/YYYY a YYYY-MM-DD para input date
         let fechaISO = '';
         if (datos.fecha) {
             const partes = datos.fecha.split('/');
@@ -2750,31 +2334,8 @@
             }
         }
         
-        // Llenar el modal
         corregirKey.value = key;
-        
-        // Determinar la ruta correcta
-        const isAdmin = esAdministrador();
-        if (isAdmin) {
-            // Para admin, necesitamos saber a qué usuario pertenece
-            const usuario = messageDiv.querySelector('.footer span')?.textContent || '';
-            // Buscar en el texto el usuario
-            let usuarioEncontrado = '';
-            lineas.forEach(linea => {
-                if (linea.includes('👤 Conductor:')) {
-                    usuarioEncontrado = linea.replace('👤 Conductor:', '').trim();
-                }
-            });
-            if (usuarioEncontrado && AUTHORIZED_USERS[usuarioEncontrado]) {
-                const secretId = getUserSecretId(usuarioEncontrado);
-                corregirPath.value = `messages/tareo/${secretId}`;
-            } else {
-                corregirPath.value = `messages/tareo/${currentUser || 'USR-001'}`;
-            }
-        } else {
-            corregirPath.value = `messages/tareo/${currentUser || 'USR-001'}`;
-        }
-        
+        corregirPath.value = `messages/tareo/${currentUser}`;
         corregirFecha.value = fechaISO;
         corregirConductor.value = datos.conductor;
         corregirHorario.value = datos.horario;
@@ -2788,7 +2349,6 @@
         corregirHoraInicioB.value = datos.horaInicioB;
         corregirHoraFinalB.value = datos.horaFinalB;
         
-        // Mostrar/ocultar campos B según horario
         if (datos.horario === 'partido') {
             corregirHorasB.style.display = 'block';
             corregirHorasB2.style.display = 'block';
@@ -2800,18 +2360,10 @@
         modalCorregir.classList.add('active');
     }
     
-    // ============================================================
-    // 📨 FUNCIÓN CERRAR MODAL
-    // ============================================================
-    
     function cerrarModalCorregir() {
         modalCorregir.classList.remove('active');
         formCorregir.reset();
     }
-    
-    // ============================================================
-    // 📨 FUNCIÓN GUARDAR CORRECCIÓN
-    // ============================================================
     
     function guardarCorreccion(event) {
         event.preventDefault();
@@ -2888,7 +2440,6 @@
             hideLoading();
             showToast('✅ Registro actualizado correctamente');
             cerrarModalCorregir();
-            // Recargar mensajes
             tareoUltimaKey = null;
             tareoTodasLasKeys = [];
             tareoMensajesCargados = 0;
@@ -2901,9 +2452,9 @@
             showToast('❌ Error al actualizar el registro');
         });
     }
-    
+
     // ============================================================
-    // 📨 FUNCIONES PARA CARGAR MENSAJES DE TAREO (SOLO ÚLTIMOS 5)
+    // 📨 FUNCIONES PARA CARGAR MENSAJES DE TAREO
     // ============================================================
     
     function cargarMensajesTareo() {
@@ -2914,53 +2465,25 @@
         
         tareoMessagesContainer.innerHTML = '<div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando registros de tareo...</div>';
         
-        const isAdmin = esAdministrador();
-        let path = '';
-        if (isAdmin) {
-            path = 'messages/tareo';
-        } else {
-            path = `messages/tareo/${currentUser || 'USR-001'}`;
-        }
-        
+        const path = `messages/tareo/${currentUser}`;
         const ref = database.ref(path);
         
         ref.once('value', (snapshot) => {
             const data = snapshot.val();
-            let totalMensajes = 0;
             let todosLosMensajes = [];
             
             if (data) {
-                if (isAdmin) {
-                    const usuarios = Object.keys(data);
-                    usuarios.forEach(usuario => {
-                        const mensajesUsuario = data[usuario];
-                        if (mensajesUsuario) {
-                            Object.keys(mensajesUsuario).forEach(key => {
-                                const msg = mensajesUsuario[key];
-                                if (msg && msg.isTareo) {
-                                    todosLosMensajes.push({
-                                        key: key,
-                                        usuario: usuario,
-                                        timestamp: msg.timestamp || 0,
-                                        msg: msg
-                                    });
-                                }
-                            });
-                        }
-                    });
-                } else {
-                    Object.keys(data).forEach(key => {
-                        const msg = data[key];
-                        if (msg && msg.isTareo) {
-                            todosLosMensajes.push({
-                                key: key,
-                                usuario: currentUser,
-                                timestamp: msg.timestamp || 0,
-                                msg: msg
-                            });
-                        }
-                    });
-                }
+                Object.keys(data).forEach(key => {
+                    const msg = data[key];
+                    if (msg && msg.isTareo) {
+                        todosLosMensajes.push({
+                            key: key,
+                            usuario: currentUser,
+                            timestamp: msg.timestamp || 0,
+                            msg: msg
+                        });
+                    }
+                });
             }
             
             todosLosMensajes.sort((a, b) => {
@@ -3003,7 +2526,7 @@
                         tareoUsuario: item.msg.tareoUsuario || item.usuario,
                         tareoEmoji: item.msg.tareoEmoji || '📋'
                     };
-                    const messageDiv = crearMensajeTareo(msgData, item.key, isAdmin);
+                    const messageDiv = crearMensajeTareo(msgData, item.key, true);
                     tareoMessagesContainer.appendChild(messageDiv);
                 });
             } else {
@@ -3033,208 +2556,153 @@
                 tareoPrimeraCarga = false;
             }
             
-            // Escuchar nuevos mensajes en tiempo real
-            if (isAdmin) {
-                const refUsuarios = database.ref('messages/tareo');
-                refUsuarios.on('child_added', (usuarioSnapshot) => {
-                    const usuario = usuarioSnapshot.key;
-                    const refMensajes = database.ref(`messages/tareo/${usuario}`);
-                    refMensajes.limitToLast(1).on('child_added', (mensajeSnapshot) => {
-                        const msg = mensajeSnapshot.val();
-                        if (msg && msg.isTareo) {
-                            const key = mensajeSnapshot.key;
-                            if (!document.querySelector(`[data-key="${key}"]`)) {
-                                const msgData = {
-                                    user: usuario,
-                                    displayName: msg.displayName || msg.tareoUsuario || usuario,
-                                    text: msg.text || '',
-                                    time: msg.time || getTime(),
-                                    timestamp: msg.timestamp || 0,
-                                    isTareo: true,
-                                    tareoTipo: msg.tareoTipo || '',
-                                    tareoUsuario: msg.tareoUsuario || usuario,
-                                    tareoEmoji: msg.tareoEmoji || '📋'
-                                };
-                                const messageDiv = crearMensajeTareo(msgData, key, isAdmin);
-                                tareoMessagesContainer.appendChild(messageDiv);
-                                setTimeout(() => {
-                                    if (tareoMessagesContainer) {
-                                        tareoMessagesContainer.scrollTop = tareoMessagesContainer.scrollHeight;
-                                    }
-                                }, 150);
-                                tareoTotalMensajes++;
-                                const restantesNuevo = tareoTotalMensajes - tareoMensajesCargados;
-                                if (restantesNuevo > 0) {
-                                    btnCargarMas.textContent = `🔄 Cargar más mensajes (${restantesNuevo} restantes)`;
-                                    btnCargarMas.disabled = false;
-                                }
+            const userPath = `messages/tareo/${currentUser}`;
+            const userRef = database.ref(userPath);
+            userRef.limitToLast(1).on('child_added', (snapshot) => {
+                const msg = snapshot.val();
+                if (msg && msg.isTareo) {
+                    const key = snapshot.key;
+                    if (!document.querySelector(`[data-key="${key}"]`)) {
+                        const msgData = {
+                            user: currentUser,
+                            displayName: msg.displayName || msg.tareoUsuario || currentUser,
+                            text: msg.text || '',
+                            time: msg.time || getTime(),
+                            timestamp: msg.timestamp || 0,
+                            isTareo: true,
+                            tareoTipo: msg.tareoTipo || '',
+                            tareoUsuario: msg.tareoUsuario || currentUser,
+                            tareoEmoji: msg.tareoEmoji || '📋'
+                        };
+                        const messageDiv = crearMensajeTareo(msgData, key, true);
+                        tareoMessagesContainer.appendChild(messageDiv);
+                        setTimeout(() => {
+                            if (tareoMessagesContainer) {
+                                tareoMessagesContainer.scrollTop = tareoMessagesContainer.scrollHeight;
                             }
+                        }, 150);
+                        tareoTotalMensajes++;
+                        const restantesNuevo = tareoTotalMensajes - tareoMensajesCargados;
+                        if (restantesNuevo > 0) {
+                            btnCargarMas.textContent = `🔄 Cargar más mensajes (${restantesNuevo} restantes)`;
+                            btnCargarMas.disabled = false;
                         }
-                    });
-                });
-            } else {
-                const userPath = `messages/tareo/${currentUser || 'USR-001'}`;
-                const userRef = database.ref(userPath);
-                userRef.limitToLast(1).on('child_added', (snapshot) => {
-                    const msg = snapshot.val();
-                    if (msg && msg.isTareo) {
-                        const key = snapshot.key;
-                        if (!document.querySelector(`[data-key="${key}"]`)) {
-                            const msgData = {
-                                user: currentUser,
-                                displayName: msg.displayName || msg.tareoUsuario || currentUser,
-                                text: msg.text || '',
-                                time: msg.time || getTime(),
-                                timestamp: msg.timestamp || 0,
-                                isTareo: true,
-                                tareoTipo: msg.tareoTipo || '',
-                                tareoUsuario: msg.tareoUsuario || currentUser,
-                                tareoEmoji: msg.tareoEmoji || '📋'
-                            };
-                            const messageDiv = crearMensajeTareo(msgData, key, isAdmin);
-                            tareoMessagesContainer.appendChild(messageDiv);
-                            setTimeout(() => {
-                                if (tareoMessagesContainer) {
-                                    tareoMessagesContainer.scrollTop = tareoMessagesContainer.scrollHeight;
-                                }
-                            }, 150);
-                            tareoTotalMensajes++;
-                            const restantesNuevo = tareoTotalMensajes - tareoMensajesCargados;
-                            if (restantesNuevo > 0) {
-                                btnCargarMas.textContent = `🔄 Cargar más mensajes (${restantesNuevo} restantes)`;
-                                btnCargarMas.disabled = false;
-                            }
-                        }
+                        playSoundTareo();
+                        updateNotification(unreadCount + 1);
                     }
-                });
-            }
+                }
+            });
         }).catch((error) => {
             console.error('Error al cargar mensajes de tareo:', error);
             tareoMessagesContainer.innerHTML = '<div style="text-align:center;padding:calc(var(--padding-base) * 2);color:#667781;font-size:calc(12px * var(--scale));">⚠️ Error al cargar mensajes</div>';
         });
     }
     
-    function loadMessages(room) {
-        const roomKey = room || currentRoom;
-        if (!database) {
-            const container = roomKey === 'general' ? messagesContainer : tareoMessagesContainer;
-            container.innerHTML = '<div style="text-align:center;padding:calc(var(--padding-base) * 2);color:#667781;font-size:calc(12px * var(--scale));">⚠️ Error de conexión con Firebase</div>';
-            return;
-        }
-        
-        if (roomKey === 'general') {
-            const container = messagesContainer;
-            container.innerHTML = '<div class="loader"><i class="fas fa-spinner fa-spin"></i> Cargando mensajes...</div>';
-            
-            if (messagesRef) {
-                messagesRef.off();
-                messagesRef = null;
-            }
-            
-            const ref = database.ref('messages/general');
-            messagesRef = ref;
-            
-            ref.limitToLast(50).once('value', (snapshot) => {
-                const data = snapshot.val();
-                container.innerHTML = '';
-                
-                if (data) {
-                    const keys = Object.keys(data).sort();
-                    let lastDate = '';
-                    keys.forEach(key => {
-                        const msg = data[key];
-                        const msgDate = new Date((msg.timestamp || Date.now()) - 5 * 60 * 60 * 1000).toLocaleDateString('es-ES');
-                        if (msgDate !== lastDate) {
-                            lastDate = msgDate;
-                            const divider = document.createElement('div');
-                            divider.className = 'date-divider';
-                            divider.innerHTML = `<span>${msgDate === new Date().toLocaleDateString('es-ES') ? 'Hoy' : msgDate}</span>`;
-                            container.appendChild(divider);
-                        }
-                        addMessageToDOM(msg, key, container);
-                    });
-                } else {
-                    container.innerHTML = `
-                        <div style="text-align:center;padding:calc(var(--padding-base) * 2) calc(var(--padding-base) * 1.5);color:#667781;">
-                            <i class="fas fa-comment" style="font-size:calc(32px * var(--scale));opacity:0.3;display:block;margin-bottom:calc(var(--padding-base) * 0.6);"></i>
-                            <p style="font-size:calc(12px * var(--scale));">No hay mensajes en el chat general</p>
-                            <p style="font-size:calc(10px * var(--scale));">¡Envía el primer mensaje!</p>
-                        </div>
-                    `;
-                }
-                
-                setTimeout(() => {
-                    if (messagesContainer) {
-                        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-                    }
-                }, 200);
-                
-                ref.limitToLast(1).on('child_added', (snapshot) => {
-                    const msg = snapshot.val();
-                    if (msg && msg.user !== currentUser) {
-                        addMessageToDOM(msg, snapshot.key, container);
-                    }
-                });
-            });
-            return;
-        }
-        
-        if (roomKey === 'tareo') {
-            cargarMensajesTareo();
-            return;
-        }
-    }
-    
     // ============================================================
-    // 📨 ENVIAR MENSAJE DESDE CUALQUIER SALA (GENERAL O TAREO)
+    // 📨 FUNCIÓN PARA CARGAR MÁS MENSAJES EN TAREO
     // ============================================================
     
-    function sendMessage() {
-        const text = messageInput.value.trim();
-        if (!text || !currentUser || isSending) return;
+    function cargarMasMensajes() {
         if (!database) { showToast('❌ Error de conexión'); return; }
-        
-        if (currentRoom === 'tareo') {
-            sendMessageToGeneral(text);
+        if (!tareoUltimaKey) {
+            showToast('⚠️ No hay más mensajes para cargar');
+            btnCargarMas.disabled = true;
+            btnCargarMas.textContent = '✅ No hay más mensajes';
             return;
         }
         
-        if (!messagesRef) {
-            showToast('❌ Error de conexión');
-            return;
-        }
+        const path = `messages/tareo/${currentUser}`;
+        const ref = database.ref(path);
         
-        isSending = true;
-        sendBtn.disabled = true;
-        playSoundSend();
-        
-        const newMessage = {
-            user: currentUser,
-            displayName: currentDisplayName,
-            text: text,
-            time: getTime(),
-            timestamp: firebase.database.ServerValue.TIMESTAMP,
-            desdeTareo: false
-        };
-        
-        messagesRef.push(newMessage).then(() => {
-            addMessageToDOM(newMessage, Date.now().toString(), messagesContainer);
-            messageInput.value = '';
-            isSending = false;
-            sendBtn.disabled = false;
-            if (typingRef) {
-                typingRef.remove();
-                isTyping = false;
+        ref.orderByKey().endBefore(tareoUltimaKey).limitToLast(5).once('value', (snapshot) => {
+            const data = snapshot.val();
+            if (!data) {
+                showToast('⚠️ No hay más mensajes antiguos');
+                btnCargarMas.disabled = true;
+                btnCargarMas.textContent = '✅ No hay más mensajes';
+                return;
             }
-            scrollToBottomGeneral();
+            
+            let mensajesData = [];
+            Object.keys(data).forEach(key => {
+                const msg = data[key];
+                if (msg && msg.isTareo) {
+                    mensajesData.push({
+                        key: key,
+                        usuario: currentUser,
+                        timestamp: msg.timestamp || 0,
+                        msg: msg
+                    });
+                }
+            });
+            
+            mensajesData.sort((a, b) => {
+                const fechaA = extraerFechaDelTexto(a.msg.text || '');
+                const fechaB = extraerFechaDelTexto(b.msg.text || '');
+                if (fechaA && fechaB) {
+                    return fechaB - fechaA;
+                }
+                return (b.timestamp || 0) - (a.timestamp || 0);
+            });
+            
+            if (mensajesData.length === 0) {
+                showToast('⚠️ No hay más mensajes antiguos');
+                btnCargarMas.disabled = true;
+                btnCargarMas.textContent = '✅ No hay más mensajes';
+                return;
+            }
+            
+            let nuevosMensajes = 0;
+            const container = tareoMessagesContainer;
+            
+            mensajesData.forEach(item => {
+                const key = item.key;
+                if (!document.querySelector(`[data-key="${key}"]`)) {
+                    const msgData = {
+                        user: item.usuario,
+                        displayName: item.msg.displayName || item.msg.tareoUsuario || item.usuario,
+                        text: item.msg.text || '',
+                        time: item.msg.time || getTime(),
+                        timestamp: item.msg.timestamp || 0,
+                        isTareo: true,
+                        tareoTipo: item.msg.tareoTipo || '',
+                        tareoUsuario: item.msg.tareoUsuario || item.usuario,
+                        tareoEmoji: item.msg.tareoEmoji || '📋'
+                    };
+                    const messageDiv = crearMensajeTareo(msgData, key, true);
+                    container.appendChild(messageDiv);
+                    nuevosMensajes++;
+                }
+            });
+            
+            if (mensajesData.length > 0) {
+                tareoUltimaKey = mensajesData[mensajesData.length - 1].key;
+            }
+            
+            tareoMensajesCargados += nuevosMensajes;
+            
+            const restantes = tareoTotalMensajes - tareoMensajesCargados;
+            if (restantes > 0) {
+                btnCargarMas.disabled = false;
+                btnCargarMas.textContent = `🔄 Cargar más mensajes (${restantes} restantes)`;
+            } else {
+                btnCargarMas.disabled = true;
+                btnCargarMas.textContent = '✅ No hay más mensajes';
+            }
+            
+            showToast(`✅ Cargados ${nuevosMensajes} mensajes más`);
+            
+            if (container) {
+                setTimeout(() => {
+                    container.scrollTop = container.scrollHeight - container.clientHeight;
+                }, 50);
+            }
         }).catch((error) => {
-            console.error('Error al enviar:', error);
-            showToast('❌ Error al enviar mensaje');
-            isSending = false;
-            sendBtn.disabled = false;
+            console.error('Error al cargar más mensajes:', error);
+            showToast('❌ Error al cargar más mensajes');
         });
     }
-    
+
     // ============================================================
     // 📨 ENVIAR MENSAJE DESDE TAREO AL CHAT GENERAL
     // ============================================================
@@ -3256,7 +2724,6 @@
         const generalRef = database.ref('messages/general');
         
         generalRef.push(newMessage).then(() => {
-            addMessageToDOM(newMessage, Date.now().toString(), messagesContainer);
             messageInput.value = '';
             isSending = false;
             sendBtn.disabled = false;
@@ -3264,14 +2731,21 @@
                 typingRef.remove();
                 isTyping = false;
             }
-            scrollToBottomGeneral();
-            showToast('📝 Mensaje enviado al chat general desde Tareo');
+            showToast('📝 Mensaje enviado al chat general');
         }).catch((error) => {
             console.error('Error al enviar desde Tareo:', error);
-            showToast('❌ Error al enviar mensaje desde Tareo');
+            showToast('❌ Error al enviar mensaje');
             isSending = false;
             sendBtn.disabled = false;
         });
+    }
+    
+    function sendMessage() {
+        const text = messageInput.value.trim();
+        if (!text || !currentUser || isSending) return;
+        if (!database) { showToast('❌ Error de conexión'); return; }
+        
+        sendMessageToGeneral(text);
     }
     
     function handleTyping() {
@@ -3299,8 +2773,7 @@
             typingRef.off();
             typingRef = null;
         }
-        const roomKey = currentRoom === 'general' ? 'general' : 'tareo';
-        typingRef = database.ref(`typing/${roomKey}`);
+        typingRef = database.ref('typing/tareo');
         typingRef.on('value', (snapshot) => {
             const existing = document.querySelector('.typing-indicator');
             if (existing) existing.remove();
@@ -3318,76 +2791,16 @@
                         <span class="typing-dot"></span>
                         <span class="typing-text">${escapeHTML(displayName)} está escribiendo...</span>
                     `;
-                    const container = currentRoom === 'general' ? messagesContainer : tareoMessagesContainer;
-                    container.appendChild(indicator);
-                    scrollToBottom();
+                    tareoMessagesContainer.appendChild(indicator);
+                    setTimeout(() => {
+                        if (tareoMessagesContainer) {
+                            tareoMessagesContainer.scrollTop = tareoMessagesContainer.scrollHeight;
+                        }
+                    }, 50);
                 }
             }
         });
     }
-
-    // ============================================================
-    // 📋 FUNCIONES DEL CHAT GENERAL - CHECKBOX Y ELIMINACIÓN
-    // ============================================================
-
-    function actualizarContadorChat() {
-        const checkboxes = document.querySelectorAll('#messagesContainer .chat-checkbox:checked');
-        const total = document.querySelectorAll('#messagesContainer .chat-checkbox').length;
-        contadorSeleccionadosChat.textContent = `${checkboxes.length} de ${total} seleccionados`;
-    }
-
-    function seleccionarTodosChat() {
-        const checkboxes = document.querySelectorAll('#messagesContainer .chat-checkbox');
-        const checkboxesVisibles = Array.from(checkboxes).filter(cb => cb.offsetParent !== null);
-        
-        if (checkboxesVisibles.length === 0) {
-            showToast(esAdministrador() ? '⚠️ No hay mensajes para seleccionar' : '⚠️ No tienes mensajes para seleccionar');
-            return;
-        }
-        
-        const allChecked = checkboxesVisibles.every(cb => cb.checked);
-        checkboxesVisibles.forEach(cb => cb.checked = !allChecked);
-        actualizarContadorChat();
-    }
-
-    function eliminarSeleccionadosChat() {
-        const checkboxes = document.querySelectorAll('#messagesContainer .chat-checkbox:checked');
-        const isAdmin = esAdministrador();
-        
-        if (checkboxes.length === 0) {
-            showToast('⚠️ No hay mensajes seleccionados para eliminar');
-            return;
-        }
-        
-        if (!database) { showToast('❌ Error de conexión'); return; }
-        
-        const keys = [];
-        checkboxes.forEach(cb => {
-            const key = cb.dataset.key;
-            if (key) keys.push(key);
-        });
-        
-        if (keys.length === 0) return;
-        
-        showLoading('Eliminando mensajes...');
-        
-        const promises = keys.map(key => database.ref(`messages/general/${key}`).remove());
-        
-        Promise.all(promises).then(() => {
-            hideLoading();
-            showToast(`✅ ${keys.length} mensaje(s) eliminado(s)`);
-            loadMessages('general');
-            actualizarContadorChat();
-        }).catch((error) => {
-            hideLoading();
-            console.error('Error al eliminar:', error);
-            showToast('❌ Error al eliminar algunos mensajes');
-        });
-    }
-
-    window.actualizarContadorChat = actualizarContadorChat;
-    window.seleccionarTodosChat = seleccionarTodosChat;
-    window.eliminarSeleccionadosChat = eliminarSeleccionadosChat;
 
     // ============================================================
     // 📋 FUNCIONES DE TAREO - CHECKBOX Y ELIMINACIÓN
@@ -3404,7 +2817,7 @@
         const checkboxesVisibles = Array.from(checkboxes).filter(cb => cb.offsetParent !== null);
         
         if (checkboxesVisibles.length === 0) {
-            showToast(esAdministrador() ? '⚠️ No hay mensajes para seleccionar' : '⚠️ No tienes mensajes para seleccionar');
+            showToast('⚠️ No hay mensajes para seleccionar');
             return;
         }
         
@@ -3415,7 +2828,6 @@
 
     function eliminarSeleccionadosTareo() {
         const checkboxes = document.querySelectorAll('#tareoMessagesContainer .tareo-checkbox:checked');
-        const isAdmin = esAdministrador();
         
         if (checkboxes.length === 0) {
             showToast('⚠️ No hay mensajes seleccionados para eliminar');
@@ -3434,12 +2846,7 @@
         
         showLoading('Eliminando mensajes...');
         
-        let path = '';
-        if (isAdmin) {
-            path = 'messages/tareo';
-        } else {
-            path = `messages/tareo/${currentUser || 'USR-001'}`;
-        }
+        const path = `messages/tareo/${currentUser}`;
         
         const promises = keys.map(key => database.ref(`${path}/${key}`).remove());
         
@@ -3624,8 +3031,6 @@
         
         cargarConductoresReporte();
         cargarPlacasReporte();
-        
-        // Cargar conductores y placas en el modal también
         cargarConductoresModal();
         cargarPlacasModal();
         
@@ -3651,8 +3056,6 @@
         mascaraReporte(reporteHoraFinal);
         mascaraReporte(reporteHoraInicioB);
         mascaraReporte(reporteHoraFinalB);
-        
-        // También aplicar máscara a los campos del modal
         mascaraReporte(corregirHoraInicio);
         mascaraReporte(corregirHoraFinal);
         mascaraReporte(corregirHoraInicioB);
@@ -3689,7 +3092,6 @@
             }
         });
         
-        // Evento para el modal de corrección - horario
         corregirHorario.addEventListener('change', function() {
             const valor = this.value;
             if (valor === 'corrido') {
@@ -3796,7 +3198,6 @@
             
             console.log(`🔧 Intentando guardar placa: "${placa}"`);
             
-            // Verificar si ya existe en la lista
             const todas = getListaPlacas();
             if (todas.includes(placa)) {
                 const select = wrapper.querySelector('select');
@@ -3808,13 +3209,9 @@
                 return;
             }
             
-            // Guardar en localStorage
             guardarPlacaPersonalizada(placa);
-            
-            // Actualizar todos los selectores
             actualizarTodosLosSelectoresPlaca();
             
-            // Seleccionar la placa en el selector actual
             const select = wrapper.querySelector('select');
             if (select) {
                 select.value = placa;
@@ -3872,7 +3269,6 @@
             const todas = getListaPlacas();
             console.log(`📋 Total de placas: ${todas.length}`);
             
-            // Actualizar reportePlaca
             const reporteSelect = document.getElementById('reportePlaca');
             if (reporteSelect) {
                 const currentValue = reporteSelect.value;
@@ -3889,7 +3285,6 @@
                 console.log('✅ Selector de reporte actualizado');
             }
             
-            // Actualizar corregirPlaca
             const corregirSelect = document.getElementById('corregirPlaca');
             if (corregirSelect) {
                 const currentValue = corregirSelect.value;
@@ -3933,7 +3328,6 @@
             }
         }
         
-        // Exponer funciones globalmente
         window.mostrarInputPlaca = mostrarInputPlaca;
         window.cancelarNuevaPlaca = cancelarNuevaPlaca;
         window.agregarNuevaPlaca = agregarNuevaPlaca;
@@ -3941,7 +3335,6 @@
         window.guardarPlacaPersonalizada = guardarPlacaPersonalizada;
         window.actualizarTodosLosSelectoresPlaca = actualizarTodosLosSelectoresPlaca;
         
-        // Configurar eventos de los inputs de placa nueva
         setupInputPlacaEventos();
     }
     
@@ -4191,7 +3584,7 @@
         }
         
         const tareoMessage = {
-            user: currentUser || 'USR-001',
+            user: currentUser,
             displayName: currentDisplayName || nombre,
             text: textoCompleto,
             time: getTime(),
@@ -4224,7 +3617,7 @@
         
         showLoading('Enviando registro...');
         
-        const tareoRef = database.ref(`messages/tareo/${currentUser || 'USR-001'}`);
+        const tareoRef = database.ref(`messages/tareo/${currentUser}`);
         const reporteRef = database.ref(`messages/reporte`);
         
         Promise.all([
@@ -4296,10 +3689,6 @@
     }
     
     function limpiarTodoHistorial() { 
-        if (!esAdministrador()) {
-            showToast('⛔ Solo el Administrador puede limpiar el historial');
-            return;
-        }
         registros = []; 
         guardarRegistros(); 
         mostrarRegistros(); 
@@ -4405,7 +3794,7 @@
     
     function updateUsers() {
         if (!database) return;
-        const roomKey = currentRoom === 'general' ? 'general' : 'tareo';
+        const roomKey = 'tareo';
         presenceRef = database.ref(`presence/${roomKey}`);
         presenceRef.off();
         presenceRef.on('value', (snapshot) => {
@@ -4422,23 +3811,13 @@
                 });
             }
             renderUserGrid(connectedNames);
-            if (users.length === 0) {
-                userList.innerHTML = '<span style="color:#999;font-size:var(--online-font);">Sin usuarios conectados</span>';
-            } else {
-                const userItems = users.map(u => {
-                    const displayName = data[u]?.displayName || u;
-                    return `<span class="badge"><span class="dot online"></span> ${escapeHTML(displayName)}</span>`;
-                });
-                userList.innerHTML = userItems.join(' ');
-            }
             userCount.textContent = users.length;
         });
     }
     
     function setUserStatus(online) {
         if (!currentUser || !database) return;
-        const roomKey = currentRoom === 'general' ? 'general' : 'tareo';
-        const userStatusRef = database.ref(`presence/${roomKey}/${currentUser}`);
+        const userStatusRef = database.ref(`presence/tareo/${currentUser}`);
         userStatusRef.set({
             online: online,
             displayName: currentDisplayName,
@@ -4455,8 +3834,7 @@
     
     function cleanupSession() {
         if (currentUser && database) {
-            const roomKey = currentRoom === 'general' ? 'general' : 'tareo';
-            const userStatusRef = database.ref(`presence/${roomKey}/${currentUser}`);
+            const userStatusRef = database.ref(`presence/tareo/${currentUser}`);
             userStatusRef.set({
                 online: false,
                 displayName: currentDisplayName,
@@ -4476,8 +3854,7 @@
                 resolve({ isConnected: false, userKey: null });
                 return;
             }
-            const roomKey = currentRoom === 'general' ? 'general' : 'tareo';
-            const presenceCheckRef = database.ref(`presence/${roomKey}`);
+            const presenceCheckRef = database.ref('presence/tareo');
             presenceCheckRef.once('value', (snapshot) => {
                 const data = snapshot.val();
                 let isConnected = false;
@@ -4496,7 +3873,7 @@
     }
 
     // ============================================================
-    // UNIRSE AL CHAT (LA SESIÓN SE MANTIENE ACTIVA)
+    // UNIRSE AL CHAT
     // ============================================================
     
     async function joinChat(displayName, password) {
@@ -4536,8 +3913,7 @@
         hideLoading();
         
         if (result.isConnected) {
-            const roomKey = currentRoom === 'general' ? 'general' : 'tareo';
-            const userStatusRef = database.ref(`presence/${roomKey}/${result.userKey}`);
+            const userStatusRef = database.ref(`presence/tareo/${result.userKey}`);
             await userStatusRef.set({
                 online: false,
                 displayName: displayName,
@@ -4554,7 +3930,7 @@
         authSuccess.textContent = `✅ Bienvenido ${displayName}!`;
         authSuccess.style.display = 'block';
         
-        showLoading('Conectando al chat...');
+        showLoading('Conectando al sistema...');
         
         setTimeout(() => {
             loginScreen.classList.add('hidden');
@@ -4564,39 +3940,22 @@
             chatAvatar.textContent = getInitials(currentDisplayName);
             clearNotification();
             
-            currentRoom = 'general';
-            btnGeneral.classList.add('active');
-            btnTareo.classList.remove('active');
+            currentRoom = 'tareo';
+            btnTareo.classList.add('active');
             btnReporte.classList.remove('active');
             btnPlanilla.classList.remove('active');
-            chatRoomTitle.textContent = '💬 Chat General';
-            document.getElementById('inputArea').style.display = 'flex';
-            messagesContainer.classList.remove('hidden');
-            tareoMessagesContainer.classList.add('hidden');
+            chatRoomTitle.textContent = '⏰ Tareo Transportes Mantenimiento';
+            inputArea.style.display = 'flex';
+            tareoMessagesContainer.classList.remove('hidden');
             reporteContainer.classList.remove('active');
             planillaContainer.classList.remove('active');
-            tareoFiltro.style.display = 'none';
-            tareoAcciones.classList.remove('active');
-            chatAcciones.classList.add('active');
-            
-            if (puedeVerPlanilla()) {
-                btnPlanilla.style.display = 'inline-block';
-            } else {
-                btnPlanilla.style.display = 'none';
-            }
-            
-            const btnLimpiarTodo = document.querySelector('.btn-limpiar-todo');
-            if (btnLimpiarTodo) {
-                if (esAdministrador()) {
-                    btnLimpiarTodo.style.display = 'inline-block';
-                } else {
-                    btnLimpiarTodo.style.display = 'none';
-                }
-            }
+            tareoFiltro.style.display = 'flex';
+            tareoAcciones.classList.add('active');
+            cargarMasContainer.style.display = 'block';
             
             initReporte();
             
-            loadMessages('general');
+            cargarMensajesTareo();
             updateUsers();
             setupTypingIndicator();
             setUserStatus(true);
@@ -4606,7 +3965,7 @@
             }, 300);
             
             showToast(`✅ Conectado como ${currentDisplayName}`);
-            console.log(`✅ ${currentDisplayName} (${currentUser}) entró al chat`);
+            console.log(`✅ ${currentDisplayName} (${currentUser}) entró al sistema`);
         }, 500);
     }
     
@@ -4631,13 +3990,11 @@
         
         chatApp.classList.remove('active');
         loginScreen.classList.remove('hidden');
-        messagesContainer.innerHTML = '';
         tareoMessagesContainer.innerHTML = '';
         currentUser = '';
         currentDisplayName = '';
         selectedUser = null;
         sessionActive = false;
-        userList.textContent = 'Cargando...';
         userCount.textContent = '0';
         clearNotification();
         
@@ -4649,8 +4006,7 @@
     
     window.addEventListener('beforeunload', function() {
         if (sessionActive && currentUser && database) {
-            const roomKey = currentRoom === 'general' ? 'general' : 'tareo';
-            const userStatusRef = database.ref(`presence/${roomKey}/${currentUser}`);
+            const userStatusRef = database.ref(`presence/tareo/${currentUser}`);
             userStatusRef.set({
                 online: false,
                 displayName: currentDisplayName,
@@ -4704,7 +4060,7 @@
     messageInput.addEventListener('input', handleTyping);
     
     logoutBtn.addEventListener('click', () => {
-        if (confirm('¿Seguro que quieres salir del chat?')) {
+        if (confirm('¿Seguro que quieres salir del sistema?')) {
             leaveChat();
         }
     });
@@ -4722,23 +4078,12 @@
     
     renderUserGrid([]);
     
-    console.log('🚛 Transportes Mantenimiento - Chat con 4 Salas');
-    console.log('📋 Usuarios autorizados:', Object.keys(AUTHORIZED_USERS).length);
+    console.log('📋 Tareo Transportes Mantenimiento');
+    console.log('👤 Usuario: Paul Emerson Manrique Monzon');
+    console.log('🆔 ID: USR-023');
     console.log('🚗 Placas disponibles:', PLACAS_LIST.length);
-    console.log('📊 Planilla Google Sheets - Acceso: Administrador y Paul Emerson Manrique Monzon');
-    console.log('👑 Administrador puede ver y eliminar TODOS los mensajes de Tareo y Chat General');
-    console.log('📌 Los usuarios solo eliminan SUS mensajes');
-    console.log('📌 Los usuarios NO pueden limpiar el historial de Reporte');
-    console.log('📌 La sesión se mantiene activa hasta usar "Salir"');
-    console.log('🕐 Zona horaria configurada: Perú (UTC-5)');
-    console.log('📌 En la sala de Tareo, lo que escribas aparecerá en el chat general');
-    console.log('📌 Eliminación de mensajes SIN confirmación en todas las salas');
-    console.log('📌 Sala de Tareo: solo últimos 5 mensajes, con botón "Cargar más" siempre visible');
-    console.log('📌 Auto-scroll al último mensaje en todas las salas');
-    console.log('📌 Mensajes ordenados por FECHA del registro');
-    console.log('📌 Botón "✏️ Corregir" para modificar mensajes seleccionados');
-    console.log('📌 "Cargar más" agrega mensajes hacia abajo');
-    console.log('📌 Ahora se pueden agregar placas manualmente con el botón "+"');
+    console.log('📊 Planilla Google Sheets - Acceso: Paul Manrique');
+    console.log('🕐 Zona horaria: Perú (UTC-5)');
 </script>
 </body>
 </html>
