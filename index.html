@@ -986,6 +986,12 @@
                 font-size: calc(8px * var(--scale));
                 padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.4);
             }
+            .resumen-table {
+                font-size: calc(10px * var(--scale));
+            }
+            .resumen-table th, .resumen-table td {
+                padding: 2px 3px;
+            }
         }
 
         @media (max-width: 400px) {
@@ -1010,6 +1016,12 @@
             }
             .message.tareo .tareo-texto-plano {
                 font-size: calc(10px * var(--scale));
+            }
+            .resumen-table {
+                font-size: calc(8px * var(--scale));
+            }
+            .resumen-table th, .resumen-table td {
+                padding: 1px 2px;
             }
         }
 
@@ -1192,6 +1204,220 @@
         }
         .btn-planilla:active { transform: scale(0.96); }
         .btn-planilla:hover { opacity: 0.85; }
+
+        /* ===== ESTILOS PARA EL RESUMEN ===== */
+        .resumen-container {
+            display: none;
+            flex-direction: column;
+            gap: calc(var(--padding-base) * 0.8);
+            padding: calc(var(--padding-base) * 0.5);
+        }
+        .resumen-container.active { display: flex; }
+
+        .resumen-header {
+            background: var(--primary-dark);
+            color: white;
+            padding: calc(var(--padding-base) * 0.8);
+            border-radius: calc(var(--radius-base) * 0.8);
+            text-align: center;
+        }
+        .resumen-header h2 {
+            font-size: calc(18px * var(--scale));
+            font-weight: 700;
+        }
+        .resumen-header .sub {
+            font-size: calc(12px * var(--scale));
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        .resumen-controls {
+            display: flex;
+            gap: calc(var(--padding-base) * 0.6);
+            align-items: center;
+            flex-wrap: wrap;
+            background: #f8f9fa;
+            padding: calc(var(--padding-base) * 0.5);
+            border-radius: calc(var(--radius-base) * 0.6);
+        }
+        .resumen-controls label {
+            font-size: calc(12px * var(--scale));
+            font-weight: 600;
+            color: #333;
+        }
+        .resumen-controls select {
+            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.8);
+            border: 2px solid #D9D9D9;
+            border-radius: calc(var(--radius-base) * 0.4);
+            font-size: calc(13px * var(--scale));
+            font-family: inherit;
+            background: white;
+            flex: 1;
+            min-width: 80px;
+        }
+        .resumen-controls select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        .resumen-controls .btn-actualizar {
+            padding: calc(var(--padding-base) * 0.4) calc(var(--padding-base) * 1.2);
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: calc(var(--radius-base) * 0.4);
+            cursor: pointer;
+            font-size: calc(12px * var(--scale));
+            font-weight: 600;
+            touch-action: manipulation;
+        }
+        .resumen-controls .btn-actualizar:active { transform: scale(0.95); }
+        .resumen-controls .btn-actualizar:hover { opacity: 0.85; }
+
+        .resumen-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: calc(var(--padding-base) * 0.5);
+        }
+        .resumen-stat-card {
+            background: white;
+            border-radius: calc(var(--radius-base) * 0.6);
+            padding: calc(var(--padding-base) * 0.6);
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid #E9EDEF;
+        }
+        .resumen-stat-card .num {
+            font-size: calc(22px * var(--scale));
+            font-weight: 800;
+            color: var(--primary-dark);
+        }
+        .resumen-stat-card .label {
+            font-size: calc(10px * var(--scale));
+            color: #667781;
+            margin-top: 2px;
+        }
+        .resumen-stat-card .num.green { color: #28a745; }
+        .resumen-stat-card .num.red { color: #dc3545; }
+        .resumen-stat-card .num.orange { color: #e67e22; }
+        .resumen-stat-card .num.gold { color: #f1c40f; }
+        .resumen-stat-card .num.blue { color: #1A5FB4; }
+
+        .resumen-table-wrapper {
+            overflow-x: auto;
+            background: white;
+            border-radius: calc(var(--radius-base) * 0.6);
+            border: 1px solid #E9EDEF;
+            padding: calc(var(--padding-base) * 0.3);
+        }
+        .resumen-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: calc(11px * var(--scale));
+            min-width: 750px;
+        }
+        .resumen-table th {
+            background: var(--primary-dark);
+            color: white;
+            padding: calc(var(--padding-base) * 0.3) calc(var(--padding-base) * 0.4);
+            text-align: center;
+            font-weight: 600;
+            font-size: calc(10px * var(--scale));
+            position: sticky;
+            top: 0;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .resumen-table td {
+            padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.3);
+            text-align: center;
+            border: 1px solid #e9ecef;
+            font-size: calc(10px * var(--scale));
+            min-width: 50px;
+        }
+        .resumen-table tr:hover td {
+            background: #f8f9fa;
+        }
+        .resumen-table .total-row td {
+            font-weight: 700;
+            background: #FFF3CD !important;
+            border-top: 2px solid #FFEEBA;
+        }
+        .resumen-table .total-row .num {
+            font-weight: 800;
+            font-size: calc(13px * var(--scale));
+        }
+        .resumen-table .total-row .num.green { color: #28a745; }
+        .resumen-table .total-row .num.red { color: #dc3545; }
+        .resumen-table .total-row .num.orange { color: #e67e22; }
+        .resumen-table .total-row .num.gold { color: #f1c40f; }
+        .resumen-table .total-row .num.blue { color: #1A5FB4; }
+
+        .celda-sabado { background: #1E7E34 !important; color: white !important; font-weight: 700; }
+        .celda-domingo { background: #800000 !important; color: white !important; font-weight: 700; }
+        .celda-feriado { background: #E67E22 !important; color: white !important; font-weight: 700; }
+        .celda-trabajado { background: #E8F0FE !important; }
+        .celda-vacio { background: transparent !important; }
+        .celda-total { background: #FFF3CD !important; font-weight: 700; }
+        .celda-extras { color: #dc3545 !important; font-weight: 700; }
+        .celda-normales { color: #28a745 !important; font-weight: 700; }
+
+        .resumen-legend {
+            display: flex;
+            gap: calc(var(--padding-base) * 0.8);
+            flex-wrap: wrap;
+            padding: calc(var(--padding-base) * 0.3);
+            font-size: calc(11px * var(--scale));
+        }
+        .resumen-legend .item {
+            display: flex;
+            align-items: center;
+            gap: calc(var(--padding-base) * 0.3);
+        }
+        .resumen-legend .color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        .color-box.sabado { background: #1E7E34; }
+        .color-box.domingo { background: #800000; }
+        .color-box.feriado { background: #E67E22; }
+        .color-box.trabajado { background: #E8F0FE; }
+
+        .resumen-detalle-mensual {
+            background: white;
+            border-radius: calc(var(--radius-base) * 0.6);
+            border: 1px solid #E9EDEF;
+            padding: calc(var(--padding-base) * 0.5);
+            margin-top: calc(var(--padding-base) * 0.3);
+        }
+        .resumen-detalle-mensual h4 {
+            font-size: calc(13px * var(--scale));
+            color: var(--primary-dark);
+            margin-bottom: calc(var(--padding-base) * 0.3);
+            text-align: center;
+        }
+        .resumen-detalle-mensual table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: calc(11px * var(--scale));
+        }
+        .resumen-detalle-mensual th {
+            background: var(--primary);
+            color: white;
+            padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.4);
+            text-align: center;
+            font-weight: 600;
+        }
+        .resumen-detalle-mensual td {
+            padding: calc(var(--padding-base) * 0.2) calc(var(--padding-base) * 0.4);
+            text-align: center;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .resumen-detalle-mensual .total-detalle td {
+            font-weight: 700;
+            background: #FFF3CD;
+            border-top: 2px solid #FFEEBA;
+        }
     </style>
 </head>
 <body>
@@ -1397,7 +1623,8 @@
         </div>
         <button class="header-btn active" id="btnTareo" onclick="switchRoom('tareo')">⏰</button>
         <button class="header-btn" id="btnReporte" onclick="switchRoom('reporte')">📋</button>
-        <button class="header-btn" id="btnPlanilla" onclick="switchRoom('planilla')">📊</button>
+        <button class="header-btn" id="btnResumen" onclick="switchRoom('resumen')">📊</button>
+        <button class="header-btn" id="btnPlanilla" onclick="switchRoom('planilla')">📈</button>
         <button class="header-btn" id="sizeToggleBtn" onclick="toggleSizeSelector()" title="Tamaño">
             <i class="fas fa-font"></i>
         </button>
@@ -1540,6 +1767,59 @@
             </div>
         </div>
         
+        <!-- ===== NUEVA SALA: RESUMEN QUINCENAL CON NORMALES/EXTRAS ===== -->
+        <div class="resumen-container" id="resumenContainer">
+            <div class="resumen-header">
+                <h2>📊 Resumen Quincenal de Horas</h2>
+                <div class="sub">🎯 Objetivo: 96 horas por quincena | 8h normales/día | 🗓️ Zona: Perú (UTC-5)</div>
+            </div>
+            
+            <div class="resumen-controls">
+                <label>📅 Año:</label>
+                <select id="resumenAnio">
+                    <!-- Llenado por JS -->
+                </select>
+                <label>📅 Mes:</label>
+                <select id="resumenMes">
+                    <!-- Llenado por JS -->
+                </select>
+                <button class="btn-actualizar" onclick="cargarResumenQuincenal()">🔄 Actualizar</button>
+                <button class="btn-actualizar" style="background:#2c3e50;" onclick="imprimirResumen()">🖨️ Imprimir</button>
+            </div>
+            
+            <div class="resumen-stats" id="resumenStats">
+                <!-- Llenado por JS -->
+            </div>
+            
+            <div class="resumen-table-wrapper">
+                <table class="resumen-table" id="resumenTabla">
+                    <thead id="resumenThead">
+                        <!-- Llenado por JS -->
+                    </thead>
+                    <tbody id="resumenTbody">
+                        <!-- Llenado por JS -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- ===== DETALLE MENSUAL ===== -->
+            <div class="resumen-detalle-mensual" id="resumenDetalleMensual">
+                <h4>📊 Resumen Mensual: Normales vs Extras</h4>
+                <div id="detalleMensualContent">
+                    <!-- Llenado por JS -->
+                </div>
+            </div>
+            
+            <div class="resumen-legend">
+                <span class="item"><span class="color-box sabado"></span> Sábado</span>
+                <span class="item"><span class="color-box domingo"></span> Domingo</span>
+                <span class="item"><span class="color-box feriado"></span> Feriado</span>
+                <span class="item"><span class="color-box trabajado"></span> Día laborado</span>
+                <span class="item" style="color:#28a745;">🟢 Normales (≤8h)</span>
+                <span class="item" style="color:#dc3545;">🔴 Extras (&gt;8h)</span>
+            </div>
+        </div>
+        
         <div class="planilla-container" id="planillaContainer">
             <div class="planilla-titulo">📊 Planilla de Tareo <span>(solo Paul Manrique)</span></div>
             <div id="planillaFrameContainer">
@@ -1607,7 +1887,6 @@
         "Paul Emerson Manrique Monzon": "3333"
     };
 
-    // Mapeo de nombres de usuario a IDs de Firebase
     const USER_ID_MAP = {
         "Paul Emerson Manrique Monzon": "USR-023"
     };
@@ -1617,6 +1896,107 @@
     // ============================================================
     
     const PLANILLA_URL = "https://docs.google.com/spreadsheets/d/1Jhn-zql02gywrth_c35T7VsxCHvoGJ5jKfkJ-enKv1k/edit?usp=sharing";
+
+    // ============================================================
+    // 📅 FERIADOS (PERÚ + AREQUIPA)
+    // ============================================================
+    
+    function obtenerFeriados() {
+        var feriados = [];
+        var añoActual = new Date().getFullYear();
+        
+        var feriadosNacionales = [
+            "01/01", "01/05", "06/08", "23/07", "29/06", "28/07", "29/07", "30/08", 
+            "08/10", "01/11", "08/12", "09/12", "25/12"
+        ];
+        
+        for (var año = añoActual - 5; año <= añoActual + 5; año++) {
+            for (var i = 0; i < feriadosNacionales.length; i++) {
+                feriados.push(feriadosNacionales[i] + "/" + año);
+            }
+        }
+        
+        // Semana Santa (aproximada)
+        for (var año = añoActual - 2; año <= añoActual + 3; año++) {
+            var semanaSanta = obtenerSemanaSanta(año);
+            if (semanaSanta && semanaSanta.length > 0) {
+                feriados = feriados.concat(semanaSanta);
+            }
+        }
+        
+        var feriadosArequipa = ["15/08", "04/11"];
+        for (var año = añoActual - 5; año <= añoActual + 5; año++) {
+            for (var i = 0; i < feriadosArequipa.length; i++) {
+                feriados.push(feriadosArequipa[i] + "/" + año);
+            }
+        }
+        
+        var uniqueFeriados = [];
+        for (var i = 0; i < feriados.length; i++) {
+            if (uniqueFeriados.indexOf(feriados[i]) === -1) {
+                uniqueFeriados.push(feriados[i]);
+            }
+        }
+        
+        return uniqueFeriados;
+    }
+
+    function obtenerSemanaSanta(año) {
+        try {
+            var a = año % 19;
+            var b = Math.floor(año / 100);
+            var c = año % 100;
+            var d = Math.floor(b / 4);
+            var e = b % 4;
+            var f = Math.floor((b + 8) / 25);
+            var g = Math.floor((b - f + 1) / 3);
+            var h = (19 * a + b - d - g + 15) % 30;
+            var i = Math.floor(c / 4);
+            var k = c % 4;
+            var l = (32 + 2 * e + 2 * i - h - k) % 7;
+            var m = Math.floor((a + 11 * h + 22 * l) / 451);
+            var mes = Math.floor((h + l - 7 * m + 114) / 31);
+            var dia = ((h + l - 7 * m + 114) % 31) + 1;
+            
+            var pascua = new Date(año, mes - 1, dia);
+            
+            if (isNaN(pascua.getTime())) {
+                if (año === 2024) return ["28/03/2024", "29/03/2024"];
+                else if (año === 2025) return ["17/04/2025", "18/04/2025"];
+                else if (año === 2026) return ["02/04/2026", "03/04/2026"];
+                else if (año === 2027) return ["25/03/2027", "26/03/2027"];
+                else if (año === 2028) return ["13/04/2028", "14/04/2028"];
+                return [];
+            }
+            
+            var juevesSanto = new Date(pascua);
+            juevesSanto.setDate(pascua.getDate() - 3);
+            var viernesSanto = new Date(pascua);
+            viernesSanto.setDate(pascua.getDate() - 2);
+            
+            return [
+                formatDateSeguro(juevesSanto),
+                formatDateSeguro(viernesSanto)
+            ];
+            
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function formatDateSeguro(date) {
+        try {
+            if (!date || isNaN(date.getTime())) {
+                return "01/01/2024";
+            }
+            var dia = ('0' + date.getDate()).slice(-2);
+            var mes = ('0' + (date.getMonth() + 1)).slice(-2);
+            var año = date.getFullYear();
+            return dia + '/' + mes + '/' + año;
+        } catch (e) {
+            return "01/01/2024";
+        }
+    }
 
     // ============================================================
     // INICIALIZAR FIREBASE
@@ -1668,6 +2048,7 @@
     let tareoPrimeraCarga = true;
     
     let registros = [];
+    let feriadosCache = [];
 
     // ============================================================
     // DOM ELEMENTS
@@ -1687,6 +2068,7 @@
     const sendBtn = document.getElementById('sendBtn');
     const tareoMessagesContainer = document.getElementById('tareoMessagesContainer');
     const reporteContainer = document.getElementById('reporteContainer');
+    const resumenContainer = document.getElementById('resumenContainer');
     const planillaContainer = document.getElementById('planillaContainer');
     const chatAvatar = document.getElementById('chatAvatar');
     const chatRoomTitle = document.getElementById('chatRoomTitle');
@@ -1699,6 +2081,7 @@
     const notifCount = document.getElementById('notifCount');
     const btnTareo = document.getElementById('btnTareo');
     const btnReporte = document.getElementById('btnReporte');
+    const btnResumen = document.getElementById('btnResumen');
     const btnPlanilla = document.getElementById('btnPlanilla');
     const chatInputRow = document.getElementById('chatInputRow');
     const contentContainer = document.getElementById('contentContainer');
@@ -1713,6 +2096,13 @@
     const btnCargarMas = document.getElementById('btnCargarMas');
     const cargarMasContainer = document.getElementById('cargarMasContainer');
     const inputArea = document.getElementById('inputArea');
+    
+    const resumenAnio = document.getElementById('resumenAnio');
+    const resumenMes = document.getElementById('resumenMes');
+    const resumenStats = document.getElementById('resumenStats');
+    const resumenThead = document.getElementById('resumenThead');
+    const resumenTbody = document.getElementById('resumenTbody');
+    const detalleMensualContent = document.getElementById('detalleMensualContent');
     
     const modalCorregir = document.getElementById('modalCorregir');
     const corregirKey = document.getElementById('corregirKey');
@@ -2025,11 +2415,9 @@
     }
     
     function getUserSecretId(name) {
-        // Usar el mapeo USER_ID_MAP para obtener USR-023
         if (USER_ID_MAP[name]) {
             return USER_ID_MAP[name];
         }
-        // Fallback: buscar en las claves
         const names = Object.keys(AUTHORIZED_USERS);
         const index = names.indexOf(name);
         if (index === -1) return null;
@@ -2048,17 +2436,20 @@
         
         btnTareo.classList.toggle('active', room === 'tareo');
         btnReporte.classList.toggle('active', room === 'reporte');
+        btnResumen.classList.toggle('active', room === 'resumen');
         btnPlanilla.classList.toggle('active', room === 'planilla');
         
         const titles = {
             'tareo': '⏰ Tareo Transportes Mantenimiento',
             'reporte': '📋 Reporte Diario',
-            'planilla': '📊 Planilla de Tareo'
+            'resumen': '📊 Resumen Quincenal',
+            'planilla': '📈 Planilla de Tareo'
         };
         chatRoomTitle.textContent = titles[room] || '⏰ Tareo Transportes Mantenimiento';
         
         tareoMessagesContainer.classList.toggle('hidden', room !== 'tareo');
         reporteContainer.classList.toggle('active', room === 'reporte');
+        resumenContainer.classList.toggle('active', room === 'resumen');
         planillaContainer.classList.toggle('active', room === 'planilla');
         
         if (room === 'tareo') {
@@ -2072,6 +2463,12 @@
             tareoAcciones.classList.remove('active');
             cargarMasContainer.style.display = 'none';
             inputArea.style.display = 'none';
+        } else if (room === 'resumen') {
+            tareoFiltro.style.display = 'none';
+            tareoAcciones.classList.remove('active');
+            cargarMasContainer.style.display = 'none';
+            inputArea.style.display = 'none';
+            cargarResumenQuincenal();
         } else if (room === 'planilla') {
             tareoFiltro.style.display = 'none';
             tareoAcciones.classList.remove('active');
@@ -2134,7 +2531,75 @@
     window.recargarPlanilla = recargarPlanilla;
 
     // ============================================================
-    // 📨 FUNCIÓN PARA EXTRAER FECHA DEL TEXTO
+    // 📨 FUNCIONES DE EXTRACCIÓN DE DATOS (para Tareo)
+    // ============================================================
+    
+    function extraerFecha(texto) {
+        if (!texto) return '';
+        var match = texto.match(/📅 Fecha:\s*(\d{2}\/\d{2}\/\d{4})/);
+        if (match) return match[1];
+        match = texto.match(/Fecha:\s*(\d{2}\/\d{2}\/\d{4})/);
+        return match ? match[1] : '';
+    }
+
+    function extraerHoraInicio(texto) {
+        if (!texto) return '';
+        var match = texto.match(/Hora inicial\s*A?:?\s*([\d:]+)/);
+        return match ? match[1] : '';
+    }
+
+    function extraerHoraFinal(texto) {
+        if (!texto) return '';
+        var match = texto.match(/Hora final\s*A?:?\s*([\d:]+)/);
+        return match ? match[1] : '';
+    }
+
+    function extraerHoraInicioB(texto) {
+        if (!texto) return '';
+        var match = texto.match(/Hora inicial\s*B:?\s*([\d:]+)/);
+        return match ? match[1] : '';
+    }
+
+    function extraerHoraFinalB(texto) {
+        if (!texto) return '';
+        var match = texto.match(/Hora final\s*B:?\s*([\d:]+)/);
+        return match ? match[1] : '';
+    }
+
+    function convertirHoraANumero(horaStr) {
+        if (!horaStr) return 0;
+        var partes = horaStr.split(':');
+        if (partes.length < 2) return 0;
+        var horas = parseInt(partes[0]) || 0;
+        var minutos = parseInt(partes[1]) || 0;
+        return Math.round((horas + (minutos / 60)) * 100) / 100;
+    }
+
+    function calcularHoras(horaInicio, horaFinal, horaInicioB, horaFinalB) {
+        var horas = 0;
+        
+        function calcularTurno(inicio, fin) {
+            if (!inicio || !fin) return 0;
+            var inicioNum = convertirHoraANumero(inicio);
+            var finNum = convertirHoraANumero(fin);
+            var horasTurno = finNum - inicioNum;
+            if (horasTurno < 0) {
+                horasTurno += 24;
+            }
+            return Math.round(horasTurno * 100) / 100;
+        }
+        
+        if (horaInicio && horaFinal) {
+            horas += calcularTurno(horaInicio, horaFinal);
+        }
+        if (horaInicioB && horaFinalB) {
+            horas += calcularTurno(horaInicioB, horaFinalB);
+        }
+        return horas;
+    }
+
+    // ============================================================
+    // 📨 FUNCIÓN PARA EXTRAER FECHA DEL TEXTO (para ordenamiento)
     // ============================================================
     
     function extraerFechaDelTexto(texto) {
@@ -2167,8 +2632,6 @@
         const messageDiv = document.createElement('div');
         messageDiv.className = 'message tareo';
         messageDiv.dataset.key = key;
-        
-        let mostrarCheckbox = true;
         
         const checkboxHTML = `<input type="checkbox" class="tareo-checkbox" data-key="${key}" onchange="actualizarContadorTareo()">`;
         
@@ -3789,6 +4252,399 @@
     }
 
     // ============================================================
+    // 📊 FUNCIÓN PRINCIPAL: RESUMEN QUINCENAL CON NORMALES/EXTRAS
+    // ============================================================
+    
+    function cargarResumenQuincenal() {
+        if (!database) {
+            showToast('❌ Error de conexión con Firebase');
+            return;
+        }
+        
+        showLoading('Cargando resumen quincenal...');
+        
+        const anio = parseInt(resumenAnio.value);
+        const mes = parseInt(resumenMes.value);
+        feriadosCache = obtenerFeriados();
+        
+        const path = `messages/tareo/${currentUser}`;
+        const ref = database.ref(path);
+        
+        ref.once('value', (snapshot) => {
+            const data = snapshot.val();
+            
+            if (!data) {
+                hideLoading();
+                mostrarResumenVacio();
+                showToast('⚠️ No hay registros de tareo');
+                return;
+            }
+            
+            // Procesar registros - calcular horas por día
+            const horasPorDia = {};
+            const horasNormalesPorDia = {};
+            const horasExtrasPorDia = {};
+            let totalHorasQ1 = 0, totalHorasQ2 = 0;
+            let totalNormalesQ1 = 0, totalExtrasQ1 = 0;
+            let totalNormalesQ2 = 0, totalExtrasQ2 = 0;
+            let diasTrabajadosQ1 = 0, diasTrabajadosQ2 = 0;
+            
+            for (const key in data) {
+                const registro = data[key];
+                if (!registro.isTareo) continue;
+                
+                const texto = registro.text || '';
+                const fechaStr = extraerFecha(texto);
+                if (!fechaStr) continue;
+                
+                const partes = fechaStr.split('/');
+                if (partes.length !== 3) continue;
+                
+                const dia = parseInt(partes[0]);
+                const mesReg = parseInt(partes[1]);
+                const anioReg = parseInt(partes[2]);
+                
+                if (anioReg !== anio || mesReg !== mes) continue;
+                
+                const horaInicio = extraerHoraInicio(texto);
+                const horaFinal = extraerHoraFinal(texto);
+                const horaInicioB = extraerHoraInicioB(texto);
+                const horaFinalB = extraerHoraFinalB(texto);
+                
+                const horas = calcularHoras(horaInicio, horaFinal, horaInicioB, horaFinalB);
+                if (horas <= 0) continue;
+                
+                const quincena = dia <= 15 ? 1 : 2;
+                const clave = dia + '|' + quincena;
+                
+                // Acumular horas totales
+                horasPorDia[clave] = (horasPorDia[clave] || 0) + horas;
+                
+                // Calcular normales (máximo 8) y extras (lo que excede)
+                const horasNormales = Math.min(horas, 8);
+                const horasExtras = Math.max(0, horas - 8);
+                
+                horasNormalesPorDia[clave] = (horasNormalesPorDia[clave] || 0) + horasNormales;
+                horasExtrasPorDia[clave] = (horasExtrasPorDia[clave] || 0) + horasExtras;
+                
+                if (quincena === 1) {
+                    totalHorasQ1 += horas;
+                    totalNormalesQ1 += horasNormales;
+                    totalExtrasQ1 += horasExtras;
+                    diasTrabajadosQ1++;
+                } else {
+                    totalHorasQ2 += horas;
+                    totalNormalesQ2 += horasNormales;
+                    totalExtrasQ2 += horasExtras;
+                    diasTrabajadosQ2++;
+                }
+            }
+            
+            hideLoading();
+            
+            const diasDelMes = new Date(anio, mes, 0).getDate();
+            const totalDiasQ2 = diasDelMes === 31 ? 16 : 15;
+            const totalHorasMes = totalHorasQ1 + totalHorasQ2;
+            const totalNormalesMes = totalNormalesQ1 + totalNormalesQ2;
+            const totalExtrasMes = totalExtrasQ1 + totalExtrasQ2;
+            
+            // Stats
+            document.getElementById('resumenStats').innerHTML = `
+                <div class="resumen-stat-card">
+                    <div class="num ${totalHorasQ1 >= 96 ? 'green' : 'red'}">${totalHorasQ1.toFixed(1)}h</div>
+                    <div class="label">📊 Q1 (Días 1-15)</div>
+                    <div style="font-size:9px;color:#667781;">${totalNormalesQ1.toFixed(1)}h norm | ${totalExtrasQ1.toFixed(1)}h ext</div>
+                </div>
+                <div class="resumen-stat-card">
+                    <div class="num ${totalHorasQ2 >= 96 ? 'green' : 'red'}">${totalHorasQ2.toFixed(1)}h</div>
+                    <div class="label">📊 Q2 (Días 16-${diasDelMes})</div>
+                    <div style="font-size:9px;color:#667781;">${totalNormalesQ2.toFixed(1)}h norm | ${totalExtrasQ2.toFixed(1)}h ext</div>
+                </div>
+                <div class="resumen-stat-card">
+                    <div class="num gold">${totalHorasMes.toFixed(1)}h</div>
+                    <div class="label">📊 Total del mes</div>
+                    <div style="font-size:9px;color:#667781;">${totalNormalesMes.toFixed(1)}h norm | ${totalExtrasMes.toFixed(1)}h ext</div>
+                </div>
+                <div class="resumen-stat-card">
+                    <div class="num">${diasTrabajadosQ1 + diasTrabajadosQ2}</div>
+                    <div class="label">📅 Días trabajados</div>
+                </div>
+                <div class="resumen-stat-card">
+                    <div class="num" style="color:${totalHorasQ1 >= 96 && totalHorasQ2 >= 96 ? '#28a745' : '#dc3545'}">
+                        ${totalHorasQ1 >= 96 && totalHorasQ2 >= 96 ? '✅' : '⚠️'}
+                    </div>
+                    <div class="label">🎯 Objetivo 96h/Q</div>
+                </div>
+            `;
+            
+            // Generar tabla
+            generarTablaResumenConNormales(anio, mes, horasPorDia, horasNormalesPorDia, horasExtrasPorDia);
+            
+            // Generar detalle mensual
+            generarDetalleMensual(anio, mes, totalNormalesQ1, totalExtrasQ1, totalNormalesQ2, totalExtrasQ2, totalNormalesMes, totalExtrasMes);
+            
+            showToast('✅ Resumen actualizado');
+            
+        }).catch((error) => {
+            hideLoading();
+            console.error('Error al cargar resumen:', error);
+            showToast('❌ Error al cargar el resumen');
+        });
+    }
+    
+    function generarTablaResumenConNormales(anio, mes, horasPorDia, horasNormalesPorDia, horasExtrasPorDia) {
+        const diasDelMes = new Date(anio, mes, 0).getDate();
+        const totalDiasQ2 = diasDelMes === 31 ? 16 : 15;
+        
+        // Encabezados
+        let theadHTML = `<tr><th>Quincena</th>`;
+        for (let d = 1; d <= 15; d++) {
+            theadHTML += `<th>D${d}</th>`;
+        }
+        theadHTML += `<th>Total</th><th>Norm</th><th>Ext</th></tr>`;
+        resumenThead.innerHTML = theadHTML;
+        
+        // Filas
+        let tbodyHTML = '';
+        
+        // Q1: días 1-15
+        let totalQ1 = 0, totalNormQ1 = 0, totalExtQ1 = 0;
+        let tbodyQ1 = `<tr><td style="font-weight:700;">Q1</td>`;
+        for (let d = 1; d <= 15; d++) {
+            const clave = d + '|1';
+            const horas = horasPorDia[clave] || 0;
+            const norm = horasNormalesPorDia[clave] || 0;
+            const ext = horasExtrasPorDia[clave] || 0;
+            totalQ1 += horas;
+            totalNormQ1 += norm;
+            totalExtQ1 += ext;
+            
+            const fechaObj = new Date(anio, mes - 1, d);
+            const diaSemana = fechaObj.getDay();
+            const esSabado = diaSemana === 6;
+            const esDomingo = diaSemana === 0;
+            const diaStr = ('0' + d).slice(-2);
+            const mesStr = ('0' + mes).slice(-2);
+            const fechaStr = diaStr + '/' + mesStr + '/' + anio;
+            const esFeriado = feriadosCache.indexOf(fechaStr) !== -1;
+            
+            let clase = '';
+            let valor = '';
+            if (horas > 0) {
+                const totalStr = horas % 1 === 0 ? horas.toString() : horas.toFixed(1);
+                const normStr = norm % 1 === 0 ? norm.toString() : norm.toFixed(1);
+                const extStr = ext % 1 === 0 ? ext.toString() : ext.toFixed(1);
+                valor = `${totalStr}(${normStr}-${extStr})`;
+                clase = 'celda-trabajado';
+                if (ext > 0) clase += ' celda-extras';
+            } else if (esFeriado) {
+                valor = '🟠';
+                clase = 'celda-feriado';
+            } else if (esSabado) {
+                valor = '🟢';
+                clase = 'celda-sabado';
+            } else if (esDomingo) {
+                valor = '🔴';
+                clase = 'celda-domingo';
+            }
+            tbodyQ1 += `<td class="${clase}">${valor}</td>`;
+        }
+        tbodyQ1 += `<td style="font-weight:700;${totalQ1 >= 96 ? 'color:#28a745;' : 'color:#dc3545;'}">${totalQ1.toFixed(1)}h</td>`;
+        tbodyQ1 += `<td style="color:#28a745;font-weight:700;">${totalNormQ1.toFixed(1)}h</td>`;
+        tbodyQ1 += `<td style="color:#dc3545;font-weight:700;">${totalExtQ1.toFixed(1)}h</td></tr>`;
+        tbodyHTML += tbodyQ1;
+        
+        // Q2: días 16 hasta fin de mes
+        let totalQ2 = 0, totalNormQ2 = 0, totalExtQ2 = 0;
+        let tbodyQ2 = `<tr><td style="font-weight:700;">Q2</td>`;
+        for (let d = 1; d <= totalDiasQ2; d++) {
+            const diaReal = d + 15;
+            const clave = diaReal + '|2';
+            const horas = horasPorDia[clave] || 0;
+            const norm = horasNormalesPorDia[clave] || 0;
+            const ext = horasExtrasPorDia[clave] || 0;
+            totalQ2 += horas;
+            totalNormQ2 += norm;
+            totalExtQ2 += ext;
+            
+            const fechaObj = new Date(anio, mes - 1, diaReal);
+            const diaSemana = fechaObj.getDay();
+            const esSabado = diaSemana === 6;
+            const esDomingo = diaSemana === 0;
+            const diaStr = ('0' + diaReal).slice(-2);
+            const mesStr = ('0' + mes).slice(-2);
+            const fechaStr = diaStr + '/' + mesStr + '/' + anio;
+            const esFeriado = feriadosCache.indexOf(fechaStr) !== -1;
+            
+            let clase = '';
+            let valor = '';
+            if (horas > 0) {
+                const totalStr = horas % 1 === 0 ? horas.toString() : horas.toFixed(1);
+                const normStr = norm % 1 === 0 ? norm.toString() : norm.toFixed(1);
+                const extStr = ext % 1 === 0 ? ext.toString() : ext.toFixed(1);
+                valor = `${totalStr}(${normStr}-${extStr})`;
+                clase = 'celda-trabajado';
+                if (ext > 0) clase += ' celda-extras';
+            } else if (esFeriado) {
+                valor = '🟠';
+                clase = 'celda-feriado';
+            } else if (esSabado) {
+                valor = '🟢';
+                clase = 'celda-sabado';
+            } else if (esDomingo) {
+                valor = '🔴';
+                clase = 'celda-domingo';
+            }
+            tbodyQ2 += `<td class="${clase}">${valor}</td>`;
+        }
+        // Rellenar celdas vacías si Q2 tiene menos de 16 días
+        for (let d = totalDiasQ2 + 1; d <= 16; d++) {
+            tbodyQ2 += `<td></td>`;
+        }
+        tbodyQ2 += `<td style="font-weight:700;${totalQ2 >= 96 ? 'color:#28a745;' : 'color:#dc3545;'}">${totalQ2.toFixed(1)}h</td>`;
+        tbodyQ2 += `<td style="color:#28a745;font-weight:700;">${totalNormQ2.toFixed(1)}h</td>`;
+        tbodyQ2 += `<td style="color:#dc3545;font-weight:700;">${totalExtQ2.toFixed(1)}h</td></tr>`;
+        tbodyHTML += tbodyQ2;
+        
+        // Fila de total
+        const totalGeneral = totalQ1 + totalQ2;
+        const totalNormGeneral = totalNormQ1 + totalNormQ2;
+        const totalExtGeneral = totalExtQ1 + totalExtQ2;
+        tbodyHTML += `<tr class="total-row"><td colspan="1" style="text-align:right;">Total</td>`;
+        let totalDias = 0;
+        for (let d = 1; d <= 15; d++) {
+            const clave = d + '|1';
+            const horas = horasPorDia[clave] || 0;
+            if (horas > 0) totalDias++;
+            tbodyHTML += `<td>${horas > 0 ? (horas % 1 === 0 ? horas : horas.toFixed(1)) : ''}</td>`;
+        }
+        for (let d = 1; d <= totalDiasQ2; d++) {
+            const diaReal = d + 15;
+            const clave = diaReal + '|2';
+            const horas = horasPorDia[clave] || 0;
+            if (horas > 0) totalDias++;
+            tbodyHTML += `<td>${horas > 0 ? (horas % 1 === 0 ? horas : horas.toFixed(1)) : ''}</td>`;
+        }
+        for (let d = totalDiasQ2 + 1; d <= 16; d++) {
+            tbodyHTML += `<td></td>`;
+        }
+        tbodyHTML += `<td class="num ${totalGeneral >= 192 ? 'green' : 'red'}">${totalGeneral.toFixed(1)}h</td>`;
+        tbodyHTML += `<td class="num green">${totalNormGeneral.toFixed(1)}h</td>`;
+        tbodyHTML += `<td class="num red">${totalExtGeneral.toFixed(1)}h</td></tr>`;
+        
+        resumenTbody.innerHTML = tbodyHTML;
+    }
+    
+    function generarDetalleMensual(anio, mes, totalNormQ1, totalExtQ1, totalNormQ2, totalExtQ2, totalNormMes, totalExtMes) {
+        const mesNombre = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][mes - 1];
+        
+        detalleMensualContent.innerHTML = `
+            <table>
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Horas Normales</th>
+                        <th>Horas Extras</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Q1 (Días 1-15)</strong></td>
+                        <td style="color:#28a745;font-weight:700;">${totalNormQ1.toFixed(1)}h</td>
+                        <td style="color:#dc3545;font-weight:700;">${totalExtQ1.toFixed(1)}h</td>
+                        <td style="font-weight:700;">${(totalNormQ1 + totalExtQ1).toFixed(1)}h</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Q2 (Días 16-${new Date(anio, mes, 0).getDate()})</strong></td>
+                        <td style="color:#28a745;font-weight:700;">${totalNormQ2.toFixed(1)}h</td>
+                        <td style="color:#dc3545;font-weight:700;">${totalExtQ2.toFixed(1)}h</td>
+                        <td style="font-weight:700;">${(totalNormQ2 + totalExtQ2).toFixed(1)}h</td>
+                    </tr>
+                    <tr class="total-detalle">
+                        <td><strong>Total ${mesNombre} ${anio}</strong></td>
+                        <td style="color:#28a745;font-weight:700;">${totalNormMes.toFixed(1)}h</td>
+                        <td style="color:#dc3545;font-weight:700;">${totalExtMes.toFixed(1)}h</td>
+                        <td style="font-weight:700;color:#f1c40f;">${(totalNormMes + totalExtMes).toFixed(1)}h</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+    }
+    
+    function mostrarResumenVacio() {
+        document.getElementById('resumenStats').innerHTML = `
+            <div class="resumen-stat-card">
+                <div class="num">0h</div>
+                <div class="label">📊 Q1</div>
+            </div>
+            <div class="resumen-stat-card">
+                <div class="num">0h</div>
+                <div class="label">📊 Q2</div>
+            </div>
+            <div class="resumen-stat-card">
+                <div class="num gold">0h</div>
+                <div class="label">📊 Total</div>
+            </div>
+            <div class="resumen-stat-card">
+                <div class="num">0</div>
+                <div class="label">📅 Días trabajados</div>
+            </div>
+            <div class="resumen-stat-card">
+                <div class="num" style="color:#dc3545;">⚠️</div>
+                <div class="label">🎯 Objetivo 96h/Q</div>
+            </div>
+        `;
+        resumenThead.innerHTML = '<tr><th>Quincena</th><th colspan="15">Sin datos</th><th>Total</th><th>Norm</th><th>Ext</th></tr>';
+        resumenTbody.innerHTML = '<tr><td colspan="18" style="text-align:center;padding:20px;color:#999;">No hay registros para este mes</td></tr>';
+        detalleMensualContent.innerHTML = '<p style="text-align:center;color:#999;">No hay datos para mostrar</p>';
+    }
+    
+    function imprimirResumen() {
+        const contenido = document.getElementById('resumenTabla').outerHTML;
+        const stats = document.getElementById('resumenStats').innerHTML;
+        const detalle = document.getElementById('resumenDetalleMensual').outerHTML;
+        
+        const ventana = window.open('', '_blank');
+        ventana.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Resumen Quincenal</title>
+            <style>
+                *{margin:0;padding:0;box-sizing:border-box;}
+                body{background:white;font-family:monospace;padding:20px;}
+                .header{text-align:center;font-size:20px;font-weight:800;border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:12px;}
+                .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:12px;}
+                .stat-card{text-align:center;padding:8px;border:1px solid #ddd;border-radius:6px;}
+                .stat-card .num{font-size:22px;font-weight:800;}
+                .stat-card .label{font-size:10px;color:#666;}
+                table{width:100%;border-collapse:collapse;font-size:10px;margin-bottom:12px;}
+                th{background:#0A2E5C;color:white;padding:3px 4px;text-align:center;}
+                td{padding:2px 3px;text-align:center;border:1px solid #ddd;}
+                .celda-sabado{background:#1E7E34;color:white;font-weight:700;}
+                .celda-domingo{background:#800000;color:white;font-weight:700;}
+                .celda-feriado{background:#E67E22;color:white;font-weight:700;}
+                .celda-trabajado{background:#E8F0FE;}
+                .total-row td{font-weight:700;background:#FFF3CD;border-top:2px solid #FFEEBA;}
+                .green{color:#28a745;}
+                .red{color:#dc3545;}
+                .gold{color:#f1c40f;}
+                .celda-extras{font-weight:700;}
+                .total-detalle td{font-weight:700;background:#FFF3CD;border-top:2px solid #FFEEBA;}
+                @media print{body{padding:5px;} .stats{grid-template-columns:repeat(5,1fr);} table{font-size:8px;} th,td{padding:1px 2px;}}
+            </style>
+        </head><body>
+            <div class="header">📊 Resumen Quincenal - ${currentDisplayName}</div>
+            <div class="stats">${stats}</div>
+            ${contenido}
+            ${detalle}
+            <div style="margin-top:8px;font-size:9px;color:#999;text-align:center;">🎯 Objetivo: 96 horas por quincena | 8h normales/día | Formato: TOTAL(NORMALES-EXTRAS)</div>
+            <script>window.onload=function(){window.print();};<\/script>
+        </body></html>`);
+        ventana.document.close();
+    }
+    
+    window.cargarResumenQuincenal = cargarResumenQuincenal;
+    window.imprimirResumen = imprimirResumen;
+
+    // ============================================================
     // FUNCIONES DE PRESENCIA
     // ============================================================
     
@@ -3940,14 +4796,39 @@
             chatAvatar.textContent = getInitials(currentDisplayName);
             clearNotification();
             
+            // Inicializar selectores de año/mes para resumen
+            const anioActual = new Date().getFullYear();
+            const mesActual = new Date().getMonth() + 1;
+            
+            resumenAnio.innerHTML = '';
+            for (let a = anioActual - 2; a <= anioActual + 1; a++) {
+                const opt = document.createElement('option');
+                opt.value = a;
+                opt.textContent = a;
+                if (a === anioActual) opt.selected = true;
+                resumenAnio.appendChild(opt);
+            }
+            
+            resumenMes.innerHTML = '';
+            const meses = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+            for (let m = 0; m < 12; m++) {
+                const opt = document.createElement('option');
+                opt.value = m + 1;
+                opt.textContent = meses[m];
+                if (m + 1 === mesActual) opt.selected = true;
+                resumenMes.appendChild(opt);
+            }
+            
             currentRoom = 'tareo';
             btnTareo.classList.add('active');
             btnReporte.classList.remove('active');
+            btnResumen.classList.remove('active');
             btnPlanilla.classList.remove('active');
             chatRoomTitle.textContent = '⏰ Tareo Transportes Mantenimiento';
             inputArea.style.display = 'flex';
             tareoMessagesContainer.classList.remove('hidden');
             reporteContainer.classList.remove('active');
+            resumenContainer.classList.remove('active');
             planillaContainer.classList.remove('active');
             tareoFiltro.style.display = 'flex';
             tareoAcciones.classList.add('active');
@@ -4084,6 +4965,12 @@
     console.log('🚗 Placas disponibles:', PLACAS_LIST.length);
     console.log('📊 Planilla Google Sheets - Acceso: Paul Manrique');
     console.log('🕐 Zona horaria: Perú (UTC-5)');
+    console.log('📊 Nueva sala: Resumen Quincenal con Normales/Extras');
+    console.log('🎯 Objetivo: 96 horas por quincena');
+    console.log('📋 Formato: TOTAL(NORMALES-EXTRAS) por día');
+    console.log('🟢 Sábado: fondo verde');
+    console.log('🔴 Domingo: fondo granate');
+    console.log('🟠 Feriado: fondo naranja');
 </script>
 </body>
 </html>
